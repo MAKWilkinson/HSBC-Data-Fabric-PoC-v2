@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "source": "accounts",
+    "destination": "marketing",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "message_type": "customer_segment"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG001",
+      "segment_name": "Premium",
+      "description": "High-value customers with annual income > £150k",
+      "customer_count": 2847,
+      "avg_account_balance": 425000,
+      "avg_monthly_transactions": 45,
+      "product_holding": ["savings", "investments", "mortgage", "credit_card"]
+    },
+    {
+      "segment_id": "SEG002",
+      "segment_name": "Standard",
+      "description": "Mid-tier customers with annual income £50k-£150k",
+      "customer_count": 18392,
+      "avg_account_balance": 65000,
+      "avg_monthly_transactions": 22,
+      "product_holding": ["savings", "mortgage", "credit_card"]
+    },
+    {
+      "segment_id": "SEG003",
+      "segment_name": "Basic",
+      "description": "Entry-level customers with annual income < £50k",
+      "customer_count": 34521,
+      "avg_account_balance": 12000,
+      "avg_monthly_transactions": 8,
+      "product_holding": ["savings", "credit_card"]
+    },
+    {
+      "segment_id": "SEG004",
+      "segment_name": "Dormant",
+      "description": "Inactive customers with no transactions in last 12 months",
+      "customer_count": 5634,
+      "avg_account_balance": 8500,
+      "avg_monthly_transactions": 0,
+      "product_holding": ["savings"]
+    }
+  ],
+  "summary": {
+    "total_customers": 61394,
+    "total_assets_under_management": "£2.8B",
+    "report_period": "2024-Q1"
+  }
+}
+

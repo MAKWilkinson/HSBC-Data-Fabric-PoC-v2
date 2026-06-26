@@ -1,0 +1,44 @@
+{
+  "offer_id": "PCA-2024-001234",
+  "customer_id": "CUST-987654",
+  "offer_type": "pre_approved_credit",
+  "department_from": "marketing",
+  "department_to": "credit",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "customer_details": {
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john.smith@example.com",
+    "phone": "+44-20-7123-4567",
+    "account_number": "ACC-123456789"
+  },
+  "credit_offer": {
+    "product_type": "personal_loan",
+    "offer_amount": 25000,
+    "currency": "GBP",
+    "interest_rate": 5.99,
+    "term_months": 60,
+    "monthly_payment": 471.92,
+    "total_repayable": 28315.20
+  },
+  "offer_validity": {
+    "start_date": "2024-01-15",
+    "end_date": "2024-02-15",
+    "days_valid": 31
+  },
+  "eligibility_criteria": {
+    "credit_score_required": 650,
+    "annual_income_required": 35000,
+    "employment_status": "employed",
+    "existing_customer": true
+  },
+  "marketing_campaign": {
+    "campaign_id": "CAMP-Q1-2024-001",
+    "campaign_name": "Premium Credit Offers",
+    "channel": "email",
+    "segment": "high_value_customers"
+  },
+  "status": "pending_credit_review",
+  "approval_required": true
+}
+

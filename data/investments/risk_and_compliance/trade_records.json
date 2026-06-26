@@ -1,0 +1,77 @@
+{
+  "trade_records": [
+    {
+      "trade_id": "TR001234567",
+      "timestamp": "2024-01-15T09:30:00Z",
+      "trader_id": "TRD-789456",
+      "trader_name": "John Smith",
+      "department": "Investments",
+      "asset_class": "Equities",
+      "instrument": "IBM Stock",
+      "isin": "US4592001014",
+      "side": "BUY",
+      "quantity": 5000,
+      "price": 185.50,
+      "settlement_currency": "USD",
+      "trade_value": 927500.00,
+      "counterparty": "Goldman Sachs",
+      "counterparty_id": "GS-001",
+      "settlement_date": "2024-01-17",
+      "trading_venue": "NYSE",
+      "execution_venue": "Electronic Communication Network",
+      "risk_level": "MEDIUM",
+      "compliance_status": "PENDING_REVIEW"
+    },
+    {
+      "trade_id": "TR001234568",
+      "timestamp": "2024-01-15T10:45:00Z",
+      "trader_id": "TRD-789457",
+      "trader_name": "Sarah Johnson",
+      "department": "Investments",
+      "asset_class": "Fixed Income",
+      "instrument": "US Treasury Bond",
+      "isin": "US912828RX86",
+      "side": "SELL",
+      "quantity": 1000000,
+      "price": 98.75,
+      "settlement_currency": "USD",
+      "trade_value": 987500.00,
+      "counterparty": "JPMorgan Chase",
+      "counterparty_id": "JPM-001",
+      "settlement_date": "2024-01-17",
+      "trading_venue": "OTC",
+      "execution_venue": "Internal",
+      "risk_level": "LOW",
+      "compliance_status": "APPROVED"
+    },
+    {
+      "trade_id": "TR001234569",
+      "timestamp": "2024-01-15T11:20:00Z",
+      "trader_id": "TRD-789458",
+      "trader_name": "Michael Chen",
+      "department": "Investments",
+      "asset_class": "Derivatives",
+      "instrument": "EUR/USD Currency Forward",
+      "side": "BUY",
+      "quantity": 50000000,
+      "price": 1.0850,
+      "settlement_currency": "EUR",
+      "trade_value": 54250000.00,
+      "counterparty": "Deutsche Bank",
+      "counterparty_id": "DB-001",
+      "settlement_date": "2024-02-15",
+      "trading_venue": "OTC",
+      "execution_venue": "Phone",
+      "risk_level": "HIGH",
+      "compliance_status": "UNDER_INVESTIGATION"
+    }
+  ],
+  "metadata": {
+    "report_date": "2024-01-15",
+    "total_trades": 3,
+    "total_value_usd": 2768750.00,
+    "source_system": "Trading System v4.2",
+    "data_classification": "CONFIDENTIAL"
+  }
+}
+

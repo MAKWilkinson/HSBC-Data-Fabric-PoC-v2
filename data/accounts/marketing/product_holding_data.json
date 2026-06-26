@@ -1,0 +1,75 @@
+{
+  "product_holding_data": {
+    "timestamp": "2024-01-15T10:30:00Z",
+    "source_department": "accounts",
+    "target_department": "marketing",
+    "data_version": "1.0",
+    "holdings": [
+      {
+        "customer_id": "CUST001234",
+        "account_number": "GB82HSBC40053071968642",
+        "product_id": "PROD_CHK_001",
+        "product_name": "Premium Current Account",
+        "account_status": "active",
+        "balance": 15750.50,
+        "currency": "GBP",
+        "account_opened_date": "2020-03-15",
+        "last_transaction_date": "2024-01-14",
+        "monthly_turnover": 42000.00,
+        "credit_limit": 5000.00,
+        "is_primary_account": true
+      },
+      {
+        "customer_id": "CUST001234",
+        "account_number": "GB82HSBC40053071968643",
+        "product_id": "PROD_SAV_002",
+        "product_name": "Flexible Savings Account",
+        "account_status": "active",
+        "balance": 85000.00,
+        "currency": "GBP",
+        "account_opened_date": "2019-06-22",
+        "last_transaction_date": "2024-01-10",
+        "monthly_turnover": 5000.00,
+        "interest_rate": 4.5,
+        "is_primary_account": false
+      },
+      {
+        "customer_id": "CUST005678",
+        "account_number": "GB82HSBC40053071968644",
+        "product_id": "PROD_INV_003",
+        "product_name": "Investment Portfolio",
+        "account_status": "active",
+        "balance": 250000.00,
+        "currency": "GBP",
+        "account_opened_date": "2018-01-10",
+        "last_transaction_date": "2024-01-14",
+        "portfolio_value": 250000.00,
+        "risk_profile": "moderate",
+        "is_primary_account": false
+      },
+      {
+        "customer_id": "CUST009012",
+        "account_number": "GB82HSBC40053071968645",
+        "product_id": "PROD_CC_004",
+        "product_name": "Premium Credit Card",
+        "account_status": "active",
+        "balance": -2345.67,
+        "currency": "GBP",
+        "account_opened_date": "2021-11-05",
+        "last_transaction_date": "2024-01-15",
+        "credit_limit": 25000.00,
+        "available_balance": 22654.33,
+        "annual_fee": 195.00,
+        "rewards_points": 12500,
+        "is_primary_account": false
+      }
+    ],
+    "summary": {
+      "total_customers": 3,
+      "total_holdings": 4,
+      "total_balance": 348405.83,
+      "currency": "GBP"
+    }
+  }
+}
+

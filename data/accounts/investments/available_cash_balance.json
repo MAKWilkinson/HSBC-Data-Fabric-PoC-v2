@@ -1,0 +1,17 @@
+{
+  "messageId": "MSG-20260623-001",
+  "timestamp": "2026-06-23T10:15:00Z",
+  "fromDepartment": "Accounts",
+  "toDepartment": "Investments",
+  "subject": "Available Cash Balance Update",
+  "accountNumber": "ACC1234567",
+  "currency": "USD",
+  "availableCashBalance": 1254320.75,
+  "asOfDate": "2026-06-23",
+  "details": {
+    "clearedCash": 1050000.00,
+    "pendingDeposits": 140320.75,
+    "pendingWithdrawals": 0.00
+  },
+  "notes": "Please use the updated cash balance for fund allocation and risk assessment."
+}

@@ -1,0 +1,47 @@
+{
+  "reportId": "RSF-2024-001847",
+  "reportDate": "2024-01-15T10:30:00Z",
+  "sourceDeployment": "customer_services",
+  "targetDeployment": "risk_and_compliance",
+  "reportType": "scam_fraud",
+  "severity": "high",
+  "incident": {
+    "incidentId": "INC-CS-2024-5623",
+    "incidentType": "wire_transfer_fraud",
+    "detectionDate": "2024-01-15T09:45:00Z",
+    "reportedByStaffId": "CS-EMP-78945",
+    "reportedByName": "Sarah Johnson"
+  },
+  "customer": {
+    "customerId": "CUST-9384756",
+    "customerName": "John Michael Smith",
+    "accountNumber": "****7839",
+    "accountType": "current",
+    "customerTier": "premium"
+  },
+  "fraudDetails": {
+    "fraudDescription": "Unauthorized wire transfer initiated via compromised online banking credentials",
+    "amountInvolved": 45000.00,
+    "currency": "GBP",
+    "transactionReference": "TXN-2024-156489",
+    "fraudulentRecipient": "Unknown - International Account",
+    "recipientCountry": "NI",
+    "transactionStatus": "blocked"
+  },
+  "riskIndicators": [
+    "unusual_transaction_amount",
+    "geographic_anomaly",
+    "off_peak_activity",
+    "credential_compromise_suspected"
+  ],
+  "actionsTaken": [
+    "transaction_blocked",
+    "account_frozen",
+    "customer_contacted",
+    "password_reset_enforced"
+  ],
+  "additionalNotes": "Customer confirmed unauthorized transaction. Evidence of phishing email compromising credentials. Escalating to risk and compliance for further investigation.",
+  "escalationRequired": true,
+  "documentationRef": "DOC-CSA-2024-001847"
+}
+

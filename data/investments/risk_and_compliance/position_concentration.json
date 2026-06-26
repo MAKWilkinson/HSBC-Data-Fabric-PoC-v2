@@ -1,0 +1,150 @@
+{
+  "message_id": "PC-20240115-001",
+  "timestamp": "2024-01-15T09:30:00Z",
+  "source_department": "Investments",
+  "destination_department": "Risk and Compliance",
+  "report_type": "position_concentration",
+  "reporting_date": "2024-01-15",
+  "data": {
+    "portfolio_summary": {
+      "total_positions": 847,
+      "total_market_value": 2847500000,
+      "currency": "USD",
+      "concentration_threshold_alert": true
+    },
+    "concentration_by_sector": [
+      {
+        "sector": "Technology",
+        "percentage_of_portfolio": 24.5,
+        "number_of_positions": 156,
+        "market_value": 697537500,
+        "risk_level": "HIGH"
+      },
+      {
+        "sector": "Financial Services",
+        "percentage_of_portfolio": 18.3,
+        "number_of_positions": 142,
+        "market_value": 520947500,
+        "risk_level": "MEDIUM"
+      },
+      {
+        "sector": "Healthcare",
+        "percentage_of_portfolio": 15.2,
+        "number_of_positions": 118,
+        "market_value": 432330000,
+        "risk_level": "MEDIUM"
+      },
+      {
+        "sector": "Consumer Discretionary",
+        "percentage_of_portfolio": 12.8,
+        "number_of_positions": 95,
+        "market_value": 364480000,
+        "risk_level": "MEDIUM"
+      },
+      {
+        "sector": "Industrials",
+        "percentage_of_portfolio": 10.1,
+        "number_of_positions": 78,
+        "market_value": 287397500,
+        "risk_level": "LOW"
+      },
+      {
+        "sector": "Other",
+        "percentage_of_portfolio": 19.1,
+        "number_of_positions": 258,
+        "market_value": 543282500,
+        "risk_level": "LOW"
+      }
+    ],
+    "concentration_by_single_name": [
+      {
+        "issuer_name": "Microsoft Corp",
+        "ticker": "MSFT",
+        "percentage_of_portfolio": 3.2,
+        "market_value": 91120000,
+        "number_of_shares": 285000,
+        "compliance_status": "COMPLIANT",
+        "regulatory_limit": 5.0
+      },
+      {
+        "issuer_name": "Apple Inc",
+        "ticker": "AAPL",
+        "percentage_of_portfolio": 2.9,
+        "market_value": 82577500,
+        "number_of_shares": 165000,
+        "compliance_status": "COMPLIANT",
+        "regulatory_limit": 5.0
+      },
+      {
+        "issuer_name": "JPMorgan Chase",
+        "ticker": "JPM",
+        "percentage_of_portfolio": 2.1,
+        "market_value": 59797500,
+        "number_of_shares": 420000,
+        "compliance_status": "COMPLIANT",
+        "regulatory_limit": 5.0
+      },
+      {
+        "issuer_name": "Johnson & Johnson",
+        "ticker": "JNJ",
+        "percentage_of_portfolio": 1.8,
+        "market_value": 51255000,
+        "number_of_shares": 215000,
+        "compliance_status": "COMPLIANT",
+        "regulatory_limit": 5.0
+      }
+    ],
+    "concentration_by_geography": [
+      {
+        "country": "United States",
+        "percentage_of_portfolio": 68.5,
+        "market_value": 1950487500,
+        "number_of_positions": 512
+      },
+      {
+        "country": "United Kingdom",
+        "percentage_of_portfolio": 12.3,
+        "market_value": 350242500,
+        "number_of_positions": 145
+      },
+      {
+        "country": "Europe (excl. UK)",
+        "percentage_of_portfolio": 10.8,
+        "market_value": 307530000,
+        "number_of_positions": 128
+      },
+      {
+        "country": "Asia Pacific",
+        "percentage_of_portfolio": 5.2,
+        "market_value": 147990000,
+        "number_of_positions": 62
+      },
+      {
+        "country": "Other",
+        "percentage_of_portfolio": 3.2,
+        "market_value": 91120000,
+        "number_of_positions": 0
+      }
+    ],
+    "regulatory_compliance": {
+      "single_name_limit_exceeded": false,
+      "sector_limit_exceeded": true,
+      "breaching_limits": [
+        {
+          "category": "Technology Sector",
+          "limit": 20.0,
+          "current_value": 24.5,
+          "action_required": "REDUCE"
+        }
+      ],
+      "last_compliance_check": "2024-01-15T08:00:00Z",
+      "next_compliance_check": "2024-01-16T08:00:00Z"
+    }
+  },
+  "metadata": {
+    "prepared_by": "Investment Analytics Team",
+    "approval_status": "PENDING_REVIEW",
+    "data_quality_score": 98.5
+  }
+}
+

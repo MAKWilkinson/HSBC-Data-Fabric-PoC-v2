@@ -1,0 +1,51 @@
+{
+  "campaign_id": "CAMP_2024_001",
+  "campaign_name": "Digital Banking Promotion Q1 2024",
+  "department_from": "Marketing",
+  "department_to": "Customer Services",
+  "start_date": "2024-01-15",
+  "end_date": "2024-03-31",
+  "campaign_type": "Digital Savings Account",
+  "target_segment": {
+    "age_range": "25-50",
+    "account_type": "Retail Banking",
+    "income_level": "Medium to High",
+    "geographical_region": ["UK", "EU"]
+  },
+  "campaign_objectives": [
+    "Increase digital account adoption",
+    "Reduce branch visits by 20%",
+    "Improve customer engagement"
+  ],
+  "budget": {
+    "currency": "GBP",
+    "total_amount": 150000,
+    "allocated_channels": {
+      "email": 45000,
+      "social_media": 60000,
+      "digital_ads": 35000,
+      "in_app_notifications": 10000
+    }
+  },
+  "key_messages": [
+    "Open a Digital Savings Account with 4.5% interest",
+    "Zero maintenance fees for the first year",
+    "Instant approval process"
+  ],
+  "customer_service_requirements": {
+    "expected_inquiry_volume": 5000,
+    "support_languages": ["English", "Welsh"],
+    "priority_topics": ["Account Opening", "Interest Rates", "Fees"],
+    "escalation_threshold": "Complex Account Issues",
+    "training_deadline": "2024-01-12"
+  },
+  "success_metrics": {
+    "target_conversions": 2500,
+    "target_engagement_rate": 0.15,
+    "target_customer_satisfaction": 0.85
+  },
+  "created_date": "2024-01-08",
+  "created_by": "marketing_team@hsbc.com",
+  "version": "1.0"
+}
+

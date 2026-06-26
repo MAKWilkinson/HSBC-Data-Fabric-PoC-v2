@@ -1,0 +1,39 @@
+{
+	"transaction_id": "SC-20260623-0001",
+	"timestamp": "2026-06-23T09:15:00Z",
+	"amount": 3725.50,
+	"currency": "GBP",
+	"employee": {
+		"employee_id": "E-10234",
+		"name": "Alex Morgan",
+		"position": "Senior Analyst",
+		"personal_account": {
+			"account_number": "12345678",
+			"sort_code": "40-12-34",
+			"bank_name": "HSBC UK"
+		}
+	},
+	"department_from": {
+		"name": "Accounts Department",
+		"department_code": "ACCT-01",
+		"contact": "accounts-payroll@hsbc.example"
+	},
+	"department_to": {
+		"name": "Credit Department",
+		"department_code": "CRED-02",
+		"contact": "credit-ops@hsbc.example"
+	},
+	"authorizer": {
+		"name": "Sandra Lee",
+		"employee_id": "E-10012",
+		"role": "Payroll Manager"
+	},
+	"reference": "Payroll-June-2026-EM-10234",
+	"status": "Completed",
+	"settlement_details": {
+		"initiated_at": "2026-06-23T09:15:00Z",
+		"settled_at": "2026-06-23T09:15:05Z",
+		"clearing_method": "Faster Payments"
+	},
+	"notes": "Monthly salary credit for June 2026"
+}

@@ -1,0 +1,50 @@
+{
+  "noticeId": "THN-2024-001847",
+  "timestamp": "2024-01-15T09:30:00Z",
+  "department": "Risk and Compliance",
+  "recipientDepartment": "Accounts",
+  "noticeType": "TRANSACTION_HOLD",
+  "severity": "HIGH",
+  "accountNumber": "GB82HSBC20093219761894",
+  "customerId": "CUST-789456",
+  "customerName": "John Michael Smith",
+  "holdReason": "Suspicious transaction pattern detected - multiple large transfers to high-risk jurisdictions",
+  "holdEffectiveDate": "2024-01-15T09:30:00Z",
+  "estimatedHoldDuration": "5 business days",
+  "transactionsAffected": [
+    {
+      "transactionId": "TXN-20240115-001",
+      "amount": 250000.00,
+      "currency": "GBP",
+      "destinationCountry": "MM",
+      "status": "HELD"
+    },
+    {
+      "transactionId": "TXN-20240115-002",
+      "amount": 150000.00,
+      "currency": "GBP",
+      "destinationCountry": "IR",
+      "status": "HELD"
+    }
+  ],
+  "riskScore": 8.7,
+  "riskFlags": [
+    "unusual_geographic_pattern",
+    "velocity_threshold_exceeded",
+    "sanctioned_jurisdiction_destination",
+    "high_transaction_amount"
+  ],
+  "requiredActions": [
+    "Verify customer identity and business purpose",
+    "Obtain source of funds documentation",
+    "Review 6-month transaction history",
+    "Escalate to compliance officer for final approval"
+  ],
+  "escalationLevel": 3,
+  "approvalRequired": true,
+  "approverRole": "Senior Compliance Officer",
+  "notes": "Customer has no prior transaction history with these destinations. Enhanced due diligence required before release.",
+  "expiryDate": "2024-01-22T17:00:00Z",
+  "issuedBy": "automated_compliance_system_v2.1",
+  "priority": "URGENT"
+}

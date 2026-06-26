@@ -1,0 +1,60 @@
+{
+  "repayment_schedule": {
+    "loan_id": "LN-2024-001234",
+    "customer_id": "CUST-987654",
+    "customer_name": "John Smith",
+    "loan_type": "Personal Loan",
+    "principal_amount": 50000.00,
+    "interest_rate": 7.5,
+    "loan_term_months": 60,
+    "start_date": "2024-01-15",
+    "maturity_date": "2029-01-15",
+    "currency": "GBP",
+    "schedule_version": "1.0",
+    "generated_date": "2024-01-10T14:30:00Z",
+    "repayment_frequency": "Monthly",
+    "total_repayments": 60,
+    "repayments": [
+      {
+        "payment_number": 1,
+        "due_date": "2024-02-15",
+        "principal_payment": 774.26,
+        "interest_payment": 312.50,
+        "total_payment": 1086.76,
+        "outstanding_balance": 49225.74,
+        "status": "Pending"
+      },
+      {
+        "payment_number": 2,
+        "due_date": "2024-03-15",
+        "principal_payment": 778.34,
+        "interest_payment": 308.42,
+        "total_payment": 1086.76,
+        "outstanding_balance": 48447.40,
+        "status": "Pending"
+      },
+      {
+        "payment_number": 3,
+        "due_date": "2024-04-15",
+        "principal_payment": 782.45,
+        "interest_payment": 304.31,
+        "total_payment": 1086.76,
+        "outstanding_balance": 47664.95,
+        "status": "Pending"
+      }
+    ],
+    "summary": {
+      "total_amount_payable": 65205.60,
+      "total_interest": 15205.60,
+      "amount_paid_to_date": 0.00,
+      "next_payment_due": "2024-02-15",
+      "next_payment_amount": 1086.76
+    },
+    "metadata": {
+      "source_system": "Credit Department",
+      "destination_system": "Customer Services",
+      "message_id": "MSG-2024-001234",
+      "timestamp": "2024-01-10T14:30:00Z"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "request_id": "KYC-REFRESH-2024-001847",
+  "request_timestamp": "2024-01-15T09:30:00Z",
+  "department_from": "risk_and_compliance",
+  "department_to": "credit",
+  "priority": "HIGH",
+  "customer": {
+    "customer_id": "CUST-987654321",
+    "full_name": "John Michael Thompson",
+    "date_of_birth": "1980-06-15",
+    "national_id": "GB-12345678",
+    "email": "john.thompson@example.com",
+    "phone": "+44-20-7123-4567"
+  },
+  "kyc_refresh_details": {
+    "last_refresh_date": "2022-08-20",
+    "refresh_reason": "PERIODIC_REVIEW",
+    "risk_flag": true,
+    "risk_level": "MEDIUM",
+    "trigger_factors": [
+      "Large_Transaction_Activity",
+      "Geographic_Risk_Indicator",
+      "Industry_Exposure_Change"
+    ],
+    "compliance_issues": [
+      {
+        "issue_type": "SANCTIONS_LIST_REVIEW",
+        "status": "PENDING",
+        "severity": "HIGH"
+      },
+      {
+        "issue_type": "PEP_STATUS_VERIFICATION",
+        "status": "COMPLETED",
+        "severity": "LOW"
+      }
+    ]
+  },
+  "required_documents": [
+    "PROOF_OF_ADDRESS",
+    "UPDATED_ID_VERIFICATION",
+    "INCOME_VERIFICATION",
+    "SOURCE_OF_FUNDS_STATEMENT"
+  ],
+  "required_actions": [
+    "COMPLETE_KYC_QUESTIONNAIRE",
+    "SUBMIT_SUPPORTING_DOCUMENTS",
+    "ATTEND_VERIFICATION_CALL",
+    "PROVIDE_TRANSACTION_JUSTIFICATION"
+  ],
+  "deadline": "2024-02-15T23:59:59Z",
+  "status": "PENDING_CUSTOMER_RESPONSE",
+  "internal_notes": "Customer profile shows increased transaction volume. Recommend enhanced due diligence."
+}

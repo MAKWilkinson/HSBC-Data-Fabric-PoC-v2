@@ -1,0 +1,43 @@
+{
+  "messageId": "MSG-2024-001847",
+  "timestamp": "2024-01-15T14:32:00Z",
+  "source": "risk_and_compliance",
+  "destination": "accounts",
+  "messageType": "account_freeze_or_block",
+  "priority": "high",
+  "action": "freeze",
+  "account": {
+    "accountNumber": "GB12HSBC0123456789",
+    "accountHolder": "John Smith",
+    "accountType": "Current Account",
+    "currency": "GBP",
+    "branch": "London City"
+  },
+  "freezeDetails": {
+    "freezeType": "full",
+    "reason": "suspected_fraud",
+    "description": "Unusual transaction patterns detected. Multiple high-value transfers to new beneficiaries within 24 hours.",
+    "initiatedBy": "Sarah Johnson",
+    "department": "Fraud Investigation Unit",
+    "effectiveFrom": "2024-01-15T14:30:00Z"
+  },
+  "restrictions": {
+    "allowIncomingTransfers": false,
+    "allowOutgoingTransfers": false,
+    "allowWithdrawals": false,
+    "allowCardTransactions": false,
+    "allowCheques": false
+  },
+  "escalation": {
+    "level": 2,
+    "requiresApproval": true,
+    "approvalDeadline": "2024-01-16T14:30:00Z",
+    "complianceOfficer": "Michael Brown"
+  },
+  "additionalInfo": {
+    "caseReference": "CASE-2024-FR-04521",
+    "riskScore": 8.5,
+    "customerNotificationSent": true,
+    "regulatoryReporting": true
+  }
+}

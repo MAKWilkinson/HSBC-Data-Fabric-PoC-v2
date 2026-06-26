@@ -1,0 +1,39 @@
+{
+  "credit_score_result": {
+    "result_id": "CSR-20240115-001",
+    "timestamp": "2024-01-15T10:30:45Z",
+    "source_department": "credit",
+    "destination_department": "risk_and_compliance",
+    "customer": {
+      "customer_id": "CUST-789456",
+      "name": "John Smith",
+      "date_of_birth": "1985-06-15",
+      "account_number": "GB89HSBC12345678901234"
+    },
+    "credit_score": {
+      "score": 745,
+      "score_range_min": 300,
+      "score_range_max": 850,
+      "rating": "Good",
+      "assessment_date": "2024-01-15"
+    },
+    "credit_assessment": {
+      "total_credit_limit": 50000,
+      "outstanding_balance": 12500,
+      "utilization_rate": 0.25,
+      "payment_history_score": 95,
+      "delinquencies": 0,
+      "default_risk_level": "Low",
+      "recommended_action": "Approve"
+    },
+    "risk_indicators": {
+      "fraud_risk": "Low",
+      "compliance_flags": [],
+      "regulatory_concerns": "None"
+    },
+    "review_status": "Completed",
+    "reviewed_by": "CREDIT-ANALYST-042",
+    "approval_signature": "A45CD7EF9K2L5MN8"
+  }
+}
+

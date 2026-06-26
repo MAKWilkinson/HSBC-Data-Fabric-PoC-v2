@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "source_department": "Investments",
+    "target_department": "Marketing",
+    "product_name": "Premium Growth Investment Fund",
+    "generated_date": "2024-01-15T10:30:00Z",
+    "eligibility_criteria": "Minimum account balance $50,000 and 12+ months customer tenure"
+  },
+  "eligible_customers": [
+    {
+      "customer_id": "CUST001234",
+      "customer_name": "John Smith",
+      "email": "john.smith@email.com",
+      "account_balance": 150000,
+      "customer_tenure_months": 36,
+      "investment_experience_level": "Advanced",
+      "risk_profile": "Aggressive",
+      "last_investment_activity": "2024-01-10",
+      "recommended_product_allocation": "High Growth"
+    },
+    {
+      "customer_id": "CUST005678",
+      "customer_name": "Sarah Johnson",
+      "email": "sarah.johnson@email.com",
+      "account_balance": 85000,
+      "customer_tenure_months": 24,
+      "investment_experience_level": "Intermediate",
+      "risk_profile": "Moderate",
+      "last_investment_activity": "2024-01-08",
+      "recommended_product_allocation": "Balanced Growth"
+    },
+    {
+      "customer_id": "CUST009101",
+      "customer_name": "Michael Chen",
+      "email": "michael.chen@email.com",
+      "account_balance": 250000,
+      "customer_tenure_months": 60,
+      "investment_experience_level": "Advanced",
+      "risk_profile": "Aggressive",
+      "last_investment_activity": "2024-01-12",
+      "recommended_product_allocation": "High Growth"
+    },
+    {
+      "customer_id": "CUST112131",
+      "customer_name": "Emma Williams",
+      "email": "emma.williams@email.com",
+      "account_balance": 120000,
+      "customer_tenure_months": 15,
+      "investment_experience_level": "Beginner",
+      "risk_profile": "Conservative",
+      "last_investment_activity": "2024-01-05",
+      "recommended_product_allocation": "Conservative Growth"
+    }
+  ],
+  "summary": {
+    "total_eligible_customers": 4,
+    "total_eligible_assets": 605000,
+    "average_account_balance": 151250,
+    "campaign_priority": "High"
+  }
+}

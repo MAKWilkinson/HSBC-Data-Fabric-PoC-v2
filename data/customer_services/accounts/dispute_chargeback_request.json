@@ -1,0 +1,51 @@
+{
+  "requestId": "DCR-2024-001234",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "department": "customer_services",
+  "targetDepartment": "accounts",
+  "customerDetails": {
+    "customerId": "CUST-987654",
+    "customerName": "John Smith",
+    "accountNumber": "GB82HSBC00123456789012",
+    "email": "john.smith@email.com",
+    "phone": "+44 20 7747 1234"
+  },
+  "transactionDetails": {
+    "transactionId": "TXN-20240110-5678",
+    "transactionDate": "2024-01-10T14:25:00Z",
+    "amount": 1250.00,
+    "currency": "GBP",
+    "merchant": "Electronics Retailer Ltd",
+    "merchantReference": "MER-001234",
+    "description": "High-definition Television Purchase"
+  },
+  "disputeDetails": {
+    "disputeType": "chargeback",
+    "reason": "unauthorized_transaction",
+    "reasonDescription": "Customer claims they did not authorize this transaction. Card was not lost or stolen.",
+    "disputeStatus": "pending_review",
+    "createdDate": "2024-01-12T09:15:00Z"
+  },
+  "evidenceProvided": [
+    {
+      "type": "customer_statement",
+      "description": "Customer testimony of unauthorized charge",
+      "documentId": "DOC-001"
+    },
+    {
+      "type": "communication_logs",
+      "description": "Email correspondence between customer and merchant",
+      "documentId": "DOC-002"
+    }
+  ],
+  "requestStatus": "submitted",
+  "priority": "high",
+  "notes": "Customer is long-standing account holder with clean history. Expedited review requested.",
+  "requiredActions": [
+    "credit_investigation",
+    "merchant_contact",
+    "cardholder_verification",
+    "charge_reversal_if_valid"
+  ]
+}
+

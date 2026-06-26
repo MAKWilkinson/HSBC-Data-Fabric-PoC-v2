@@ -1,0 +1,70 @@
+{
+  "messageId": "SLH-2024-001847",
+  "timestamp": "2024-01-15T14:32:45Z",
+  "source": "risk_and_compliance",
+  "destination": "credit",
+  "sanctionsListHit": {
+    "hitId": "HIT-20240115-4521",
+    "severity": "HIGH",
+    "status": "PENDING_REVIEW",
+    "matchedEntity": {
+      "entityId": "CUST-789456",
+      "entityType": "INDIVIDUAL",
+      "name": "John Mikhailov Petrov",
+      "dateOfBirth": "1968-03-22",
+      "nationality": "RU",
+      "identificationDocuments": [
+        {
+          "type": "PASSPORT",
+          "number": "0012345678",
+          "issuingCountry": "RU"
+        }
+      ]
+    },
+    "sanctionListsMatched": [
+      {
+        "listName": "OFAC_SDN",
+        "listVersion": "2024-01-14",
+        "matchScore": 0.98,
+        "matchFields": ["name", "dateOfBirth", "nationality"]
+      },
+      {
+        "listName": "UN_CONSOLIDATED",
+        "listVersion": "2024-01-13",
+        "matchScore": 0.95,
+        "matchFields": ["name", "nationality"]
+      }
+    ],
+    "riskFactors": [
+      "HIGH_MATCH_SCORE",
+      "MULTIPLE_LIST_HITS",
+      "INDIVIDUAL_DESIGNATION",
+      "ACTIVE_SANCTIONS_REGIME"
+    ],
+    "associatedAccounts": [
+      {
+        "accountNumber": "GBFE123456789",
+        "accountType": "SAVINGS",
+        "currency": "GBP",
+        "status": "FROZEN"
+      }
+    ],
+    "reviewDetails": {
+      "assignedTo": "compliance_officer_02",
+      "reviewDeadline": "2024-01-22T23:59:59Z",
+      "notes": "Multiple high-confidence matches detected. Account has been frozen pending compliance review.",
+      "requiredActions": [
+        "VERIFY_MATCH_ACCURACY",
+        "FREEZE_ACCOUNTS",
+        "NOTIFY_BUSINESS_UNIT",
+        "ESCALATE_IF_CONFIRMED"
+      ]
+    },
+    "auditTrail": {
+      "detectionTimestamp": "2024-01-15T14:30:12Z",
+      "detectionMethod": "AUTOMATED_SCREENING",
+      "screeningEngine": "SANCTIONS_CHECK_v3.2.1"
+    }
+  }
+}
+

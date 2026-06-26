@@ -1,0 +1,48 @@
+{
+  "messageId": "MSG-20240115-001",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "source": "risk_and_compliance",
+  "destination": "credit",
+  "messageType": "lending_decision_override",
+  "payload": {
+    "loanApplicationId": "LA-2024-00456",
+    "customerId": "CUST-789012",
+    "originalDecision": "REJECTED",
+    "overrideDecision": "APPROVED",
+    "overrideReason": "EXCEPTION_APPROVED",
+    "riskAssessmentDetails": {
+      "creditScore": 625,
+      "debtToIncomeRatio": 0.42,
+      "loanToValueRatio": 0.78,
+      "yearsOfIncome": 3,
+      "mitigatingFactors": [
+        "Excellent payment history on existing credit lines",
+        "Significant recent income increase",
+        "Strong collateral position"
+      ]
+    },
+    "overrideApprovalDetails": {
+      "approvedBy": "RISK-EXEC-245",
+      "approvalLevel": "SENIOR_MANAGER",
+      "approvalDate": "2024-01-15",
+      "conditions": [
+        "Require additional collateral coverage of 15%",
+        "Mandatory quarterly financial reviews",
+        "Interest rate premium of +2.5%"
+      ]
+    },
+    "loanDetails": {
+      "loanAmount": 250000,
+      "currency": "GBP",
+      "loanTerm": 240,
+      "productType": "MORTGAGE"
+    },
+    "complianceFlags": {
+      "amlCheckCompleted": true,
+      "sanctionsCheckCompleted": true,
+      "creditPolicyWaiverRequired": true,
+      "waiverDocumentReference": "WAIVER-2024-00156"
+    }
+  }
+}
+

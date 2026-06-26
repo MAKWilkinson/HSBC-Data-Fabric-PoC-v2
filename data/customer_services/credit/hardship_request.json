@@ -1,0 +1,30 @@
+{
+  "request_id": "HR-2024-001523",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "source_department": "customer_services",
+  "target_department": "credit",
+  "customer_id": "CUST-987654",
+  "customer_name": "John Smith",
+  "account_number": "GB82 HSBC 1234 5678 9012 34",
+  "request_type": "hardship_assistance",
+  "hardship_reason": "Job loss - temporary unemployment",
+  "hardship_severity": "high",
+  "monthly_income": 2500.00,
+  "monthly_expenses": 3200.00,
+  "outstanding_balance": 15750.00,
+  "monthly_payment_amount": 450.00,
+  "requested_relief_type": [
+    "payment_reduction",
+    "payment_deferral"
+  ],
+  "requested_duration_months": 6,
+  "supporting_documents": [
+    "redundancy_notice.pdf",
+    "bank_statements.pdf",
+    "expense_breakdown.xlsx"
+  ],
+  "contact_number": "+44 20 7568 2222",
+  "contact_email": "john.smith@example.com",
+  "priority": "normal",
+  "status": "pending_credit_review"
+}

@@ -1,0 +1,38 @@
+{
+  "repaymentId": "MRD-2024-001",
+  "batchDate": "2024-01-15",
+  "department": {
+    "from": "Credit",
+    "to": "Accounts"
+  },
+  "repayments": [
+    {
+      "accountNumber": "HSBC123456789",
+      "customerId": "CUST-001",
+      "customerName": "John Smith",
+      "loanId": "LOAN-2023-001",
+      "repaymentAmount": 1500.00,
+      "currency": "GBP",
+      "dueDate": "2024-02-01",
+      "directDebitMandateId": "DD-MANDATE-001",
+      "repaymentStatus": "scheduled",
+      "repaymentType": "monthly"
+    },
+    {
+      "accountNumber": "HSBC987654321",
+      "customerId": "CUST-002",
+      "customerName": "Jane Doe",
+      "loanId": "LOAN-2023-002",
+      "repaymentAmount": 2500.00,
+      "currency": "GBP",
+      "dueDate": "2024-02-01",
+      "directDebitMandateId": "DD-MANDATE-002",
+      "repaymentStatus": "scheduled",
+      "repaymentType": "monthly"
+    }
+  ],
+  "totalAmount": 4000.00,
+  "recordCount": 2,
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+

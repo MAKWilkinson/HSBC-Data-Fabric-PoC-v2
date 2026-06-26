@@ -1,0 +1,42 @@
+{
+  "settlement_id": "FS-2024-001847",
+  "settlement_date": "2024-01-15",
+  "from_department": "Accounts",
+  "to_department": "Investments",
+  "currency": "GBP",
+  "total_amount": 5750000.00,
+  "settlement_status": "completed",
+  "settlements": [
+    {
+      "fund_id": "FUND-EU-001",
+      "fund_name": "European Growth Fund",
+      "transaction_type": "transfer_in",
+      "amount": 2500000.00,
+      "reference": "ACC-2024-001-EGF",
+      "timestamp": "2024-01-15T09:30:00Z",
+      "verified": true
+    },
+    {
+      "fund_id": "FUND-US-045",
+      "fund_name": "US Tech Fund",
+      "transaction_type": "transfer_in",
+      "amount": 1800000.00,
+      "reference": "ACC-2024-002-UTF",
+      "timestamp": "2024-01-15T10:15:00Z",
+      "verified": true
+    },
+    {
+      "fund_id": "FUND-ASIA-012",
+      "fund_name": "Asian Emerging Markets Fund",
+      "transaction_type": "transfer_in",
+      "amount": 1450000.00,
+      "reference": "ACC-2024-003-AEM",
+      "timestamp": "2024-01-15T10:45:00Z",
+      "verified": true
+    }
+  ],
+  "created_by": "accounts_system",
+  "approved_by": "john.smith@hsbc.com",
+  "approval_timestamp": "2024-01-15T08:00:00Z",
+  "notes": "Daily fund settlement from Accounts to Investments"
+}

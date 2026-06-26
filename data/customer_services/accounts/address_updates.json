@@ -1,0 +1,57 @@
+{
+  "addressUpdates": [
+    {
+      "updateId": "AU001",
+      "customerId": "CUST123456",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "department": "customer_services",
+      "targetDepartment": "accounts",
+      "updateType": "address_change",
+      "previousAddress": {
+        "addressLine1": "123 High Street",
+        "addressLine2": "Suite 500",
+        "city": "London",
+        "postalCode": "SW1A 1AA",
+        "country": "United Kingdom"
+      },
+      "newAddress": {
+        "addressLine1": "456 Park Avenue",
+        "addressLine2": "Floor 12",
+        "city": "London",
+        "postalCode": "EC1A 2BX",
+        "country": "United Kingdom"
+      },
+      "status": "pending_approval",
+      "priority": "normal"
+    },
+    {
+      "updateId": "AU002",
+      "customerId": "CUST789012",
+      "timestamp": "2024-01-15T11:45:00Z",
+      "department": "customer_services",
+      "targetDepartment": "accounts",
+      "updateType": "address_change",
+      "previousAddress": {
+        "addressLine1": "789 Baker Street",
+        "city": "Manchester",
+        "postalCode": "M1 1AD",
+        "country": "United Kingdom"
+      },
+      "newAddress": {
+        "addressLine1": "321 Queens Road",
+        "addressLine2": "Apartment 205",
+        "city": "Manchester",
+        "postalCode": "M2 5DB",
+        "country": "United Kingdom"
+      },
+      "status": "approved",
+      "priority": "high"
+    }
+  ],
+  "metadata": {
+    "batchId": "BATCH_2024_01_15_001",
+    "totalRecords": 2,
+    "generatedAt": "2024-01-15T12:00:00Z",
+    "source": "customer_services"
+  }
+}

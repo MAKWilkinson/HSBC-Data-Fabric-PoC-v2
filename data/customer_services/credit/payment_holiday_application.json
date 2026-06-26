@@ -1,0 +1,40 @@
+{
+  "applicationId": "PHA-2024-001234",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "department": {
+    "source": "customer_services",
+    "destination": "credit"
+  },
+  "customer": {
+    "customerId": "CUST-5678901",
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "phone": "+44-1234-567890"
+  },
+  "account": {
+    "accountNumber": "12345678",
+    "accountType": "Mortgage",
+    "loanAmount": 250000,
+    "currency": "GBP",
+    "currentBalance": 185000
+  },
+  "paymentHolidayRequest": {
+    "requestedMonths": 3,
+    "startDate": "2024-02-01",
+    "endDate": "2024-04-30",
+    "reason": "Temporary financial hardship due to job loss",
+    "monthlyPayment": 1250
+  },
+  "applicationStatus": "PENDING_REVIEW",
+  "requestedBy": {
+    "employeeId": "CS-EMP-9876",
+    "name": "Sarah Johnson",
+    "role": "Customer Service Representative"
+  },
+  "additionalNotes": "Customer has been with the bank for 10 years with good payment history. First request for payment holiday.",
+  "supportingDocuments": [
+    "employment_termination_letter",
+    "financial_hardship_declaration"
+  ]
+}
+

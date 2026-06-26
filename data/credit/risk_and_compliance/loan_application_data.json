@@ -1,0 +1,108 @@
+{
+  "loan_applications": [
+    {
+      "application_id": "APP-20240115-001",
+      "timestamp": "2024-01-15T09:30:00Z",
+      "applicant": {
+        "customer_id": "CUST-987654",
+        "full_name": "John Michael Smith",
+        "date_of_birth": "1985-06-15",
+        "email": "john.smith@example.com",
+        "phone": "+44 20 7946 0958"
+      },
+      "loan_details": {
+        "loan_type": "Mortgage",
+        "requested_amount": 350000,
+        "currency": "GBP",
+        "term_months": 360,
+        "interest_rate_type": "Fixed",
+        "purpose": "Residential Property Purchase"
+      },
+      "employment": {
+        "employment_status": "Employed",
+        "employer_name": "TechCorp Ltd",
+        "job_title": "Senior Software Engineer",
+        "annual_income": 95000,
+        "employment_start_date": "2015-03-10"
+      },
+      "financial_profile": {
+        "total_assets": 150000,
+        "total_liabilities": 25000,
+        "credit_score": 762,
+        "existing_loans": 1,
+        "default_history": false,
+        "credit_inquiries_last_6m": 2
+      },
+      "collateral": {
+        "property_value": 400000,
+        "property_location": "London, UK",
+        "loan_to_value": 87.5
+      },
+      "application_status": "Under Review",
+      "submitted_by": "credit_officer_042",
+      "risk_category": "Medium",
+      "required_compliance_checks": [
+        "AML/KYC Verification",
+        "Affordability Assessment",
+        "Regulatory Capital Requirements",
+        "Sanctions Screening"
+      ]
+    },
+    {
+      "application_id": "APP-20240115-002",
+      "timestamp": "2024-01-15T10:45:00Z",
+      "applicant": {
+        "customer_id": "CUST-654321",
+        "full_name": "Sarah Elizabeth Johnson",
+        "date_of_birth": "1992-11-22",
+        "email": "sarah.johnson@example.com",
+        "phone": "+44 121 456 7890"
+      },
+      "loan_details": {
+        "loan_type": "Personal Loan",
+        "requested_amount": 25000,
+        "currency": "GBP",
+        "term_months": 60,
+        "interest_rate_type": "Variable",
+        "purpose": "Home Improvement"
+      },
+      "employment": {
+        "employment_status": "Employed",
+        "employer_name": "NHS Trust Hospital",
+        "job_title": "Senior Nurse",
+        "annual_income": 42000,
+        "employment_start_date": "2018-07-01"
+      },
+      "financial_profile": {
+        "total_assets": 85000,
+        "total_liabilities": 12000,
+        "credit_score": 698,
+        "existing_loans": 2,
+        "default_history": false,
+        "credit_inquiries_last_6m": 1
+      },
+      "collateral": {
+        "property_value": 280000,
+        "property_location": "Birmingham, UK",
+        "loan_to_value": 0
+      },
+      "application_status": "Pending Compliance Review",
+      "submitted_by": "credit_officer_015",
+      "risk_category": "Low",
+      "required_compliance_checks": [
+        "AML/KYC Verification",
+        "Income Verification",
+        "Affordability Assessment",
+        "Sanctions Screening"
+      ]
+    }
+  ],
+  "metadata": {
+    "source_department": "Credit",
+    "destination_department": "Risk and Compliance",
+    "batch_date": "2024-01-15",
+    "batch_id": "BATCH-20240115-CR-RC",
+    "total_applications": 2,
+    "data_classification": "Internal - Confidential"
+  }
+}

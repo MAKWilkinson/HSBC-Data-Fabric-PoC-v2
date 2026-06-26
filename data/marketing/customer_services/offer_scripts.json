@@ -1,0 +1,69 @@
+{
+  "offer_scripts": [
+    {
+      "id": "OFFER_001",
+      "name": "Premium Credit Card Upgrade",
+      "department_from": "Marketing",
+      "department_to": "Customer Services",
+      "created_date": "2024-01-15",
+      "effective_date": "2024-02-01",
+      "status": "active",
+      "target_segment": "Gold Account Holders",
+      "script_type": "inbound_call",
+      "duration_seconds": 120,
+      "content": "Hello! We have an exclusive opportunity for our valued customers. We'd like to offer you our Premium Credit Card with 0% APR for 12 months, no annual fee, and up to 50,000 bonus points. Would you be interested in learning more?",
+      "call_to_action": "Would you like me to proceed with the application?",
+      "success_metric": "application_completion"
+    },
+    {
+      "id": "OFFER_002",
+      "name": "Investment Portfolio Review",
+      "department_from": "Marketing",
+      "department_to": "Customer Services",
+      "created_date": "2024-01-20",
+      "effective_date": "2024-02-01",
+      "status": "active",
+      "target_segment": "High Net Worth Individuals",
+      "script_type": "outbound_call",
+      "duration_seconds": 180,
+      "content": "Good afternoon. This is a courtesy call from our Wealth Management team. We've reviewed your profile and identified opportunities to optimize your investment portfolio. Our expert advisors would like to discuss a personalized strategy tailored to your financial goals.",
+      "call_to_action": "Can we schedule a consultation this week?",
+      "success_metric": "appointment_booked"
+    },
+    {
+      "id": "OFFER_003",
+      "name": "Mortgage Refinancing",
+      "department_from": "Marketing",
+      "department_to": "Customer Services",
+      "created_date": "2024-01-18",
+      "effective_date": "2024-02-01",
+      "status": "active",
+      "target_segment": "Mortgage Account Holders",
+      "script_type": "email_template",
+      "duration_seconds": null,
+      "content": "We've analyzed current market rates and believe you could save significantly. Our refinancing options offer reduced rates, flexible terms, and minimal processing fees. Get a free quote within 24 hours with no obligation.",
+      "call_to_action": "Click here to start your refinancing quote",
+      "success_metric": "quote_requested"
+    },
+    {
+      "id": "OFFER_004",
+      "name": "Business Loan Expansion",
+      "department_from": "Marketing",
+      "department_to": "Customer Services",
+      "created_date": "2024-01-22",
+      "effective_date": "2024-02-05",
+      "status": "pending",
+      "target_segment": "SME Business Customers",
+      "script_type": "email_template",
+      "duration_seconds": null,
+      "content": "Growing your business? We offer flexible business loans up to £500,000 with competitive rates starting at 4.5% APR. Fast approval process - get funding within 5 business days.",
+      "call_to_action": "Apply now or request a consultation",
+      "success_metric": "application_submitted"
+    }
+  ],
+  "metadata": {
+    "total_scripts": 4,
+    "last_updated": "2024-01-22",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "arrears_flags": [
+    {
+      "account_id": "ACC-001234567",
+      "customer_id": "CUST-987654",
+      "customer_name": "John Smith",
+      "product_type": "Mortgage",
+      "arrears_status": "30_days",
+      "arrears_days": 30,
+      "outstanding_balance": 245000.50,
+      "minimum_payment_due": 1500.00,
+      "payment_due_date": "2024-01-15",
+      "last_payment_date": "2024-02-10",
+      "flag_severity": "HIGH",
+      "risk_category": "WATCH_LIST",
+      "compliance_action_required": true,
+      "action_type": "NOTIFICATION",
+      "flag_date": "2024-02-15T10:30:00Z",
+      "notes": "Customer has missed 1 payment cycle"
+    },
+    {
+      "account_id": "ACC-002345678",
+      "customer_id": "CUST-876543",
+      "customer_name": "Jane Doe",
+      "product_type": "Personal Loan",
+      "arrears_status": "60_days",
+      "arrears_days": 60,
+      "outstanding_balance": 15000.00,
+      "minimum_payment_due": 500.00,
+      "payment_due_date": "2023-12-15",
+      "last_payment_date": "2023-11-15",
+      "flag_severity": "CRITICAL",
+      "risk_category": "DEFAULT_RISK",
+      "compliance_action_required": true,
+      "action_type": "ESCALATION",
+      "flag_date": "2024-02-10T14:45:00Z",
+      "notes": "Customer has missed 2 consecutive payment cycles"
+    },
+    {
+      "account_id": "ACC-003456789",
+      "customer_id": "CUST-765432",
+      "customer_name": "Robert Johnson",
+      "product_type": "Credit Card",
+      "arrears_status": "15_days",
+      "arrears_days": 15,
+      "outstanding_balance": 8500.75,
+      "minimum_payment_due": 250.00,
+      "payment_due_date": "2024-02-01",
+      "last_payment_date": "2024-01-25",
+      "flag_severity": "MEDIUM",
+      "risk_category": "EARLY_WARNING",
+      "compliance_action_required": false,
+      "action_type": "REMINDER",
+      "flag_date": "2024-02-05T09:15:00Z",
+      "notes": "Customer is in early arrears stage"
+    }
+  ],
+  "metadata": {
+    "report_date": "2024-02-15",
+    "total_flagged_accounts": 3,
+    "source_department": "Credit",
+    "destination_department": "Risk_and_Compliance",
+    "report_version": "1.0"
+  }
+}
+

@@ -1,0 +1,39 @@
+{
+  "escalation_id": "ESC-2024-001847",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "source_department": "customer_services",
+  "target_department": "risk_and_compliance",
+  "complaint": {
+    "complaint_id": "CMP-2024-005632",
+    "customer_id": "CUST-789456",
+    "customer_name": "John Smith",
+    "complaint_date": "2024-01-12T14:15:00Z",
+    "complaint_type": "unauthorized_transaction",
+    "description": "Customer reports unauthorized withdrawal of £2,500 from savings account on 2024-01-10. Account shows suspicious activity pattern.",
+    "account_number": "****5678",
+    "amount": 2500.00,
+    "currency": "GBP"
+  },
+  "escalation_reason": "High-value unauthorized transaction requires compliance review and potential fraud investigation",
+  "severity_level": "HIGH",
+  "risk_assessment": {
+    "fraud_indicator": true,
+    "regulatory_flag": true,
+    "customer_impact": "SIGNIFICANT"
+  },
+  "documents_attached": [
+    "transaction_statement_20240110.pdf",
+    "customer_correspondence.txt",
+    "account_activity_log.csv"
+  ],
+  "assigned_to": "compliance_analyst_001",
+  "status": "PENDING_REVIEW",
+  "required_actions": [
+    "Initial compliance review",
+    "Fraud investigation initiation",
+    "Customer communication protocol",
+    "Regulatory reporting assessment"
+  ]
+}
+
+
