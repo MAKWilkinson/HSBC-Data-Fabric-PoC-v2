@@ -10,8 +10,8 @@ accuracy matter.
 This payload comes from the following interaction. Use it to disambiguate field meaning and
 write accurate descriptions — the same field name can mean different things in different
 contexts.
-- Originating system: $parent_system
-- Counterparty system: $child_system   (if "none", treat as internal/one-sided)
+- Originating system: $providing_system
+- Counterparty system: $consuming_system   (if "none", treat as internal/one-sided)
 - Message File Name: $message_file_name
 - Serialization format: $file_format
 

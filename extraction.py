@@ -53,8 +53,8 @@ def build_schema_extraction_prompt(sample: SampleFile) -> str:
     template_text = prompt_path.read_text(encoding="utf-8")
 
     return Template(template_text).substitute(
-        parent_system=sample.parent_system,
-        child_system=sample.child_system or "none",
+        providing_system=sample.providing_system,
+        consuming_system=sample.consuming_system or "none",
         message_file_name=sample.message_file_name,
         file_format=sample.file_format,
         raw_content=sample.raw_content,

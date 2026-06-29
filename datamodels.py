@@ -18,8 +18,8 @@ class SampleFile:
     # Ingestion produces these files
     
     path: Path
-    parent_system: str # system sending file
-    child_system: str | None  # system recieving file
+    providing_system: str # system providing file
+    consuming_system: str | None  # system consuming file
     message_file_name: str  # e.g. "loan_application_data"
     file_format: Literal["json", "csv", "xml", "avro", "txt"] # Need to cap and control this 
     raw_content: Any

@@ -4,6 +4,10 @@
 # cmd K + C
 # cmd K + U
 
+# git add .
+# git commit -m "title change" -m "description of change"
+# git push origin master
+
 import config
 import ingestion
 import extraction
@@ -75,8 +79,8 @@ def test_infer_file_format():
 def test_load_sample_file():
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     print(sampleFile.path)
-    print(sampleFile.parent_system)
-    print(sampleFile.child_system)
+    print(sampleFile.providing_system)
+    print(sampleFile.consuming_system)
     print(sampleFile.message_file_name)
     print(sampleFile.file_format)
     print(sampleFile.raw_content)
@@ -134,42 +138,42 @@ if __name__ == "__main__":
 
     # CONFIG
 
-    # _testing_message("TESTING_LLM_CONFIG")
-    # test_llm_config()
+    _testing_message("TESTING_LLM_CONFIG")
+    test_llm_config()
     
-    # _testing_message("TESTING_LLM_CLIENT")
-    # test_llm_client()
+    _testing_message("TESTING_LLM_CLIENT")
+    test_llm_client()
 
-    # _testing_message("TESTING REFACTORED CONFIG")
-    # test_refactor()
+    _testing_message("TESTING REFACTORED CONFIG")
+    test_refactor()
 
     # INGESTION
 
-    # _testing_message("MODEL_DIRECTORY")
-    # test_model_directory()
+    _testing_message("MODEL_DIRECTORY")
+    test_model_directory()
 
-    # _testing_message("PARSE_DIRECTORY")
-    # test_parse_directory()
+    _testing_message("PARSE_DIRECTORY")
+    test_parse_directory()
 
-    # _testing_message("INFER_FILE_TYPE")
-    # test_infer_file_format()
+    _testing_message("INFER_FILE_TYPE")
+    test_infer_file_format()
 
-    # _testing_message("LOADING_SAMPLE_FILE")
-    # test_load_sample_file()
+    _testing_message("LOADING_SAMPLE_FILE")
+    test_load_sample_file()
 
     # EXTRACTION
 
-    # _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
-    # test_build_schema_extraction_prompt()
+    _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
+    test_build_schema_extraction_prompt()
 
-    # _testing_message("BUILDING_EXTRACTION_PROMPT")
-    # test_build_extraction_prompt()
+    _testing_message("BUILDING_EXTRACTION_PROMPT")
+    test_build_extraction_prompt()
     
-    # _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
-    # test_call_llm_extract_schema()
+    _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
+    test_call_llm_extract_schema()
 
-    # _testing_message("NORMALISING_SCHEMAS")
-    # test_normalise_schema()
+    _testing_message("NORMALISING_SCHEMAS")
+    test_normalise_schema()
 
     _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
     test_extract_detailed_schema()
