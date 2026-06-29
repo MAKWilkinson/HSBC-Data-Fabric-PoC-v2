@@ -24,7 +24,7 @@ Features — TODO
 
 Tech stack — For PoC... set up using Ollama. To switch LLM create new wrapper class that conforms to LLMClient protocol in config.py.
 
-Contributing — Prompt improvement, 
+Contributing — Further improvements requiring contributions include... Prompt improvement, Stub Func completion,
 
 License — Follow Ollama Licensing rules for all messages stored in data folder.
 
