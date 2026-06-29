@@ -6,7 +6,7 @@
 
 # git add .
 # git commit -m "title change" -m "description of change"
-# git push origin master
+# git push
 
 import config
 import ingestion
@@ -136,7 +136,7 @@ def test_extract_detailed_schema():
 if __name__ == "__main__":
 
 
-    # CONFIG
+        # CONFIG
 
     _testing_message("TESTING_LLM_CONFIG")
     test_llm_config()
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     _testing_message("TESTING REFACTORED CONFIG")
     test_refactor()
 
-    # INGESTION
+        # INGESTION
 
     _testing_message("MODEL_DIRECTORY")
     test_model_directory()
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     _testing_message("LOADING_SAMPLE_FILE")
     test_load_sample_file()
 
-    # EXTRACTION
+        # EXTRACTION
 
     _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
     test_build_schema_extraction_prompt()
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
     _testing_message("NORMALISING_SCHEMAS")
     test_normalise_schema()
-
+    
     _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
     test_extract_detailed_schema()
 

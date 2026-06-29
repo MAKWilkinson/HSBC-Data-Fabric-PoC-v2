@@ -7,14 +7,14 @@ Description — Takes send messages between interconnected systems and creates a
 Installation — Install all requirements.txt dependencies. Set up Ollama on default port. Structure Data folder as below with messages required. Run from app.py.
 
     Data/
-    ├── Send System 1/
-    │   ├── Receiving System 1/
+    ├── Providing System 1/
+    │   ├── Consuming System 1/
     │   │   ├── send_message_file 1/
     │   │   ├── send_message_file 2/
     │   │   └── ...
-    │   ├── Recieveing System 2/
+    │   ├── Consuming System 2/
     │   └── ...
-    ├── Send System 2/
+    ├── Providing System 2/
     │   └── ...
     └── ...
 
@@ -24,7 +24,7 @@ Features — TODO
 
 Tech stack — For PoC... set up using Ollama. To switch LLM create new wrapper class that conforms to LLMClient protocol in config.py.
 
-Contributing — Prompt improvement, working on 
+Contributing — Prompt improvement, 
 
 License — Follow Ollama Licensing rules for all messages stored in data folder.
 
