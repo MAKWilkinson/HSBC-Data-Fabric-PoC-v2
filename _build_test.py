@@ -23,24 +23,24 @@ def _testing_message(function_name):
 # Config
 
 def test_llm_config():
-    llmconfig = config.load_config()
-    for key, value in llmconfig.items():
+    configuration = config.OllamaLLMClient.load_config()
+    for key, value in configuration.items():
         print(f"{key}: {value}")
 
 def test_llm_client():
-    llmconfig = config.load_config()
+
     prompt = "Why is the sky blue?"
-    llm = config.get_llm_client(llmconfig)
-    response = llm.chat(
-        model=llmconfig["model"],
-        messages=[
-            {"role" : llmconfig["role"], "content" : prompt}
-        ],
-        options={"temperature": llmconfig["temperature"]},
-    )
-    print(response.message.content)
-    print("\n")
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
+
+    response = client.chat(prompt)
     print(response)
+
+def test_refactor():
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
+    print(client.chat("Send the numbers 1 to 10 in order"))
+
 
 # Ingestion
 
@@ -95,67 +95,82 @@ def test_build_extraction_prompt():
 def test_call_llm_extract_schema():
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     prompt = extraction.build_schema_extraction_prompt(sampleFile)
-    llmconfig = config.load_config()
-    llm = config.get_llm_client(llmconfig)
-    response = extraction.call_llm_extract_schema(llm, llmconfig, prompt)
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
+    response = extraction.call_llm_extract_schema(client, prompt)
     print(response)
     
 def test_normalise_schema():
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     prompt = extraction.build_schema_extraction_prompt(sampleFile)
-    llmconfig = config.load_config()
-    llm = config.get_llm_client(llmconfig)
-    response = extraction.call_llm_extract_schema(llm, llmconfig, prompt)
-    list_of_field_schemas = extraction. normalise_schema(response)
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
+    response = extraction.call_llm_extract_schema(client, prompt)
+    list_of_field_schemas = extraction.normalise_schema(response)
     for item in list_of_field_schemas:
         print(item)
+        print(" ")
 
 def test_extract_detailed_schema():
     
     # Set up params to pass in for test
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
-    llmconfig = config.load_config()
-    llm = config.get_llm_client(llmconfig)
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
 
     # Test
-    extracted = extraction.extract_detailed_schema(llm, llmconfig, sampleFile)
-    for item in extracted:
+    extracted = extraction.extract_detailed_schema(client, sampleFile)
+    
+    print(extracted.source)
+    print(" ")
+    for item in extracted.fields:
         print(item)
         print(" ")
+
 
 
 if __name__ == "__main__":
 
 
-    _testing_message("MODEL_DIRECTORY")
-    test_model_directory()
+    # CONFIG
 
-    _testing_message("PARSE_DIRECTORY")
-    test_parse_directory()
-
-    _testing_message("INFER_FILE_TYPE")
-    test_infer_file_format()
-
-    _testing_message("LOADING_SAMPLE_FILE")
-    test_load_sample_file()
-
-    _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
-    test_build_schema_extraction_prompt()
-
-    _testing_message("TESTING_LLM_CONFIG")
-    test_llm_config()
+    # _testing_message("TESTING_LLM_CONFIG")
+    # test_llm_config()
     
-    _testing_message("TESTING_LLM_CLIENT")
-    test_llm_client()
+    # _testing_message("TESTING_LLM_CLIENT")
+    # test_llm_client()
 
-    _testing_message("BUILDING_EXTRACTION_PROMPT")
-    test_build_extraction_prompt()
+    # _testing_message("TESTING REFACTORED CONFIG")
+    # test_refactor()
+
+    # INGESTION
+
+    # _testing_message("MODEL_DIRECTORY")
+    # test_model_directory()
+
+    # _testing_message("PARSE_DIRECTORY")
+    # test_parse_directory()
+
+    # _testing_message("INFER_FILE_TYPE")
+    # test_infer_file_format()
+
+    # _testing_message("LOADING_SAMPLE_FILE")
+    # test_load_sample_file()
+
+    # EXTRACTION
+
+    # _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
+    # test_build_schema_extraction_prompt()
+
+    # _testing_message("BUILDING_EXTRACTION_PROMPT")
+    # test_build_extraction_prompt()
     
-    _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
-    test_call_llm_extract_schema()
+    # _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
+    # test_call_llm_extract_schema()
 
-    _testing_message("NORMALISING_SCHEMAS")
-    test_normalise_schema()
+    # _testing_message("NORMALISING_SCHEMAS")
+    # test_normalise_schema()
 
     _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
     test_extract_detailed_schema()
+

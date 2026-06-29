@@ -62,7 +62,6 @@ def build_schema_extraction_prompt(sample: SampleFile) -> str:
 
 def call_llm_extract_schema(
     client: Any, 
-    config: Any = None,
     prompt: str = "", 
     max_attempts: int = 3, 
     backoff_base_seconds: float = 2.0,
@@ -75,14 +74,8 @@ def call_llm_extract_schema(
             # === SDK swap point ===
             # Assumes the injected client exposes `complete(prompt) -> str`.
             # Once the SDK is chosen, change only this line (and the import).
-            response: str = client.chat(
-                model=config["model"],
-                messages=[
-                    {"role" : config["role"], "content" : prompt}
-                ],
-                options={"temperature": config["temperature"]},
-            )
-            return _extract_json(response.message.content)
+            response: str = client.chat(prompt)
+            return _extract_json(response)
         
         except Exception as error:  # noqa: BLE001 - SDK undecided; retry broadly
             last_error = error
@@ -120,6 +113,7 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
             "list": "array",
             "null": "null",
         }
+        
         if data_type in type_map:
             data_type = type_map[data_type]
         
@@ -185,25 +179,24 @@ def validate_extracted_schema(schema: list[FieldSchema], sample: SampleFile) -> 
     """Check extracted fields against the actual sample; flag hallucinations."""
     raise NotImplementedError
 
-def extract_detailed_schema(client: Any, config: Any, sample: SampleFile) -> FileSchema:
+# TODO: Fix FileSchema build
+def extract_detailed_schema(client: Any, sample: SampleFile) -> FileSchema:
     """Orchestrate prompt → call → normalise → validate for one file."""
 
     prompt = build_schema_extraction_prompt(sample)
-    response = call_llm_extract_schema(client, config, prompt)
+    response = call_llm_extract_schema(client, prompt)
     normalised = normalise_schema(response)
-    validated = normalised # line for when validation implemented
+    validated = normalised # line for when validation implemented, will need branching for not validated
 
-    file = FileSchema()
-    file.source = sample
-    file.fields = validated
-
+    file = FileSchema(source=sample, fields=validated)
+    
     return file
 
-def extract_all_schemas(client: Any, config: Any, samples: list[SampleFile]) -> list[FileSchema]:
+def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSchema]:
     """Loop driver over goal 1; returns a schema per sample file."""
 
     result = []
     for item in samples:
-        result.append(extract_detailed_schema(client, config, item))
+        result.append(extract_detailed_schema(client, item))
     return result
 

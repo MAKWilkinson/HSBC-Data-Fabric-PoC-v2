@@ -22,7 +22,7 @@ Usage — Where you have many interfaces and various style send messages and nee
 
 Features — TODO
 
-Tech stack — For PoC... set up using Ollama but other AI can be switched in at LLM protocol in config.py.
+Tech stack — For PoC... set up using Ollama. To switch LLM create new wrapper class that conforms to LLMClient protocol in config.py.
 
 Contributing — Prompt improvement, working on 
 

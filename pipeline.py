@@ -16,8 +16,8 @@ def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> SemanticSchema:
     """Chain goals 1→5: ingest → extract → domain KB → ontology → semantic schema."""
 
     # configs
-    llmconfig = config.load_config()
-    llm = config.get_llm_client(llmconfig)
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
 
     # ingestion
     directory_as_dict = ingestion.model_directory()
@@ -27,7 +27,7 @@ def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> SemanticSchema:
         directory_as_list_of_sampleFiles.append(ingestion.load_sample_file(item))
 
     # extraction
-    list_of_FileShcchemas = extraction.extract_all_schemas(llm, llmconfig, directory_as_list_of_sampleFiles)
+    list_of_FileShcchemas = extraction.extract_all_schemas(client, directory_as_list_of_sampleFiles)
 
     # domain knowledge base
 
