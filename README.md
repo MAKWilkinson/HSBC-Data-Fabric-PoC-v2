@@ -9,8 +9,8 @@ Installation — Install all requirements.txt dependencies. Set up Ollama on def
     Data/
     ├── Providing System 1/
     │   ├── Consuming System 1/
-    │   │   ├── send_message_file 1/
-    │   │   ├── send_message_file 2/
+    │   │   ├── message_file 1/
+    │   │   ├── message_file 2/
     │   │   └── ...
     │   ├── Consuming System 2/
     │   └── ...
