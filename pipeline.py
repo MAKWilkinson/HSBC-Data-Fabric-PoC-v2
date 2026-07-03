@@ -27,7 +27,7 @@ def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> SemanticSchema:
         directory_as_list_of_sampleFiles.append(ingestion.load_sample_file(item))
 
     # extraction
-    list_of_FileShcchemas = extraction.extract_all_schemas(client, directory_as_list_of_sampleFiles)
+    list_of_FileSchemas = extraction.extract_all_schemas(client, directory_as_list_of_sampleFiles)
 
     # domain knowledge base
 

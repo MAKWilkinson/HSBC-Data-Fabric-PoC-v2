@@ -32,7 +32,6 @@ def _coerce(value: str, target: type) -> Any:
         return target(value)
     return value
 
-
 # ---------------------------------------------------------------------------
 # LLM client abstraction
 # ---------------------------------------------------------------------------
@@ -201,7 +200,6 @@ def get_llm_client(provider: str = "ollama", config_path: Path | None = None) ->
     else:
         raise ValueError(f"Unknown LLM provider: {provider}.")
  
- 
 # ---------------------------------------------------------------------------
 # Caching — no-op stubs (disabled for the PoC)
 # ---------------------------------------------------------------------------
@@ -210,16 +208,13 @@ def cache_key(*parts: str) -> str:
     """Stub: caching disabled. Returns a placeholder key (never looked up)."""
     return ""
  
- 
 def get_cached(key: str) -> Any | None:
     """Stub: caching disabled. Always reports a miss so the model is called."""
     return None
- 
- 
+  
 def cache_response(key: str, value: Any) -> None:
     """Stub: caching disabled. Silently discards the value."""
     return None
- 
  
 # ---------------------------------------------------------------------------
 # Artifact checkpointing — no-op stubs (disabled for the PoC)
@@ -228,7 +223,6 @@ def cache_response(key: str, value: Any) -> None:
 def persist_artifact(obj: Any, name: str) -> Path:
     """Stub: checkpointing disabled. Returns a nominal path without writing."""
     return Path(name)
- 
  
 def load_artifact(name: str) -> Any:
     """Stub: checkpointing disabled. Nothing was saved, so always raises."""

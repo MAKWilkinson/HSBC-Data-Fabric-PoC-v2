@@ -6,7 +6,7 @@ Description — Takes send messages between interconnected systems and creates a
 
 Installation — Install all requirements.txt dependencies. Set up Ollama on default port. Structure Data folder as below with messages required. Run from app.py.
 
-    Data/
+    data/
     ├── Providing System 1/
     │   ├── Consuming System 1/
     │   │   ├── message_file 1/

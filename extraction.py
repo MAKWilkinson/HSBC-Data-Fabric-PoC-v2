@@ -101,6 +101,7 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
         if not name:
             raise ValueError("Field must have a non-empty 'name'")
         
+        # TODO - data type not correctly mapping, all coming out of the llm as repsonse but not converting to type
         data_type = field_data.get("type", "string").strip().lower()
         
         # Normalize common type variations
@@ -179,7 +180,6 @@ def validate_extracted_schema(schema: list[FieldSchema], sample: SampleFile) -> 
     """Check extracted fields against the actual sample; flag hallucinations."""
     raise NotImplementedError
 
-# TODO: Fix FileSchema build
 def extract_detailed_schema(client: Any, sample: SampleFile) -> FileSchema:
     """Orchestrate prompt → call → normalise → validate for one file."""
 
@@ -199,4 +199,3 @@ def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSche
     for item in samples:
         result.append(extract_detailed_schema(client, item))
     return result
-

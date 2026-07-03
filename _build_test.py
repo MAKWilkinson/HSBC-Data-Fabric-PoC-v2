@@ -45,7 +45,6 @@ def test_refactor():
     client = config.OllamaLLMClient(configuration)
     print(client.chat("Send the numbers 1 to 10 in order"))
 
-
 # Ingestion
 
 def test_model_directory():
@@ -91,11 +90,6 @@ def test_build_schema_extraction_prompt():
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     print(extraction.build_schema_extraction_prompt(sampleFile)) 
 
-def test_build_extraction_prompt():
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
-    prompt = extraction.build_schema_extraction_prompt(sampleFile)
-    print(prompt)
-
 def test_call_llm_extract_schema():
     sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     prompt = extraction.build_schema_extraction_prompt(sampleFile)
@@ -132,7 +126,6 @@ def test_extract_detailed_schema():
         print(" ")
 
 
-
 if __name__ == "__main__":
 
 
@@ -165,9 +158,6 @@ if __name__ == "__main__":
 
     _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
     test_build_schema_extraction_prompt()
-
-    _testing_message("BUILDING_EXTRACTION_PROMPT")
-    test_build_extraction_prompt()
     
     _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
     test_call_llm_extract_schema()

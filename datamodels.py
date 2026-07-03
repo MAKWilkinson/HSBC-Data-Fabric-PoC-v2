@@ -47,7 +47,7 @@ class FileSchema:
 class DomainKnowledge:
     """Merged, alias-resolved catalogue of fields across all sources."""
  
-    canonical_fields: dict[str, FieldSchema]
+    canonical_fields: dict[str, FieldSchema] # Maps the string name for the new canoncial field to the FieldSchema's
     provenance: dict[str, list[Path]]  # canonical field -> source files
     relationships: list[tuple[str, str]]  # cross-file shared keys
 
