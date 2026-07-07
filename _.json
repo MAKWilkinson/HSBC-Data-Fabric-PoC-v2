@@ -1,0 +1,157 @@
+
+
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+    "providing_system": "investments",
+    "consuming_system": "marketing",
+    "message_file_name": "eligible_customers_for_new_product.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "metadata.source_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that originated this data, in this case 'Investments'"
+    },
+    {
+      "name": "metadata.target_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that is the target of this data, in this case 'Marketing'"
+    },
+    {
+      "name": "metadata.product_name",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The name of the investment product being considered for these customers"
+    },
+    {
+      "name": "metadata.generated_date",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The date and time this data was generated"
+    },
+    {
+      "name": "metadata.eligibility_criteria",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The criteria used to determine which customers are eligible for this product"
+    },
+    {
+      "name": "eligible_customers",
+      "data_type": "string",
+      "nullable": true,
+      "description": "An array of customer objects, each representing a customer eligible for this product",
+      "children": [
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "A unique identifier for the customer"
+        },
+        {
+          "name": "customer_name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The name of the customer"
+        },
+        {
+          "name": "email",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The email address of the customer"
+        },
+        {
+          "name": "account_balance",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The current balance in the customer's account"
+        },
+        {
+          "name": "customer_tenure_months",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The number of months the customer has been with the bank"
+        },
+        {
+          "name": "investment_experience_level",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The level of investment experience the customer has",
+          "enum_values": [
+            "Beginner",
+            "Intermediate",
+            "Advanced"
+          ]
+        },
+        {
+          "name": "risk_profile",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The risk profile of the customer, indicating their willingness to take on risk",
+          "enum_values": [
+            "Conservative",
+            "Moderate",
+            "Aggressive"
+          ]
+        },
+        {
+          "name": "last_investment_activity",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The date and time of the customer's last investment activity"
+        },
+        {
+          "name": "recommended_product_allocation",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The recommended product allocation for the customer, based on their risk profile and investment experience",
+          "enum_values": [
+            "Conservative Growth",
+            "Balanced Growth",
+            "High Growth"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "summary",
+      "data_type": "string",
+      "nullable": true,
+      "description": "A summary of the eligible customers and their characteristics",
+      "children": [
+        {
+          "name": "total_eligible_customers",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The total number of eligible customers"
+        },
+        {
+          "name": "total_eligible_assets",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The total value of the eligible assets"
+        },
+        {
+          "name": "average_account_balance",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The average account balance of the eligible customers"
+        },
+        {
+          "name": "campaign_priority",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The priority level for this campaign, indicating its importance and urgency",
+          "enum_values": [
+            "Low",
+            "Medium",
+            "High"
+          ]
+        }
+      ]
+    }
+  ]
+}

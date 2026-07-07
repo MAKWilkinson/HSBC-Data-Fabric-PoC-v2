@@ -10,7 +10,7 @@ from pathlib import Path
 from importlib import resources
 from string import Template
 from typing import Literal, Any
-from datamodels import SampleFile, FieldSchema, FileSchema, DomainKnowledge, Ontology, SemanticSchema
+from datamodels import SampleFile, FieldSchema, FileSchema
 import json
 import logging
 import time
@@ -102,7 +102,7 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
             raise ValueError("Field must have a non-empty 'name'")
         
         # TODO - data type not correctly mapping, all coming out of the llm as repsonse but not converting to type
-        data_type = field_data.get("type", "string").strip().lower()
+        data_type = (field_data.get("data_type") or field_data.get("type", "string")).strip().lower()
         
         # Normalize common type variations
         type_map = {
@@ -127,7 +127,7 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
         if description:
             description = str(description).strip()
         
-        fmt = field_data.get("format")
+        fmt = field_data.get("fmt") or field_data.get("format")
         if fmt:
             fmt = str(fmt).strip().lower()
         
@@ -199,3 +199,6 @@ def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSche
     for item in samples:
         result.append(extract_detailed_schema(client, item))
     return result
+
+
+

@@ -2,7 +2,7 @@
 
 Project name — Data Fabric - Initial Creation Tool for PoC
 
-Description — Takes send messages between interconnected systems and creates an initial ontology of the business and a semantic schema. Expect at best 70% acccuracy in initial ontology and semantic schema but depends on complexity and clarity in send messages. If PoC is funded then this will be used to create an initial ontology and semantic layer and the tool deprecated for an [input > suggest ontology > confidence score > review > approve > commit > feedback loop] tool to maintain and develop the ontology and semantic schema and start modelling lineage.
+Description — Takes input and output send messages between interconnected systems and creates and maps the input data models to the output data models with any transformations possible. Used to help assist with determining  lineage through systems.
 
 Installation — Install all requirements.txt dependencies. Set up Ollama on default port. Structure Data folder as below with messages required. Run from app.py.
 

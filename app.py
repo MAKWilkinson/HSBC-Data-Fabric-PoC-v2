@@ -16,9 +16,7 @@ orchestrator pipeline.py
 0 - config.py
 1 - ingestion.py
 2 - extraction.py
-3 - domain.py
-4 - ontology.py
-5 - semantic.py
+3 - map.py
 
 """
 

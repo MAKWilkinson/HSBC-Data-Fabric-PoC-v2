@@ -10,10 +10,13 @@ import extraction
 
 from pathlib import Path
 from typing import Literal, Any
-from datamodels import SampleFile, FieldSchema, FileSchema, DomainKnowledge, Ontology, SemanticSchema 
+from datamodels import SampleFile, FieldSchema, FileSchema
 
-def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> SemanticSchema:
-    """Chain goals 1→5: ingest → extract → domain KB → ontology → semantic schema."""
+# TODO: Update return type when defined new data models
+def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> Any:
+    """
+    
+    """
 
     # configs
     configuration = config.OllamaLLMClient.load_config()
@@ -29,13 +32,8 @@ def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> SemanticSchema:
     # extraction
     list_of_FileSchemas = extraction.extract_all_schemas(client, directory_as_list_of_sampleFiles)
 
-    # domain knowledge base
+    # mapping
 
-
-    # ontology
-
-
-    # semantic schema
-
+    
 
     raise NotImplementedError

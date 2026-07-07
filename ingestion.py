@@ -6,7 +6,7 @@
 import os
 from pathlib import Path
 from typing import Literal
-from datamodels import SampleFile, FieldSchema, FileSchema, DomainKnowledge, Ontology, SemanticSchema
+from datamodels import SampleFile, FieldSchema, FileSchema
 
 
 """

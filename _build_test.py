@@ -14,7 +14,7 @@ import extraction
 
 from pathlib import Path
 from typing import Literal, Any
-from datamodels import SampleFile, FieldSchema, FileSchema, DomainKnowledge, Ontology, SemanticSchema 
+from datamodels import SampleFile, FieldSchema, FileSchema
 
 
 def _testing_message(function_name):
@@ -118,53 +118,63 @@ def test_extract_detailed_schema():
 
     # Test
     extracted = extraction.extract_detailed_schema(client, sampleFile)
-    
+
     print(extracted.source)
     print(" ")
     for item in extracted.fields:
         print(item)
         print(" ")
 
+    _testing_message("TESTING_FILESCHEMA_TO_JSON_FUNCTIONALITY")
+    print(extracted.file_schema_as_json())
+
+    _testing_message("TESTING_FLATTEN_FIELDS")
+    print(extracted.flatten_fields_as_string())
+
+
 
 if __name__ == "__main__":
 
 
-        # CONFIG
+    #     # CONFIG
 
-    _testing_message("TESTING_LLM_CONFIG")
-    test_llm_config()
+    # _testing_message("TESTING_LLM_CONFIG")
+    # test_llm_config()
     
-    _testing_message("TESTING_LLM_CLIENT")
-    test_llm_client()
+    # _testing_message("TESTING_LLM_CLIENT")
+    # test_llm_client()
 
-    _testing_message("TESTING REFACTORED CONFIG")
-    test_refactor()
+    # _testing_message("TESTING REFACTORED CONFIG")
+    # test_refactor()
 
-        # INGESTION
+    #     # INGESTION
 
-    _testing_message("MODEL_DIRECTORY")
-    test_model_directory()
+    # _testing_message("MODEL_DIRECTORY")
+    # test_model_directory()
 
-    _testing_message("PARSE_DIRECTORY")
-    test_parse_directory()
+    # _testing_message("PARSE_DIRECTORY")
+    # test_parse_directory()
 
-    _testing_message("INFER_FILE_TYPE")
-    test_infer_file_format()
+    # _testing_message("INFER_FILE_TYPE")
+    # test_infer_file_format()
 
-    _testing_message("LOADING_SAMPLE_FILE")
-    test_load_sample_file()
+    # _testing_message("LOADING_SAMPLE_FILE")
+    # test_load_sample_file()
 
-        # EXTRACTION
+    #     # EXTRACTION
 
-    _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
-    test_build_schema_extraction_prompt()
+    # _testing_message("BUILDING_SCHEMA_EXTRACTION_PROMPT")
+    # test_build_schema_extraction_prompt()
     
-    _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
-    test_call_llm_extract_schema()
+    # _testing_message("CALLING_LLM_EXTRACT_SCHEMA")
+    # test_call_llm_extract_schema()
 
-    _testing_message("NORMALISING_SCHEMAS")
-    test_normalise_schema()
+    # _testing_message("NORMALISING_SCHEMAS")
+    # test_normalise_schema()
     
     _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
     test_extract_detailed_schema()
+
+
+
 

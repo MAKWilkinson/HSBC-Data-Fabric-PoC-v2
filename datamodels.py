@@ -6,10 +6,10 @@
 from __future__ import annotations # delays evaluation to allow forward evaluation of FieldSchema
 
 import os
+import json
 from pathlib import Path
 from typing import Literal, Any
 from dataclasses import dataclass, field
-
 
 
 @dataclass
@@ -38,30 +38,82 @@ class FieldSchema:
 
 @dataclass
 class FileSchema:
-    """Full extracted schema for one SampleFile, with provenance."""
- 
+    """
+    Full extracted schema for one SampleFile, with provenance.
+    """
+
     source: SampleFile
     fields: list[FieldSchema]
 
-@dataclass
-class DomainKnowledge:
-    """Merged, alias-resolved catalogue of fields across all sources."""
- 
-    canonical_fields: dict[str, FieldSchema] # Maps the string name for the new canoncial field to the FieldSchema's
-    provenance: dict[str, list[Path]]  # canonical field -> source files
-    relationships: list[tuple[str, str]]  # cross-file shared keys
+    def flatten_fields_as_string(self) -> str:
+        """Flatten this file's (possibly nested) fields into one line per field,
+        suitable for dropping straight into an LLM prompt.
 
-@dataclass
-class Ontology:
-    """Business concepts and their relationships."""
- 
-    entities: dict[str, list[str]]  # entity -> attribute names
-    relationships: list[tuple[str, str, str]]  # (subject, predicate, object)
-    field_to_concept: dict[str, str]  # canonical field -> "Entity.attribute"
+        Object children are joined with '.'; array children get '[]' appended
+        to the array field's own path before the child name, e.g.:
 
-@dataclass
-class SemanticSchema:
-    """Canonical cross-source schema derived from the ontology."""
- 
-    definition: dict[str, Any]
-    source_mappings: dict[Path, dict[str, str]]  # source field -> canonical
+            address.postcode: string
+            previous_addresses[].postcode: string nullable
+            previous_addresses[].history[].year: integer
+        """
+
+        lines: list[str] = []
+
+        def _walk(field: FieldSchema, prefix: str | None) -> None:
+            path = field.name if prefix is None else f"{prefix}.{field.name}"
+
+            details = [field.data_type]
+            if field.nullable:
+                details.append("nullable")
+            if field.fmt:
+                details.append(f"format={field.fmt}")
+            if field.enum_values:
+                details.append(f"enum={field.enum_values}")
+            line = f"{path}: {' '.join(details)}"
+            if field.description:
+                line += f" — {field.description}"
+            lines.append(line)
+
+            if field.children:
+                child_prefix = f"{path}[]" if field.data_type == "array" else path
+                for child in field.children:
+                    _walk(child, child_prefix)
+
+        for top_level_field in self.fields:
+            _walk(top_level_field, None)
+
+        return "\n".join(lines)
+    
+    def file_schema_as_json(self):
+        """Convert FileSchema to nested JSON format."""
+
+        def field_to_dict(field: FieldSchema) -> dict:
+            data = {
+                "name": field.name,
+                "data_type": field.data_type,
+                "nullable": field.nullable,
+            }
+            if field.description is not None:
+                data["description"] = field.description
+            if field.fmt is not None:
+                data["fmt"] = field.fmt
+            if field.enum_values is not None:
+                data["enum_values"] = field.enum_values
+            if field.children:
+                data["children"] = [field_to_dict(child) for child in field.children]
+            return data
+        
+        schema_dict = {
+            "source": {
+                "path": str(self.source.path),
+                "providing_system": self.source.providing_system,
+                "consuming_system": self.source.consuming_system,
+                "message_file_name": self.source.message_file_name,
+                "file_format": self.source.file_format,
+            },
+            "fields": [field_to_dict(f) for f in self.fields]
+        }
+        return json.dumps(schema_dict, indent=2)
+
+
+
