@@ -8,6 +8,9 @@ from pathlib import Path
 from typing import Literal
 from datamodels import SampleFile, FieldSchema, FileSchema
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 """
 
@@ -29,6 +32,7 @@ Future considerations:
     this will limit use of tokens through base64 encoding doc and using API
 
 """
+
 
 def model_directory():
     """
@@ -79,7 +83,8 @@ def model_directory():
                     continue
 
     return directory
- 
+
+
 def parse_directory(directory: dict[dict, list]) -> list[tuple[str, str, str]]:
     """
     Flatten the provider → consumer → file_path structure into 
@@ -95,10 +100,12 @@ def parse_directory(directory: dict[dict, list]) -> list[tuple[str, str, str]]:
             for file_path in file_paths:
                 result.append((provider, consumer, file_path))
     return result
- 
+
+
 def infer_file_format(path: str) -> Literal["json", "csv", "xml", "avro",]:
     """Detect a file's serialization format from extension/content."""
     return Path(path).suffix.lstrip(".")
+
  
 def load_sample_file(parsed_file) -> SampleFile:
     """

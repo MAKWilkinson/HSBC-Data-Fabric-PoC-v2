@@ -12,6 +12,9 @@ from typing import Literal, Any
 from dataclasses import dataclass, field
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 @dataclass
 class SampleFile:
     """A single source data sample plus the context it was found in."""

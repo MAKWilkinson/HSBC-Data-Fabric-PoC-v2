@@ -8,11 +8,11 @@ import xml.etree.ElementTree as ET
 from typing import Any, Dict, List, Tuple
 import hashlib
 import base64
+from logging_config import setup_logging
 
 
 """
-orchestrator pipeline.py 
-
+workflow 
 0 - config.py
 1 - ingestion.py
 2 - extraction.py
@@ -21,7 +21,7 @@ orchestrator pipeline.py
 """
 
 if __name__ == "__main__":
-    pass
+    setup_logging()
     
 
 

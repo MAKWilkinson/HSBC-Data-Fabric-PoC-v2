@@ -12,9 +12,10 @@ from string import Template
 from typing import Literal, Any
 from datamodels import SampleFile, FieldSchema, FileSchema
 import json
-import logging
 import time
 
+
+import logging
 logger = logging.getLogger(__name__)
 
 
@@ -47,6 +48,7 @@ def _extract_json(text: str) -> dict[str, Any]:
         raise ValueError(f"expected a JSON object, got {type(parsed).__name__}")
     return parsed
 
+
 def build_schema_extraction_prompt(sample: SampleFile) -> str:
     """Assemble the extraction prompt, injecting department/interaction context."""
     prompt_path = Path(__file__).parent / "prompts" / "field_extraction.md"
@@ -60,10 +62,11 @@ def build_schema_extraction_prompt(sample: SampleFile) -> str:
         raw_content=sample.raw_content,
     )
 
+
 def call_llm_extract_schema(
     client: Any, 
     prompt: str = "", 
-    max_attempts: int = 3, 
+    max_attempts: int = 1, 
     backoff_base_seconds: float = 2.0,
 ) -> dict[str, Any]:
 
@@ -89,6 +92,7 @@ def call_llm_extract_schema(
                 time.sleep(backoff_base_seconds * 2 ** (attempt - 1))
     assert last_error is not None
     raise last_error
+
 
 def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
     """Map raw LLM output into the canonical ``FieldSchema`` representation."""
@@ -175,10 +179,12 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
         f"dict of field definitions, got: {type(raw).__name__}"
     )
 
+
 # TODO: skipped in pipeline - will implement following completion of minimum viable product
 def validate_extracted_schema(schema: list[FieldSchema], sample: SampleFile) -> bool:
     """Check extracted fields against the actual sample; flag hallucinations."""
     raise NotImplementedError
+
 
 def extract_detailed_schema(client: Any, sample: SampleFile) -> FileSchema:
     """Orchestrate prompt → call → normalise → validate for one file."""
@@ -192,6 +198,7 @@ def extract_detailed_schema(client: Any, sample: SampleFile) -> FileSchema:
     
     return file
 
+
 def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSchema]:
     """Loop driver over goal 1; returns a schema per sample file."""
 
@@ -199,6 +206,4 @@ def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSche
     for item in samples:
         result.append(extract_detailed_schema(client, item))
     return result
-
-
 

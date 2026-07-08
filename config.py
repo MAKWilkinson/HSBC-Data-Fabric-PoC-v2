@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-import logging
+
 import os
 import json
 from pathlib import Path
@@ -14,6 +14,7 @@ from typing import Any, Protocol, runtime_checkable
 
 import ollama
 
+import logging
 logger = logging.getLogger(__name__)
 
 
@@ -155,11 +156,14 @@ class OllamaLLMClient(LLMClient):
         )
         return response.message.content
 
+
 class AnthropicLLMClient(LLMClient):
     ...
 
+
 class HSBCLLMClient(LLMClient):
     ...
+
 
 def get_llm_client(provider: str = "ollama", config_path: Path | None = None) -> LLMClient:
     """Construct and return a configured LLM client.
@@ -204,25 +208,31 @@ def get_llm_client(provider: str = "ollama", config_path: Path | None = None) ->
 # Caching — no-op stubs (disabled for the PoC)
 # ---------------------------------------------------------------------------
 
+
 def cache_key(*parts: str) -> str:
     """Stub: caching disabled. Returns a placeholder key (never looked up)."""
     return ""
- 
+
+
 def get_cached(key: str) -> Any | None:
     """Stub: caching disabled. Always reports a miss so the model is called."""
     return None
-  
+
+
 def cache_response(key: str, value: Any) -> None:
     """Stub: caching disabled. Silently discards the value."""
     return None
  
+
 # ---------------------------------------------------------------------------
 # Artifact checkpointing — no-op stubs (disabled for the PoC)
 # ---------------------------------------------------------------------------
 
+
 def persist_artifact(obj: Any, name: str) -> Path:
     """Stub: checkpointing disabled. Returns a nominal path without writing."""
     return Path(name)
+ 
  
 def load_artifact(name: str) -> Any:
     """Stub: checkpointing disabled. Nothing was saved, so always raises."""

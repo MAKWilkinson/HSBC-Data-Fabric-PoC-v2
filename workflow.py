@@ -13,7 +13,7 @@ from typing import Literal, Any
 from datamodels import SampleFile, FieldSchema, FileSchema
 
 # TODO: Update return type when defined new data models
-def run_pipeline(root_dir: Path, hierarchy: dict[str, Any]) -> Any:
+def run_workflow(root_dir: Path, hierarchy: dict[str, Any]) -> Any:
     """
     
     """

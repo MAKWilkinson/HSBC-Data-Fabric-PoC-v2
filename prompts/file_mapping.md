@@ -23,13 +23,13 @@ will NOT be related, and you must be willing to say so.
 ## Inbound schema (fields available as sources)
 
 ```json
-$inbound_fields_json
+$inbound_fields
 ```
 
 ## Outbound schema (fields you must explain the origin of)
 
 ```json
-$outbound_fields_json
+$outbound_fields
 ```
 
 Field names above use dot-path notation for nesting (e.g. `customer.address.postcode`
@@ -119,7 +119,7 @@ matching this shape exactly:
     "internal_audit_flag"
   ]
 }
-```
+``'
 
 `related` should be `true` only if `relatedness_confidence` is 0.3 or above; otherwise
 `false`. When `related` is `false`, `mappings` and `unmapped_inbound_fields` must both
