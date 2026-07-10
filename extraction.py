@@ -13,6 +13,7 @@ from typing import Literal, Any
 from datamodels import SampleFile, FieldSchema, FileSchema
 import json
 import time
+import config
 
 
 import logging
@@ -26,27 +27,6 @@ Convert unstructured LLM output of schema extraction into FieldSchemas
 prompt → Call → Normalise to FieldSchema  → Validate
 
 """
-
-def _extract_json(text: str) -> dict[str, Any]:
-    """Parse a JSON object from raw LLM text, tolerating code fences/prose."""
-    cleaned = text.strip()
-    if cleaned.startswith("```"):
-        # Drop the opening fence (``` or ```json) and the closing fence.
-        cleaned = cleaned.split("```", 2)[1]
-        if cleaned.startswith("json"):
-            cleaned = cleaned[len("json") :]
-        cleaned = cleaned.strip()
-    try:
-        parsed = json.loads(cleaned)
-    except json.JSONDecodeError:
-        # Fall back to the outermost { ... } span if the model added prose.
-        start, end = cleaned.find("{"), cleaned.rfind("}")
-        if start == -1 or end <= start:
-            raise
-        parsed = json.loads(cleaned[start : end + 1])
-    if not isinstance(parsed, dict):
-        raise ValueError(f"expected a JSON object, got {type(parsed).__name__}")
-    return parsed
 
 
 def build_schema_extraction_prompt(sample: SampleFile) -> str:
@@ -78,7 +58,7 @@ def call_llm_extract_schema(
             # Assumes the injected client exposes `complete(prompt) -> str`.
             # Once the SDK is chosen, change only this line (and the import).
             response: str = client.chat(prompt)
-            return _extract_json(response)
+            return config.extract_json(response)
         
         except Exception as error:  # noqa: BLE001 - SDK undecided; retry broadly
             last_error = error
@@ -180,7 +160,7 @@ def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
     )
 
 
-# TODO: skipped in pipeline - will implement following completion of minimum viable product
+# TODO: skipped in workflow - will implement following completion of minimum viable product
 def validate_extracted_schema(schema: list[FieldSchema], sample: SampleFile) -> bool:
     """Check extracted fields against the actual sample; flag hallucinations."""
     raise NotImplementedError
@@ -206,4 +186,5 @@ def extract_all_schemas(client: Any, samples: list[SampleFile]) -> list[FileSche
     for item in samples:
         result.append(extract_detailed_schema(client, item))
     return result
+
 

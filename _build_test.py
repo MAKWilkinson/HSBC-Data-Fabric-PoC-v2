@@ -152,7 +152,8 @@ def test_extract_detailed_schema():
     _testing_message("TESTING_FLATTEN_FIELDS")
     print(extracted_to_file_schema.flatten_fields_as_string())
 
-    # Map
+
+# Map
 
 
 def testmapf2f():
@@ -169,8 +170,10 @@ def testmapf2f():
     sf3_to_file_schema = extraction.extract_detailed_schema(client, sf3)
 
     list_of_files = [sf1_to_file_schema, sf2_to_file_schema, sf3_to_file_schema,]
-
-    print(map.mapf2f(client, list_of_files))
+    
+    for item in map.mapf2f(client, list_of_files):
+        print(item)
+        print("\n")
 
 
 

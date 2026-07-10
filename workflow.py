@@ -33,7 +33,6 @@ def run_workflow(root_dir: Path, hierarchy: dict[str, Any]) -> Any:
     list_of_FileSchemas = extraction.extract_all_schemas(client, directory_as_list_of_sampleFiles)
 
     # mapping
-
-    
+        
 
     raise NotImplementedError

@@ -22,6 +22,28 @@ logger = logging.getLogger(__name__)
 # Shared utilities
 # ---------------------------------------------------------------------------
 
+def extract_json(text: str) -> dict[str, Any]:
+    """Parse a JSON object from raw LLM text, tolerating code fences/prose."""
+    cleaned = text.strip()
+    if cleaned.startswith("```"):
+        # Drop the opening fence (``` or ```json) and the closing fence.
+        cleaned = cleaned.split("```", 2)[1]
+        if cleaned.startswith("json"):
+            cleaned = cleaned[len("json") :]
+        cleaned = cleaned.strip()
+    try:
+        parsed = json.loads(cleaned)
+    except json.JSONDecodeError:
+        # Fall back to the outermost { ... } span if the model added prose.
+        start, end = cleaned.find("{"), cleaned.rfind("}")
+        if start == -1 or end <= start:
+            raise
+        parsed = json.loads(cleaned[start : end + 1])
+    if not isinstance(parsed, dict):
+        raise ValueError(f"expected a JSON object, got {type(parsed).__name__}")
+    return parsed
+
+
 def _coerce(value: str, target: type) -> Any:
     """Coerce an env-var string into the type of its default value.
     
@@ -75,6 +97,7 @@ class OllamaLLMClient(LLMClient):
         "model": "llama3:8b",
         "temperature": 0.0,  # deterministic output for structured/JSON tasks
         "role": "system",  # Default role for chat messages
+        "format": "json", # Forces chat responses to conform to json
 
         # Pipeline threshold for schema validation
         "confidence_threshold": 0.7,  
@@ -90,6 +113,7 @@ class OllamaLLMClient(LLMClient):
         "OLLAMA_MODEL": "model",
         "OLLAMA_TEMPERATURE": "temperature",
         "ROLE": "role",
+        "FORMAT": "format",
         
         # Pipeline threshold for schema validation
         "CONFIDENCE_THRESHOLD": "confidence_threshold",
@@ -153,6 +177,7 @@ class OllamaLLMClient(LLMClient):
             model=self._config["model"],
             messages=[{"role": self._config["role"], "content": prompt}],
             options={"temperature": self._config["temperature"]},
+            format=self._config["format"]
         )
         return response.message.content
 

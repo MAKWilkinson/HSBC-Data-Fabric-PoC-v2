@@ -17,8 +17,10 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class SampleFile:
-    """A single source data sample plus the context it was found in."""
-    # Ingestion produces these files
+    """
+    A single source data sample plus the context it was found in.
+    Output of ingestion process - turns all files in Data folder into SampleFiles
+    """
     
     path: Path
     providing_system: str # system providing file
@@ -29,7 +31,9 @@ class SampleFile:
 
 @dataclass
 class FieldSchema:
-    """One field within an extracted schema."""
+    """
+    One field within an extracted schema.
+    """
  
     name: str
     data_type: str
@@ -117,6 +121,4 @@ class FileSchema:
             "fields": [field_to_dict(f) for f in self.fields]
         }
         return json.dumps(schema_dict, indent=2)
-
-
 

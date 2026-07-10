@@ -81,13 +81,13 @@ def mapa2a(client: Any, input_file: FileSchema, output_file: FileSchema) -> dict
 def mapf2f(client: Any, files: list[FileSchema]) -> list[dict[str, Any]]:
     # POC: naive N^2 — every file treated as a candidate outbound file mapped
     # against every other file treated as a candidate inbound source.
-    # Chunking/direction-filtering noted above is left for the optimisation pass.
+    # Only map files where the inbound consuming system matches the outbound
+    # providing system.
     results: list[dict[str, Any]] = []
     for outbound in files:
         for inbound in files:
-            if inbound is outbound:
-                continue
-            results.append(mapa2a(client, inbound, outbound))
-
+            if inbound.source.consuming_system == outbound.source.providing_system:
+                results.append(mapa2a(client, inbound, outbound))
     return results
+
 
