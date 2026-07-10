@@ -1,6 +1,7 @@
-You are examining two files from a system to determine whether they are related by
-data lineage — i.e. whether the outbound file's fields plausibly originate from the
-inbound file's fields — and if so, how each outbound field traces back.
+You are examining two files from system A to System B (Inbound file) and from System B to 
+System C (Outbound file) to determine whether they are related by data lineage — i.e. 
+whether the outbound file's fields plausibly originate from the inbound file's fields — and 
+if so, how each outbound field traces back.
 
 These files may turn out to be unrelated. Do not assume a relationship exists just
 because you have been given a pair to compare; most pairs in an all-pairs comparison
@@ -45,14 +46,14 @@ consuming systems, similar message types, and whether the outbound file's shape 
 reasonably be explained by transforming the inbound file's shape.
 
 Give a `relatedness_confidence` score between 0 and 1:
-- **High (0.7–1.0)**: multiple fields clearly correspond; the systems/message types
+- **High (0.7–1.0)**: multiple fields clearly correspond; the system message types
   make sense as a pipeline step.
 - **Medium (0.3–0.7)**: some plausible overlap, but weak or partial — e.g. only one or
   two fields could correspond, or the systems don't obviously connect.
 - **Low (0–0.3)**: little to no field overlap, or the files serve clearly unrelated
   purposes (e.g. different domains entirely, no shared concepts).
 
-If `relatedness_confidence` is below 0.3, set `mappings` to an empty list and skip
+If `relatedness_confidence` is below 0.5, set `mappings` to an empty list and skip
 Step 2 entirely — do not force speculative mappings onto unrelated files.
 
 ### Step 2 — Map fields (only if related)
@@ -63,15 +64,12 @@ inbound fields that were **not** used by any outbound field.
 
 Classify each outbound field's transformation as exactly one of:
 
-- `passthrough` — same name, same shape, copied as-is from one inbound field
-- `rename` — one inbound field, renamed/reformatted but same underlying value
-- `split` — one inbound field was divided into multiple outbound fields (this outbound
-  field is one of the pieces)
-- `merge` — two or more inbound fields were combined into this one outbound field
-- `derive` — computed/transformed from one or more inbound fields (not a simple
-  rename or merge — e.g. a calculation, lookup, or business rule)
-- `new` — this field has no inbound source; it was introduced within the system
-  (e.g. a generated ID, timestamp, or system-added metadata)
+- `EXACT` — exact field copy with the same name and meaning from inbound to outbound.
+- `RENAMED` — same source meaning as an inbound field, but the outbound field name differs.
+- `SEMANTIC` — outbound field captures the same concept or value as an inbound field without an exact name match.
+- `MERGE` - outbound field is a combination of two or more inbound fields
+- `TRANSFORMED` — outbound field is derived from inbound data by computation, formatting, or structural change.
+- `UNMAPPED` — outbound field has no likely source in the inbound schema.
 
 ## Rules
 
@@ -79,15 +77,17 @@ Classify each outbound field's transformation as exactly one of:
    guess, or hallucinate field names.
 2. Base `relatedness_confidence` strictly on evidence in the schemas and context
    given — not on an assumption that every pair you're shown must be related.
-3. If you are not confident a field mapping exists, prefer a lower `confidence` score
+3. If you are not confident a field mapping exists, prefer an `UNMAPPED` relationship
    over omitting the field or forcing an incorrect source.
-4. `new` fields must have an empty `sources` list.
-5. `passthrough` and `rename` must have exactly one source field.
-6. `merge` must have two or more source fields; `split` outbound fields typically
-   share the same single source field as their sibling split fields.
+4. `UNMAPPED` fields must have an empty `sources` list.
+5. `EXACT` and `RENAMED` must have exactly one source field.
+6. `MERGE` must have two or more source fields.
 7. Base your reasoning only on field names, types, formats, descriptions, and enum
    values given — not on assumptions about business context not stated above.
-8. Keep `reasoning` to one short sentence per field.
+8. Do not assume relatedness because providing_system / consuming_system are related
+   as all data will have the same system between these systems and determining links
+   between these files is the primary purpose of the tool. 
+9. Keep `reasoning` to one short sentence per field.
 
 ## Output format
 
@@ -119,7 +119,7 @@ matching this shape exactly:
     "internal_audit_flag"
   ]
 }
-``'
+```
 
 `related` should be `true` only if `relatedness_confidence` is 0.3 or above; otherwise
 `false`. When `related` is `false`, `mappings` and `unmapped_inbound_fields` must both

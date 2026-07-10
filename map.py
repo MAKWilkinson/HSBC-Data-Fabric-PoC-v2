@@ -32,7 +32,7 @@ Chunking plan - block out LLM calls to include all system send messages and all 
 
 Caching - save LLM calls to avoid recalling
 
-FOR POC - Call API in NSquared
+FOR POC - Call API in O(n^2)
 Then optimisation to include separating, chunking & caching not implemented
 """
 
@@ -47,20 +47,25 @@ def _build_mapping_prompt(inbound: FileSchema, outbound: FileSchema) -> str:
     template_text = prompt_path.read_text(encoding="utf-8")
 
     return Template(template_text).substitute(
+        
+        # inbound is the file sent from System A > System B
         inbound_providing_system=inbound.source.providing_system,
         inbound_consuming_system=inbound.source.consuming_system or "none",
         inbound_message_file_name=inbound.source.message_file_name,
         inbound_file_format=inbound.source.file_format,
+        
+        # outbound is the file sent from System B > System C
         outbound_providing_system=outbound.source.providing_system,
         outbound_consuming_system=outbound.source.consuming_system or "none",
         outbound_message_file_name=outbound.source.message_file_name,
         outbound_file_format=outbound.source.file_format,
+
         inbound_fields=inbound.flatten_fields_as_string(),
         outbound_fields=outbound.flatten_fields_as_string(),
     )
 
 
-def mapa2a(client: Any, input_file: FileSchema, output_file: FileSchema) -> dict[str, Any]:
+def map_1f_a2a(client: Any, input_file: FileSchema, output_file: FileSchema) -> dict[str, Any]:
     """Map one outbound FileSchema's fields back to one inbound FileSchema's fields.
 
     Single LLM call per (inbound, outbound) pair. Reuses extraction's
@@ -78,7 +83,7 @@ def mapa2a(client: Any, input_file: FileSchema, output_file: FileSchema) -> dict
     }
 
 
-def mapf2f(client: Any, files: list[FileSchema]) -> list[dict[str, Any]]:
+def map_f2f(client: Any, files: list[FileSchema]) -> list[dict[str, Any]]:
     # POC: naive N^2 — every file treated as a candidate outbound file mapped
     # against every other file treated as a candidate inbound source.
     # Only map files where the inbound consuming system matches the outbound
@@ -87,7 +92,9 @@ def mapf2f(client: Any, files: list[FileSchema]) -> list[dict[str, Any]]:
     for outbound in files:
         for inbound in files:
             if inbound.source.consuming_system == outbound.source.providing_system:
-                results.append(mapa2a(client, inbound, outbound))
+                results.append(map_1f_a2a(client, inbound, outbound))
+    
+    
     return results
 
 

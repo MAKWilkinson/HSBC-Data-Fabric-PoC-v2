@@ -8,6 +8,7 @@
 # git commit -m "title change" -m "description of change"
 # git push
 
+
 import config
 import ingestion
 import extraction
@@ -162,18 +163,21 @@ def testmapf2f():
     client = config.OllamaLLMClient(configuration)
 
     sf1 = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
-    sf2 = ingestion.load_sample_file(["marketing", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json"])
-    sf3 = ingestion.load_sample_file(["marketing", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/offer_scripts.json"])
+    sf2 = ingestion.load_sample_file(["marketing", "credit", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json"])
+    sf3 = ingestion.load_sample_file(["marketing", "customer_services", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/offer_scripts.json"])
     
     sf1_to_file_schema = extraction.extract_detailed_schema(client, sf1)
     sf2_to_file_schema = extraction.extract_detailed_schema(client, sf2)
     sf3_to_file_schema = extraction.extract_detailed_schema(client, sf3)
 
     list_of_files = [sf1_to_file_schema, sf2_to_file_schema, sf3_to_file_schema,]
+
     
     for item in map.mapf2f(client, list_of_files):
         print(item)
         print("\n")
+
+
 
 
 
