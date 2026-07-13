@@ -103,14 +103,14 @@ matching this shape exactly:
     {
       "outbound_field": "customer.full_name",
       "sources": ["customer.first_name", "customer.last_name"],
-      "transformation": "merge",
+      "transformation": "MERGE",
       "confidence": 0.9,
       "reasoning": "Concatenation of first and last name fields."
     },
     {
       "outbound_field": "record_id",
       "sources": [],
-      "transformation": "new",
+      "transformation": "UNMAPPED",
       "confidence": 0.95,
       "reasoning": "No equivalent field exists inbound; likely system-generated."
     }

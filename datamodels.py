@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 import logging
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SampleFile:
     """
@@ -28,6 +29,7 @@ class SampleFile:
     message_file_name: str  # e.g. "loan_application_data"
     file_format: Literal["json", "csv", "xml", "avro", "txt"] # Need to cap and control this 
     raw_content: Any
+
 
 @dataclass
 class FieldSchema:
@@ -43,6 +45,7 @@ class FieldSchema:
     enum_values: list[str] | None = None
     children: list[FieldSchema] = field(default_factory=list)  # nested objects
 
+
 @dataclass
 class FileSchema:
     """
@@ -51,6 +54,7 @@ class FileSchema:
 
     source: SampleFile
     fields: list[FieldSchema]
+
 
     def flatten_fields_as_string(self) -> str:
         """Flatten this file's (possibly nested) fields into one line per field,
@@ -90,7 +94,8 @@ class FileSchema:
             _walk(top_level_field, None)
 
         return "\n".join(lines)
-    
+
+
     def file_schema_as_json(self):
         """Convert FileSchema to nested JSON format."""
 
@@ -121,4 +126,53 @@ class FileSchema:
             "fields": [field_to_dict(f) for f in self.fields]
         }
         return json.dumps(schema_dict, indent=2)
+
+
+    def _schema_path(self, base_dir: Path | None = None) -> Path:
+        """Compute where this schema would be stored, without writing anything."""
+        if base_dir is None:
+            base_dir = Path(__file__).resolve().parent / "schemas"
+        target_dir = base_dir / self.source.providing_system / (self.source.consuming_system or "none")
+        file_name = Path(self.source.message_file_name).stem + ".schema.json"
+        return target_dir / file_name
+
+
+    def schema_exists(self, base_dir: Path | None = None) -> bool:
+        """True if a schema for this file has already been stored."""
+        return self._schema_path(base_dir).is_file()
+
+
+    def store_file_schema(self, base_dir: Path | None = None) -> Path:
+        target_path = self._schema_path(base_dir)
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_text(self.file_schema_as_json(), encoding="utf-8")
+        logger.info("Stored schema for %s at %s", self.source.path, target_path)
+        return target_path
+
+
+@dataclass
+class FieldMapping:
+    """
+    2 Fields mapped within a FileMapping
+    """
+    outbound_field: str # outbound field exiting system
+    sources: list[str] #list of FieldSchema's that are used to derive the outbound field
+    transformation: Literal["EXACT", "RENAMED", "SEMANTIC", "MERGE", "TRANSFORMED", "UNMAPPED"]
+    confidence: float # score 0-1 to determine how related
+    reasoning: str
+
+
+@dataclass
+class FileMapping:
+    """
+    Mapping of 2 files 
+    """
+    outbound_source: FileSchema
+    inbound_source: FileSchema
+    related: bool # are the files related
+    relatedness_confidence: float # score 0-1 to determine how related
+    relatedness_reasoning: str # description of how the files appear to be related
+    mappings: list[FieldMapping] 
+
+
 

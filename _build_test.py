@@ -153,11 +153,17 @@ def test_extract_detailed_schema():
     _testing_message("TESTING_FLATTEN_FIELDS")
     print(extracted_to_file_schema.flatten_fields_as_string())
 
+    _testing_message("TESTING_SCHEMA_EXISTS")
+    print(extracted_to_file_schema.schema_exists())
+
+    _testing_message("TESTING_STORE_FILE_SCHEMA")
+    print(extracted_to_file_schema.store_file_schema())
+
 
 # Map
 
 
-def testmapf2f():
+def test_map_f2f():
     
     configuration = config.OllamaLLMClient.load_config()
     client = config.OllamaLLMClient(configuration)
@@ -173,7 +179,7 @@ def testmapf2f():
     list_of_files = [sf1_to_file_schema, sf2_to_file_schema, sf3_to_file_schema,]
 
     
-    for item in map.mapf2f(client, list_of_files):
+    for item in map.map_f2f(client, list_of_files):
         print(item)
         print("\n")
 
@@ -222,11 +228,12 @@ if __name__ == "__main__":
     # _testing_message("NORMALISING_SCHEMAS")
     # test_normalise_schema()
     
-    # _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
-    # test_extract_detailed_schema()
+    _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
+    test_extract_detailed_schema()
     
-        # MAP
+    #     # MAP
 
-    _testing_message("TESTING_F2F_MAPPING")
-    testmapf2f()
+    # _testing_message("TESTING_F2F_MAPPING")
+    # test_map_f2f()
+    
 

@@ -91,7 +91,7 @@ class OllamaLLMClient(LLMClient):
     _DEFAULTS: dict[str, Any] = {
         # Client Params
         "ollama_host": "http://localhost:11434",
-        "request_timeout": 180,
+        "request_timeout": 600,
 
         # Message Response Params
         "model": "llama3:8b",

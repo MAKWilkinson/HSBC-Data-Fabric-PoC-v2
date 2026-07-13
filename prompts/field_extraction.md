@@ -47,6 +47,9 @@ You typically see only one sample, so nullability is inferred, not observed:
 When in doubt, prefer true.
 
 ### nesting rules (the schema is recursive via "children")
+- Each field's "name" is its own key/tag only — never the parent's name joined with the
+  child's (e.g. write "customer_id" nested under "eligible_customers" via children, NOT
+  "eligible_customers.customer_id" as a single field name).
 - Object             → data_type "object"; put its fields in children.
 - Array of objects   → data_type "array";  put the element's fields in children (describe the
                        element shape, not each individual item).
@@ -70,17 +73,58 @@ When in doubt, prefer true.
 - Preserve original field names exactly.
 
 ## Output
-Return ONLY valid JSON in exactly this shape — no markdown, no code fences, no commentary:
+Return ONLY valid JSON in exactly this shape — no markdown, no code fences, no commentary.
+Note how BOTH nested objects and arrays use "children" — the child's own "name" is never
+combined with the parent's name (no dots, no path-joining), for objects or arrays:
+
 {
   "fields": [
     {
-      "name": "string",
-      "data_type": "string",
-      "nullable": true,
-      "description": "string",
+      "name": "metadata",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Contextual information about the message",
       "fmt": null,
       "enum_values": null,
-      "children": []
+      "children": [
+        {
+          "name": "source_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The department that originated the data",
+          "fmt": null,
+          "enum_values": null,
+          "children": []
+        },
+        {
+          "name": "generated_date",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "When the message was generated",
+          "fmt": "iso8601",
+          "enum_values": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "eligible_customers",
+      "data_type": "array",
+      "nullable": false,
+      "description": "One entry per customer eligible for the product",
+      "fmt": null,
+      "enum_values": null,
+      "children": [
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer",
+          "fmt": null,
+          "enum_values": null,
+          "children": []
+        }
+      ]
     }
   ]
 }
