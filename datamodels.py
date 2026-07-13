@@ -9,8 +9,8 @@ import os
 import json
 from pathlib import Path
 from typing import Literal, Any
-from dataclasses import dataclass, field
 
+from dataclasses import dataclass, field
 
 import logging
 logger = logging.getLogger(__name__)
@@ -153,7 +153,9 @@ class FileSchema:
 @dataclass
 class FieldMapping:
     """
-    2 Fields mapped within a FileMapping
+    Fields mapped within a FileMapping, can be Optional Many to 1 
+    i.e. many sources can feed 1 outbound field
+
     """
     outbound_field: str # outbound field exiting system
     sources: list[str] #list of FieldSchema's that are used to derive the outbound field

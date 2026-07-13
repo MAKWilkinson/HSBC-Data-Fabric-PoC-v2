@@ -3,7 +3,8 @@
 from pathlib import Path
 from string import Template
 from typing import Literal, Any
-from datamodels import SampleFile, FieldSchema, FileSchema
+
+from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
 import extraction
 
 import logging
@@ -96,5 +97,4 @@ def map_f2f(client: Any, files: list[FileSchema]) -> list[dict[str, Any]]:
     
     
     return results
-
 

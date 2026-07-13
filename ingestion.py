@@ -6,7 +6,8 @@
 import os
 from pathlib import Path
 from typing import Literal
-from datamodels import SampleFile, FieldSchema, FileSchema
+
+from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
 
 import logging
 logger = logging.getLogger(__name__)

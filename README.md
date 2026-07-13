@@ -28,9 +28,16 @@ Usage — Where you have many interfaces and various style send messages and nee
 
 Features — TODO
 
-Tech stack — For PoC... set up using Ollama. To switch LLM create new wrapper class that conforms to LLMClient protocol in config.py.
+Tech stack — For PoC... set up using Ollama. To switch LLM create new class that conforms to LLMClient protocol in config.py.
 
-Contributing — Further improvements requiring contributions include... Prompt improvement, Stub Func completion,
+Contributions — 
+- Prompt improvements to get closer mappings and more meaningful relatedness scoring
+- Stub functions for validations implemented to ensure LLM output is correct, currently no error handling and conformance issues to the data models will crash system.
+- Allow parsing of large files to take meaningful sections for input into LLM i.e. first 1000 characters, middle 1000 characters and last 1000 characters to go into prompt. This will result in at most 3000 characters being injected into the promopt and should be able to extract schema regardless of length.
+- Perform jaccard index or some other matching system with schemas to do file to file mapping prior to LLM calls. Current model runs n^2 LLM calls which is unsustainable for larger file cross sections. 
+- Implement persistence.py multiway parsing of Json to allow LLM output to be stored in JSON but then also extracted from the JSON. This avoids repeated LLM calls in testing. Needs to be done for both Extraction and Mapping.
+- Implement storage of raw LLM respones in .txt files for debugging
+
 
 License — Follow Ollama Licensing rules for all messages stored in data folder.
 

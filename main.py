@@ -8,8 +8,10 @@ import xml.etree.ElementTree as ET
 from typing import Any, Dict, List, Tuple
 import hashlib
 import base64
-from logging_config import setup_logging
+from _logging_config import setup_logging
 
+from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
+from workflow import run_workflow
 
 """
 workflow 
@@ -22,5 +24,5 @@ workflow
 
 if __name__ == "__main__":
     setup_logging()
-    
+    run_workflow()
 

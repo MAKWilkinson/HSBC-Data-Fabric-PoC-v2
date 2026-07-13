@@ -10,11 +10,11 @@ from pathlib import Path
 from importlib import resources
 from string import Template
 from typing import Literal, Any
-from datamodels import SampleFile, FieldSchema, FileSchema
 import json
 import time
-import config
 
+from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
+import config
 
 import logging
 logger = logging.getLogger(__name__)
@@ -27,6 +27,9 @@ Convert unstructured LLM output of schema extraction into FieldSchemas
 prompt → Call → Normalise to FieldSchema  → Validate
 
 """
+
+def retrieve_extracted_schema():
+    pass
 
 
 def build_schema_extraction_prompt(sample: SampleFile) -> str:
