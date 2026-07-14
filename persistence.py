@@ -7,8 +7,14 @@ Single home for all pipeline persistence.
 
 Owns the on-disk layout, the JSON round-trips (both directions), and the
 raw-response debug records. The dataclasses in datamodels.py stay pure data
-contracts; thin delegating methods on FileSchema call into this module so
-existing call sites keep working.
+contracts.
+
+All storage locations are configured ONCE, in the constants at the top of
+this module. Tests that need a temp directory reassign the constant, e.g.:
+
+    persistence.SCHEMAS_DIR = tmp_path / "schemas"
+
+(every function reads the constant at call time, so reassignment works).
 
 Layout (mirrors the data/ provider → consumer convention):
 
@@ -47,11 +53,12 @@ from typing import Any
 from datamodels import FieldMapping, FieldSchema, FileMapping, FileSchema, SampleFile
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Base directories
+# Storage locations — the ONLY place directories are configured
 # ---------------------------------------------------------------------------
 
 _MODULE_DIR = Path(__file__).resolve().parent
@@ -66,33 +73,31 @@ RESPONSES_DIR = _MODULE_DIR / "responses"
 # ---------------------------------------------------------------------------
 
 
-def schema_path_for(sample: SampleFile, base_dir: Path | None = None) -> Path:
+def schema_path_for(sample: SampleFile) -> Path:
     """Where the stored schema for this sample lives (or would live).
 
-    Path scheme: <base>/<providing_system>/<consuming_system or 'none'>/<stem>.schema.json
+    Path scheme: SCHEMAS_DIR/<providing_system>/<consuming_system or 'none'>/<stem>.schema.json
     """
-    if base_dir is None:
-        base_dir = SCHEMAS_DIR
-    target_dir = base_dir / sample.providing_system / (sample.consuming_system or "none")
+    target_dir = SCHEMAS_DIR / sample.providing_system / (sample.consuming_system or "none")
     file_name = Path(sample.message_file_name).stem + ".schema.json"
     return target_dir / file_name
 
 
-def schema_exists(sample: SampleFile, base_dir: Path | None = None) -> bool:
+def schema_exists(sample: SampleFile) -> bool:
     """True if a schema for this sample has already been stored."""
-    return schema_path_for(sample, base_dir).is_file()
+    return schema_path_for(sample).is_file()
 
 
-def store_schema(file_schema: FileSchema, base_dir: Path | None = None) -> Path:
+def store_schema(file_schema: FileSchema) -> Path:
     """Write one FileSchema to disk as JSON. Returns the path written."""
-    target_path = schema_path_for(file_schema.source, base_dir)
+    target_path = schema_path_for(file_schema.source)
     target_path.parent.mkdir(parents=True, exist_ok=True)
     target_path.write_text(schema_to_json(file_schema), encoding="utf-8")
     logger.info("Stored schema for %s at %s", file_schema.source.path, target_path)
     return target_path
 
 
-def load_schema(sample: SampleFile, base_dir: Path | None = None) -> FileSchema | None:
+def load_schema(sample: SampleFile) -> FileSchema | None:
     """Load a previously stored schema for this sample, if one exists.
 
     Returns None on a cache miss (or unreadable file) so callers can fall
@@ -100,7 +105,7 @@ def load_schema(sample: SampleFile, base_dir: Path | None = None) -> FileSchema 
     source so raw_content and provenance are preserved — the stored JSON
     holds source metadata only, not raw content.
     """
-    schema_path = schema_path_for(sample, base_dir)
+    schema_path = schema_path_for(sample)
     if not schema_path.is_file():
         return None
 
@@ -189,22 +194,16 @@ def _schema_fingerprint(file_schema: FileSchema) -> str:
     return hashlib.sha256(schema_to_json(file_schema).encode("utf-8")).hexdigest()[:16]
 
 
-def mapping_path_for(
-    inbound: SampleFile,
-    outbound: SampleFile,
-    base_dir: Path | None = None,
-) -> Path:
+def mapping_path_for(inbound: SampleFile, outbound: SampleFile) -> Path:
     """Where the stored mapping for this (inbound, outbound) pair lives.
 
     Housed under the outbound file's provider/consumer directory; the
     filename records which inbound file it was derived from:
 
-        <base>/<outbound_providing>/<outbound_consuming or 'none'>/
+        MAPPINGS_DIR/<outbound_providing>/<outbound_consuming or 'none'>/
             <outbound_stem>__from__<inbound_providing>__<inbound_stem>.mapping.json
     """
-    if base_dir is None:
-        base_dir = MAPPINGS_DIR
-    target_dir = base_dir / outbound.providing_system / (outbound.consuming_system or "none")
+    target_dir = MAPPINGS_DIR / outbound.providing_system / (outbound.consuming_system or "none")
     file_name = (
         Path(outbound.message_file_name).stem
         + "__from__"
@@ -216,27 +215,23 @@ def mapping_path_for(
     return target_dir / file_name
 
 
-def mapping_exists(
-    inbound: SampleFile,
-    outbound: SampleFile,
-    base_dir: Path | None = None,
-) -> bool:
+def mapping_exists(inbound: SampleFile, outbound: SampleFile) -> bool:
     """True if a mapping for this (inbound, outbound) pair has been stored.
 
     Existence only — does NOT check staleness. Use load_mapping (which
     returns None for stale entries) when deciding whether to skip LLM work.
     """
-    return mapping_path_for(inbound, outbound, base_dir).is_file()
+    return mapping_path_for(inbound, outbound).is_file()
 
 
-def store_mapping(mapping: FileMapping, base_dir: Path | None = None) -> Path:
+def store_mapping(mapping: FileMapping) -> Path:
     """Write one FileMapping to disk as JSON. Returns the path written.
 
     Schemas are stored as references (source provenance + fingerprint),
     never embedded — the schema store remains the single source of truth
     for field definitions.
     """
-    target_path = mapping_path_for(mapping.inbound_source.source, mapping.outbound_source.source, base_dir)
+    target_path = mapping_path_for(mapping.inbound_source.source, mapping.outbound_source.source)
     target_path.parent.mkdir(parents=True, exist_ok=True)
     target_path.write_text(mapping_to_json(mapping), encoding="utf-8")
     logger.info(
@@ -248,11 +243,7 @@ def store_mapping(mapping: FileMapping, base_dir: Path | None = None) -> Path:
     return target_path
 
 
-def load_mapping(
-    inbound: FileSchema,
-    outbound: FileSchema,
-    base_dir: Path | None = None,
-) -> FileMapping | None:
+def load_mapping(inbound: FileSchema, outbound: FileSchema) -> FileMapping | None:
     """Load the stored mapping for this schema pair, if present AND current.
 
     Returns None on a miss, an unreadable file, or — critically — a stale
@@ -264,7 +255,7 @@ def load_mapping(
     The live FileSchemas are reused as inbound_source/outbound_source so
     provenance (including raw_content on their SampleFiles) is preserved.
     """
-    mapping_path = mapping_path_for(inbound.source, outbound.source, base_dir)
+    mapping_path = mapping_path_for(inbound.source, outbound.source)
     if not mapping_path.is_file():
         return None
 
@@ -352,11 +343,7 @@ def _field_mapping_from_dict(data: dict[str, Any]) -> FieldMapping:
 # ---------------------------------------------------------------------------
 
 
-def record_raw_response(
-    response: str,
-    label: str = "response",
-    base_dir: Path | None = None,
-) -> None:
+def record_raw_response(response: str, label: str = "response") -> None:
     """Fire-and-forget: dump raw LLM text to disk for debugging and replay.
 
     Written BEFORE any JSON parsing so failed extractions are captured too —
@@ -365,10 +352,8 @@ def record_raw_response(
     the pipeline. Nothing on the hot path reads these files.
     """
     try:
-        if base_dir is None:
-            base_dir = RESPONSES_DIR
-        base_dir.mkdir(parents=True, exist_ok=True)
+        RESPONSES_DIR.mkdir(parents=True, exist_ok=True)
         stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        (base_dir / f"{stamp}_{label}.txt").write_text(response, encoding="utf-8")
+        (RESPONSES_DIR / f"{stamp}_{label}.txt").write_text(response, encoding="utf-8")
     except OSError as error:
         logger.warning("Could not record raw LLM response: %s", error)

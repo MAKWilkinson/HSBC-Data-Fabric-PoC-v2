@@ -13,6 +13,7 @@ from typing import Literal, Any
 
 from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
 import config
+import persistence
 import ingestion
 import extraction
 import map
@@ -144,17 +145,8 @@ def test_extract_detailed_schema():
         print(item)
         print(" ")
 
-    _testing_message("TESTING_FILESCHEMA_TO_JSON_FUNCTIONALITY")
-    print(extracted_to_file_schema.file_schema_as_json())
-
     _testing_message("TESTING_FLATTEN_FIELDS")
     print(extracted_to_file_schema.flatten_fields_as_string())
-
-    _testing_message("TESTING_SCHEMA_EXISTS")
-    print(extracted_to_file_schema.schema_exists())
-
-    _testing_message("TESTING_STORE_FILE_SCHEMA")
-    print(extracted_to_file_schema.store_file_schema())
 
 
 # Map
@@ -181,7 +173,48 @@ def test_map_f2f():
         print("\n")
 
 
+# Persistence
 
+def test_persistence():
+
+    # Set up params to pass in for test - one LLM setup at the top,
+    # two extractions because the mapping store needs an (inbound, outbound) pair
+    configuration = config.OllamaLLMClient.load_config()
+    client = config.OllamaLLMClient(configuration)
+
+    sf1 = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sf2 = ingestion.load_sample_file(["marketing", "credit", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json"])
+
+    inbound = extraction.extract_detailed_schema(client, sf1)
+    outbound = extraction.extract_detailed_schema(client, sf2)
+
+    #     SCHEMA STORE
+
+    _testing_message("TESTING_SCHEMA_TO_JSON")
+    print(persistence.schema_to_json(inbound))
+
+    _testing_message("TESTING_SCHEMA_PATH")
+    print(persistence.schema_path_for(inbound.source))
+
+    _testing_message("TESTING_SCHEMA_EXISTS")
+    print(persistence.schema_exists(inbound.source))
+
+    _testing_message("TESTING_STORE_SCHEMA")
+    print(persistence.store_schema(inbound))
+
+    _testing_message("TESTING_LOAD_SCHEMA")
+    print(persistence.load_schema(sf1))
+
+
+
+    # TODO: Set up mapping persistence once complete
+    #     MAPPING STORE
+
+
+    #     RAW RESPONSES
+
+    _testing_message("TESTING_RECORD_RAW_RESPONSE")
+    persistence.record_raw_response('{"fields": []}', label="test_label")
 
 
 if __name__ == "__main__":
@@ -225,12 +258,15 @@ if __name__ == "__main__":
     # _testing_message("NORMALISING_SCHEMAS")
     # test_normalise_schema()
     
-    _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
-    test_extract_detailed_schema()
+    # _testing_message("TESTING_EXTRACT_DETAILED_SCHEMA")
+    # test_extract_detailed_schema()
     
     #     # MAP
 
     # _testing_message("TESTING_F2F_MAPPING")
     # test_map_f2f()
     
+    #     # PERSISTENCE
 
+    _testing_message("TESTING_PERSISTENCE")
+    test_persistence()

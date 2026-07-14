@@ -96,59 +96,6 @@ class FileSchema:
         return "\n".join(lines)
 
 
-    def file_schema_as_json(self):
-        """Convert FileSchema to nested JSON format."""
-
-        def field_to_dict(field: FieldSchema) -> dict:
-            data = {
-                "name": field.name,
-                "data_type": field.data_type,
-                "nullable": field.nullable,
-            }
-            if field.description is not None:
-                data["description"] = field.description
-            if field.fmt is not None:
-                data["fmt"] = field.fmt
-            if field.enum_values is not None:
-                data["enum_values"] = field.enum_values
-            if field.children:
-                data["children"] = [field_to_dict(child) for child in field.children]
-            return data
-        
-        schema_dict = {
-            "source": {
-                "path": str(self.source.path),
-                "providing_system": self.source.providing_system,
-                "consuming_system": self.source.consuming_system,
-                "message_file_name": self.source.message_file_name,
-                "file_format": self.source.file_format,
-            },
-            "fields": [field_to_dict(f) for f in self.fields]
-        }
-        return json.dumps(schema_dict, indent=2)
-
-
-    def _schema_path(self, base_dir: Path | None = None) -> Path:
-        """Compute where this schema would be stored, without writing anything."""
-        if base_dir is None:
-            base_dir = Path(__file__).resolve().parent / "schemas"
-        target_dir = base_dir / self.source.providing_system / (self.source.consuming_system or "none")
-        file_name = Path(self.source.message_file_name).stem + ".schema.json"
-        return target_dir / file_name
-
-
-    def schema_exists(self, base_dir: Path | None = None) -> bool:
-        """True if a schema for this file has already been stored."""
-        return self._schema_path(base_dir).is_file()
-
-
-    def store_file_schema(self, base_dir: Path | None = None) -> Path:
-        target_path = self._schema_path(base_dir)
-        target_path.parent.mkdir(parents=True, exist_ok=True)
-        target_path.write_text(self.file_schema_as_json(), encoding="utf-8")
-        logger.info("Stored schema for %s at %s", self.source.path, target_path)
-        return target_path
-
 
 @dataclass
 class FieldMapping:

@@ -1,6 +1,6 @@
 
 # ---------------------------------------------------------------------------
-# Top-level orchestrator  (pipeline.py)
+# Top-level orchestrator  (workflow.py)
 # ---------------------------------------------------------------------------
  
 from pathlib import Path
