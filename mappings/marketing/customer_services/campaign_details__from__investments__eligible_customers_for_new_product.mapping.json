@@ -1,0 +1,219 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+      "providing_system": "investments",
+      "consuming_system": "marketing",
+      "message_file_name": "eligible_customers_for_new_product.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "375134c47e052981"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/campaign_details.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "campaign_details.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "2150590bcc66cd64"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file contains customer information, which is used to create a marketing campaign in the outbound file.",
+  "mappings": [
+    {
+      "outbound_field": "campaign_id",
+      "sources": [
+        "metadata.source_department",
+        "metadata.target_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The campaign ID is derived from the source and target departments."
+    },
+    {
+      "outbound_field": "campaign_name",
+      "sources": [
+        "metadata.product_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The campaign name is an exact copy of the product name from the inbound file."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "metadata.source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The department from field is renamed from the source department in the inbound file."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "metadata.target_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "The department to field is an exact copy of the target department from the inbound file."
+    },
+    {
+      "outbound_field": "start_date",
+      "sources": [
+        "metadata.generated_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The start date is derived from the generated date in the inbound file."
+    },
+    {
+      "outbound_field": "end_date",
+      "sources": [
+        "metadata.generated_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The end date is derived from the generated date in the inbound file."
+    },
+    {
+      "outbound_field": "campaign_type",
+      "sources": [
+        "eligible_customers[].investment_experience_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The campaign type is derived from the investment experience level of eligible customers."
+    },
+    {
+      "outbound_field": "target_segment.age_range",
+      "sources": [
+        "eligible_customers[].customer_tenure_months"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target segment age range is derived from the customer tenure months."
+    },
+    {
+      "outbound_field": "target_segment.account_type",
+      "sources": [
+        "eligible_customers[].account_balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target segment account type is derived from the account balance."
+    },
+    {
+      "outbound_field": "target_segment.income_level",
+      "sources": [
+        "eligible_customers[].investment_experience_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target segment income level is derived from the investment experience level."
+    },
+    {
+      "outbound_field": "target_segment.geographical_region",
+      "sources": [
+        "eligible_customers[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target segment geographical region is derived from the customer name."
+    },
+    {
+      "outbound_field": "budget.currency",
+      "sources": [
+        "metadata.source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "The budget currency is an exact copy of the source department's currency."
+    },
+    {
+      "outbound_field": "budget.total_amount",
+      "sources": [
+        "summary.total_eligible_assets"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The budget total amount is derived from the total eligible assets."
+    },
+    {
+      "outbound_field": "key_messages",
+      "sources": [
+        "eligible_customers[].recommended_product_allocation"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The key messages are derived from the recommended product allocation for eligible customers."
+    },
+    {
+      "outbound_field": "customer_service_requirements.expected_inquiry_volume",
+      "sources": [
+        "summary.total_eligible_customers"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The expected inquiry volume is derived from the total eligible customers."
+    },
+    {
+      "outbound_field": "customer_service_requirements.support_languages",
+      "sources": [
+        "eligible_customers[].email"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The support languages are derived from the email addresses of eligible customers."
+    },
+    {
+      "outbound_field": "customer_service_requirements.priority_topics",
+      "sources": [
+        "eligible_customers[].investment_experience_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The priority topics are derived from the investment experience level of eligible customers."
+    },
+    {
+      "outbound_field": "customer_service_requirements.escalation_threshold",
+      "sources": [
+        "eligible_customers[].risk_profile"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The escalation threshold is derived from the risk profile of eligible customers."
+    },
+    {
+      "outbound_field": "success_metrics.target_conversions",
+      "sources": [
+        "summary.total_eligible_customers"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target conversions are derived from the total eligible customers."
+    },
+    {
+      "outbound_field": "success_metrics.target_engagement_rate",
+      "sources": [
+        "summary.average_account_balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target engagement rate is derived from the average account balance."
+    },
+    {
+      "outbound_field": "success_metrics.target_customer_satisfaction",
+      "sources": [
+        "summary.total_eligible_customers"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The target customer satisfaction is derived from the total eligible customers."
+    }
+  ]
+}

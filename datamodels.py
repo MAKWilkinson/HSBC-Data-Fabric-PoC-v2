@@ -96,13 +96,11 @@ class FileSchema:
         return "\n".join(lines)
 
 
-
 @dataclass
 class FieldMapping:
     """
     Fields mapped within a FileMapping, can be Optional Many to 1 
     i.e. many sources can feed 1 outbound field
-
     """
     outbound_field: str # outbound field exiting system
     sources: list[str] #list of FieldSchema's that are used to derive the outbound field
@@ -122,6 +120,5 @@ class FileMapping:
     relatedness_confidence: float # score 0-1 to determine how related
     relatedness_reasoning: str # description of how the files appear to be related
     mappings: list[FieldMapping] 
-
 
 

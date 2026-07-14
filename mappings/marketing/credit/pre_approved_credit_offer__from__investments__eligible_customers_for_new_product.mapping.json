@@ -1,0 +1,77 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+      "providing_system": "investments",
+      "consuming_system": "marketing",
+      "message_file_name": "eligible_customers_for_new_product.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "375134c47e052981"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json",
+      "providing_system": "marketing",
+      "consuming_system": "credit",
+      "message_file_name": "pre_approved_credit_offer.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "927aeded75e4fc66"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "customer_details.first_name",
+      "sources": [
+        "metadata.source_department",
+        "eligible_customers[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Same concept as inbound customer name, but different field name."
+    },
+    {
+      "outbound_field": "customer_details.last_name",
+      "sources": [
+        "metadata.source_department",
+        "eligible_customers[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Same concept as inbound customer name, but different field name."
+    },
+    {
+      "outbound_field": "customer_details.email",
+      "sources": [
+        "metadata.source_department",
+        "eligible_customers[].email"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact copy of inbound email field."
+    },
+    {
+      "outbound_field": "credit_offer.product_type",
+      "sources": [
+        "metadata.product_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as inbound product name, but different field name."
+    },
+    {
+      "outbound_field": "credit_offer.offer_amount",
+      "sources": [
+        "eligible_customers[].account_balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Derived from inbound account balance by computation."
+    }
+  ]
+}

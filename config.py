@@ -12,8 +12,11 @@ import json
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 import ollama
+import json
+import time
 
 from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
+import config
 
 import logging
 logger = logging.getLogger(__name__)
@@ -22,6 +25,36 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Shared utilities
 # ---------------------------------------------------------------------------
+
+def call_llm(
+    client: Any, 
+    prompt: str = "", 
+    max_attempts: int = 1, 
+    backoff_base_seconds: float = 2.0,
+) -> dict[str, Any]:
+
+    """Single LLM call returning raw structured schema output (with retries)."""
+    last_error: Exception | None = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            # === SDK swap point ===
+            # Assumes the injected client exposes `complete(prompt) -> str`.
+            # Once the SDK is chosen, change only this line (and the import).
+            response: str = client.chat(prompt)
+            return config.extract_json(response)
+        
+        except Exception as error:  # noqa: BLE001 - SDK undecided; retry broadly
+            last_error = error
+            logger.warning(
+                "schema extraction attempt %d/%d failed: %s",
+                attempt,
+                max_attempts,
+                error,
+            )
+            if attempt < max_attempts:
+                time.sleep(backoff_base_seconds * 2 ** (attempt - 1))
+    assert last_error is not None
+    raise last_error
 
 def extract_json(text: str) -> dict[str, Any]:
     """Parse a JSON object from raw LLM text, tolerating code fences/prose."""
@@ -79,6 +112,7 @@ class LLMClient(Protocol):
         Returns an object with a .message.content field (provider-agnostic).
         """
         ...
+
 
 class OllamaLLMClient(LLMClient):
     """Implementation of LLMClient for Ollama.

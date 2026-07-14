@@ -46,37 +46,6 @@ def build_schema_extraction_prompt(sample: SampleFile) -> str:
     )
 
 
-def call_llm_extract_schema(
-    client: Any, 
-    prompt: str = "", 
-    max_attempts: int = 1, 
-    backoff_base_seconds: float = 2.0,
-) -> dict[str, Any]:
-
-    """Single LLM call returning raw structured schema output (with retries)."""
-    last_error: Exception | None = None
-    for attempt in range(1, max_attempts + 1):
-        try:
-            # === SDK swap point ===
-            # Assumes the injected client exposes `complete(prompt) -> str`.
-            # Once the SDK is chosen, change only this line (and the import).
-            response: str = client.chat(prompt)
-            return config.extract_json(response)
-        
-        except Exception as error:  # noqa: BLE001 - SDK undecided; retry broadly
-            last_error = error
-            logger.warning(
-                "schema extraction attempt %d/%d failed: %s",
-                attempt,
-                max_attempts,
-                error,
-            )
-            if attempt < max_attempts:
-                time.sleep(backoff_base_seconds * 2 ** (attempt - 1))
-    assert last_error is not None
-    raise last_error
-
-
 def normalise_schema(raw: dict[str, Any]) -> list[FieldSchema]:
     """Map raw LLM output into the canonical ``FieldSchema`` representation."""
     
@@ -173,7 +142,7 @@ def extract_detailed_schema(client: Any, sample: SampleFile) -> FileSchema:
     """Orchestrate prompt → call → normalise → validate for one file."""
 
     prompt = build_schema_extraction_prompt(sample)
-    response = call_llm_extract_schema(client, prompt)
+    response = config.call_llm(client, prompt)
     normalised = normalise_schema(response)
     validated = normalised # line for when validation implemented, will need branching for not validated
 

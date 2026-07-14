@@ -84,14 +84,14 @@ def test_parse_directory():
 
 
 def test_infer_file_format():
-    file_type = ingestion.infer_file_format("/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json")
+    file_type = ingestion.infer_file_format("/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json")
     print("Json file format is: " + file_type)
-    file_type = ingestion.infer_file_format("/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.xml")
+    file_type = ingestion.infer_file_format("/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.xml")
     print("XML file format is: " + file_type)
 
 
 def test_load_sample_file():
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
     print(sampleFile.path)
     print(sampleFile.providing_system)
     print(sampleFile.consuming_system)
@@ -104,12 +104,12 @@ def test_load_sample_file():
 
 
 def test_build_schema_extraction_prompt():
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
     print(extraction.build_schema_extraction_prompt(sampleFile)) 
 
 
 def test_call_llm_extract_schema():
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
     prompt = extraction.build_schema_extraction_prompt(sampleFile)
     configuration = config.OllamaLLMClient.load_config()
     client = config.OllamaLLMClient(configuration)
@@ -118,10 +118,9 @@ def test_call_llm_extract_schema():
 
 
 def test_normalise_schema():
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
     prompt = extraction.build_schema_extraction_prompt(sampleFile)
-    configuration = config.OllamaLLMClient.load_config()
-    client = config.OllamaLLMClient(configuration)
+    client = config.get_llm_client()
     response = extraction.call_llm_extract_schema(client, prompt)
     list_of_field_schemas = extraction.normalise_schema(response)
     for item in list_of_field_schemas:
@@ -132,9 +131,8 @@ def test_normalise_schema():
 def test_extract_detailed_schema():
     
     # Set up params to pass in for test
-    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
-    configuration = config.OllamaLLMClient.load_config()
-    client = config.OllamaLLMClient(configuration)
+    sampleFile = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
+    client = config.get_llm_client()
 
     # Test
     extracted_to_file_schema = extraction.extract_detailed_schema(client, sampleFile)
@@ -154,18 +152,17 @@ def test_extract_detailed_schema():
 
 def test_map_f2f():
     
-    configuration = config.OllamaLLMClient.load_config()
-    client = config.OllamaLLMClient(configuration)
+    client = config.get_llm_client()
 
-    sf1 = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
-    sf2 = ingestion.load_sample_file(["marketing", "credit", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json"])
-    sf3 = ingestion.load_sample_file(["marketing", "customer_services", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/offer_scripts.json"])
+    sf1 = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json"])
+    sf2 = ingestion.load_sample_file(["marketing", "credit", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/marketing/credit/pre_approved_credit_offer.json"])
+    sf3 = ingestion.load_sample_file(["marketing", "customer_services", "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/marketing/customer_services/offer_scripts.json"])
     
-    sf1_to_file_schema = extraction.extract_detailed_schema(client, sf1)
-    sf2_to_file_schema = extraction.extract_detailed_schema(client, sf2)
-    sf3_to_file_schema = extraction.extract_detailed_schema(client, sf3)
+    fs1 = extraction.extract_detailed_schema(client, sf1)
+    fs2 = extraction.extract_detailed_schema(client, sf2)
+    fs3 = extraction.extract_detailed_schema(client, sf3)
 
-    list_of_files = [sf1_to_file_schema, sf2_to_file_schema, sf3_to_file_schema,]
+    list_of_files = [fs1, fs2, fs3,]
 
     
     for item in map.map_f2f(client, list_of_files):
@@ -177,44 +174,50 @@ def test_map_f2f():
 
 def test_persistence():
 
-    # Set up params to pass in for test - one LLM setup at the top,
-    # two extractions because the mapping store needs an (inbound, outbound) pair
-    configuration = config.OllamaLLMClient.load_config()
-    client = config.OllamaLLMClient(configuration)
+    client = config.get_llm_client()
 
     sf1 = ingestion.load_sample_file(["investments", "marketing", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json"])
     sf2 = ingestion.load_sample_file(["marketing", "credit", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json"])
+    sf3 = ingestion.load_sample_file(["marketing", "customer_services", "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/campaign_details.json"])
 
-    inbound = extraction.extract_detailed_schema(client, sf1)
-    outbound = extraction.extract_detailed_schema(client, sf2)
+    fs1 = extraction.extract_detailed_schema(client, sf1)
+    fs2 = extraction.extract_detailed_schema(client, sf2)
+    fs3 = extraction.extract_detailed_schema(client, sf3)
 
-    #     SCHEMA STORE
+
+    # SCHEMA STORE
 
     _testing_message("TESTING_SCHEMA_TO_JSON")
-    print(persistence.schema_to_json(inbound))
+    print(persistence.schema_to_json(fs1))
 
     _testing_message("TESTING_SCHEMA_PATH")
-    print(persistence.schema_path_for(inbound.source))
+    print(persistence.schema_path_for(fs1.source))
 
     _testing_message("TESTING_SCHEMA_EXISTS")
-    print(persistence.schema_exists(inbound.source))
+    print(persistence.schema_exists(fs1.source))
 
     _testing_message("TESTING_STORE_SCHEMA")
-    print(persistence.store_schema(inbound))
+    print(persistence.store_schema(fs1))
 
     _testing_message("TESTING_LOAD_SCHEMA")
     print(persistence.load_schema(sf1))
 
+    # MAPPING 
+
+    _testing_message("MAP_FILES")
+    a_map = map.map_f2f(client, [fs1, fs2, fs3])
+    print(a_map)
+
+    # # MAPPING STORE
+
+    # _testing_message("TESTING_STORE_MAP")
+    # print(persistence.store_mapping(a_map))
 
 
-    # TODO: Set up mapping persistence once complete
-    #     MAPPING STORE
+    # # RAW RESPONSES
 
-
-    #     RAW RESPONSES
-
-    _testing_message("TESTING_RECORD_RAW_RESPONSE")
-    persistence.record_raw_response('{"fields": []}', label="test_label")
+    # _testing_message("TESTING_RECORD_RAW_RESPONSE")
+    # persistence.record_raw_response('{"fields": []}', label="test_label")
 
 
 if __name__ == "__main__":
