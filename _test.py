@@ -8,6 +8,10 @@
 # git commit -m "title change" -m "description of change"
 # git push
 
+# python3 ui/viewer.py mappings ui/viewer.html
+# open ui/viewer.html
+
+
 from pathlib import Path
 from typing import Literal, Any
 
