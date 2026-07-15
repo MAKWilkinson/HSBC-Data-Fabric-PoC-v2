@@ -1,0 +1,49 @@
+flowchart LR
+  subgraph IN["customer_services: address_updates"]
+    in_updateId["updateId"]
+    in_timestamp["timestamp"]
+    in_department["department"]
+    in_targetDepartment["targetDepartment"]
+    in_updateType["updateType"]
+    in_previousAddress["previousAddress"]
+    in_newAddress["newAddress"]
+    in_customerId["customerId"]
+    in_previousAddress_postalCode["previousAddress.postalCode"]
+    in_newAddress_postalCode["newAddress.postalCode"]
+    in_status["status"]
+    in_priority["priority"]
+  end
+  subgraph OUT["accounts: available_cash_balance"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_subject["subject"]
+    out_accountNumber["accountNumber"]
+    out_currency["currency"]
+    out_availableCashBalance["availableCashBalance"]
+    out_asOfDate["asOfDate"]
+    out_details_clearedCash["details.clearedCash"]
+    out_details_pendingDeposits["details.pendingDeposits"]
+    out_details_pendingWithdrawals["details.pendingWithdrawals"]
+    out_notes["notes"]
+  end
+  in_updateId -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_department -->|RENAMED| out_fromDepartment
+  in_targetDepartment -->|RENAMED| out_toDepartment
+  in_updateType -->|SEMANTIC| out_subject
+  in_previousAddress -->|SEMANTIC| out_subject
+  in_newAddress -->|SEMANTIC| out_subject
+  in_customerId -->|RENAMED| out_accountNumber
+  in_previousAddress_postalCode -->|MERGE| out_availableCashBalance
+  in_newAddress_postalCode -->|MERGE| out_availableCashBalance
+  in_timestamp -->|EXACT| out_asOfDate
+  in_previousAddress_postalCode -->|MERGE| out_details_clearedCash
+  in_newAddress_postalCode -->|MERGE| out_details_clearedCash
+  in_previousAddress_postalCode -->|MERGE| out_details_pendingDeposits
+  in_newAddress_postalCode -->|MERGE| out_details_pendingDeposits
+  in_previousAddress_postalCode -->|MERGE| out_details_pendingWithdrawals
+  in_newAddress_postalCode -->|MERGE| out_details_pendingWithdrawals
+  in_status -->|SEMANTIC| out_notes
+  in_priority -->|SEMANTIC| out_notes

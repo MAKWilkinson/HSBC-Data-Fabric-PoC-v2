@@ -1,0 +1,23 @@
+flowchart LR
+  subgraph IN["accounts: account_balance"]
+    in_account_id["account_id"]
+    in_balance["balance"]
+    in_available_balance["available_balance"]
+    in_account_status["account_status"]
+    in_pending_transactions["pending_transactions"]
+  end
+  subgraph OUT["credit: credit_score_result"]
+    out_customer_customer_id["customer.customer_id"]
+    out_credit_score_score["credit_score.score"]
+    out_credit_score_rating["credit_score.rating"]
+    out_credit_assessment_total_credit_limit["credit_assessment.total_credit_limit"]
+    out_credit_assessment_outstanding_balance["credit_assessment.outstanding_balance"]
+    out_risk_indicators_fraud_risk["risk_indicators.fraud_risk"]
+  end
+  in_account_id -->|RENAMED| out_customer_customer_id
+  in_balance -->|SEMANTIC| out_credit_score_score
+  in_available_balance -->|SEMANTIC| out_credit_score_score
+  in_account_status -->|SEMANTIC| out_credit_score_rating
+  in_available_balance -->|SEMANTIC| out_credit_assessment_total_credit_limit
+  in_balance -->|SEMANTIC| out_credit_assessment_outstanding_balance
+  in_pending_transactions -->|SEMANTIC| out_risk_indicators_fraud_risk

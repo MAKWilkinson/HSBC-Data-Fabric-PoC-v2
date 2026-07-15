@@ -1,0 +1,57 @@
+flowchart LR
+  subgraph IN["credit: credit_score_result"]
+    in_result_id["result_id"]
+    in_timestamp["timestamp"]
+    in_destination_department["destination_department"]
+    in_customer_account_number["customer.account_number"]
+    in_customer_customer_id["customer.customer_id"]
+    in_customer_name["customer.name"]
+    in_credit_assessment_assessment_date["credit_assessment.assessment_date"]
+    in_credit_assessment_total_credit_limit["credit_assessment.total_credit_limit"]
+    in_credit_score_score["credit_score.score"]
+    in_risk_indicators_fraud_risk["risk_indicators.fraud_risk"]
+    in_credit_assessment_recommended_action["credit_assessment.recommended_action"]
+    in_review_status["review_status"]
+    in_reviewed_by["reviewed_by"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+    out_riskScore["riskScore"]
+    out_riskFlags["riskFlags"]
+    out_requiredActions["requiredActions"]
+    out_escalationLevel["escalationLevel"]
+    out_approvalRequired["approvalRequired"]
+    out_approverRole["approverRole"]
+    out_notes["notes"]
+    out_expiryDate["expiryDate"]
+    out_issuedBy["issuedBy"]
+    out_priority["priority"]
+  end
+  in_result_id -->|EXACT| out_noticeId
+  in_timestamp -->|EXACT| out_timestamp
+  in_destination_department -->|RENAMED| out_department
+  in_destination_department -->|EXACT| out_recipientDepartment
+  in_customer_account_number -->|EXACT| out_accountNumber
+  in_customer_customer_id -->|EXACT| out_customerId
+  in_customer_name -->|EXACT| out_customerName
+  in_credit_assessment_assessment_date -->|SEMANTIC| out_holdEffectiveDate
+  in_credit_assessment_total_credit_limit -->|SEMANTIC| out_transactionsAffected
+  in_credit_score_score -->|SEMANTIC| out_riskScore
+  in_risk_indicators_fraud_risk -->|SEMANTIC| out_riskFlags
+  in_credit_assessment_recommended_action -->|SEMANTIC| out_requiredActions
+  in_review_status -->|SEMANTIC| out_approvalRequired
+  in_reviewed_by -->|SEMANTIC| out_approverRole
+  in_credit_assessment_assessment_date -->|SEMANTIC| out_expiryDate
+  in_reviewed_by -->|SEMANTIC| out_issuedBy

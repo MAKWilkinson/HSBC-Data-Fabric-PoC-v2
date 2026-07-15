@@ -1,0 +1,108 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "monthly_repayment_direct_debit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "154cd31096fbc5c5"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like department, repayment, and customer information, which could be transformed into salary credits.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "repaymentId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from repaymentId to transaction_id."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "repaymentAmount"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from repaymentAmount to amount."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "employee.employee_id",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from customerId to employee.employee_id."
+    },
+    {
+      "outbound_field": "employee.name",
+      "sources": [
+        "customerName"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from customerName to employee.name."
+    },
+    {
+      "outbound_field": "department_from.name",
+      "sources": [
+        "department.from"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from department.from to department_from.name."
+    },
+    {
+      "outbound_field": "department_to.name",
+      "sources": [
+        "department.to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from department.to to department_to.name."
+    },
+    {
+      "outbound_field": "authorizer.name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

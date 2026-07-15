@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph IN["credit: arrears_status"]
+    in_messageId["messageId"]
+    in_arrears_status___customerId["arrears_status[].customerId"]
+    in_timestamp["timestamp"]
+    in_destinationSystem["destinationSystem"]
+    in_arrears_status___addressLine1["arrears_status[].addressLine1"]
+    in_arrears_status___city["arrears_status[].city"]
+    in_arrears_status___postalCode["arrears_status[].postalCode"]
+    in_arrears_status___country["arrears_status[].country"]
+    in_arrears_status___status["arrears_status[].status"]
+  end
+  subgraph OUT["customer_services: address_updates"]
+    out_updateId["updateId"]
+    out_customerId["customerId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_targetDepartment["targetDepartment"]
+    out_updateType["updateType"]
+    out_previousAddress["previousAddress"]
+    out_newAddress["newAddress"]
+    out_status["status"]
+    out_priority["priority"]
+  end
+  in_messageId -->|RENAMED| out_updateId
+  in_arrears_status___customerId -->|EXACT| out_customerId
+  in_timestamp -->|EXACT| out_timestamp
+  in_destinationSystem -->|RENAMED| out_targetDepartment
+  in_arrears_status___addressLine1 -->|MERGE| out_previousAddress
+  in_arrears_status___city -->|MERGE| out_previousAddress
+  in_arrears_status___postalCode -->|MERGE| out_previousAddress
+  in_arrears_status___country -->|MERGE| out_previousAddress
+  in_arrears_status___addressLine1 -->|MERGE| out_newAddress
+  in_arrears_status___city -->|MERGE| out_newAddress
+  in_arrears_status___postalCode -->|MERGE| out_newAddress
+  in_arrears_status___country -->|MERGE| out_newAddress
+  in_arrears_status___status -->|EXACT| out_status

@@ -1,0 +1,118 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share similar concepts, such as account numbers and overdraft limits, which could be transformed from the inbound file's instructions.",
+  "mappings": [
+    {
+      "outbound_field": "fileId",
+      "sources": [
+        "debit_credit_instructions[].batch_reference"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of batch reference from the inbound file."
+    },
+    {
+      "outbound_field": "fileName",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sentDate",
+      "sources": [
+        "debit_credit_instructions[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of timestamp from the inbound file."
+    },
+    {
+      "outbound_field": "fromDepartment",
+      "sources": [
+        "debit_credit_instructions[].source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same concept as source department, but renamed in the outbound file."
+    },
+    {
+      "outbound_field": "toDepartment",
+      "sources": [
+        "debit_credit_instructions[].target_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same concept as target department, but renamed in the outbound file."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "debit_credit_instructions[].instructions[].account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of account number from the inbound file."
+    },
+    {
+      "outbound_field": "overdraftLimit",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept as total debit amount, but renamed and formatted differently in the outbound file."
+    },
+    {
+      "outbound_field": "overdraftUsed",
+      "sources": [
+        "debit_credit_instructions[].total_credit_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept as total credit amount, but renamed and formatted differently in the outbound file."
+    },
+    {
+      "outbound_field": "usagePercent",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount",
+        "debit_credit_instructions[].total_credit_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept as total debit and credit amounts, but renamed and formatted differently in the outbound file."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "debit_credit_instructions[].instructions[].description"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept as instruction description, but renamed and formatted differently in the outbound file."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_borrower_account_number["borrower_account_number"]
+    in_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
+    in_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
+    in_loan_disbursement_instructions___purpose["loan_disbursement_instructions[].purpose"]
+    in_loan_disbursement_instructions___currency["loan_disbursement_instructions[].currency"]
+    in_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    in_balance["balance"]
+  end
+  subgraph OUT["accounts: account_balance"]
+    out_account_id["account_id"]
+    out_customer_id["customer_id"]
+    out_account_type["account_type"]
+    out_currency["currency"]
+    out_balance["balance"]
+    out_available_balance["available_balance"]
+    out_pending_transactions["pending_transactions"]
+  end
+  in_borrower_account_number -->|RENAMED| out_account_id
+  in_loan_disbursement_instructions___borrower_name -->|SEMANTIC| out_customer_id
+  in_loan_disbursement_instructions___borrower_account_number -->|SEMANTIC| out_customer_id
+  in_loan_disbursement_instructions___purpose -->|SEMANTIC| out_account_type
+  in_loan_disbursement_instructions___currency -->|EXACT| out_currency
+  in_loan_disbursement_instructions___disbursement_amount -->|TRANSFORMED| out_balance
+  in_loan_disbursement_instructions___currency -->|TRANSFORMED| out_balance
+  in_balance -->|SEMANTIC| out_available_balance

@@ -1,0 +1,50 @@
+flowchart LR
+  subgraph IN["credit: arrears_status"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_arrears_status___customerId["arrears_status[].customerId"]
+    in_arrears_status___accountNumber["arrears_status[].accountNumber"]
+    in_arrears_status___productType["arrears_status[].productType"]
+    in_arrears_status___status["arrears_status[].status"]
+    in_arrears_status___arrearsAmount["arrears_status[].arrearsAmount"]
+    in_arrears_status___arrearsMonths["arrears_status[].arrearsMonths"]
+    in_arrears_status___notes["arrears_status[].notes"]
+  end
+  subgraph OUT["customer_services: hardship_request"]
+    out_request_id["request_id"]
+    out_timestamp["timestamp"]
+    out_customer_id["customer_id"]
+    out_customer_name["customer_name"]
+    out_account_number["account_number"]
+    out_request_type["request_type"]
+    out_hardship_reason["hardship_reason"]
+    out_monthly_income["monthly_income"]
+    out_monthly_expenses["monthly_expenses"]
+    out_outstanding_balance["outstanding_balance"]
+    out_monthly_payment_amount["monthly_payment_amount"]
+    out_requested_relief_type["requested_relief_type"]
+    out_requested_duration_months["requested_duration_months"]
+    out_supporting_documents["supporting_documents"]
+    out_contact_number["contact_number"]
+    out_contact_email["contact_email"]
+    out_priority["priority"]
+    out_status["status"]
+  end
+  in_messageId -->|EXACT| out_request_id
+  in_timestamp -->|EXACT| out_timestamp
+  in_arrears_status___customerId -->|RENAMED| out_customer_id
+  in_arrears_status___customerId -->|SEMANTIC| out_customer_name
+  in_arrears_status___accountNumber -->|EXACT| out_account_number
+  in_arrears_status___productType -->|RENAMED| out_request_type
+  in_arrears_status___status -->|SEMANTIC| out_hardship_reason
+  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_income
+  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_expenses
+  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_outstanding_balance
+  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_payment_amount
+  in_arrears_status___status -->|SEMANTIC| out_requested_relief_type
+  in_arrears_status___arrearsMonths -->|EXACT| out_requested_duration_months
+  in_arrears_status___notes -->|SEMANTIC| out_supporting_documents
+  in_arrears_status___customerId -->|SEMANTIC| out_contact_number
+  in_arrears_status___customerId -->|SEMANTIC| out_contact_email
+  in_arrears_status___status -->|SEMANTIC| out_priority
+  in_arrears_status___status -->|EXACT| out_status

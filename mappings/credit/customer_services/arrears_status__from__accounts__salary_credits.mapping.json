@@ -1,0 +1,173 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, transaction details, and settlement processes, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "transaction_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the transaction ID field."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp field."
+    },
+    {
+      "outbound_field": "sourceSystem",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "destinationSystem",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "settlement_details"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The arrears status concept is present in the settlement details, but not exactly mapped."
+    },
+    {
+      "outbound_field": "arrears_status[].customerId",
+      "sources": [
+        "employee.employee_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The customer ID field is renamed from the employee ID field."
+    },
+    {
+      "outbound_field": "arrears_status[].accountNumber",
+      "sources": [
+        "employee.personal_account.account_number"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The account number field is renamed from the employee's personal account."
+    },
+    {
+      "outbound_field": "arrears_status[].productType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].arrearsAmount",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the amount field."
+    },
+    {
+      "outbound_field": "arrears_status[].currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the currency field."
+    },
+    {
+      "outbound_field": "arrears_status[].arrearsMonths",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the status field."
+    },
+    {
+      "outbound_field": "arrears_status[].startDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].lastPaymentDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].nextPaymentDueDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].riskLevel",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].actionRequired",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].notes",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the notes field."
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like account number, product type, and arrears status, which could be transformed from the inbound file's data.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "fileId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sourceSystem",
+      "sources": [
+        "fromDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "destinationSystem",
+      "sources": [
+        "toDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "overdraftUsed",
+        "usagePercent"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.customerId",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_status.accountNumber",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_status.productType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status.arrearsAmount",
+      "sources": [
+        "overdraftUsed"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_status.currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status.arrearsMonths",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.status",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.startDate",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_status.lastPaymentDate",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.nextPaymentDueDate",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.riskLevel",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.actionRequired",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_status.notes",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

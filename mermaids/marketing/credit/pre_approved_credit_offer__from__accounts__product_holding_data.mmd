@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph IN["accounts: product_holding_data"]
+    in_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    in_product_holding_data_source_department["product_holding_data.source_department"]
+    in_product_holding_data_target_department["product_holding_data.target_department"]
+    in_product_holding_data_timestamp["product_holding_data.timestamp"]
+    in_product_holding_data_summary_total_customers["product_holding_data.summary.total_customers"]
+    in_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    in_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    in_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+  end
+  subgraph OUT["marketing: pre_approved_credit_offer"]
+    out_offer_id["offer_id"]
+    out_customer_id["customer_id"]
+    out_department_from["department_from"]
+    out_department_to["department_to"]
+    out_timestamp["timestamp"]
+    out_customer_details_first_name["customer_details.first_name"]
+    out_customer_details_last_name["customer_details.last_name"]
+    out_credit_offer_product_type["credit_offer.product_type"]
+    out_credit_offer_offer_amount["credit_offer.offer_amount"]
+    out_credit_offer_currency["credit_offer.currency"]
+  end
+  in_product_holding_data_holdings___customer_id -->|EXACT| out_offer_id
+  in_product_holding_data_holdings___customer_id -->|EXACT| out_customer_id
+  in_product_holding_data_source_department -->|RENAMED| out_department_from
+  in_product_holding_data_target_department -->|RENAMED| out_department_to
+  in_product_holding_data_timestamp -->|EXACT| out_timestamp
+  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_customer_details_first_name
+  in_product_holding_data_summary_total_customers -->|SEMANTIC| out_customer_details_first_name
+  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_customer_details_last_name
+  in_product_holding_data_summary_total_customers -->|SEMANTIC| out_customer_details_last_name
+  in_product_holding_data_holdings___product_id -->|SEMANTIC| out_credit_offer_product_type
+  in_product_holding_data_holdings___balance -->|SEMANTIC| out_credit_offer_offer_amount
+  in_product_holding_data_holdings___currency -->|EXACT| out_credit_offer_currency

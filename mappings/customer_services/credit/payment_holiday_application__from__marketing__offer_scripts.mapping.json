@@ -1,0 +1,143 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "offer_scripts.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "add593882baa2b92"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "payment_holiday_application.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "9b67eea3fbe2bc23"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's 'customer' concept is transformed into the outbound file's 'customer' object, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "applicationId",
+      "sources": [
+        "id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "created_date",
+        "effective_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "department.source",
+      "sources": [
+        "department_from"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "department.destination",
+      "sources": [
+        "department_to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "customer.customerId",
+      "sources": [
+        "id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "customer.name",
+      "sources": [
+        "name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "customer.email",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "account.accountNumber",
+      "sources": [
+        "id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "account.accountType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "paymentHolidayRequest.requestedMonths",
+      "sources": [
+        "duration_seconds"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "paymentHolidayRequest.startDate",
+      "sources": [
+        "created_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "paymentHolidayRequest.endDate",
+      "sources": [
+        "effective_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "applicationStatus",
+      "sources": [
+        "status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_customerId["customerId"]
+    in_department["department"]
+    in_recipientDepartment["recipientDepartment"]
+    in_accountNumber["accountNumber"]
+    in_estimatedHoldDuration["estimatedHoldDuration"]
+    in_transactionsAffected["transactionsAffected"]
+    in_balance["balance"]
+    in_pending_transactions["pending_transactions"]
+  end
+  subgraph OUT["accounts: account_balance"]
+    out_account_id["account_id"]
+    out_customer_id["customer_id"]
+    out_account_type["account_type"]
+    out_currency["currency"]
+    out_balance["balance"]
+    out_available_balance["available_balance"]
+    out_pending_transactions["pending_transactions"]
+  end
+  in_noticeId -->|EXACT| out_account_id
+  in_customerId -->|EXACT| out_customer_id
+  in_department -->|SEMANTIC| out_account_type
+  in_recipientDepartment -->|SEMANTIC| out_account_type
+  in_accountNumber -->|SEMANTIC| out_currency
+  in_customerId -->|SEMANTIC| out_currency
+  in_estimatedHoldDuration -->|TRANSFORMED| out_balance
+  in_transactionsAffected -->|TRANSFORMED| out_balance
+  in_balance -->|TRANSFORMED| out_available_balance
+  in_pending_transactions -->|TRANSFORMED| out_available_balance
+  in_transactionsAffected -->|EXACT| out_pending_transactions

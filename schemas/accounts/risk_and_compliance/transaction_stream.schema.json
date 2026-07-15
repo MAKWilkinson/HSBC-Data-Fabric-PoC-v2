@@ -1,0 +1,65 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+    "providing_system": "accounts",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "transaction_stream.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "transaction_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the transaction"
+    },
+    {
+      "name": "counterparty_system",
+      "data_type": "string",
+      "nullable": true,
+      "description": "The system that originated this transaction (e.g. accounts, risk_and_compliance)",
+      "enum_values": [
+        "accounts",
+        "risk_and_compliance"
+      ]
+    },
+    {
+      "name": "transaction_date",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "The date the transaction occurred",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "amount",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "The amount of the transaction",
+      "fmt": "currency"
+    },
+    {
+      "name": "transaction_type",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The type of transaction (e.g. deposit, withdrawal)",
+      "enum_values": [
+        "deposit",
+        "withdrawal"
+      ]
+    },
+    {
+      "name": "eligible_customers",
+      "data_type": "array",
+      "nullable": false,
+      "description": "One entry per customer eligible for the product",
+      "children": [
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        }
+      ]
+    }
+  ]
+}

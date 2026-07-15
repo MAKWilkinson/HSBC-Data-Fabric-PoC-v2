@@ -1,0 +1,23 @@
+flowchart LR
+  subgraph IN["customer_services: hardship_request"]
+    in_customer_id["customer_id"]
+    in_customer_name["customer_name"]
+    in_request_id["request_id"]
+    in_outstanding_balance["outstanding_balance"]
+    in_hardship_severity["hardship_severity"]
+    in_request_type["request_type"]
+  end
+  subgraph OUT["credit: repayment_schedule"]
+    out_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    out_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    out_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    out_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
+    out_repayment_schedule_interest_rate["repayment_schedule.interest_rate"]
+    out_repayment_schedule_repayment_frequency["repayment_schedule.repayment_frequency"]
+  end
+  in_customer_id -->|EXACT| out_repayment_schedule_customer_id
+  in_customer_name -->|RENAMED| out_repayment_schedule_customer_name
+  in_request_id -->|RENAMED| out_repayment_schedule_loan_id
+  in_outstanding_balance -->|TRANSFORMED| out_repayment_schedule_principal_amount
+  in_hardship_severity -->|SEMANTIC| out_repayment_schedule_interest_rate
+  in_request_type -->|SEMANTIC| out_repayment_schedule_repayment_frequency

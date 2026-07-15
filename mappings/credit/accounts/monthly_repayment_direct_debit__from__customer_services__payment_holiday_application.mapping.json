@@ -1,0 +1,90 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "payment_holiday_application.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "9b67eea3fbe2bc23"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "monthly_repayment_direct_debit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "154cd31096fbc5c5"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and payment holiday requests.",
+  "mappings": [
+    {
+      "outbound_field": "repayments.accountNumber",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayments.customerId",
+      "sources": [
+        "customer.customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayments.customerName",
+      "sources": [
+        "customer.name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "repayments.loanId",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayments.repaymentAmount",
+      "sources": [
+        "account.loanAmount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayments.dueDate",
+      "sources": [
+        "paymentHolidayRequest.endDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayments.directDebitMandateId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

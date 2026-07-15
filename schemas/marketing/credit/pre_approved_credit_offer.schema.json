@@ -1,0 +1,332 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/marketing/credit/pre_approved_credit_offer.json",
+    "providing_system": "marketing",
+    "consuming_system": "credit",
+    "message_file_name": "pre_approved_credit_offer.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "offer_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the credit offer"
+    },
+    {
+      "name": "customer_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the customer"
+    },
+    {
+      "name": "offer_type",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Type of credit offer (pre-approved)",
+      "enum_values": [
+        "pre_approved_credit"
+      ]
+    },
+    {
+      "name": "department_from",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Department that originated the data (marketing)",
+      "enum_values": [
+        "marketing"
+      ]
+    },
+    {
+      "name": "department_to",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Department that received the data (credit)",
+      "enum_values": [
+        "credit"
+      ]
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the offer was made",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "customer_details",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Customer information",
+      "children": [
+        {
+          "name": "first_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer's first name (John)",
+          "enum_values": [
+            "John"
+          ]
+        },
+        {
+          "name": "last_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer's last name (Smith)",
+          "enum_values": [
+            "Smith"
+          ]
+        },
+        {
+          "name": "email",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer's email address (john.smith@example.com)",
+          "fmt": "email",
+          "enum_values": [
+            "john.smith@example.com"
+          ]
+        },
+        {
+          "name": "phone",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer's phone number (+44-20-7123-4567)",
+          "fmt": "phone",
+          "enum_values": [
+            "+44-20-7123-4567"
+          ]
+        },
+        {
+          "name": "account_number",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer's account number (ACC-123456789)",
+          "enum_values": [
+            "ACC-123456789"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "credit_offer",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Credit offer details",
+      "children": [
+        {
+          "name": "product_type",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Type of credit product (personal_loan)",
+          "enum_values": [
+            "personal_loan"
+          ]
+        },
+        {
+          "name": "offer_amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of the credit offer (25000)",
+          "fmt": "currency",
+          "enum_values": [
+            "25000"
+          ]
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Currency of the credit offer (GBP)",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        },
+        {
+          "name": "interest_rate",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Interest rate of the credit offer (5.99%)",
+          "fmt": "percentage",
+          "enum_values": [
+            "5.99"
+          ]
+        },
+        {
+          "name": "term_months",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Term of the credit offer in months (60)",
+          "enum_values": [
+            "60"
+          ]
+        },
+        {
+          "name": "monthly_payment",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Monthly payment amount (471.92)",
+          "fmt": "currency",
+          "enum_values": [
+            "471.92"
+          ]
+        },
+        {
+          "name": "total_repayable",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Total repayable amount (28315.20)",
+          "fmt": "currency",
+          "enum_values": [
+            "28315.2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offer_validity",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Offer validity details",
+      "children": [
+        {
+          "name": "start_date",
+          "data_type": "date",
+          "nullable": true,
+          "description": "Start date of the offer (2024-01-15)",
+          "fmt": "date",
+          "enum_values": [
+            "2024-01-15"
+          ]
+        },
+        {
+          "name": "end_date",
+          "data_type": "date",
+          "nullable": true,
+          "description": "End date of the offer (2024-02-15)",
+          "fmt": "date",
+          "enum_values": [
+            "2024-02-15"
+          ]
+        },
+        {
+          "name": "days_valid",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of days the offer is valid (31)",
+          "enum_values": [
+            "31"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "eligibility_criteria",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Eligibility criteria for the credit offer",
+      "children": [
+        {
+          "name": "credit_score_required",
+          "data_type": "integer",
+          "nullable": true,
+          "description": "Minimum credit score required (650)",
+          "enum_values": [
+            "650"
+          ]
+        },
+        {
+          "name": "annual_income_required",
+          "data_type": "decimal",
+          "nullable": true,
+          "description": "Minimum annual income required (35000)",
+          "fmt": "currency",
+          "enum_values": [
+            "35000"
+          ]
+        },
+        {
+          "name": "employment_status",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Employment status of the customer (employed)",
+          "enum_values": [
+            "employed"
+          ]
+        },
+        {
+          "name": "existing_customer",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Whether the customer is an existing one (true)",
+          "enum_values": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "marketing_campaign",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Marketing campaign details",
+      "children": [
+        {
+          "name": "campaign_id",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unique identifier for the marketing campaign (CAMP-Q1-2024-001)",
+          "enum_values": [
+            "CAMP-Q1-2024-001"
+          ]
+        },
+        {
+          "name": "campaign_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the marketing campaign (Premium Credit Offers)",
+          "enum_values": [
+            "Premium Credit Offers"
+          ]
+        },
+        {
+          "name": "channel",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Channel used for the marketing campaign (email)",
+          "enum_values": [
+            "email"
+          ]
+        },
+        {
+          "name": "segment",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Segment targeted by the marketing campaign (high_value_customers)",
+          "enum_values": [
+            "high_value_customers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Status of the credit offer (pending_credit_review)",
+      "enum_values": [
+        "pending_credit_review"
+      ]
+    },
+    {
+      "name": "approval_required",
+      "data_type": "boolean",
+      "nullable": false,
+      "description": "Whether approval is required for the credit offer (true)",
+      "enum_values": [
+        "True"
+      ]
+    }
+  ]
+}

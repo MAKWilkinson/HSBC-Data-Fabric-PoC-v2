@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph IN["marketing: offer_scripts"]
+    in_id["id"]
+    in_created_date["created_date"]
+    in_effective_date["effective_date"]
+    in_department_from["department_from"]
+    in_department_to["department_to"]
+    in_name["name"]
+  end
+  subgraph OUT["customer_services: hardship_request"]
+    out_request_id["request_id"]
+    out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_target_department["target_department"]
+    out_customer_id["customer_id"]
+    out_customer_name["customer_name"]
+    out_account_number["account_number"]
+  end
+  in_id -->|EXACT| out_request_id
+  in_created_date -->|SEMANTIC| out_timestamp
+  in_effective_date -->|SEMANTIC| out_timestamp
+  in_department_from -->|RENAMED| out_source_department
+  in_department_to -->|RENAMED| out_target_department
+  in_id -->|EXACT| out_customer_id
+  in_name -->|EXACT| out_customer_name

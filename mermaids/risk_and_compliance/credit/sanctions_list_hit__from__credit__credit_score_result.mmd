@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph IN["credit: credit_score_result"]
+    in_result_id["result_id"]
+    in_timestamp["timestamp"]
+    in_destination_department["destination_department"]
+    in_customer_customer_id["customer.customer_id"]
+    in_customer_name["customer.name"]
+    in_customer_date_of_birth["customer.date_of_birth"]
+    in_customer_account_number["customer.account_number"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_sanctionsListHit_severity["sanctionsListHit.severity"]
+    out_sanctionsListHit_status["sanctionsListHit.status"]
+    out_matchedEntity_entityId["matchedEntity.entityId"]
+    out_matchedEntity_name["matchedEntity.name"]
+    out_matchedEntity_dateOfBirth["matchedEntity.dateOfBirth"]
+    out_matchedEntity_nationality["matchedEntity.nationality"]
+    out_associatedAccounts_accountNumber["associatedAccounts.accountNumber"]
+    out_reviewDetails_assignedTo["reviewDetails.assignedTo"]
+    out_reviewDetails_reviewDeadline["reviewDetails.reviewDeadline"]
+  end
+  in_result_id -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_destination_department -->|RENAMED| out_source
+  in_destination_department -->|RENAMED| out_destination
+  in_customer_customer_id -->|SEMANTIC| out_sanctionsListHit_hitId
+  in_customer_customer_id -->|SEMANTIC| out_matchedEntity_entityId
+  in_customer_name -->|EXACT| out_matchedEntity_name
+  in_customer_date_of_birth -->|SEMANTIC| out_matchedEntity_dateOfBirth
+  in_customer_account_number -->|SEMANTIC| out_associatedAccounts_accountNumber

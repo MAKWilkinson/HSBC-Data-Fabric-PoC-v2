@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph IN["customer_services: dispute_chargeback_request"]
+    in_department["department"]
+    in_targetDepartment["targetDepartment"]
+    in_timestamp["timestamp"]
+    in_customerDetails_customerId["customerDetails.customerId"]
+    in_customerDetails_customerName["customerDetails.customerName"]
+    in_notes["notes"]
+    in_transactionDetails_amount["transactionDetails.amount"]
+    in_transactionDetails_currency["transactionDetails.currency"]
+  end
+  subgraph OUT["accounts: customer_segment"]
+    out_metadata_source["metadata.source"]
+    out_metadata_destination["metadata.destination"]
+    out_metadata_timestamp["metadata.timestamp"]
+    out_metadata_message_type["metadata.message_type"]
+    out_segments___segment_id["segments[].segment_id"]
+    out_segments___segment_name["segments[].segment_name"]
+    out_segments___description["segments[].description"]
+    out_summary_total_customers["summary.total_customers"]
+    out_summary_total_assets_under_management["summary.total_assets_under_management"]
+    out_summary_report_period["summary.report_period"]
+  end
+  in_department -->|RENAMED| out_metadata_source
+  in_targetDepartment -->|RENAMED| out_metadata_destination
+  in_timestamp -->|EXACT| out_metadata_timestamp
+  in_customerDetails_customerId -->|SEMANTIC| out_segments___segment_id
+  in_customerDetails_customerName -->|SEMANTIC| out_segments___segment_name
+  in_notes -->|SEMANTIC| out_segments___description
+  in_customerDetails_customerId -->|SEMANTIC| out_summary_total_customers
+  in_transactionDetails_amount -->|SEMANTIC| out_summary_total_assets_under_management
+  in_transactionDetails_currency -->|SEMANTIC| out_summary_total_assets_under_management
+  in_timestamp -->|EXACT| out_summary_report_period

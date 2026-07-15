@@ -1,0 +1,244 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "lending_decision_override.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "bf6dea1328e7228c"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share loan application concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of timestamp field from inbound schema."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "messageType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload",
+      "sources": [
+        "loan_applications"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Payload captures the same concept as loan applications from inbound schema."
+    },
+    {
+      "outbound_field": "payload.loanApplicationId",
+      "sources": [
+        "loan_applications[].application_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Same source meaning as application_id field from inbound schema, but with a different name."
+    },
+    {
+      "outbound_field": "payload.customerId",
+      "sources": [
+        "loan_applications[].applicant.customer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Same source meaning as customer_id field from inbound schema, but with a different name."
+    },
+    {
+      "outbound_field": "payload.originalDecision",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideDecision",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Override decision captures the same concept as application status from inbound schema."
+    },
+    {
+      "outbound_field": "payload.overrideReason",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails",
+      "sources": [
+        "loan_applications[].financial_profile"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Risk assessment details capture the same concept as financial profile from inbound schema."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.creditScore",
+      "sources": [
+        "loan_applications[].financial_profile.credit_score"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of credit score field from inbound schema."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.debtToIncomeRatio",
+      "sources": [
+        "loan_applications[].financial_profile.total_assets",
+        "loan_applications[].financial_profile.total_liabilities"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Debt-to-income ratio is a combination of total assets and liabilities from inbound schema."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.loanToValueRatio",
+      "sources": [
+        "loan_applications[].collateral"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Loan-to-value ratio captures the same concept as collateral from inbound schema."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.yearsOfIncome",
+      "sources": [
+        "loan_applications[].employment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Years of income capture the same concept as employment from inbound schema."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.mitigatingFactors",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Override approval details capture the same concept as application status from inbound schema."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvedBy",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvalLevel",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvalDate",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Override approval date captures the same concept as timestamp from inbound schema."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.conditions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.loanDetails",
+      "sources": [
+        "loan_applications[].loan_details"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Loan details capture the same concept as loan details from inbound schema."
+    },
+    {
+      "outbound_field": "payload.loanDetails.loanAmount",
+      "sources": [
+        "loan_applications[].loan_details.requested_amount"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Same source meaning as requested amount field from inbound schema, but with a different name."
+    },
+    {
+      "outbound_field": "payload.loanDetails.approvalDate",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Approval date captures the same concept as timestamp from inbound schema."
+    },
+    {
+      "outbound_field": "unmapped_inbound_fields",
+      "sources": [
+        "internal_audit_flag"
+      ],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists outbound; likely system-generated."
+    }
+  ]
+}

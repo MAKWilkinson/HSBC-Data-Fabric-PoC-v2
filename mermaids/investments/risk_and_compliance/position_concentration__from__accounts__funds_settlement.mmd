@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph IN["accounts: funds_settlement"]
+    in_settlement_id["settlement_id"]
+    in_settlement_timestamp["settlement_timestamp"]
+    in_from_department["from_department"]
+    in_to_department["to_department"]
+    in_settlement_date["settlement_date"]
+    in_total_amount["total_amount"]
+    in_settlements___fund_id["settlements[].fund_id"]
+  end
+  subgraph OUT["investments: position_concentration"]
+    out_message_id["message_id"]
+    out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_destination_department["destination_department"]
+    out_report_type["report_type"]
+    out_reporting_date["reporting_date"]
+    out_data_portfolio_summary_total_positions["data.portfolio_summary.total_positions"]
+    out_data_portfolio_summary_total_market_value["data.portfolio_summary.total_market_value"]
+    out_data_concentration_by_sector["data.concentration_by_sector"]
+    out_data_concentration_by_single_name["data.concentration_by_single_name"]
+    out_data_concentration_by_geography["data.concentration_by_geography"]
+    out_data_regulatory_threshold_alert["data.regulatory_threshold_alert"]
+  end
+  in_settlement_id -->|RENAMED| out_message_id
+  in_settlement_timestamp -->|EXACT| out_timestamp
+  in_from_department -->|RENAMED| out_source_department
+  in_to_department -->|RENAMED| out_destination_department
+  in_settlement_date -->|EXACT| out_reporting_date
+  in_total_amount -->|SEMANTIC| out_data_portfolio_summary_total_positions
+  in_total_amount -->|SEMANTIC| out_data_portfolio_summary_total_market_value
+  in_settlements___fund_id -->|MERGE| out_data_concentration_by_sector
+  in_settlements___fund_id -->|MERGE| out_data_concentration_by_single_name

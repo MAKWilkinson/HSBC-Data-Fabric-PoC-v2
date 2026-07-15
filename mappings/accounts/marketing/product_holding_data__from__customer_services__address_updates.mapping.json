@@ -1,0 +1,203 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "providing_system": "customer_services",
+      "consuming_system": "accounts",
+      "message_file_name": "address_updates.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "be43dc882657f455"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types don't form a clear pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.source_department",
+      "sources": [
+        "department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "product_holding_data.target_department",
+      "sources": [
+        "targetDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "product_holding_data.data_version",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings",
+      "sources": [
+        "previousAddress",
+        "newAddress"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is a combination of two inbound fields."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_name",
+      "sources": [
+        "previousAddress.addressLine1",
+        "newAddress.addressLine1"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].currency",
+      "sources": [
+        "previousAddress.country",
+        "newAddress.country"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_opened_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].last_transaction_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].monthly_turnover",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].credit_limit",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].is_primary_account",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_customers",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_holdings",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_balance",
+      "sources": [
+        "previousAddress.postalCode",
+        "newAddress.postalCode"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.currency",
+      "sources": [
+        "previousAddress.country",
+        "newAddress.country"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph IN["accounts: customer_segment"]
+    in_segments___segment_id["segments[].segment_id"]
+    in_metadata_message_type["metadata.message_type"]
+    in_metadata_source["metadata.source"]
+    in_metadata_timestamp["metadata.timestamp"]
+    in_segments___segment_name["segments[].segment_name"]
+    in_segments___product_holding["segments[].product_holding"]
+    in_summary_total_assets_under_management["summary.total_assets_under_management"]
+    in_summary_report_period["summary.report_period"]
+    in_segments___avg_account_balance["segments[].avg_account_balance"]
+  end
+  subgraph OUT["marketing: pre_approved_credit_offer"]
+    out_customer_id["customer_id"]
+    out_offer_type["offer_type"]
+    out_department_from["department_from"]
+    out_timestamp["timestamp"]
+    out_customer_details_first_name["customer_details.first_name"]
+    out_customer_details_last_name["customer_details.last_name"]
+    out_credit_offer_product_type["credit_offer.product_type"]
+    out_credit_offer_offer_amount["credit_offer.offer_amount"]
+    out_credit_offer_term_months["credit_offer.term_months"]
+    out_eligibility_criteria_credit_score_required["eligibility_criteria.credit_score_required"]
+  end
+  in_segments___segment_id -->|RENAMED| out_customer_id
+  in_metadata_message_type -->|SEMANTIC| out_offer_type
+  in_metadata_source -->|EXACT| out_department_from
+  in_metadata_timestamp -->|EXACT| out_timestamp
+  in_segments___segment_name -->|SEMANTIC| out_customer_details_first_name
+  in_segments___segment_name -->|SEMANTIC| out_customer_details_last_name
+  in_segments___product_holding -->|SEMANTIC| out_credit_offer_product_type
+  in_summary_total_assets_under_management -->|SEMANTIC| out_credit_offer_offer_amount
+  in_summary_report_period -->|SEMANTIC| out_credit_offer_term_months
+  in_segments___avg_account_balance -->|SEMANTIC| out_eligibility_criteria_credit_score_required

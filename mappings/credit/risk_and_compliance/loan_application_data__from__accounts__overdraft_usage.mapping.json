@@ -1,0 +1,76 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like account number, overdraft limit, and usage percentage, which could be used to determine loan applications.",
+  "mappings": [
+    {
+      "outbound_field": "loan_applications[].application_id",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of account number field."
+    },
+    {
+      "outbound_field": "loan_applications[].timestamp",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same concept as sent date, but renamed to timestamp."
+    },
+    {
+      "outbound_field": "loan_applications[].applicant.customer_id",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Customer ID is related to account number, but not an exact copy."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.requested_amount",
+      "sources": [
+        "overdraftLimit",
+        "overdraftUsed"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of overdraft limit and used amount to determine requested loan amount."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_assets",
+      "sources": [
+        "overdraftLimit",
+        "overdraftUsed"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Total assets is related to overdraft limit and used amount, but not an exact copy."
+    }
+  ]
+}

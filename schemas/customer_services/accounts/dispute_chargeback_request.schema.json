@@ -1,0 +1,263 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+    "providing_system": "customer_services",
+    "consuming_system": "accounts",
+    "message_file_name": "dispute_chargeback_request.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "requestId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the dispute chargeback request"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the request was submitted",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that originated the data (customer_services)",
+      "enum_values": [
+        "customer_services"
+      ]
+    },
+    {
+      "name": "targetDepartment",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Target department for the request (accounts)",
+      "enum_values": [
+        "accounts"
+      ]
+    },
+    {
+      "name": "customerDetails",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Customer information",
+      "children": [
+        {
+          "name": "customerId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "customerName",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer name"
+        },
+        {
+          "name": "accountNumber",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Account number for the customer",
+          "fmt": "iban"
+        },
+        {
+          "name": "email",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer email address",
+          "fmt": "email"
+        },
+        {
+          "name": "phone",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Customer phone number",
+          "fmt": "phone"
+        }
+      ]
+    },
+    {
+      "name": "transactionDetails",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Transaction information",
+      "children": [
+        {
+          "name": "transactionId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the transaction"
+        },
+        {
+          "name": "transactionDate",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp of when the transaction occurred",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of the transaction",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency of the transaction (GBP)",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        },
+        {
+          "name": "merchant",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Merchant name"
+        },
+        {
+          "name": "merchantReference",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Merchant reference for the transaction"
+        },
+        {
+          "name": "description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Description of the transaction"
+        }
+      ]
+    },
+    {
+      "name": "disputeDetails",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Dispute information",
+      "children": [
+        {
+          "name": "disputeType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of dispute (chargeback)",
+          "enum_values": [
+            "chargeback"
+          ]
+        },
+        {
+          "name": "reason",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Reason for the dispute (unauthorized_transaction)",
+          "enum_values": [
+            "unauthorized_transaction"
+          ]
+        },
+        {
+          "name": "reasonDescription",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Detailed description of the reason for the dispute"
+        },
+        {
+          "name": "disputeStatus",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current status of the dispute (pending_review)",
+          "enum_values": [
+            "pending_review"
+          ]
+        },
+        {
+          "name": "createdDate",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the dispute was created",
+          "fmt": "iso8601"
+        }
+      ]
+    },
+    {
+      "name": "evidenceProvided",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Evidence provided for the dispute",
+      "children": [
+        {
+          "name": "type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of evidence (customer_statement, communication_logs)",
+          "enum_values": [
+            "customer_statement",
+            "communication_logs"
+          ]
+        },
+        {
+          "name": "description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Description of the evidence"
+        },
+        {
+          "name": "documentId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the evidence document"
+        }
+      ]
+    },
+    {
+      "name": "requestStatus",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Current status of the request (submitted)",
+      "enum_values": [
+        "submitted"
+      ]
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Priority level for the request (high)",
+      "enum_values": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional notes about the request"
+    },
+    {
+      "name": "requiredActions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Required actions for resolving the dispute",
+      "children": [
+        {
+          "name": "action",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Action required (credit_investigation, merchant_contact, cardholder_verification, charge_reversal_if_valid)",
+          "enum_values": [
+            "credit_investigation",
+            "merchant_contact",
+            "cardholder_verification",
+            "charge_reversal_if_valid"
+          ]
+        }
+      ]
+    }
+  ]
+}

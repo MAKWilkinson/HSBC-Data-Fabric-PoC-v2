@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph IN["credit: loan_application_data"]
+    in_loan_applications___timestamp["loan_applications[].timestamp"]
+    in_loan_applications___application_id["loan_applications[].application_id"]
+    in_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
+    in_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    in_loan_applications___applicant_date_of_birth["loan_applications[].applicant.date_of_birth"]
+    in_loan_applications___financial_profile["loan_applications[].financial_profile"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_sanctionsListHit_severity["sanctionsListHit.severity"]
+    out_sanctionsListHit_status["sanctionsListHit.status"]
+    out_matchedEntity_entityId["matchedEntity.entityId"]
+    out_matchedEntity_name["matchedEntity.name"]
+    out_matchedEntity_dateOfBirth["matchedEntity.dateOfBirth"]
+    out_matchedEntity_nationality["matchedEntity.nationality"]
+    out_sanctionListsMatched_listName["sanctionListsMatched.listName"]
+    out_sanctionListsMatched_listVersion["sanctionListsMatched.listVersion"]
+    out_riskFactors["riskFactors"]
+    out_associatedAccounts_accountNumber["associatedAccounts.accountNumber"]
+    out_reviewDetails_assignedTo["reviewDetails.assignedTo"]
+    out_auditTrail_detectionTimestamp["auditTrail.detectionTimestamp"]
+  end
+  in_loan_applications___timestamp -->|EXACT| out_timestamp
+  in_loan_applications___application_id -->|RENAMED| out_sanctionsListHit_hitId
+  in_loan_applications___applicant_customer_id -->|RENAMED| out_matchedEntity_entityId
+  in_loan_applications___applicant_full_name -->|EXACT| out_matchedEntity_name
+  in_loan_applications___applicant_date_of_birth -->|EXACT| out_matchedEntity_dateOfBirth
+  in_loan_applications___financial_profile -->|SEMANTIC| out_riskFactors
+  in_loan_applications___timestamp -->|EXACT| out_auditTrail_detectionTimestamp

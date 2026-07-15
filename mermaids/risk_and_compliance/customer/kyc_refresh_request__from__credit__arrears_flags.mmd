@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph IN["credit: arrears_flags"]
+    in_arrears_flags___account_id["arrears_flags[].account_id"]
+    in_arrears_flags___customer_id["arrears_flags[].customer_id"]
+    in_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    in_arrears_flags___last_payment_date["arrears_flags[].last_payment_date"]
+    in_arrears_flags___flag_severity["arrears_flags[].flag_severity"]
+    in_arrears_flags___trigger_factors["arrears_flags[].trigger_factors"]
+    in_arrears_flags___notes["arrears_flags[].notes"]
+    in_arrears_flags___action_type["arrears_flags[].action_type"]
+  end
+  subgraph OUT["risk_and_compliance: kyc_refresh_request"]
+    out_customer_customer_id["customer.customer_id"]
+    out_customer_full_name["customer.full_name"]
+    out_kyc_refresh_details_last_refresh_date["kyc_refresh_details.last_refresh_date"]
+    out_kyc_refresh_details_refresh_reason["kyc_refresh_details.refresh_reason"]
+    out_kyc_refresh_details_risk_flag["kyc_refresh_details.risk_flag"]
+    out_kyc_refresh_details_trigger_factors["kyc_refresh_details.trigger_factors"]
+    out_required_documents["required_documents"]
+    out_required_actions["required_actions"]
+  end
+  in_arrears_flags___account_id -->|RENAMED| out_customer_customer_id
+  in_arrears_flags___customer_id -->|RENAMED| out_customer_customer_id
+  in_arrears_flags___customer_name -->|SEMANTIC| out_customer_full_name
+  in_arrears_flags___last_payment_date -->|SEMANTIC| out_kyc_refresh_details_last_refresh_date
+  in_arrears_flags___flag_severity -->|SEMANTIC| out_kyc_refresh_details_refresh_reason
+  in_arrears_flags___flag_severity -->|SEMANTIC| out_kyc_refresh_details_risk_flag
+  in_arrears_flags___trigger_factors -->|SEMANTIC| out_kyc_refresh_details_trigger_factors
+  in_arrears_flags___notes -->|SEMANTIC| out_required_documents
+  in_arrears_flags___action_type -->|SEMANTIC| out_required_actions

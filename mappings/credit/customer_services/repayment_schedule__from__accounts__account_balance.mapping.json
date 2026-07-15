@@ -1,0 +1,74 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer_id, account_type, and currency, which suggests a plausible connection between the two systems.",
+  "mappings": [
+    {
+      "outbound_field": "repayment_schedule.customer_id",
+      "sources": [
+        "customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_type",
+      "sources": [
+        "account_type"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "repayment_schedule.principal_amount",
+      "sources": [
+        "balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "repayment_schedule.total_repayments",
+      "sources": [
+        "pending_transactions"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments",
+      "sources": [
+        "pending_transactions"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is a combination of two or more inbound fields."
+    }
+  ]
+}

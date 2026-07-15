@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph IN["accounts: anomoly_transfers"]
+    in_transfer_id["transfer_id"]
+    in_from_account["from_account"]
+    in_to_account["to_account"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_associatedAccounts_accountNumber["associatedAccounts.accountNumber"]
+    out_riskFactors["riskFactors"]
+  end
+  in_transfer_id -->|EXACT| out_messageId
+  in_from_account -->|RENAMED| out_source
+  in_to_account -->|RENAMED| out_destination
+  in_transfer_id -->|EXACT| out_sanctionsListHit_hitId
+  in_from_account -->|MERGE| out_associatedAccounts_accountNumber
+  in_to_account -->|MERGE| out_associatedAccounts_accountNumber

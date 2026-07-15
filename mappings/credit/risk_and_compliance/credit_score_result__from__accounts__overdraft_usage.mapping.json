@@ -1,0 +1,118 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "credit_score_result.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "0574b272efdab1ab"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, credit score, and assessment date, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "result_id",
+      "sources": [
+        "fileId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "source_department",
+      "sources": [
+        "fromDepartment"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "destination_department",
+      "sources": [
+        "toDepartment"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "customer.customer_id",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "credit_score.score",
+      "sources": [
+        "overdraftUsed",
+        "overdraftLimit"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "credit_assessment.total_credit_limit",
+      "sources": [
+        "overdraftLimit"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "credit_assessment.outstanding_balance",
+      "sources": [
+        "overdraftUsed"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "credit_assessment.utilization_rate",
+      "sources": [
+        "usagePercent"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "risk_indicators.fraud_risk",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

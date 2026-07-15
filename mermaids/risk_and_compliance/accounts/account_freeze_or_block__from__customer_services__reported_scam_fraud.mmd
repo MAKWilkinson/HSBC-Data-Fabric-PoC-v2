@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph IN["customer_services: reported_scam_fraud"]
+    in_customer_accountNumber["customer.accountNumber"]
+    in_customer_customerName["customer.customerName"]
+    in_customer_accountType["customer.accountType"]
+    in_customer_customerTier["customer.customerTier"]
+    in_fraudDetails_amountInvolved["fraudDetails.amountInvolved"]
+    in_fraudDetails_fraudulentRecipient["fraudDetails.fraudulentRecipient"]
+    in_riskIndicators["riskIndicators"]
+    in_fraudDetails_fraudDescription["fraudDetails.fraudDescription"]
+    in_actionsTaken["actionsTaken"]
+  end
+  subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
+    out_account_accountType["account.accountType"]
+    out_account_currency["account.currency"]
+    out_account_branch["account.branch"]
+    out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_freezeDetails_reason["freezeDetails.reason"]
+    out_escalation_level["escalation.level"]
+  end
+  in_customer_accountNumber -->|RENAMED| out_account_accountNumber
+  in_customer_customerName -->|SEMANTIC| out_account_accountHolder
+  in_customer_accountType -->|EXACT| out_account_accountType
+  in_customer_customerTier -->|MERGE| out_account_currency
+  in_fraudDetails_amountInvolved -->|MERGE| out_account_currency
+  in_customer_customerTier -->|SEMANTIC| out_account_branch
+  in_fraudDetails_fraudulentRecipient -->|SEMANTIC| out_account_branch
+  in_riskIndicators -->|SEMANTIC| out_freezeDetails_freezeType
+  in_fraudDetails_fraudDescription -->|SEMANTIC| out_freezeDetails_reason
+  in_riskIndicators -->|MERGE| out_escalation_level
+  in_actionsTaken -->|MERGE| out_escalation_level

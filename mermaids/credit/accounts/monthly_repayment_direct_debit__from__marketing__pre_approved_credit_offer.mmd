@@ -1,0 +1,51 @@
+flowchart LR
+  subgraph IN["marketing: pre_approved_credit_offer"]
+    in_offer_id["offer_id"]
+    in_timestamp["timestamp"]
+    in_department_from["department_from"]
+    in_department_to["department_to"]
+    in_customer_details_account_number["customer_details.account_number"]
+    in_customer_id["customer_id"]
+    in_customer_details_first_name["customer_details.first_name"]
+    in_customer_details_last_name["customer_details.last_name"]
+    in_credit_offer_product_type["credit_offer.product_type"]
+    in_credit_offer_offer_amount["credit_offer.offer_amount"]
+    in_credit_offer_monthly_payment["credit_offer.monthly_payment"]
+    in_credit_offer_currency["credit_offer.currency"]
+    in_offer_validity_start_date["offer_validity.start_date"]
+    in_status["status"]
+    in_credit_offer_total_repayable["credit_offer.total_repayable"]
+  end
+  subgraph OUT["credit: monthly_repayment_direct_debit"]
+    out_repaymentId["repaymentId"]
+    out_batchDate["batchDate"]
+    out_department_from["department.from"]
+    out_department_to["department.to"]
+    out_repayments_accountNumber["repayments.accountNumber"]
+    out_repayments_customerId["repayments.customerId"]
+    out_repayments_customerName["repayments.customerName"]
+    out_repayments_loanId["repayments.loanId"]
+    out_repayments_repaymentAmount["repayments.repaymentAmount"]
+    out_repayments_currency["repayments.currency"]
+    out_repayments_dueDate["repayments.dueDate"]
+    out_repayments_directDebitMandateId["repayments.directDebitMandateId"]
+    out_repayments_repaymentStatus["repayments.repaymentStatus"]
+    out_repayments_repaymentType["repayments.repaymentType"]
+    out_totalAmount["totalAmount"]
+  end
+  in_offer_id -->|EXACT| out_repaymentId
+  in_timestamp -->|SEMANTIC| out_batchDate
+  in_department_from -->|RENAMED| out_department_from
+  in_department_to -->|RENAMED| out_department_to
+  in_customer_details_account_number -->|SEMANTIC| out_repayments_accountNumber
+  in_customer_id -->|EXACT| out_repayments_customerId
+  in_customer_details_first_name -->|MERGE| out_repayments_customerName
+  in_customer_details_last_name -->|MERGE| out_repayments_customerName
+  in_credit_offer_product_type -->|SEMANTIC| out_repayments_loanId
+  in_credit_offer_offer_amount -->|SEMANTIC| out_repayments_loanId
+  in_credit_offer_monthly_payment -->|SEMANTIC| out_repayments_repaymentAmount
+  in_credit_offer_currency -->|EXACT| out_repayments_currency
+  in_offer_validity_start_date -->|SEMANTIC| out_repayments_dueDate
+  in_status -->|SEMANTIC| out_repayments_repaymentStatus
+  in_credit_offer_product_type -->|SEMANTIC| out_repayments_repaymentType
+  in_credit_offer_total_repayable -->|SEMANTIC| out_totalAmount

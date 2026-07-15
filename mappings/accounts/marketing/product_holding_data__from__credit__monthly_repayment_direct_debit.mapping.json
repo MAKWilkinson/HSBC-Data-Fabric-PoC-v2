@@ -1,0 +1,144 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "monthly_repayment_direct_debit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "154cd31096fbc5c5"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share concepts like customer information, account numbers, and repayment details, which could be transformed from the inbound file to the outbound file.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "repayments[].customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [
+        "repayments[].accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "repayments[].repaymentStatus"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [
+        "repayments[].repaymentAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].currency",
+      "sources": [
+        "repayments[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_opened_date",
+      "sources": [
+        "repayments[].dueDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].last_transaction_date",
+      "sources": [
+        "repayments[].dueDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].monthly_turnover",
+      "sources": [
+        "repayments[].repaymentAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].credit_limit",
+      "sources": [
+        "repayments[].repaymentAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_customers",
+      "sources": [
+        "recordCount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_holdings",
+      "sources": [
+        "recordCount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_balance",
+      "sources": [
+        "totalAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    }
+  ]
+}

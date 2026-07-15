@@ -1,0 +1,24 @@
+flowchart LR
+  subgraph IN["customer_services: dispute_chargeback_request"]
+    in_customerDetails_customerId["customerDetails.customerId"]
+    in_transactionDetails_transactionType["transactionDetails.transactionType"]
+    in_transactionDetails_currency["transactionDetails.currency"]
+    in_transactionDetails_amount["transactionDetails.amount"]
+    in_transactionDetails_transactionId["transactionDetails.transactionId"]
+  end
+  subgraph OUT["accounts: account_balance"]
+    out_account_id["account_id"]
+    out_customer_id["customer_id"]
+    out_account_type["account_type"]
+    out_currency["currency"]
+    out_balance["balance"]
+    out_available_balance["available_balance"]
+    out_pending_transactions["pending_transactions"]
+  end
+  in_customerDetails_customerId -->|EXACT| out_account_id
+  in_customerDetails_customerId -->|RENAMED| out_customer_id
+  in_transactionDetails_transactionType -->|SEMANTIC| out_account_type
+  in_transactionDetails_currency -->|EXACT| out_currency
+  in_transactionDetails_amount -->|TRANSFORMED| out_balance
+  in_transactionDetails_amount -->|TRANSFORMED| out_available_balance
+  in_transactionDetails_transactionId -->|MERGE| out_pending_transactions

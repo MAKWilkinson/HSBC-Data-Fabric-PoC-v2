@@ -1,0 +1,44 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: lending_decision_override"]
+    in_messageId["messageId"]
+    in_payload_customerId["payload.customerId"]
+    in_payload_loanDetails_productType["payload.loanDetails.productType"]
+    in_payload_complianceFlags_arrears_days["payload.complianceFlags.arrears_days"]
+    in_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
+    in_payload_complianceFlags_minimum_payment_due["payload.complianceFlags.minimum_payment_due"]
+    in_payload_complianceFlags_payment_due_date["payload.complianceFlags.payment_due_date"]
+    in_payload_complianceFlags_last_payment_date["payload.complianceFlags.last_payment_date"]
+    in_payload_complianceFlags_flag_severity["payload.complianceFlags.flag_severity"]
+    in_payload_complianceFlags_risk_category["payload.complianceFlags.risk_category"]
+    in_payload_complianceFlags_compliance_action_required["payload.complianceFlags.compliance_action_required"]
+    in_payload_complianceFlags_action_type["payload.complianceFlags.action_type"]
+    in_payload_complianceFlags_flag_date["payload.complianceFlags.flag_date"]
+  end
+  subgraph OUT["credit: arrears_flags"]
+    out_arrears_flags___account_id["arrears_flags[].account_id"]
+    out_arrears_flags___customer_id["arrears_flags[].customer_id"]
+    out_arrears_flags___product_type["arrears_flags[].product_type"]
+    out_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
+    out_arrears_flags___outstanding_balance["arrears_flags[].outstanding_balance"]
+    out_arrears_flags___minimum_payment_due["arrears_flags[].minimum_payment_due"]
+    out_arrears_flags___payment_due_date["arrears_flags[].payment_due_date"]
+    out_arrears_flags___last_payment_date["arrears_flags[].last_payment_date"]
+    out_arrears_flags___flag_severity["arrears_flags[].flag_severity"]
+    out_arrears_flags___risk_category["arrears_flags[].risk_category"]
+    out_arrears_flags___compliance_action_required["arrears_flags[].compliance_action_required"]
+    out_arrears_flags___action_type["arrears_flags[].action_type"]
+    out_arrears_flags___flag_date["arrears_flags[].flag_date"]
+  end
+  in_messageId -->|EXACT| out_arrears_flags___account_id
+  in_payload_customerId -->|RENAMED| out_arrears_flags___customer_id
+  in_payload_loanDetails_productType -->|SEMANTIC| out_arrears_flags___product_type
+  in_payload_complianceFlags_arrears_days -->|TRANSFORMED| out_arrears_flags___arrears_status
+  in_payload_loanDetails_loanAmount -->|TRANSFORMED| out_arrears_flags___outstanding_balance
+  in_payload_complianceFlags_minimum_payment_due -->|EXACT| out_arrears_flags___minimum_payment_due
+  in_payload_complianceFlags_payment_due_date -->|EXACT| out_arrears_flags___payment_due_date
+  in_payload_complianceFlags_last_payment_date -->|EXACT| out_arrears_flags___last_payment_date
+  in_payload_complianceFlags_flag_severity -->|EXACT| out_arrears_flags___flag_severity
+  in_payload_complianceFlags_risk_category -->|EXACT| out_arrears_flags___risk_category
+  in_payload_complianceFlags_compliance_action_required -->|EXACT| out_arrears_flags___compliance_action_required
+  in_payload_complianceFlags_action_type -->|EXACT| out_arrears_flags___action_type
+  in_payload_complianceFlags_flag_date -->|EXACT| out_arrears_flags___flag_date

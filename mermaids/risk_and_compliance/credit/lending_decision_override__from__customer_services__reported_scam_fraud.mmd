@@ -1,0 +1,46 @@
+flowchart LR
+  subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
+    in_reportDate["reportDate"]
+    in_sourceDeployment["sourceDeployment"]
+    in_targetDeployment["targetDeployment"]
+    in_incident_incidentId["incident.incidentId"]
+    in_customer_customerId["customer.customerId"]
+    in_originalDecision["originalDecision"]
+    in_incident_detectionDate["incident.detectionDate"]
+    in_riskIndicators["riskIndicators"]
+  end
+  subgraph OUT["risk_and_compliance: lending_decision_override"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_payload_loanApplicationId["payload.loanApplicationId"]
+    out_payload_customerId["payload.customerId"]
+    out_payload_originalDecision["payload.originalDecision"]
+    out_payload_overrideDecision["payload.overrideDecision"]
+    out_payload_overrideReason["payload.overrideReason"]
+    out_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
+    out_payload_riskAssessmentDetails_debtToIncomeRatio["payload.riskAssessmentDetails.debtToIncomeRatio"]
+    out_payload_riskAssessmentDetails_loanToValueRatio["payload.riskAssessmentDetails.loanToValueRatio"]
+    out_payload_riskAssessmentDetails_yearsOfIncome["payload.riskAssessmentDetails.yearsOfIncome"]
+    out_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
+    out_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
+    out_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
+    out_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
+    out_payload_complianceFlags_amlCheckCompleted["payload.complianceFlags.amlCheckCompleted"]
+    out_payload_complianceFlags_sanctionsCheckCompleted["payload.complianceFlags.sanctionsCheckCompleted"]
+    out_payload_complianceFlags_creditPolicyWaiverRequired["payload.complianceFlags.creditPolicyWaiverRequired"]
+    out_payload_complianceFlags_waiverDocumentReference["payload.complianceFlags.waiverDocumentReference"]
+  end
+  in_reportId -->|EXACT| out_messageId
+  in_reportDate -->|RENAMED| out_timestamp
+  in_sourceDeployment -->|EXACT| out_source
+  in_targetDeployment -->|RENAMED| out_destination
+  in_incident_incidentId -->|RENAMED| out_payload_loanApplicationId
+  in_customer_customerId -->|EXACT| out_payload_customerId
+  in_originalDecision -->|RENAMED| out_payload_overrideDecision
+  in_incident_detectionDate -->|SEMANTIC| out_payload_riskAssessmentDetails_creditScore
+  in_riskIndicators -->|MERGE| out_payload_riskAssessmentDetails_mitigatingFactors
+  in_reportDate -->|RENAMED| out_payload_overrideApprovalDetails_approvalDate

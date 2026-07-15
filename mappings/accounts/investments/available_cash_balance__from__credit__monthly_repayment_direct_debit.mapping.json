@@ -1,0 +1,122 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "monthly_repayment_direct_debit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "154cd31096fbc5c5"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "available_cash_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "06b9a31daf92a921"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as account numbers, customer information, and repayment details, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "repaymentId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the unique identifier for the repayment."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "fromDepartment",
+      "sources": [
+        "department.from"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the department that originated the data."
+    },
+    {
+      "outbound_field": "toDepartment",
+      "sources": [
+        "department.to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the department that received the repayment."
+    },
+    {
+      "outbound_field": "subject",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated summary."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "repayments[].accountNumber"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as account number in the repayment details."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "repayments[].currency"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as currency of the repayment amount."
+    },
+    {
+      "outbound_field": "availableCashBalance",
+      "sources": [
+        "totalAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Derived from the total amount of all repayments in this batch."
+    },
+    {
+      "outbound_field": "asOfDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated date."
+    },
+    {
+      "outbound_field": "details",
+      "sources": [
+        "repayments"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as repayment details in the inbound file."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated additional information."
+    }
+  ]
+}

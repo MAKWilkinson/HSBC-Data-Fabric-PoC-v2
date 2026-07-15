@@ -1,0 +1,169 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/position_concentration.json",
+      "providing_system": "investments",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "position_concentration.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/position_concentration.schema.json",
+    "fingerprint": "c0f14a3468af458a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's portfolio concentration by sector and single name concepts seem to be transformed into the outbound file's sanctions list hit details.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "message_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [
+        "source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [
+        "destination_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "sanctionsListHit.hitId",
+      "sources": [
+        "data.portfolio_summary.total_positions"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.severity",
+      "sources": [
+        "data.portfolio_summary.concentration_threshold_alert"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.status",
+      "sources": [
+        "data.portfolio_summary.concentration_threshold_alert"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.matchedEntity.entityId",
+      "sources": [
+        "data.concentration_by_single_name[].issuer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.matchedEntity.entityType",
+      "sources": [
+        "data.concentration_by_single_name[].issuer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.matchedEntity.name",
+      "sources": [
+        "data.concentration_by_single_name[].issuer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.matchedEntity.dateOfBirth",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sanctionsListHit.matchedEntity.nationality",
+      "sources": [
+        "data.concentration_by_single_name[].issuer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.sanctionListsMatched",
+      "sources": [
+        "data.concentration_by_single_name[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.riskFactors",
+      "sources": [
+        "data.portfolio_summary.total_market_value"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.associatedAccounts",
+      "sources": [
+        "data.concentration_by_single_name[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.reviewStatus",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

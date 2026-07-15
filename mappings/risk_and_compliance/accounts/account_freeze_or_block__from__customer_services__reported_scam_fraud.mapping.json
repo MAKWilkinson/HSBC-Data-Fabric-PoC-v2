@@ -1,0 +1,104 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "reported_scam_fraud.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "c99a436a39d11fa2"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "account.accountNumber",
+      "sources": [
+        "customer.accountNumber"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept, different name."
+    },
+    {
+      "outbound_field": "account.accountHolder",
+      "sources": [
+        "customer.customerName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept, different name and structure."
+    },
+    {
+      "outbound_field": "account.accountType",
+      "sources": [
+        "customer.accountType"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "account.currency",
+      "sources": [
+        "customer.customerTier",
+        "fraudDetails.amountInvolved"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of customer tier and transaction amount to determine account currency."
+    },
+    {
+      "outbound_field": "account.branch",
+      "sources": [
+        "customer.customerTier",
+        "fraudDetails.fraudulentRecipient"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept, different name and structure."
+    },
+    {
+      "outbound_field": "freezeDetails.freezeType",
+      "sources": [
+        "riskIndicators"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Same concept, different name and structure."
+    },
+    {
+      "outbound_field": "freezeDetails.reason",
+      "sources": [
+        "fraudDetails.fraudDescription"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept, different name and structure."
+    },
+    {
+      "outbound_field": "escalation.level",
+      "sources": [
+        "riskIndicators",
+        "actionsTaken"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of risk indicators and actions taken to determine escalation level."
+    }
+  ]
+}

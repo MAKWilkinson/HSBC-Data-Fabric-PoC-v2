@@ -1,0 +1,17 @@
+flowchart LR
+  subgraph IN["accounts: salary_credits"]
+    in_employee_name["employee.name"]
+    in_amount["amount"]
+    in_employee_personal_account_account_number["employee.personal_account.account_number"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___employment_annual_income["loan_applications[].employment.annual_income"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+  end
+  in_employee_name -->|RENAMED| out_loan_applications___applicant_full_name
+  in_amount -->|EXACT| out_loan_applications___loan_details_requested_amount
+  in_employee_personal_account_account_number -->|SEMANTIC| out_loan_applications___employment_annual_income
+  in_employee_personal_account_account_number -->|SEMANTIC| out_loan_applications___collateral_property_value

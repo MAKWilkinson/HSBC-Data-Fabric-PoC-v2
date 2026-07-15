@@ -1,0 +1,40 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: sanctions_list_hit"]
+    in_messageId["messageId"]
+    in_sanctionsListHit_matchedEntity_name["sanctionsListHit.matchedEntity.name"]
+    in_sanctionsListHit_sanctionListsMatched___listVersion["sanctionsListHit.sanctionListsMatched[].listVersion"]
+    in_sanctionsListHit_riskFactors__["sanctionsListHit.riskFactors[]"]
+    in_sanctionsListHit_sanctionListsMatched___matchScore["sanctionsListHit.sanctionListsMatched[].matchScore"]
+    in_timestamp["timestamp"]
+    in_sanctionsListHit_reviewDetails_reviewDeadline["sanctionsListHit.reviewDetails.reviewDeadline"]
+    in_sanctionsListHit_matchedEntity_nationality["sanctionsListHit.matchedEntity.nationality"]
+    in_sanctionsListHit_sanctionListsMatched___listName["sanctionsListHit.sanctionListsMatched[].listName"]
+  end
+  subgraph OUT["credit: repayment_schedule"]
+    out_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    out_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    out_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    out_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
+    out_repayment_schedule_interest_rate["repayment_schedule.interest_rate"]
+    out_repayment_schedule_loan_term_months["repayment_schedule.loan_term_months"]
+    out_repayment_schedule_start_date["repayment_schedule.start_date"]
+    out_repayment_schedule_maturity_date["repayment_schedule.maturity_date"]
+    out_repayment_schedule_currency["repayment_schedule.currency"]
+    out_repayment_schedule_schedule_version["repayment_schedule.schedule_version"]
+    out_repayment_schedule_generated_date["repayment_schedule.generated_date"]
+    out_repayment_schedule_repayment_frequency["repayment_schedule.repayment_frequency"]
+    out_repayment_schedule_total_repayments["repayment_schedule.total_repayments"]
+    out_repayment_schedule_repayments["repayment_schedule.repayments"]
+  end
+  in_messageId -->|EXACT| out_repayment_schedule_customer_id
+  in_sanctionsListHit_matchedEntity_name -->|SEMANTIC| out_repayment_schedule_customer_name
+  in_messageId -->|EXACT| out_repayment_schedule_loan_id
+  in_sanctionsListHit_sanctionListsMatched___listVersion -->|TRANSFORMED| out_repayment_schedule_principal_amount
+  in_sanctionsListHit_riskFactors__ -->|SEMANTIC| out_repayment_schedule_interest_rate
+  in_sanctionsListHit_sanctionListsMatched___matchScore -->|TRANSFORMED| out_repayment_schedule_loan_term_months
+  in_timestamp -->|EXACT| out_repayment_schedule_start_date
+  in_sanctionsListHit_reviewDetails_reviewDeadline -->|SEMANTIC| out_repayment_schedule_maturity_date
+  in_sanctionsListHit_matchedEntity_nationality -->|SEMANTIC| out_repayment_schedule_currency
+  in_timestamp -->|EXACT| out_repayment_schedule_generated_date
+  in_sanctionsListHit_sanctionListsMatched___listName -->|SEMANTIC| out_repayment_schedule_repayment_frequency
+  in_sanctionsListHit_riskFactors__ -->|TRANSFORMED| out_repayment_schedule_total_repayments

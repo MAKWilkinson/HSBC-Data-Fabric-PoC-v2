@@ -1,0 +1,162 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like customer name, address, and loan details, which could be transformed into the sanctions list hit message.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the timestamp from the loan application data."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sanctionsListHit.hitId",
+      "sources": [
+        "loan_applications[].application_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Renamed from the loan application ID to a sanctions list hit ID."
+    },
+    {
+      "outbound_field": "sanctionsListHit.severity",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sanctionsListHit.status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "matchedEntity.entityId",
+      "sources": [
+        "loan_applications[].applicant.customer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Renamed from the customer ID to a sanctions list hit entity ID."
+    },
+    {
+      "outbound_field": "matchedEntity.name",
+      "sources": [
+        "loan_applications[].applicant.full_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the full name from the loan application data."
+    },
+    {
+      "outbound_field": "matchedEntity.dateOfBirth",
+      "sources": [
+        "loan_applications[].applicant.date_of_birth"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the date of birth from the loan application data."
+    },
+    {
+      "outbound_field": "matchedEntity.nationality",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sanctionListsMatched.listName",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "sanctionListsMatched.listVersion",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "riskFactors",
+      "sources": [
+        "loan_applications[].financial_profile"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 1.0,
+      "reasoning": "Captures the same concept of financial risk factors from the loan application data."
+    },
+    {
+      "outbound_field": "associatedAccounts.accountNumber",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "reviewDetails.assignedTo",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "auditTrail.detectionTimestamp",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the timestamp from the loan application data."
+    }
+  ]
+}

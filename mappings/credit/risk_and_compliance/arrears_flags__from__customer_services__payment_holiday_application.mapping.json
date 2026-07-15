@@ -1,0 +1,164 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "payment_holiday_application.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "9b67eea3fbe2bc23"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/arrears_flags.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "arrears_flags.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
+    "fingerprint": "abfc890937492958"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "arrears_flags[].customer_id",
+      "sources": [
+        "customer.customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].account_id",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].customer_name",
+      "sources": [
+        "customer.name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].product_type",
+      "sources": [
+        "account.accountType"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].arrears_status",
+      "sources": [
+        "applicationStatus"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].outstanding_balance",
+      "sources": [
+        "account.currentBalance"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].minimum_payment_due",
+      "sources": [
+        "paymentHolidayRequest.monthlyPayment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].payment_due_date",
+      "sources": [
+        "paymentHolidayRequest.endDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].last_payment_date",
+      "sources": [
+        "paymentHolidayRequest.startDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].flag_severity",
+      "sources": [
+        "paymentHolidayRequest.reason"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].risk_category",
+      "sources": [
+        "paymentHolidayRequest.requestedMonths"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].compliance_action_required",
+      "sources": [
+        "applicationStatus"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].action_type",
+      "sources": [
+        "paymentHolidayRequest.requestedMonths"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].flag_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].notes",
+      "sources": [
+        "additionalNotes"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    }
+  ]
+}

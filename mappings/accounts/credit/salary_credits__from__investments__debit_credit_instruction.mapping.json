@@ -1,0 +1,139 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share similar concepts, such as account numbers and departments, which could be connected by a pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "debit_credit_instructions[].instructions[].transaction_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "debit_credit_instructions[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "debit_credit_instructions[].instructions[].amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "debit_credit_instructions[].instructions[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "employee",
+      "sources": [
+        "debit_credit_instructions[].instructions[].fund_id",
+        "debit_credit_instructions[].instructions[].fund_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "debit_credit_instructions[].source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "debit_credit_instructions[].target_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "authorizer",
+      "sources": [
+        "debit_credit_instructions[].approver"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "reference",
+      "sources": [
+        "debit_credit_instructions[].batch_reference"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "debit_credit_instructions[].status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "settlement_details",
+      "sources": [
+        "debit_credit_instructions[].instructions[].effective_date",
+        "debit_credit_instructions[].instructions[].status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "debit_credit_instructions[].instructions[].description"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

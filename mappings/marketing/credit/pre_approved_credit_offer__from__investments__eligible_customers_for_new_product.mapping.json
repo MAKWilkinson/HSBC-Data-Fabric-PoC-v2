@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
       "providing_system": "investments",
       "consuming_system": "marketing",
       "message_file_name": "eligible_customers_for_new_product.json",
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "375134c47e052981"
+    "fingerprint": "317394ffaaa6bd66"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "927aeded75e4fc66"
+    "fingerprint": "c63cd952ba1aa1b2"
   },
   "related": true,
   "relatedness_confidence": 0.85,

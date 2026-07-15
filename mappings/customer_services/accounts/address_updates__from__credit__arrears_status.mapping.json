@@ -1,0 +1,119 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "providing_system": "customer_services",
+      "consuming_system": "accounts",
+      "message_file_name": "address_updates.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "be43dc882657f455"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types don't form a clear pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "updateId",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from the inbound 'messageId' field."
+    },
+    {
+      "outbound_field": "customerId",
+      "sources": [
+        "arrears_status[].customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the inbound 'customerId' field."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the inbound 'timestamp' field."
+    },
+    {
+      "outbound_field": "department",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "targetDepartment",
+      "sources": [
+        "destinationSystem"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from the inbound 'destinationSystem' field."
+    },
+    {
+      "outbound_field": "updateType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "previousAddress",
+      "sources": [
+        "arrears_status[].addressLine1",
+        "arrears_status[].city",
+        "arrears_status[].postalCode",
+        "arrears_status[].country"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of inbound 'addressLine1', 'city', 'postalCode', and 'country' fields."
+    },
+    {
+      "outbound_field": "newAddress",
+      "sources": [
+        "arrears_status[].addressLine1",
+        "arrears_status[].city",
+        "arrears_status[].postalCode",
+        "arrears_status[].country"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of inbound 'addressLine1', 'city', 'postalCode', and 'country' fields."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "arrears_status[].status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the inbound 'status' field."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

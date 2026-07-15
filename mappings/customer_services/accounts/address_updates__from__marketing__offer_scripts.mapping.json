@@ -1,0 +1,113 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "offer_scripts.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "add593882baa2b92"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "providing_system": "customer_services",
+      "consuming_system": "accounts",
+      "message_file_name": "address_updates.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "be43dc882657f455"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The inbound file's 'department_from' and 'department_to' fields seem to match the outbound file's 'department' field, suggesting a connection between marketing and customer services.",
+  "mappings": [
+    {
+      "outbound_field": "updateId",
+      "sources": [
+        "id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the unique identifier from inbound to outbound."
+    },
+    {
+      "outbound_field": "customerId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "created_date",
+        "effective_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Timestamp concept is present in both files, but exact field names differ."
+    },
+    {
+      "outbound_field": "department",
+      "sources": [
+        "department_from",
+        "department_to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same department concept exists inbound, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "targetDepartment",
+      "sources": [
+        "department_to"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the target department from inbound to outbound."
+    },
+    {
+      "outbound_field": "updateType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "previousAddress",
+      "sources": [
+        "content"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Script content concept is present in both files, but exact field names differ."
+    },
+    {
+      "outbound_field": "newAddress",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the status from inbound to outbound."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

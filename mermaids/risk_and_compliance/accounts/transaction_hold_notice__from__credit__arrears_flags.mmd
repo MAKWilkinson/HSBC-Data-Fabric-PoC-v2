@@ -1,0 +1,69 @@
+flowchart LR
+  subgraph IN["credit: arrears_flags"]
+    in_metadata_report_id["metadata.report_id"]
+    in_arrears_flags___flag_date["arrears_flags[].flag_date"]
+    in_metadata_source_department["metadata.source_department"]
+    in_metadata_destination_department["metadata.destination_department"]
+    in_arrears_flags___flag_severity["arrears_flags[].flag_severity"]
+    in_arrears_flags___account_id["arrears_flags[].account_id"]
+    in_arrears_flags___customer_id["arrears_flags[].customer_id"]
+    in_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    in_arrears_flags___hold_reason["arrears_flags[].hold_reason"]
+    in_arrears_flags___hold_duration["arrears_flags[].hold_duration"]
+    in_arrears_flags___transactions["arrears_flags[].transactions"]
+    in_arrears_flags___risk_score["arrears_flags[].risk_score"]
+    in_arrears_flags___actions["arrears_flags[].actions"]
+    in_arrears_flags___escalation_level["arrears_flags[].escalation_level"]
+    in_arrears_flags___approval_required["arrears_flags[].approval_required"]
+    in_arrears_flags___approver_role["arrears_flags[].approver_role"]
+    in_arrears_flags___notes["arrears_flags[].notes"]
+    in_arrears_flags___expiry_date["arrears_flags[].expiry_date"]
+    in_arrears_flags___issued_by["arrears_flags[].issued_by"]
+    in_arrears_flags___priority["arrears_flags[].priority"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+    out_riskScore["riskScore"]
+    out_requiredActions["requiredActions"]
+    out_escalationLevel["escalationLevel"]
+    out_approvalRequired["approvalRequired"]
+    out_approverRole["approverRole"]
+    out_notes["notes"]
+    out_expiryDate["expiryDate"]
+    out_issuedBy["issuedBy"]
+    out_priority["priority"]
+  end
+  in_metadata_report_id -->|RENAMED| out_noticeId
+  in_arrears_flags___flag_date -->|SEMANTIC| out_timestamp
+  in_metadata_source_department -->|EXACT| out_department
+  in_metadata_destination_department -->|EXACT| out_recipientDepartment
+  in_arrears_flags___flag_severity -->|SEMANTIC| out_noticeType
+  in_arrears_flags___flag_severity -->|SEMANTIC| out_severity
+  in_arrears_flags___account_id -->|EXACT| out_accountNumber
+  in_arrears_flags___customer_id -->|EXACT| out_customerId
+  in_arrears_flags___customer_name -->|SEMANTIC| out_customerName
+  in_arrears_flags___hold_reason -->|SEMANTIC| out_holdReason
+  in_arrears_flags___flag_date -->|SEMANTIC| out_holdEffectiveDate
+  in_arrears_flags___hold_duration -->|SEMANTIC| out_estimatedHoldDuration
+  in_arrears_flags___transactions -->|MERGE| out_transactionsAffected
+  in_arrears_flags___risk_score -->|SEMANTIC| out_riskScore
+  in_arrears_flags___actions -->|MERGE| out_requiredActions
+  in_arrears_flags___escalation_level -->|SEMANTIC| out_escalationLevel
+  in_arrears_flags___approval_required -->|SEMANTIC| out_approvalRequired
+  in_arrears_flags___approver_role -->|SEMANTIC| out_approverRole
+  in_arrears_flags___notes -->|SEMANTIC| out_notes
+  in_arrears_flags___expiry_date -->|SEMANTIC| out_expiryDate
+  in_arrears_flags___issued_by -->|SEMANTIC| out_issuedBy
+  in_arrears_flags___priority -->|SEMANTIC| out_priority

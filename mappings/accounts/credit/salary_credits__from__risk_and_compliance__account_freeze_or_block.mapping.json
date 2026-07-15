@@ -1,0 +1,122 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as account details, freeze types, and escalation levels, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "account.accountNumber",
+        "account.currency"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "account.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "employee.employee_id",
+      "sources": [
+        "account.accountNumber",
+        "account.accountHolder"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "employee.name",
+      "sources": [
+        "account.accountHolder"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "department_from.name",
+      "sources": [
+        "destination"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "authorizer.name",
+      "sources": [
+        "escalation.complianceOfficer"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "reference",
+      "sources": [
+        "messageId",
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "messageType"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

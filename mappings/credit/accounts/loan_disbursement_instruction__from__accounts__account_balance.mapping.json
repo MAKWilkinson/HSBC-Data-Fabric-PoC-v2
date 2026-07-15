@@ -1,0 +1,186 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts, such as account balance and loan disbursement instructions, which could be connected by data lineage.",
+  "mappings": [
+    {
+      "outbound_field": "loan_disbursement_instructions[].instruction_id",
+      "sources": [
+        "account_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].loan_id",
+      "sources": [
+        "account_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_name",
+      "sources": [
+        "customer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
+      "sources": [
+        "account_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
+      "sources": [
+        "balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_date",
+      "sources": [
+        "last_updated"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_method",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].destination_account",
+      "sources": [
+        "account_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].purpose",
+      "sources": [
+        "account_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].loan_term_months",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].interest_rate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].status",
+      "sources": [
+        "account_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].created_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].created_date",
+      "sources": [
+        "last_updated"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].approved_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].approved_date",
+      "sources": [
+        "last_updated"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].remarks",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

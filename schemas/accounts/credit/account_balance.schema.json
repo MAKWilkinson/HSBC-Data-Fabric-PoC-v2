@@ -1,0 +1,109 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+    "providing_system": "accounts",
+    "consuming_system": "credit",
+    "message_file_name": "account_balance.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "account_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the account"
+    },
+    {
+      "name": "customer_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the customer associated with the account"
+    },
+    {
+      "name": "account_type",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Type of account (credit_card, savings, checking)",
+      "enum_values": [
+        "credit_card",
+        "savings",
+        "checking"
+      ]
+    },
+    {
+      "name": "currency",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Currency associated with the account balance",
+      "fmt": "currency_code",
+      "enum_values": [
+        "GBP"
+      ]
+    },
+    {
+      "name": "balance",
+      "data_type": "decimal",
+      "nullable": true,
+      "description": "Current balance of the account"
+    },
+    {
+      "name": "available_balance",
+      "data_type": "decimal",
+      "nullable": true,
+      "description": "Available balance of the account (after pending transactions)"
+    },
+    {
+      "name": "pending_transactions",
+      "data_type": "array",
+      "nullable": true,
+      "description": "List of pending transactions for the account",
+      "children": [
+        {
+          "name": "txn_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the transaction"
+        },
+        {
+          "name": "amount",
+          "data_type": "decimal",
+          "nullable": true,
+          "description": "Amount of the transaction"
+        },
+        {
+          "name": "type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of transaction (debit, credit)",
+          "enum_values": [
+            "debit",
+            "credit"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "last_updated",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of the last update to the account",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "account_status",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Current status of the account (active, inactive)",
+      "enum_values": [
+        "active",
+        "inactive"
+      ]
+    },
+    {
+      "name": "branch_code",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Code for the branch associated with the account"
+    }
+  ]
+}

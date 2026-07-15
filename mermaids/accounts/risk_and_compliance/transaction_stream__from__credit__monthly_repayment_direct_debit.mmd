@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph IN["credit: monthly_repayment_direct_debit"]
+    in_repaymentId["repaymentId"]
+    in_department_from["department.from"]
+    in_department_to["department.to"]
+    in_batchDate["batchDate"]
+    in_dueDate["dueDate"]
+    in_repaymentAmount["repaymentAmount"]
+    in_repaymentType["repaymentType"]
+    in_repayments___customerId["repayments[].customerId"]
+  end
+  subgraph OUT["accounts: transaction_stream"]
+    out_transaction_id["transaction_id"]
+    out_counterparty_system["counterparty_system"]
+    out_transaction_date["transaction_date"]
+    out_amount["amount"]
+    out_transaction_type["transaction_type"]
+    out_eligible_customers["eligible_customers"]
+  end
+  in_repaymentId -->|EXACT| out_transaction_id
+  in_department_from -->|SEMANTIC| out_counterparty_system
+  in_department_to -->|SEMANTIC| out_counterparty_system
+  in_batchDate -->|SEMANTIC| out_transaction_date
+  in_dueDate -->|SEMANTIC| out_transaction_date
+  in_repaymentAmount -->|EXACT| out_amount
+  in_repaymentType -->|RENAMED| out_transaction_type
+  in_repayments___customerId -->|MERGE| out_eligible_customers

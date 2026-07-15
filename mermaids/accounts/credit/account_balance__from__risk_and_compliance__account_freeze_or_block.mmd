@@ -1,0 +1,43 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: account_freeze_or_block"]
+    in_account_accountNumber["account.accountNumber"]
+    in_account_accountHolder["account.accountHolder"]
+    in_account_accountType["account.accountType"]
+    in_account_currency["account.currency"]
+    in_freezeDetails_reason["freezeDetails.reason"]
+    in_escalation_level["escalation.level"]
+    in_balance["balance"]
+    in_pending_transactions["pending_transactions"]
+    in_freezeDetails_freezeType["freezeDetails.freezeType"]
+    in_escalation_requiresApproval["escalation.requiresApproval"]
+    in_timestamp["timestamp"]
+    in_escalation_approvalDeadline["escalation.approvalDeadline"]
+    in_account_branch["account.branch"]
+  end
+  subgraph OUT["accounts: account_balance"]
+    out_account_id["account_id"]
+    out_customer_id["customer_id"]
+    out_account_type["account_type"]
+    out_currency["currency"]
+    out_balance["balance"]
+    out_available_balance["available_balance"]
+    out_pending_transactions["pending_transactions"]
+    out_last_updated["last_updated"]
+    out_account_status["account_status"]
+    out_branch_code["branch_code"]
+  end
+  in_account_accountNumber -->|EXACT| out_account_id
+  in_account_accountHolder -->|RENAMED| out_customer_id
+  in_account_accountType -->|EXACT| out_account_type
+  in_account_currency -->|EXACT| out_currency
+  in_freezeDetails_reason -->|SEMANTIC| out_balance
+  in_escalation_level -->|SEMANTIC| out_balance
+  in_balance -->|SEMANTIC| out_available_balance
+  in_pending_transactions -->|SEMANTIC| out_available_balance
+  in_freezeDetails_freezeType -->|SEMANTIC| out_pending_transactions
+  in_escalation_requiresApproval -->|SEMANTIC| out_pending_transactions
+  in_timestamp -->|SEMANTIC| out_last_updated
+  in_escalation_approvalDeadline -->|SEMANTIC| out_last_updated
+  in_escalation_level -->|SEMANTIC| out_account_status
+  in_freezeDetails_reason -->|SEMANTIC| out_account_status
+  in_account_branch -->|EXACT| out_branch_code

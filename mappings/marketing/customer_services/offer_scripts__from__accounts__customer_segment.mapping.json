@@ -1,0 +1,140 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "customer_segment.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "6e2c803e95220d65"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "offer_scripts.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "add593882baa2b92"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's customer segments and summary statistics seem to be used as input for creating offer scripts, which is a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "id",
+      "sources": [
+        "metadata.segment_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from segment ID to offer script ID."
+    },
+    {
+      "outbound_field": "name",
+      "sources": [
+        "segments[].segment_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as segment name, but with a different name."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "metadata.source"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of source department from inbound file."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "metadata.destination"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of destination department from inbound file."
+    },
+    {
+      "outbound_field": "created_date",
+      "sources": [
+        "metadata.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as timestamp, but with a different name."
+    },
+    {
+      "outbound_field": "effective_date",
+      "sources": [
+        "metadata.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as timestamp, but with a different name."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "target_segment",
+      "sources": [
+        "segments[].segment_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as segment name, but with a different name."
+    },
+    {
+      "outbound_field": "script_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "duration_seconds",
+      "sources": [
+        "segments[].avg_monthly_transactions"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as average monthly transactions, but with a different name."
+    },
+    {
+      "outbound_field": "content",
+      "sources": [
+        "segments[].description"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as segment description, but with a different name."
+    },
+    {
+      "outbound_field": "call_to_action",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "success_metric",
+      "sources": [
+        "summary.report_period"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as report period, but with a different name."
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+      "providing_system": "accounts",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "transaction_stream.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
+    "fingerprint": "ea72bfbe5aab17bb"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "lending_decision_override.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "bf6dea1328e7228c"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The transaction_id from the inbound file could be used to identify a specific loan application, and the risk_and_compliance system is responsible for making lending decisions.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "transaction_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the transaction_id from the inbound file."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "transaction_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The timestamp in the outbound file captures the same concept as the transaction_date from the inbound file."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [
+        "counterparty_system"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The source field in the outbound file is renamed from the counterparty_system in the inbound file."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "messageType",
+      "sources": [
+        "transaction_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The messageType in the outbound file captures the same concept as the transaction_type from the inbound file."
+    },
+    {
+      "outbound_field": "payload.loanApplicationId",
+      "sources": [
+        "eligible_customers[].customer_id"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of eligible customers' IDs from the inbound file."
+    },
+    {
+      "outbound_field": "payload.customerId",
+      "sources": [
+        "eligible_customers[].customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from the eligible customers in the inbound file."
+    },
+    {
+      "outbound_field": "payload.originalDecision",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideDecision",
+      "sources": [
+        "originalDecision"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The override decision in the outbound file captures the same concept as the original decision from the inbound file."
+    },
+    {
+      "outbound_field": "payload.overrideReason",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.creditScore",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The credit score in the outbound file captures the same concept as the amount from the inbound file."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.debtToIncomeRatio",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The debt-to-income ratio in the outbound file captures the same concept as the amount from the inbound file."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.loanToValueRatio",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The loan-to-value ratio in the outbound file captures the same concept as the amount from the inbound file."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.yearsOfIncome",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The years of income in the outbound file captures the same concept as the amount from the inbound file."
+    },
+    {
+      "outbound_field": "payload.riskAssessmentDetails.mitigatingFactors",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvedBy",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvalLevel",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.approvalDate",
+      "sources": [
+        "transaction_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The approval date in the outbound file captures the same concept as the transaction_date from the inbound file."
+    },
+    {
+      "outbound_field": "payload.overrideApprovalDetails.conditions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.loanDetails.loanAmount",
+      "sources": [
+        "amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the amount from the inbound file."
+    },
+    {
+      "outbound_field": "payload.loanDetails.currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.loanDetails.loanTerm",
+      "sources": [
+        "transaction_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The loan term in the outbound file captures the same concept as the transaction_date from the inbound file."
+    },
+    {
+      "outbound_field": "payload.loanDetails.productType",
+      "sources": [
+        "transaction_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The product type in the outbound file captures the same concept as the transaction_type from the inbound file."
+    },
+    {
+      "outbound_field": "payload.complianceFlags.amlCheckCompleted",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.complianceFlags.sanctionsCheckCompleted",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.complianceFlags.creditPolicyWaiverRequired",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "payload.complianceFlags.waiverDocumentReference",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

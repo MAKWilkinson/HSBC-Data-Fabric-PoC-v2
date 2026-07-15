@@ -1,0 +1,198 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/complaint_escalation.json",
+    "providing_system": "customer_services",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "complaint_escalation.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "escalation_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the complaint escalation"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the complaint was escalated",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "source_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that originated the data (customer services)"
+    },
+    {
+      "name": "target_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that received the escalated complaint (risk and compliance)"
+    },
+    {
+      "name": "complaint",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Details about the customer's complaint",
+      "children": [
+        {
+          "name": "complaint_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer's complaint"
+        },
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "customer_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The name of the customer filing the complaint"
+        },
+        {
+          "name": "complaint_date",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp of when the customer filed the complaint",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "complaint_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The type of complaint (unauthorized transaction)",
+          "enum_values": [
+            "unauthorized_transaction"
+          ]
+        },
+        {
+          "name": "description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "A detailed description of the customer's complaint"
+        },
+        {
+          "name": "account_number",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The account number associated with the complaint",
+          "fmt": "account_number"
+        },
+        {
+          "name": "amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "The amount involved in the unauthorized transaction",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The currency of the transaction (GBP)",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "escalation_reason",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The reason for escalating the complaint to risk and compliance",
+      "enum_values": [
+        "High-value unauthorized transaction requires compliance review and potential fraud investigation"
+      ]
+    },
+    {
+      "name": "severity_level",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The severity level of the complaint (HIGH)",
+      "enum_values": [
+        "HIGH"
+      ]
+    },
+    {
+      "name": "risk_assessment",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Assessment of the risk associated with the complaint",
+      "children": [
+        {
+          "name": "fraud_indicator",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Indicates whether the transaction is suspected to be fraudulent"
+        },
+        {
+          "name": "regulatory_flag",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Indicates whether regulatory compliance is required"
+        },
+        {
+          "name": "customer_impact",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The impact of the complaint on the customer (SIGNIFICANT)",
+          "enum_values": [
+            "SIGNIFICANT"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "documents_attached",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A list of documents attached to the complaint",
+      "children": [
+        {
+          "name": "document_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The name of the document"
+        }
+      ]
+    },
+    {
+      "name": "assigned_to",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The person or team assigned to handle the complaint"
+    },
+    {
+      "name": "status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The current status of the complaint (PENDING_REVIEW)",
+      "enum_values": [
+        "PENDING_REVIEW"
+      ]
+    },
+    {
+      "name": "required_actions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A list of actions required to resolve the complaint",
+      "children": [
+        {
+          "name": "action_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The name of the action"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+flowchart LR
+  subgraph IN["credit: credit_score_result"]
+    in_customer_account_number["customer.account_number"]
+    in_customer_name["customer.name"]
+    in_timestamp["timestamp"]
+    in_destination_department["destination_department"]
+    in_credit_assessment_recommended_action["credit_assessment.recommended_action"]
+    in_credit_assessment_payment_history_score["credit_assessment.payment_history_score"]
+    in_result_id["result_id"]
+  end
+  subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_account_accountType["account.accountType"]
+    out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_escalation_level["escalation.level"]
+    out_additionalInfo_caseReference["additionalInfo.caseReference"]
+  end
+  in_customer_account_number -->|EXACT| out_account_accountNumber
+  in_customer_name -->|RENAMED| out_account_accountHolder
+  in_timestamp -->|EXACT| out_timestamp
+  in_destination_department -->|RENAMED| out_source
+  in_credit_assessment_recommended_action -->|SEMANTIC| out_freezeDetails_freezeType
+  in_credit_assessment_payment_history_score -->|SEMANTIC| out_escalation_level
+  in_result_id -->|EXACT| out_additionalInfo_caseReference

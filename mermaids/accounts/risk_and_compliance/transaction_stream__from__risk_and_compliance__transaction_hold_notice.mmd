@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_recipientDepartment["recipientDepartment"]
+    in_timestamp["timestamp"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_transactionsAffected["transactionsAffected"]
+  end
+  subgraph OUT["accounts: transaction_stream"]
+    out_transaction_id["transaction_id"]
+    out_counterparty_system["counterparty_system"]
+    out_transaction_date["transaction_date"]
+    out_amount["amount"]
+    out_transaction_type["transaction_type"]
+    out_eligible_customers["eligible_customers"]
+  end
+  in_noticeId -->|EXACT| out_transaction_id
+  in_recipientDepartment -->|RENAMED| out_counterparty_system
+  in_timestamp -->|EXACT| out_transaction_date
+  in_transactionsAffected___amount -->|MERGE| out_amount
+  in_transactionsAffected -->|SEMANTIC| out_eligible_customers

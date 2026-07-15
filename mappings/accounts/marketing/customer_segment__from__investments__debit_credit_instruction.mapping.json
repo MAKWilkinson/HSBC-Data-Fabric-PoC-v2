@@ -1,0 +1,126 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "customer_segment.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "6e2c803e95220d65"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like timestamp, message type, and customer segments, but the systems do not obviously connect.",
+  "mappings": [
+    {
+      "outbound_field": "metadata.timestamp",
+      "sources": [
+        "debit_credit_instructions[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "metadata.message_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "segments[].segment_id",
+      "sources": [
+        "debit_credit_instructions[].instructions[].transaction_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "segments[].segment_name",
+      "sources": [
+        "debit_credit_instructions[].instructions[].instruction_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "segments[].description",
+      "sources": [
+        "debit_credit_instructions[].instructions[].description"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "segments[].customer_count",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "segments[].avg_account_balance",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "segments[].avg_monthly_transactions",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "product_holding",
+      "sources": [
+        "debit_credit_instructions[].instructions[].fund_id"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is a combination of two or more inbound fields."
+    },
+    {
+      "outbound_field": "summary.total_customers",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "summary.total_assets_under_management",
+      "sources": [
+        "debit_credit_instructions[].total_debit_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    }
+  ]
+}

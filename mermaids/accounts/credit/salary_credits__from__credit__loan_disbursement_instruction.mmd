@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_instruction_id["instruction_id"]
+    in_created_date["created_date"]
+    in_approved_date["approved_date"]
+    in_disbursement_amount["disbursement_amount"]
+    in_currency["currency"]
+    in_borrower_name["borrower_name"]
+    in_purpose["purpose"]
+    in_created_by["created_by"]
+    in_approved_by["approved_by"]
+    in_loan_term_months["loan_term_months"]
+    in_status["status"]
+  end
+  subgraph OUT["accounts: salary_credits"]
+    out_transaction_id["transaction_id"]
+    out_timestamp["timestamp"]
+    out_amount["amount"]
+    out_currency["currency"]
+    out_employee_name["employee.name"]
+    out_department_from_name["department_from.name"]
+    out_authorizer_name["authorizer.name"]
+    out_reference["reference"]
+    out_status["status"]
+  end
+  in_instruction_id -->|RENAMED| out_transaction_id
+  in_created_date -->|SEMANTIC| out_timestamp
+  in_approved_date -->|SEMANTIC| out_timestamp
+  in_disbursement_amount -->|EXACT| out_amount
+  in_currency -->|EXACT| out_currency
+  in_borrower_name -->|RENAMED| out_employee_name
+  in_purpose -->|SEMANTIC| out_department_from_name
+  in_created_by -->|SEMANTIC| out_authorizer_name
+  in_approved_by -->|SEMANTIC| out_authorizer_name
+  in_instruction_id -->|MERGE| out_reference
+  in_loan_term_months -->|MERGE| out_reference
+  in_status -->|EXACT| out_status

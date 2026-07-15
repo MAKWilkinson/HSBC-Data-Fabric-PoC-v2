@@ -1,0 +1,156 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+    "providing_system": "credit",
+    "consuming_system": "accounts",
+    "message_file_name": "loan_disbursement_instruction.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "loan_disbursement_instructions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Instructions for loan disbursements, one entry per instruction",
+      "children": [
+        {
+          "name": "instruction_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the loan disbursement instruction"
+        },
+        {
+          "name": "loan_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the loan"
+        },
+        {
+          "name": "borrower_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the borrower"
+        },
+        {
+          "name": "borrower_account_number",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Account number of the borrower"
+        },
+        {
+          "name": "disbursement_amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount to be disbursed for the loan",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency of the disbursement amount",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        },
+        {
+          "name": "disbursement_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of the loan disbursement",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "disbursement_method",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Method of loan disbursement (e.g. Bank Transfer)",
+          "enum_values": [
+            "Bank Transfer"
+          ]
+        },
+        {
+          "name": "destination_account",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Account number where the loan will be disbursed"
+        },
+        {
+          "name": "destination_bank_code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Bank code of the destination account",
+          "enum_values": [
+            "HSBCGB2L"
+          ]
+        },
+        {
+          "name": "purpose",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Purpose of the loan disbursement (e.g. Working Capital)",
+          "enum_values": [
+            "Working Capital",
+            "Equipment Purchase"
+          ]
+        },
+        {
+          "name": "loan_term_months",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of months the loan will be outstanding"
+        },
+        {
+          "name": "interest_rate",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Interest rate for the loan",
+          "fmt": "percentage"
+        },
+        {
+          "name": "status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current status of the loan disbursement (e.g. APPROVED)",
+          "enum_values": [
+            "APPROVED",
+            "PENDING"
+          ]
+        },
+        {
+          "name": "created_by",
+          "data_type": "string",
+          "nullable": false,
+          "description": "User who created the loan disbursement instruction"
+        },
+        {
+          "name": "created_date",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Date and time when the loan disbursement instruction was created",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "approved_by",
+          "data_type": "string",
+          "nullable": true,
+          "description": "User who approved the loan disbursement instruction (if applicable)"
+        },
+        {
+          "name": "approved_date",
+          "data_type": "datetime",
+          "nullable": true,
+          "description": "Date and time when the loan disbursement instruction was approved (if applicable)",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "remarks",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Additional comments or remarks about the loan disbursement instruction"
+        }
+      ]
+    }
+  ]
+}

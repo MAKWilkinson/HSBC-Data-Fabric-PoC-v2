@@ -1,0 +1,143 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "reported_scam_fraud.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "c99a436a39d11fa2"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "reportId",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from message ID to report ID."
+    },
+    {
+      "outbound_field": "reportDate",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of timestamp field."
+    },
+    {
+      "outbound_field": "sourceDeployment",
+      "sources": [
+        "sourceSystem"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from source system to deployment."
+    },
+    {
+      "outbound_field": "targetDeployment",
+      "sources": [
+        "destinationSystem"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from destination system to deployment."
+    },
+    {
+      "outbound_field": "reportType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "severity",
+      "sources": [
+        "arrears_status[].riskLevel"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of risk level as inbound field."
+    },
+    {
+      "outbound_field": "incident",
+      "sources": [
+        "arrears_status[]"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of arrears status records into a single incident object."
+    },
+    {
+      "outbound_field": "customer",
+      "sources": [
+        "arrears_status[].customerId",
+        "arrears_status[].accountNumber"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of customer ID and account number into a single customer object."
+    },
+    {
+      "outbound_field": "fraudDetails",
+      "sources": [
+        "arrears_status[]"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of arrears status records into a single fraud details object."
+    },
+    {
+      "outbound_field": "riskIndicators",
+      "sources": [
+        "arrears_status[]"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of arrears status records into a single risk indicators array."
+    },
+    {
+      "outbound_field": "actionsTaken",
+      "sources": [
+        "arrears_status[]"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of arrears status records into a single actions taken array."
+    },
+    {
+      "outbound_field": "additionalNotes",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of notes field."
+    },
+    {
+      "outbound_field": "escalationRequired",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

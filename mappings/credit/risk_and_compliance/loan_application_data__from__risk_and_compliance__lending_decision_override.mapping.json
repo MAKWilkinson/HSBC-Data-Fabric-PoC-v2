@@ -1,0 +1,88 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "lending_decision_override.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "bf6dea1328e7228c"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share concepts like customer information, loan details, and employment status, which form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "loan_applications[].applicant.customer_id",
+      "sources": [
+        "payload.customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.requested_amount",
+      "sources": [
+        "payload.loanDetails.loanAmount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.employment_status",
+      "sources": [
+        "payload.employmentStatus"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_assets",
+      "sources": [
+        "payload.financialProfile.totalAssets"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_applications[].collateral.property_value",
+      "sources": [
+        "payload.collateralPropertyValue"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "loan_applications[].application_status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "loan_applications[].submitted_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

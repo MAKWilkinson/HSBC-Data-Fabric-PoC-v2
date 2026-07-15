@@ -1,0 +1,234 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share concepts like account holder name and account type, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "account.accountNumber",
+      "sources": [
+        "loan_applications[].customer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as customer ID in the inbound file."
+    },
+    {
+      "outbound_field": "account.accountHolder",
+      "sources": [
+        "loan_applications[].applicant.full_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of account holder name from the inbound file."
+    },
+    {
+      "outbound_field": "account.accountType",
+      "sources": [
+        "loan_applications[].loan_details.purpose"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of account type from the inbound file."
+    },
+    {
+      "outbound_field": "messageId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the timestamp field from the inbound file."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "messageType",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of message type from the inbound file."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "action",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of action from the inbound file."
+    },
+    {
+      "outbound_field": "account.currency",
+      "sources": [
+        "loan_applications[].loan_details.currency"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as currency in the inbound file."
+    },
+    {
+      "outbound_field": "branch",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "freezeDetails.freezeType",
+      "sources": [
+        "loan_applications[].collateral.property_value"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of freeze type from the inbound file."
+    },
+    {
+      "outbound_field": "freezeDetails.reason",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of reason from the inbound file."
+    },
+    {
+      "outbound_field": "freezeDetails.description",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "freezeDetails.initiatedBy",
+      "sources": [
+        "loan_applications[].submitted_by"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as submitted by in the inbound file."
+    },
+    {
+      "outbound_field": "freezeDetails.department",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "escalation.level",
+      "sources": [
+        "loan_applications[].financial_profile.credit_score"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of escalation level from the inbound file."
+    },
+    {
+      "outbound_field": "escalation.requiresApproval",
+      "sources": [
+        "loan_applications[].application_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept of requires approval from the inbound file."
+    },
+    {
+      "outbound_field": "escalation.approvalDeadline",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "escalation.complianceOfficer",
+      "sources": [
+        "loan_applications[].financial_profile.credit_score"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of compliance officer from the inbound file."
+    },
+    {
+      "outbound_field": "additionalInfo.caseReference",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "additionalInfo.riskScore",
+      "sources": [
+        "loan_applications[].financial_profile.credit_score"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of risk score from the inbound file."
+    },
+    {
+      "outbound_field": "additionalInfo.customerNotificationSent",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "additionalInfo.regulatoryReporting",
+      "sources": [
+        "loan_applications[].financial_profile.credit_score"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept of regulatory reporting from the inbound file."
+    }
+  ]
+}

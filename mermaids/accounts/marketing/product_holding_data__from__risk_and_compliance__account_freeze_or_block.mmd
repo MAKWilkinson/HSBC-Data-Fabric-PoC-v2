@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: account_freeze_or_block"]
+    in_timestamp["timestamp"]
+    in_source["source"]
+    in_destination["destination"]
+    in_account_accountNumber["account.accountNumber"]
+    in_account_accountType["account.accountType"]
+    in_account_accountHolder["account.accountHolder"]
+  end
+  subgraph OUT["accounts: product_holding_data"]
+    out_product_holding_data_timestamp["product_holding_data.timestamp"]
+    out_product_holding_data_source_department["product_holding_data.source_department"]
+    out_product_holding_data_target_department["product_holding_data.target_department"]
+    out_product_holding_data_data_version["product_holding_data.data_version"]
+    out_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    out_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    out_product_hholding_data_holdings___product_id["product_hholding_data.holdings[].product_id"]
+    out_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+    out_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+  end
+  in_timestamp -->|EXACT| out_product_holding_data_timestamp
+  in_source -->|RENAMED| out_product_holding_data_source_department
+  in_destination -->|SEMANTIC| out_product_holding_data_target_department
+  in_account_accountNumber -->|SEMANTIC| out_product_holding_data_holdings___customer_id
+  in_account_accountNumber -->|EXACT| out_product_holding_data_holdings___account_number
+  in_account_accountType -->|SEMANTIC| out_product_holding_data_holdings___account_status
+  in_account_accountHolder -->|TRANSFORMED| out_product_holding_data_holdings___balance

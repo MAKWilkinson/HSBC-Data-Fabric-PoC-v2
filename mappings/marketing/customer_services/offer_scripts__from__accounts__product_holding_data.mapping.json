@@ -1,0 +1,72 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "offer_scripts.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "add593882baa2b92"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file contains product holding data, which could be used to generate offer scripts for customer services. The providing/consuming systems and message types also suggest a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "id",
+      "sources": [
+        "product_holding_data.holdings[].customer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from customer ID in the inbound file."
+    },
+    {
+      "outbound_field": "name",
+      "sources": [
+        "product_holding_data.holdings[].product_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as product name in the inbound file."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "product_holding_data.source_department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "created_date",
+      "sources": [
+        "product_holding_data.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as timestamp in the inbound file."
+    },
+    {
+      "outbound_field": "script_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

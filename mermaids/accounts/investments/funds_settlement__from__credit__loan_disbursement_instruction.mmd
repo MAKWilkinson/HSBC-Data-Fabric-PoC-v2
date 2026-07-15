@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_loan_disbursement_instructions___instruction_id["loan_disbursement_instructions[].instruction_id"]
+    in_loan_disbursement_instructions___disbursement_date["loan_disbursement_instructions[].disbursement_date"]
+    in_loan_disbursement_instructions___currency["loan_disbursement_instructions[].currency"]
+    in_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    in_loan_disbursement_instructions__["loan_disbursement_instructions[]"]
+    in_loan_disbursement_instructions___loan_id["loan_disbursement_instructions[].loan_id"]
+    in_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
+    in_loan_disbursement_instructions___created_date["loan_disbursement_instructions[].created_date"]
+  end
+  subgraph OUT["accounts: funds_settlement"]
+    out_settlement_id["settlement_id"]
+    out_settlement_date["settlement_date"]
+    out_from_department["from_department"]
+    out_to_department["to_department"]
+    out_currency["currency"]
+    out_total_amount["total_amount"]
+    out_settlement_status["settlement_status"]
+    out_settlements["settlements"]
+    out_settlements___fund_id["settlements[].fund_id"]
+    out_settlements___fund_name["settlements[].fund_name"]
+    out_settlements___transaction_type["settlements[].transaction_type"]
+    out_settlements___amount["settlements[].amount"]
+    out_settlements___reference["settlements[].reference"]
+    out_settlements___timestamp["settlements[].timestamp"]
+    out_settlements___verified["settlements[].verified"]
+  end
+  in_loan_disbursement_instructions___instruction_id -->|EXACT| out_settlement_id
+  in_loan_disbursement_instructions___disbursement_date -->|EXACT| out_settlement_date
+  in_loan_disbursement_instructions___currency -->|EXACT| out_currency
+  in_loan_disbursement_instructions___disbursement_amount -->|EXACT| out_total_amount
+  in_loan_disbursement_instructions__ -->|SEMANTIC| out_settlements
+  in_loan_disbursement_instructions___loan_id -->|RENAMED| out_settlements___fund_id
+  in_loan_disbursement_instructions___borrower_name -->|RENAMED| out_settlements___fund_name
+  in_loan_disbursement_instructions___disbursement_amount -->|EXACT| out_settlements___amount
+  in_loan_disbursement_instructions___created_date -->|EXACT| out_settlements___timestamp

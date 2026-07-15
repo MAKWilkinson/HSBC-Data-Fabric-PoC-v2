@@ -1,0 +1,124 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be transformed into the outbound file's account balance, pending transactions, and last updated timestamp.",
+  "mappings": [
+    {
+      "outbound_field": "account_id",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the account number from the inbound file."
+    },
+    {
+      "outbound_field": "customer_id",
+      "sources": [
+        "account.accountHolder"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same concept as the account holder in the inbound file, but with a different name."
+    },
+    {
+      "outbound_field": "account_type",
+      "sources": [
+        "account.accountType"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the account type from the inbound file."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "account.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the currency from the inbound file."
+    },
+    {
+      "outbound_field": "balance",
+      "sources": [
+        "freezeDetails.reason",
+        "escalation.level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The balance is derived from the freeze reason and escalation level in the inbound file."
+    },
+    {
+      "outbound_field": "available_balance",
+      "sources": [
+        "balance",
+        "pending_transactions"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The available balance is derived from the balance and pending transactions in the inbound file."
+    },
+    {
+      "outbound_field": "pending_transactions",
+      "sources": [
+        "freezeDetails.freezeType",
+        "escalation.requiresApproval"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The pending transactions are derived from the freeze type and requires approval in the inbound file."
+    },
+    {
+      "outbound_field": "last_updated",
+      "sources": [
+        "timestamp",
+        "escalation.approvalDeadline"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The last updated timestamp is derived from the message timestamp and approval deadline in the inbound file."
+    },
+    {
+      "outbound_field": "account_status",
+      "sources": [
+        "escalation.level",
+        "freezeDetails.reason"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The account status is derived from the escalation level and freeze reason in the inbound file."
+    },
+    {
+      "outbound_field": "branch_code",
+      "sources": [
+        "account.branch"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the branch code from the inbound file."
+    }
+  ]
+}

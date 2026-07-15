@@ -1,0 +1,153 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/arrears_flags.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "arrears_flags.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
+    "fingerprint": "abfc890937492958"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as account number, overdraft limit, and arrears status, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "arrears_flags[].account_id",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].customer_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_flags[].product_type",
+      "sources": [
+        "fromDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "arrears_flags[].arrears_status",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].outstanding_balance",
+      "sources": [
+        "overdraftUsed"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_flags[].minimum_payment_due",
+      "sources": [
+        "overdraftLimit"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "arrears_flags[].payment_due_date",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].last_payment_date",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].flag_severity",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].risk_category",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].compliance_action_required",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].action_type",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_flags[].flag_date",
+      "sources": [
+        "sentDate"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "arrears_flags[].notes",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

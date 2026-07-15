@@ -1,0 +1,75 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and loan application data, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "loan_applications[].applicant.customer_id",
+      "sources": [
+        "customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "loan_applications[].applicant.full_name",
+      "sources": [
+        "customer_id",
+        "account_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.requested_amount",
+      "sources": [
+        "balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.annual_income",
+      "sources": [
+        "available_balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_assets",
+      "sources": [
+        "available_balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    }
+  ]
+}

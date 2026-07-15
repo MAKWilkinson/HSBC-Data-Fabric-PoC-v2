@@ -1,0 +1,61 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
+    "providing_system": "accounts",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "anomoly_transfers.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "transfer_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the transfer transaction"
+    },
+    {
+      "name": "transfer_date",
+      "data_type": "datetime",
+      "nullable": true,
+      "description": "Date and time of the transfer transaction",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "amount",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Amount transferred, in the account's base currency",
+      "fmt": "currency"
+    },
+    {
+      "name": "from_account",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Account number of the originating account",
+      "fmt": "account_number"
+    },
+    {
+      "name": "to_account",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Account number of the destination account",
+      "fmt": "account_number"
+    },
+    {
+      "name": "transfer_type",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Type of transfer (e.g. internal, external, etc.)",
+      "enum_values": [
+        "internal",
+        "external"
+      ]
+    },
+    {
+      "name": "risk_score",
+      "data_type": "integer",
+      "nullable": true,
+      "description": "Risk assessment score for the transfer transaction"
+    }
+  ]
+}

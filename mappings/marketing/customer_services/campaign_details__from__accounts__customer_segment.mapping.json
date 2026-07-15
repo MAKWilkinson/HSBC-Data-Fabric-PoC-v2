@@ -1,0 +1,83 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "customer_segment.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "6e2c803e95220d65"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "campaign_details.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "89dedbcc42df434e"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's customer segments and summary statistics seem to be used as input for the marketing campaign, which is reflected in the outbound file's fields.",
+  "mappings": [
+    {
+      "outbound_field": "campaign_id",
+      "sources": [
+        "metadata.source"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The campaign ID is likely derived from the source department."
+    },
+    {
+      "outbound_field": "campaign_name",
+      "sources": [
+        "segments[].segment_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The campaign name seems to be inspired by the customer segment names."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "metadata.source"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The department that originated the data is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "target_segment.age_range",
+      "sources": [
+        "segments[].segment_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The target age range seems to be related to the customer segment names."
+    },
+    {
+      "outbound_field": "budget.total_amount",
+      "sources": [
+        "summary.total_assets_under_management"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "The total budget allocated seems to be inspired by the total assets under management."
+    },
+    {
+      "outbound_field": "key_messages",
+      "sources": [
+        "segments[].description"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "The key messages seem to be derived from the customer segment descriptions."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph IN["investments: debit_credit_instruction"]
+    in_debit_credit_instructions___instruction_id["debit_credit_instructions[].instruction_id"]
+    in_debit_credit_instructions___timestamp["debit_credit_instructions[].timestamp"]
+    in_debit_credit_instructions___source_department["debit_credit_instructions[].source_department"]
+    in_debit_credit_instructions___target_department["debit_credit_instructions[].target_department"]
+    in_debit_credit_instructions___instructions___currency["debit_credit_instructions[].instructions[].currency"]
+    in_debit_credit_instructions___total_debit_amount["debit_credit_instructions[].total_debit_amount"]
+    in_debit_credit_instructions___total_credit_amount["debit_credit_instructions[].total_credit_amount"]
+    in_debit_credit_instructions___approval_status["debit_credit_instructions[].approval_status"]
+    in_debit_credit_instructions___instructions["debit_credit_instructions[].instructions"]
+  end
+  subgraph OUT["accounts: funds_settlement"]
+    out_settlement_id["settlement_id"]
+    out_settlement_date["settlement_date"]
+    out_from_department["from_department"]
+    out_to_department["to_department"]
+    out_currency["currency"]
+    out_total_amount["total_amount"]
+    out_settlement_status["settlement_status"]
+    out_settlements["settlements"]
+  end
+  in_debit_credit_instructions___instruction_id -->|EXACT| out_settlement_id
+  in_debit_credit_instructions___timestamp -->|RENAMED| out_settlement_date
+  in_debit_credit_instructions___source_department -->|RENAMED| out_from_department
+  in_debit_credit_instructions___target_department -->|RENAMED| out_to_department
+  in_debit_credit_instructions___instructions___currency -->|SEMANTIC| out_currency
+  in_debit_credit_instructions___total_debit_amount -->|MERGE| out_total_amount
+  in_debit_credit_instructions___total_credit_amount -->|MERGE| out_total_amount
+  in_debit_credit_instructions___approval_status -->|RENAMED| out_settlement_status
+  in_debit_credit_instructions___instructions -->|SEMANTIC| out_settlements

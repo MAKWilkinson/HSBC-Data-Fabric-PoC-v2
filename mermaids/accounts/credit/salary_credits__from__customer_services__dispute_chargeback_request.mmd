@@ -1,0 +1,28 @@
+flowchart LR
+  subgraph IN["customer_services: dispute_chargeback_request"]
+    in_requestId["requestId"]
+    in_timestamp["timestamp"]
+    in_transactionDetails_amount["transactionDetails.amount"]
+    in_transactionDetails_currency["transactionDetails.currency"]
+    in_customerDetails_customerId["customerDetails.customerId"]
+    in_customerDetails_customerName["customerDetails.customerName"]
+    in_department["department"]
+  end
+  subgraph OUT["accounts: salary_credits"]
+    out_transaction_id["transaction_id"]
+    out_timestamp["timestamp"]
+    out_amount["amount"]
+    out_currency["currency"]
+    out_employee_employee_id["employee.employee_id"]
+    out_employee_name["employee.name"]
+    out_department_from_name["department_from.name"]
+    out_authorizer_name["authorizer.name"]
+  end
+  in_requestId -->|EXACT| out_transaction_id
+  in_timestamp -->|EXACT| out_timestamp
+  in_transactionDetails_amount -->|SEMANTIC| out_amount
+  in_transactionDetails_currency -->|SEMANTIC| out_currency
+  in_customerDetails_customerId -->|RENAMED| out_employee_employee_id
+  in_customerDetails_customerName -->|SEMANTIC| out_employee_name
+  in_department -->|SEMANTIC| out_department_from_name
+  in_customerDetails_customerName -->|SEMANTIC| out_authorizer_name

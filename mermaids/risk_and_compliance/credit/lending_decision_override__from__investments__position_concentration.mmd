@@ -1,0 +1,41 @@
+flowchart LR
+  subgraph IN["investments: position_concentration"]
+    in_message_id["message_id"]
+    in_timestamp["timestamp"]
+    in_source_department["source_department"]
+    in_destination_department["destination_department"]
+    in_data["data"]
+    in_data_portfolio_summary_total_positions["data.portfolio_summary.total_positions"]
+    in_data_portfolio_summary_total_market_value["data.portfolio_summary.total_market_value"]
+    in_data_portfolio_summary_concentration_threshold_alert["data.portfolio_summary.concentration_threshold_alert"]
+    in_data_portfolio_summary["data.portfolio_summary"]
+  end
+  subgraph OUT["risk_and_compliance: lending_decision_override"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_payload["payload"]
+    out_loanApplicationId["loanApplicationId"]
+    out_customerId["customerId"]
+    out_originalDecision["originalDecision"]
+    out_overrideDecision["overrideDecision"]
+    out_overrideReason["overrideReason"]
+    out_riskAssessmentDetails["riskAssessmentDetails"]
+    out_overrideApprovalDetails["overrideApprovalDetails"]
+    out_loanDetails["loanDetails"]
+    out_complianceFlags["complianceFlags"]
+  end
+  in_message_id -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_source_department -->|RENAMED| out_source
+  in_destination_department -->|RENAMED| out_destination
+  in_data -->|SEMANTIC| out_payload
+  in_data_portfolio_summary_total_positions -->|TRANSFORMED| out_loanApplicationId
+  in_data_portfolio_summary_total_market_value -->|TRANSFORMED| out_customerId
+  in_data_portfolio_summary_concentration_threshold_alert -->|SEMANTIC| out_overrideDecision
+  in_data_portfolio_summary_concentration_threshold_alert -->|SEMANTIC| out_overrideReason
+  in_data_portfolio_summary -->|SEMANTIC| out_riskAssessmentDetails
+  in_data_portfolio_summary -->|SEMANTIC| out_loanDetails
+  in_data_portfolio_summary -->|SEMANTIC| out_complianceFlags

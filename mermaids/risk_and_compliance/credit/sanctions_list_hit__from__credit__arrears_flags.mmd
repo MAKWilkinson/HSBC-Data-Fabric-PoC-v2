@@ -1,0 +1,29 @@
+flowchart LR
+  subgraph IN["credit: arrears_flags"]
+    in_arrears_flags___account_id["arrears_flags[].account_id"]
+    in_metadata_source_department["metadata.source_department"]
+    in_metadata_destination_department["metadata.destination_department"]
+    in_arrears_flags___customer_id["arrears_flags[].customer_id"]
+    in_arrears_flags___customer_name["arrears_flags[].customer_name"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_sanctionsListHit_severity["sanctionsListHit.severity"]
+    out_sanctionsListHit_status["sanctionsListHit.status"]
+    out_matchedEntity_entityId["matchedEntity.entityId"]
+    out_matchedEntity_name["matchedEntity.name"]
+    out_associatedAccounts_accountNumber["associatedAccounts.accountNumber"]
+    out_reviewDetails_assignedTo["reviewDetails.assignedTo"]
+    out_auditTrail_detectionTimestamp["auditTrail.detectionTimestamp"]
+  end
+  in_arrears_flags___account_id -->|EXACT| out_messageId
+  in_metadata_source_department -->|RENAMED| out_source
+  in_metadata_destination_department -->|RENAMED| out_destination
+  in_arrears_flags___account_id -->|EXACT| out_sanctionsListHit_hitId
+  in_arrears_flags___customer_id -->|EXACT| out_matchedEntity_entityId
+  in_arrears_flags___customer_name -->|SEMANTIC| out_matchedEntity_name
+  in_arrears_flags___account_id -->|EXACT| out_associatedAccounts_accountNumber

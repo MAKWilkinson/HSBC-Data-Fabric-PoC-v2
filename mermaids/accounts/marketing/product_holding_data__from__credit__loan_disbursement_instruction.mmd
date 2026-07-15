@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
+    in_loan_disbursement_instructions___status["loan_disbursement_instructions[].status"]
+    in_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    in_loan_disbursement_instructions___currency["loan_disbursement_instructions[].currency"]
+  end
+  subgraph OUT["accounts: product_holding_data"]
+    out_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    out_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    out_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    out_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+    out_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    out_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    out_product_holding_data_summary_total_customers["product_holding_data.summary.total_customers"]
+  end
+  in_loan_disbursement_instructions___borrower_account_number -->|RENAMED| out_product_holding_data_holdings___customer_id
+  in_loan_disbursement_instructions___borrower_account_number -->|EXACT| out_product_holding_data_holdings___account_number
+  in_loan_disbursement_instructions___status -->|RENAMED| out_product_holding_data_holdings___account_status
+  in_loan_disbursement_instructions___disbursement_amount -->|TRANSFORMED| out_product_holding_data_holdings___balance
+  in_loan_disbursement_instructions___currency -->|EXACT| out_product_holding_data_holdings___currency

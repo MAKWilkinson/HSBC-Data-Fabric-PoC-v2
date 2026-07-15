@@ -1,0 +1,54 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: sanctions_list_hit"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_source["source"]
+    in_destination["destination"]
+    in_sanctionsListHit_matchedEntity_entityId["sanctionsListHit.matchedEntity.entityId"]
+    in_sanctionsListHit_matchedEntity_entityType["sanctionsListHit.matchedEntity.entityType"]
+    in_sanctionsListHit_matchedEntity_name["sanctionsListHit.matchedEntity.name"]
+    in_sanctionsListHit_sanctionListsMatched___listName["sanctionsListHit.sanctionListsMatched[].listName"]
+    in_sanctionsListHit_riskFactors["sanctionsListHit.riskFactors"]
+    in_sanctionsListHit_matchedEntity_nationality["sanctionsListHit.matchedEntity.nationality"]
+    in_sanctionsListHit_reviewDetails_reviewDeadline["sanctionsListHit.reviewDetails.reviewDeadline"]
+    in_sanctionsListHit_auditTrail_detectionTimestamp["sanctionsListHit.auditTrail.detectionTimestamp"]
+    in_sanctionsListHit_status["sanctionsListHit.status"]
+    in_sanctionsListHit_sanctionListsMatched___matchScore["sanctionsListHit.sanctionListsMatched[].matchScore"]
+    in_sanctionsListHit_matchedEntity_identificationDocuments["sanctionsListHit.matchedEntity.identificationDocuments"]
+  end
+  subgraph OUT["credit: monthly_repayment_direct_debit"]
+    out_repaymentId["repaymentId"]
+    out_batchDate["batchDate"]
+    out_department_from["department.from"]
+    out_department_to["department.to"]
+    out_repayments_accountNumber["repayments.accountNumber"]
+    out_repayments_customerId["repayments.customerId"]
+    out_repayments_customerName["repayments.customerName"]
+    out_repayments_loanId["repayments.loanId"]
+    out_repayments_repaymentAmount["repayments.repaymentAmount"]
+    out_repayments_currency["repayments.currency"]
+    out_repayments_dueDate["repayments.dueDate"]
+    out_repayments_directDebitMandateId["repayments.directDebitMandateId"]
+    out_repayments_repaymentStatus["repayments.repaymentStatus"]
+    out_repayments_repaymentType["repayments.repaymentType"]
+    out_totalAmount["totalAmount"]
+    out_recordCount["recordCount"]
+    out_timestamp["timestamp"]
+  end
+  in_messageId -->|RENAMED| out_repaymentId
+  in_timestamp -->|SEMANTIC| out_batchDate
+  in_source -->|RENAMED| out_department_from
+  in_destination -->|RENAMED| out_department_to
+  in_sanctionsListHit_matchedEntity_entityId -->|SEMANTIC| out_repayments_accountNumber
+  in_sanctionsListHit_matchedEntity_entityType -->|SEMANTIC| out_repayments_customerId
+  in_sanctionsListHit_matchedEntity_name -->|SEMANTIC| out_repayments_customerName
+  in_sanctionsListHit_sanctionListsMatched___listName -->|SEMANTIC| out_repayments_loanId
+  in_sanctionsListHit_riskFactors -->|SEMANTIC| out_repayments_repaymentAmount
+  in_sanctionsListHit_matchedEntity_nationality -->|SEMANTIC| out_repayments_currency
+  in_sanctionsListHit_reviewDetails_reviewDeadline -->|SEMANTIC| out_repayments_dueDate
+  in_sanctionsListHit_auditTrail_detectionTimestamp -->|SEMANTIC| out_repayments_directDebitMandateId
+  in_sanctionsListHit_status -->|SEMANTIC| out_repayments_repaymentStatus
+  in_sanctionsListHit_riskFactors -->|SEMANTIC| out_repayments_repaymentType
+  in_sanctionsListHit_sanctionListsMatched___matchScore -->|SEMANTIC| out_totalAmount
+  in_sanctionsListHit_matchedEntity_identificationDocuments -->|SEMANTIC| out_recordCount
+  in_sanctionsListHit_auditTrail_detectionTimestamp -->|SEMANTIC| out_timestamp

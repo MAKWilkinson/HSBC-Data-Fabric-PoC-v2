@@ -1,0 +1,128 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/complaint_escalation.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "complaint_escalation.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
+    "fingerprint": "f79c6ac2c91f2e36"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's escalation_id and timestamp fields seem to match the outbound file's messageId and timestamp fields, respectively. The risk_and_compliance system is a plausible pipeline step between customer_services and credit.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "escalation_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [
+        "customer_services"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [
+        "risk_and_compliance"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "sanctionsListHit.hitId",
+      "sources": [
+        "complaint.complaint_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.severity",
+      "sources": [
+        "complaint.complaint_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "sanctionsListHit.status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "matchedEntity.entityId",
+      "sources": [
+        "complaint.customer_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "matchedEntity.name",
+      "sources": [
+        "customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "reviewDetails.assignedTo",
+      "sources": [
+        "assigned_to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "reviewDetails.reviewDeadline",
+      "sources": [
+        "complaint.complaint_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    }
+  ]
+}

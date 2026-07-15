@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_timestamp["timestamp"]
+    in_department["department"]
+    in_recipientDepartment["recipientDepartment"]
+    in_accountNumber["accountNumber"]
+    in_transactionsAffected___currency["transactionsAffected[].currency"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_transactionsAffected["transactionsAffected"]
+    in_notes["notes"]
+  end
+  subgraph OUT["accounts: available_cash_balance"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_subject["subject"]
+    out_accountNumber["accountNumber"]
+    out_currency["currency"]
+    out_availableCashBalance["availableCashBalance"]
+    out_asOfDate["asOfDate"]
+    out_details["details"]
+    out_notes["notes"]
+  end
+  in_noticeId -->|RENAMED| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_department -->|RENAMED| out_fromDepartment
+  in_recipientDepartment -->|RENAMED| out_toDepartment
+  in_accountNumber -->|EXACT| out_accountNumber
+  in_transactionsAffected___currency -->|SEMANTIC| out_currency
+  in_transactionsAffected___amount -->|SEMANTIC| out_availableCashBalance
+  in_transactionsAffected -->|SEMANTIC| out_details
+  in_notes -->|EXACT| out_notes

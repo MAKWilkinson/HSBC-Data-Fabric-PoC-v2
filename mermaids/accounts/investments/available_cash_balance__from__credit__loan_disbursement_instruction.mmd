@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_instruction_id["instruction_id"]
+    in_disbursement_date["disbursement_date"]
+    in_purpose["purpose"]
+    in_borrower_account_number["borrower_account_number"]
+    in_currency["currency"]
+    in_disbursement_amount["disbursement_amount"]
+    in_remarks["remarks"]
+  end
+  subgraph OUT["accounts: available_cash_balance"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_subject["subject"]
+    out_accountNumber["accountNumber"]
+    out_currency["currency"]
+    out_availableCashBalance["availableCashBalance"]
+    out_asOfDate["asOfDate"]
+    out_details["details"]
+    out_notes["notes"]
+  end
+  in_instruction_id -->|RENAMED| out_messageId
+  in_disbursement_date -->|SEMANTIC| out_timestamp
+  in_purpose -->|SEMANTIC| out_subject
+  in_borrower_account_number -->|RENAMED| out_accountNumber
+  in_currency -->|EXACT| out_currency
+  in_disbursement_amount -->|SEMANTIC| out_availableCashBalance
+  in_disbursement_date -->|SEMANTIC| out_asOfDate
+  in_remarks -->|RENAMED| out_notes

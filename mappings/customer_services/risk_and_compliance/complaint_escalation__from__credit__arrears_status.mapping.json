@@ -1,0 +1,101 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/complaint_escalation.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "complaint_escalation.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
+    "fingerprint": "f79c6ac2c91f2e36"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account numbers, and arrears status, which could be transformed into a complaint escalation.",
+  "mappings": [
+    {
+      "outbound_field": "complaint.complaint_id",
+      "sources": [
+        "arrears_status[].customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from arrears status."
+    },
+    {
+      "outbound_field": "complaint.customer_id",
+      "sources": [
+        "arrears_status[].customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from arrears status."
+    },
+    {
+      "outbound_field": "complaint.customer_name",
+      "sources": [
+        "arrears_status[].customerName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as customer name from arrears status."
+    },
+    {
+      "outbound_field": "complaint.complaint_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp from arrears status."
+    },
+    {
+      "outbound_field": "complaint.description",
+      "sources": [
+        "arrears_status[].notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as notes from arrears status."
+    },
+    {
+      "outbound_field": "complaint.account_number",
+      "sources": [
+        "arrears_status[].accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the account number from arrears status."
+    },
+    {
+      "outbound_field": "complaint.amount",
+      "sources": [
+        "arrears_status[].arrearsAmount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the arrears amount from arrears status."
+    },
+    {
+      "outbound_field": "complaint.currency",
+      "sources": [
+        "arrears_status[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the currency from arrears status."
+    }
+  ]
+}

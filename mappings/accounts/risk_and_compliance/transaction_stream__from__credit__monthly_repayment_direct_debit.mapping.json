@@ -1,0 +1,85 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "monthly_repayment_direct_debit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "154cd31096fbc5c5"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+      "providing_system": "accounts",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "transaction_stream.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
+    "fingerprint": "ea72bfbe5aab17bb"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like repayments, account numbers, and customer information, which could be transformed into transaction data.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "repaymentId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the repayment ID."
+    },
+    {
+      "outbound_field": "counterparty_system",
+      "sources": [
+        "department.from",
+        "department.to"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as department information, but with different names."
+    },
+    {
+      "outbound_field": "transaction_date",
+      "sources": [
+        "batchDate",
+        "dueDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as batch and due dates, but with different names."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "repaymentAmount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact copy of the repayment amount."
+    },
+    {
+      "outbound_field": "transaction_type",
+      "sources": [
+        "repaymentType"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as repayment type, but with different names."
+    },
+    {
+      "outbound_field": "eligible_customers",
+      "sources": [
+        "repayments[].customerId"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of customer IDs from repayments array."
+    }
+  ]
+}

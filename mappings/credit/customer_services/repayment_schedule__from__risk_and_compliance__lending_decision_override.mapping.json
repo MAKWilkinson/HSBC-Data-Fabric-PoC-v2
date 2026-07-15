@@ -1,0 +1,153 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "lending_decision_override.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "bf6dea1328e7228c"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as loan application ID, customer ID, and risk assessment details, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "repayment_schedule.customer_id",
+      "sources": [
+        "payload.customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_id",
+      "sources": [
+        "payload.loanApplicationId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.customer_name",
+      "sources": [
+        "payload.customerId"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.principal_amount",
+      "sources": [
+        "payload.loanDetails.loanAmount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation or formatting change."
+    },
+    {
+      "outbound_field": "repayment_schedule.interest_rate",
+      "sources": [
+        "payload.riskAssessmentDetails.creditScore"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_term_months",
+      "sources": [
+        "payload.loanDetails.loanTerm"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.start_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.maturity_date",
+      "sources": [
+        "payload.overrideApprovalDetails.approvalDate"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.currency",
+      "sources": [
+        "payload.loanDetails.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.schedule_version",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "repayment_schedule.generated_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayment_frequency",
+      "sources": [
+        "payload.riskAssessmentDetails.mitigatingFactors"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.total_repayments",
+      "sources": [
+        "payload.riskAssessmentDetails.yearsOfIncome"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments",
+      "sources": [
+        "payload.riskAssessmentDetails.mitigatingFactors"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is a combination of two or more inbound fields."
+    }
+  ]
+}

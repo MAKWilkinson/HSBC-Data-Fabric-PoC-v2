@@ -1,0 +1,174 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+    "providing_system": "accounts",
+    "consuming_system": "marketing",
+    "message_file_name": "product_holding_data.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "product_holding_data",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Container for product holding data",
+      "children": [
+        {
+          "name": "timestamp",
+          "data_type": "datetime",
+          "nullable": true,
+          "description": "Timestamp of the data record",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "source_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that originated the data"
+        },
+        {
+          "name": "target_department",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Department that received the data"
+        },
+        {
+          "name": "data_version",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Version of the product holding data"
+        },
+        {
+          "name": "holdings",
+          "data_type": "array",
+          "nullable": false,
+          "description": "List of customer account holdings",
+          "children": [
+            {
+              "name": "customer_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the customer"
+            },
+            {
+              "name": "account_number",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Account number of the holding"
+            },
+            {
+              "name": "product_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the product"
+            },
+            {
+              "name": "product_name",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Name of the product holding"
+            },
+            {
+              "name": "account_status",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Status of the account (e.g., active, inactive)",
+              "enum_values": [
+                "active",
+                "inactive"
+              ]
+            },
+            {
+              "name": "balance",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Current balance of the account",
+              "fmt": "currency"
+            },
+            {
+              "name": "currency",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Currency of the account balance",
+              "fmt": "currency_code",
+              "enum_values": [
+                "GBP"
+              ]
+            },
+            {
+              "name": "account_opened_date",
+              "data_type": "date",
+              "nullable": true,
+              "description": "Date when the account was opened",
+              "fmt": "date"
+            },
+            {
+              "name": "last_transaction_date",
+              "data_type": "date",
+              "nullable": true,
+              "description": "Date of the last transaction on the account",
+              "fmt": "date"
+            },
+            {
+              "name": "monthly_turnover",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Monthly turnover of the account",
+              "fmt": "currency"
+            },
+            {
+              "name": "credit_limit",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Credit limit of the account",
+              "fmt": "currency"
+            },
+            {
+              "name": "is_primary_account",
+              "data_type": "boolean",
+              "nullable": false,
+              "description": "Indicator if the account is primary"
+            }
+          ]
+        },
+        {
+          "name": "summary",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Summary statistics for the product holdings",
+          "children": [
+            {
+              "name": "total_customers",
+              "data_type": "integer",
+              "nullable": true,
+              "description": "Total number of customers with accounts"
+            },
+            {
+              "name": "total_holdings",
+              "data_type": "integer",
+              "nullable": true,
+              "description": "Total number of account holdings"
+            },
+            {
+              "name": "total_balance",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Total balance across all accounts",
+              "fmt": "currency"
+            },
+            {
+              "name": "currency",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Currency of the total balance",
+              "fmt": "currency_code",
+              "enum_values": [
+                "GBP"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

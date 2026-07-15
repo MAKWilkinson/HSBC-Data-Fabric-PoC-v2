@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_instruction_id["instruction_id"]
+    in_created_date["created_date"]
+    in_borrower_account_number["borrower_account_number"]
+    in_disbursement_amount["disbursement_amount"]
+    in_currency["currency"]
+    in_remarks["remarks"]
+  end
+  subgraph OUT["accounts: overdraft_usage"]
+    out_fileId["fileId"]
+    out_fileName["fileName"]
+    out_sentDate["sentDate"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_accountNumber["accountNumber"]
+    out_overdraftLimit["overdraftLimit"]
+    out_overdraftUsed["overdraftUsed"]
+    out_usagePercent["usagePercent"]
+    out_notes["notes"]
+  end
+  in_instruction_id -->|RENAMED| out_fileId
+  in_created_date -->|SEMANTIC| out_sentDate
+  in_borrower_account_number -->|RENAMED| out_accountNumber
+  in_disbursement_amount -->|MERGE| out_overdraftLimit
+  in_currency -->|MERGE| out_overdraftLimit
+  in_disbursement_amount -->|MERGE| out_overdraftUsed
+  in_currency -->|MERGE| out_overdraftUsed
+  in_disbursement_amount -->|MERGE| out_usagePercent
+  in_currency -->|MERGE| out_usagePercent
+  in_remarks -->|RENAMED| out_notes

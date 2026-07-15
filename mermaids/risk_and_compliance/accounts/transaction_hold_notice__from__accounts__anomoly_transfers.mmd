@@ -1,0 +1,43 @@
+flowchart LR
+  subgraph IN["accounts: anomoly_transfers"]
+    in_transfer_id["transfer_id"]
+    in_transfer_date["transfer_date"]
+    in_from_account["from_account"]
+    in_to_account["to_account"]
+    in_transfer_type["transfer_type"]
+    in_customer_id["customer_id"]
+    in_customer_name["customer_name"]
+    in_risk_score["risk_score"]
+    in_amount["amount"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+    out_riskScore["riskScore"]
+  end
+  in_transfer_id -->|EXACT| out_noticeId
+  in_transfer_date -->|RENAMED| out_timestamp
+  in_from_account -->|SEMANTIC| out_recipientDepartment
+  in_to_account -->|SEMANTIC| out_recipientDepartment
+  in_transfer_type -->|EXACT| out_noticeType
+  in_from_account -->|SEMANTIC| out_accountNumber
+  in_to_account -->|SEMANTIC| out_accountNumber
+  in_customer_id -->|EXACT| out_customerId
+  in_customer_name -->|RENAMED| out_customerName
+  in_transfer_type -->|SEMANTIC| out_holdReason
+  in_risk_score -->|SEMANTIC| out_holdReason
+  in_transfer_date -->|RENAMED| out_holdEffectiveDate
+  in_transfer_id -->|MERGE| out_transactionsAffected
+  in_amount -->|MERGE| out_transactionsAffected
+  in_risk_score -->|EXACT| out_riskScore

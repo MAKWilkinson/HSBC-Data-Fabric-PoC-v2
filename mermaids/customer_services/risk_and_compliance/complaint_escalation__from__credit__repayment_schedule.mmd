@@ -1,0 +1,29 @@
+flowchart LR
+  subgraph IN["credit: repayment_schedule"]
+    in_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    in_repayment_schedule_generated_date["repayment_schedule.generated_date"]
+    in_repayment_schedule_metadata_source_system["repayment_schedule.metadata.source_system"]
+    in_repayment_schedule_metadata_destination_system["repayment_schedule.metadata.destination_system"]
+    in_repayment_schedule_start_date["repayment_schedule.start_date"]
+    in_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    in_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    in_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
+  end
+  subgraph OUT["customer_services: complaint_escalation"]
+    out_complaint_complaint_id["complaint.complaint_id"]
+    out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_target_department["target_department"]
+    out_complaint_complaint_date["complaint.complaint_date"]
+    out_complaint_customer_id["complaint.customer_id"]
+    out_complaint_customer_name["complaint.customer_name"]
+    out_amount["amount"]
+  end
+  in_repayment_schedule_loan_id -->|RENAMED| out_complaint_complaint_id
+  in_repayment_schedule_generated_date -->|SEMANTIC| out_timestamp
+  in_repayment_schedule_metadata_source_system -->|RENAMED| out_source_department
+  in_repayment_schedule_metadata_destination_system -->|RENAMED| out_target_department
+  in_repayment_schedule_start_date -->|SEMANTIC| out_complaint_complaint_date
+  in_repayment_schedule_customer_id -->|EXACT| out_complaint_customer_id
+  in_repayment_schedule_customer_name -->|EXACT| out_complaint_customer_name
+  in_repayment_schedule_principal_amount -->|SEMANTIC| out_amount

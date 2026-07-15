@@ -1,0 +1,14 @@
+flowchart LR
+  subgraph IN["accounts: funds_settlement"]
+    in_settlements___fund_id["settlements[].fund_id"]
+    in_settlements___fund_name["settlements[].fund_name"]
+    in_settlements___amount["settlements[].amount"]
+  end
+  subgraph OUT["investments: debit_credit_instruction"]
+    out_debit_credit_instructions___instructions___transaction_id["debit_credit_instructions[].instructions[].transaction_id"]
+    out_debit_credit_instructions___instructions___account_number["debit_credit_instructions[].instructions[].account_number"]
+    out_debit_credit_instructions___instructions___amount["debit_credit_instructions[].instructions[].amount"]
+  end
+  in_settlements___fund_id -->|RENAMED| out_debit_credit_instructions___instructions___transaction_id
+  in_settlements___fund_name -->|SEMANTIC| out_debit_credit_instructions___instructions___account_number
+  in_settlements___amount -->|EXACT| out_debit_credit_instructions___instructions___amount

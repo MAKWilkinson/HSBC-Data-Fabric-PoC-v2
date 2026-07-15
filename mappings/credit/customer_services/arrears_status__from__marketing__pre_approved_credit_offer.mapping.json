@@ -1,0 +1,119 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "providing_system": "marketing",
+      "consuming_system": "credit",
+      "message_file_name": "pre_approved_credit_offer.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "c63cd952ba1aa1b2"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share some common fields like customer_id, account_number, and product_type, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the timestamp field from the inbound file."
+    },
+    {
+      "outbound_field": "sourceSystem",
+      "sources": [
+        "department_from",
+        "department_to"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as department_from and department_to fields from the inbound file."
+    },
+    {
+      "outbound_field": "destinationSystem",
+      "sources": [
+        "department_to"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 1.0,
+      "reasoning": "Same source meaning as the department_to field from the inbound file, but with a different name."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "credit_offer",
+        "eligibility_criteria"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as credit_offer and eligibility_criteria fields from the inbound file."
+    },
+    {
+      "outbound_field": "arrears_status[].customerId",
+      "sources": [
+        "customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the customer_id field from the inbound file."
+    },
+    {
+      "outbound_field": "arrears_status[].accountNumber",
+      "sources": [
+        "customer_details.account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the account_number field from the inbound file."
+    },
+    {
+      "outbound_field": "arrears_status[].productType",
+      "sources": [
+        "credit_offer.product_type"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the product_type field from the inbound file."
+    },
+    {
+      "outbound_field": "arrears_status[].arrearsAmount",
+      "sources": [
+        "credit_offer.offer_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Captures the same concept as offer_amount field from the inbound file."
+    },
+    {
+      "outbound_field": "arrears_status[].currency",
+      "sources": [
+        "credit_offer.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the currency field from the inbound file."
+    }
+  ]
+}

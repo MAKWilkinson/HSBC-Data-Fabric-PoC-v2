@@ -1,0 +1,63 @@
+flowchart LR
+  subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
+    in_reportDate["reportDate"]
+    in_sourceDeployment["sourceDeployment"]
+    in_targetDeployment["targetDeployment"]
+    in_reportType["reportType"]
+    in_severity["severity"]
+    in_customer_accountNumber["customer.accountNumber"]
+    in_customer_customerId["customer.customerId"]
+    in_customer_customerName["customer.customerName"]
+    in_fraudDetails_fraudDescription["fraudDetails.fraudDescription"]
+    in_incident_detectionDate["incident.detectionDate"]
+    in_fraudDetails_transactionReference["fraudDetails.transactionReference"]
+    in_riskIndicators["riskIndicators"]
+    in_actionsTaken["actionsTaken"]
+    in_escalationRequired["escalationRequired"]
+    in_additionalNotes["additionalNotes"]
+    in_holdEffectiveDate["holdEffectiveDate"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+    out_riskScore["riskScore"]
+    out_riskFlags["riskFlags"]
+    out_requiredActions["requiredActions"]
+    out_escalationLevel["escalationLevel"]
+    out_approvalRequired["approvalRequired"]
+    out_approverRole["approverRole"]
+    out_notes["notes"]
+    out_expiryDate["expiryDate"]
+    out_issuedBy["issuedBy"]
+    out_priority["priority"]
+  end
+  in_reportId -->|EXACT| out_noticeId
+  in_reportDate -->|RENAMED| out_timestamp
+  in_sourceDeployment -->|SEMANTIC| out_department
+  in_targetDeployment -->|SEMANTIC| out_recipientDepartment
+  in_reportType -->|EXACT| out_noticeType
+  in_severity -->|RENAMED| out_severity
+  in_customer_accountNumber -->|EXACT| out_accountNumber
+  in_customer_customerId -->|EXACT| out_customerId
+  in_customer_customerName -->|EXACT| out_customerName
+  in_fraudDetails_fraudDescription -->|SEMANTIC| out_holdReason
+  in_incident_detectionDate -->|RENAMED| out_holdEffectiveDate
+  in_fraudDetails_transactionReference -->|SEMANTIC| out_transactionsAffected
+  in_riskIndicators -->|SEMANTIC| out_riskFlags
+  in_actionsTaken -->|SEMANTIC| out_requiredActions
+  in_escalationRequired -->|RENAMED| out_approvalRequired
+  in_additionalNotes -->|SEMANTIC| out_notes
+  in_holdEffectiveDate -->|RENAMED| out_expiryDate
+  in_severity -->|RENAMED| out_priority

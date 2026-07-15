@@ -1,0 +1,53 @@
+flowchart LR
+  subgraph IN["credit: repayment_schedule"]
+    in_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    in_repayment_schedule_generated_date["repayment_schedule.generated_date"]
+    in_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    in_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    in_repayment_schedule_repayments___payment_number["repayment_schedule.repayments[].payment_number"]
+    in_repayment_schedule_repayment_frequency["repayment_schedule.repayment_frequency"]
+    in_repayment_schedule_repayments___status["repayment_schedule.repayments[].status"]
+    in_repayment_schedule_repayments___principal_payment["repayment_schedule.repayments[].principal_payment"]
+    in_repayment_schedule_repayments___interest_payment["repayment_schedule.repayments[].interest_payment"]
+    in_repayment_schedule_repayments___outstanding_balance["repayment_schedule.repayments[].outstanding_balance"]
+    in_repayment_schedule_repayments___total_payment["repayment_schedule.repayments[].total_payment"]
+    in_repayment_schedule_repayments___customer_name["repayment_schedule.repayments[].customer_name"]
+  end
+  subgraph OUT["customer_services: hardship_request"]
+    out_request_id["request_id"]
+    out_timestamp["timestamp"]
+    out_customer_id["customer_id"]
+    out_customer_name["customer_name"]
+    out_account_number["account_number"]
+    out_request_type["request_type"]
+    out_hardship_reason["hardship_reason"]
+    out_monthly_income["monthly_income"]
+    out_monthly_expenses["monthly_expenses"]
+    out_outstanding_balance["outstanding_balance"]
+    out_monthly_payment_amount["monthly_payment_amount"]
+    out_requested_relief_type["requested_relief_type"]
+    out_requested_duration_months["requested_duration_months"]
+    out_supporting_documents["supporting_documents"]
+    out_contact_number["contact_number"]
+    out_contact_email["contact_email"]
+    out_priority["priority"]
+    out_status["status"]
+  end
+  in_repayment_schedule_loan_id -->|RENAMED| out_request_id
+  in_repayment_schedule_generated_date -->|SEMANTIC| out_timestamp
+  in_repayment_schedule_customer_id -->|EXACT| out_customer_id
+  in_repayment_schedule_customer_name -->|EXACT| out_customer_name
+  in_repayment_schedule_repayments___payment_number -->|SEMANTIC| out_account_number
+  in_repayment_schedule_repayment_frequency -->|SEMANTIC| out_request_type
+  in_repayment_schedule_repayments___status -->|SEMANTIC| out_hardship_reason
+  in_repayment_schedule_repayments___principal_payment -->|SEMANTIC| out_monthly_income
+  in_repayment_schedule_repayments___interest_payment -->|SEMANTIC| out_monthly_expenses
+  in_repayment_schedule_repayments___outstanding_balance -->|EXACT| out_outstanding_balance
+  in_repayment_schedule_repayments___total_payment -->|SEMANTIC| out_monthly_payment_amount
+  in_repayment_schedule_repayments___status -->|SEMANTIC| out_requested_relief_type
+  in_repayment_schedule_repayments___payment_number -->|SEMANTIC| out_requested_duration_months
+  in_repayment_schedule_repayments___status -->|SEMANTIC| out_supporting_documents
+  in_repayment_schedule_repayments___customer_name -->|SEMANTIC| out_contact_number
+  in_repayment_schedule_repayments___customer_name -->|SEMANTIC| out_contact_email
+  in_repayment_schedule_repayments___status -->|SEMANTIC| out_priority
+  in_repayment_schedule_repayments___status -->|EXACT| out_status

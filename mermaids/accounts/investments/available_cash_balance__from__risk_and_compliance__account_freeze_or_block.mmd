@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: account_freeze_or_block"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_destination["destination"]
+    in_source["source"]
+    in_messageType["messageType"]
+    in_account_accountNumber["account.accountNumber"]
+    in_account_currency["account.currency"]
+    in_freezeDetails["freezeDetails"]
+  end
+  subgraph OUT["accounts: available_cash_balance"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_subject["subject"]
+    out_accountNumber["accountNumber"]
+    out_currency["currency"]
+    out_availableCashBalance["availableCashBalance"]
+    out_asOfDate["asOfDate"]
+    out_details["details"]
+    out_notes["notes"]
+  end
+  in_messageId -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_destination -->|RENAMED| out_fromDepartment
+  in_source -->|RENAMED| out_toDepartment
+  in_messageType -->|SEMANTIC| out_subject
+  in_account_accountNumber -->|SEMANTIC| out_subject
+  in_account_accountNumber -->|EXACT| out_accountNumber
+  in_account_currency -->|EXACT| out_currency
+  in_account_accountNumber -->|TRANSFORMED| out_availableCashBalance
+  in_freezeDetails -->|TRANSFORMED| out_availableCashBalance
+  in_timestamp -->|EXACT| out_asOfDate
+  in_account_accountNumber -->|TRANSFORMED| out_details
+  in_freezeDetails -->|TRANSFORMED| out_details

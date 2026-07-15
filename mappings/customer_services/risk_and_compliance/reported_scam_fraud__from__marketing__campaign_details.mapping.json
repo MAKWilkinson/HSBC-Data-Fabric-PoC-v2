@@ -1,0 +1,141 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "campaign_details.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "89dedbcc42df434e"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "reported_scam_fraud.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "c99a436a39d11fa2"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "reportId",
+      "sources": [
+        "campaign_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed campaign ID to report ID."
+    },
+    {
+      "outbound_field": "reportDate",
+      "sources": [
+        "created_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept as created date, but different name."
+    },
+    {
+      "outbound_field": "sourceDeployment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "targetDeployment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "reportType",
+      "sources": [
+        "campaign_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Same concept as campaign type, but different name."
+    },
+    {
+      "outbound_field": "severity",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "incident",
+      "sources": [
+        "target_segment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Same concept as target segment, but different name."
+    },
+    {
+      "outbound_field": "customer",
+      "sources": [
+        "target_segment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept as target segment, but different name."
+    },
+    {
+      "outbound_field": "fraudDetails",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "riskIndicators",
+      "sources": [
+        "success_metrics"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept as success metrics, but different name."
+    },
+    {
+      "outbound_field": "actionsTaken",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "additionalNotes",
+      "sources": [
+        "key_messages"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Same concept as key messages, but different name."
+    },
+    {
+      "outbound_field": "escalationRequired",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "documentationRef",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

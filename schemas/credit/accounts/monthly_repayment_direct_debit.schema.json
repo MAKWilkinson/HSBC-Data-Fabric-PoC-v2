@@ -1,0 +1,135 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+    "providing_system": "credit",
+    "consuming_system": "accounts",
+    "message_file_name": "monthly_repayment_direct_debit.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "repaymentId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the repayment"
+    },
+    {
+      "name": "batchDate",
+      "data_type": "date",
+      "nullable": false,
+      "description": "Date of the batch containing repayments",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the department involved in the repayment",
+      "children": [
+        {
+          "name": "from",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that originated the data"
+        },
+        {
+          "name": "to",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that received the repayment"
+        }
+      ]
+    },
+    {
+      "name": "repayments",
+      "data_type": "array",
+      "nullable": false,
+      "description": "List of repayments in this batch",
+      "children": [
+        {
+          "name": "accountNumber",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Account number for the repayment"
+        },
+        {
+          "name": "customerId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer making the repayment"
+        },
+        {
+          "name": "customerName",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the customer making the repayment"
+        },
+        {
+          "name": "loanId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the loan being repaid"
+        },
+        {
+          "name": "repaymentAmount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of the repayment",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency of the repayment amount",
+          "fmt": "currency_code"
+        },
+        {
+          "name": "dueDate",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date by which the repayment is due",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "directDebitMandateId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the direct debit mandate"
+        },
+        {
+          "name": "repaymentStatus",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current status of the repayment (e.g. scheduled, paid)"
+        },
+        {
+          "name": "repaymentType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of repayment (e.g. monthly, one-time)"
+        }
+      ]
+    },
+    {
+      "name": "totalAmount",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Total amount of all repayments in this batch",
+      "fmt": "currency"
+    },
+    {
+      "name": "recordCount",
+      "data_type": "integer",
+      "nullable": true,
+      "description": "Number of repayment records in this batch"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp when the batch was generated",
+      "fmt": "iso8601"
+    }
+  ]
+}

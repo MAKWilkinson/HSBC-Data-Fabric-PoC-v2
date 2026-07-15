@@ -11,11 +11,13 @@ import config
 import ingestion
 import extraction
 import map
+import graph
+import viewer
 
 
-def run_workflow(root_dir: Path, hierarchy: dict[str, Any]) -> None:
+def run_workflow() -> None:
     """
-    Creates File Directory of Mermaid Charts
+    Creates File Directory
     """
 
     # config
@@ -29,15 +31,15 @@ def run_workflow(root_dir: Path, hierarchy: dict[str, Any]) -> None:
         directory_as_list_of_samplefiles.append(ingestion.load_sample_file(item))
 
     # extraction
-    
-    #TODO : Workflow to check if schema exists, if so loads schema, if not extracts and stores schema
-    list_of_fileschemas = extraction.extract_all_schemas(client, directory_as_list_of_samplefiles)
-
+    list_of_fileschemas = extraction.extract_all_schemas(client=client, samples=directory_as_list_of_samplefiles)
 
     # mapping
-
-    #TODO : Workflow to check is mapping exists, if so loads mapping, if not determines and stores mapping
     mappings = map.map_f2f(client=client, files=list_of_fileschemas)
 
+    # graph
+    ui = graph.graph_all_mappings()
 
-    raise NotImplementedError
+    # viewer — writes viewer.html + viewer_data.js from mappings/ and mermaids/
+    viewer.write_viewer()
+
+    return

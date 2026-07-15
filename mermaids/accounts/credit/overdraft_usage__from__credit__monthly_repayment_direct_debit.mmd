@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph IN["credit: monthly_repayment_direct_debit"]
+    in_repaymentId["repaymentId"]
+    in_timestamp["timestamp"]
+    in_department_from["department.from"]
+    in_department_to["department.to"]
+    in_repayments___accountNumber["repayments[].accountNumber"]
+    in_totalAmount["totalAmount"]
+    in_repayments___repaymentAmount["repayments[].repaymentAmount"]
+  end
+  subgraph OUT["accounts: overdraft_usage"]
+    out_fileId["fileId"]
+    out_sentDate["sentDate"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_accountNumber["accountNumber"]
+    out_overdraftLimit["overdraftLimit"]
+    out_overdraftUsed["overdraftUsed"]
+    out_usagePercent["usagePercent"]
+    out_notes["notes"]
+  end
+  in_repaymentId -->|EXACT| out_fileId
+  in_timestamp -->|SEMANTIC| out_sentDate
+  in_department_from -->|RENAMED| out_fromDepartment
+  in_department_to -->|RENAMED| out_toDepartment
+  in_repayments___accountNumber -->|EXACT| out_accountNumber
+  in_totalAmount -->|TRANSFORMED| out_overdraftLimit
+  in_repayments___repaymentAmount -->|MERGE| out_overdraftUsed
+  in_repayments___repaymentAmount -->|TRANSFORMED| out_usagePercent
+  in_totalAmount -->|TRANSFORMED| out_usagePercent

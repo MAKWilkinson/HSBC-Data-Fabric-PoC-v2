@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph IN["customer_services: payment_holiday_application"]
+    in_customer_name["customer.name"]
+    in_account_accountNumber["account.accountNumber"]
+    in_account_loanAmount["account.loanAmount"]
+    in_account_currency["account.currency"]
+    in_paymentHolidayRequest_startDate["paymentHolidayRequest.startDate"]
+    in_paymentHolidayRequest_reason["paymentHolidayRequest.reason"]
+  end
+  subgraph OUT["credit: loan_disbursement_instruction"]
+    out_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
+    out_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
+    out_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    out_loan_disbursement_instructions___currency["loan_disbursement_instructions[].currency"]
+    out_loan_disbursement_instructions___disbursement_date["loan_disbursement_instructions[].disbursement_date"]
+    out_loan_disbursement_instructions___disbursement_method["loan_disbursement_instructions[].disbursement_method"]
+    out_loan_disbursement_instructions___destination_account["loan_disbursement_instructions[].destination_account"]
+    out_loan_disbursement_instructions___destination_bank_code["loan_disbursement_instructions[].destination_bank_code"]
+  end
+  in_customer_name -->|RENAMED| out_loan_disbursement_instructions___borrower_name
+  in_account_accountNumber -->|EXACT| out_loan_disbursement_instructions___borrower_account_number
+  in_account_loanAmount -->|EXACT| out_loan_disbursement_instructions___disbursement_amount
+  in_account_currency -->|EXACT| out_loan_disbursement_instructions___currency
+  in_paymentHolidayRequest_startDate -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_date
+  in_paymentHolidayRequest_reason -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_method
+  in_account_accountNumber -->|EXACT| out_loan_disbursement_instructions___destination_account

@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph IN["marketing: pre_approved_credit_offer"]
+    in_customer_details_first_name["customer_details.first_name"]
+    in_customer_details_last_name["customer_details.last_name"]
+    in_offer_id["offer_id"]
+    in_customer_id["customer_id"]
+    in_credit_offer_offer_amount["credit_offer.offer_amount"]
+    in_credit_offer_interest_rate["credit_offer.interest_rate"]
+    in_credit_offer_term_months["credit_offer.term_months"]
+    in_offer_validity_start_date["offer_validity.start_date"]
+    in_offer_validity_end_date["offer_validity.end_date"]
+    in_credit_offer_currency["credit_offer.currency"]
+  end
+  subgraph OUT["credit: repayment_schedule"]
+    out_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    out_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    out_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    out_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
+    out_repayment_schedule_interest_rate["repayment_schedule.interest_rate"]
+    out_repayment_schedule_loan_term_months["repayment_schedule.loan_term_months"]
+    out_repayment_schedule_start_date["repayment_schedule.start_date"]
+    out_repayment_schedule_maturity_date["repayment_schedule.maturity_date"]
+    out_repayment_schedule_currency["repayment_schedule.currency"]
+    out_repayment_schedule_schedule_version["repayment_schedule.schedule_version"]
+  end
+  in_customer_details_first_name -->|MERGE| out_repayment_schedule_customer_name
+  in_customer_details_last_name -->|MERGE| out_repayment_schedule_customer_name
+  in_offer_id -->|EXACT| out_repayment_schedule_loan_id
+  in_customer_id -->|EXACT| out_repayment_schedule_customer_id
+  in_credit_offer_offer_amount -->|RENAMED| out_repayment_schedule_principal_amount
+  in_credit_offer_interest_rate -->|RENAMED| out_repayment_schedule_interest_rate
+  in_credit_offer_term_months -->|RENAMED| out_repayment_schedule_loan_term_months
+  in_offer_validity_start_date -->|SEMANTIC| out_repayment_schedule_start_date
+  in_offer_validity_end_date -->|SEMANTIC| out_repayment_schedule_maturity_date
+  in_credit_offer_currency -->|RENAMED| out_repayment_schedule_currency

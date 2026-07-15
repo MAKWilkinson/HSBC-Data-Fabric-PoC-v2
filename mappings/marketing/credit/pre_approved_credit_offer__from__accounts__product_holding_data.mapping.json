@@ -1,0 +1,121 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "providing_system": "marketing",
+      "consuming_system": "credit",
+      "message_file_name": "pre_approved_credit_offer.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "c63cd952ba1aa1b2"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, product holdings, and credit offers, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "offer_id",
+      "sources": [
+        "product_holding_data.holdings[].customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from the inbound file."
+    },
+    {
+      "outbound_field": "customer_id",
+      "sources": [
+        "product_holding_data.holdings[].customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from the inbound file."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "product_holding_data.source_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed version of the source department field."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "product_holding_data.target_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed version of the target department field."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "product_holding_data.timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp from the inbound file."
+    },
+    {
+      "outbound_field": "customer_details.first_name",
+      "sources": [
+        "product_holding_data.holdings[].customer_id",
+        "product_holding_data.summary.total_customers"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The first name is likely derived from the customer ID and total customers."
+    },
+    {
+      "outbound_field": "customer_details.last_name",
+      "sources": [
+        "product_holding_data.holdings[].customer_id",
+        "product_holding_data.summary.total_customers"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The last name is likely derived from the customer ID and total customers."
+    },
+    {
+      "outbound_field": "credit_offer.product_type",
+      "sources": [
+        "product_holding_data.holdings[].product_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The product type is likely derived from the product ID."
+    },
+    {
+      "outbound_field": "credit_offer.offer_amount",
+      "sources": [
+        "product_holding_data.holdings[].balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The offer amount is likely derived from the account balance."
+    },
+    {
+      "outbound_field": "credit_offer.currency",
+      "sources": [
+        "product_holding_data.holdings[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the currency from the inbound file."
+    }
+  ]
+}

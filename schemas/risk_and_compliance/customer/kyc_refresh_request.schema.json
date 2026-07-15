@@ -1,0 +1,266 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
+    "providing_system": "risk_and_compliance",
+    "consuming_system": "customer",
+    "message_file_name": "kyc_refresh_request.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "request_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the KYC refresh request"
+    },
+    {
+      "name": "request_timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp when the request was made",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department_from",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that originated the KYC refresh request"
+    },
+    {
+      "name": "department_to",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Target department for the KYC refresh request"
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Priority level of the KYC refresh request",
+      "enum_values": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    {
+      "name": "customer",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Customer information related to the KYC refresh request",
+      "children": [
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "full_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Full name of the customer"
+        },
+        {
+          "name": "date_of_birth",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of birth for the customer",
+          "fmt": "date"
+        },
+        {
+          "name": "national_id",
+          "data_type": "string",
+          "nullable": true,
+          "description": "National ID or equivalent for the customer"
+        },
+        {
+          "name": "email",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Email address of the customer",
+          "fmt": "email"
+        },
+        {
+          "name": "phone",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Phone number of the customer",
+          "fmt": "phone"
+        }
+      ]
+    },
+    {
+      "name": "kyc_refresh_details",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Details related to the KYC refresh request",
+      "children": [
+        {
+          "name": "last_refresh_date",
+          "data_type": "date",
+          "nullable": true,
+          "description": "Date of the last KYC refresh",
+          "fmt": "date"
+        },
+        {
+          "name": "refresh_reason",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Reason for the KYC refresh request",
+          "enum_values": [
+            "PERIODIC_REVIEW",
+            "AD_HOC_REQUEST"
+          ]
+        },
+        {
+          "name": "risk_flag",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Risk flag indicating potential issues with the customer"
+        },
+        {
+          "name": "risk_level",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Risk level associated with the customer",
+          "enum_values": [
+            "LOW",
+            "MEDIUM",
+            "HIGH"
+          ]
+        },
+        {
+          "name": "trigger_factors",
+          "data_type": "array",
+          "nullable": false,
+          "description": "Factors that triggered the KYC refresh request",
+          "children": [
+            {
+              "name": "factor",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Trigger factor for the KYC refresh request",
+              "enum_values": [
+                "Large_Transaction_Activity",
+                "Geographic_Risk_Indicator",
+                "Industry_Exposure_Change"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "compliance_issues",
+          "data_type": "array",
+          "nullable": false,
+          "description": "Compliance issues related to the KYC refresh request",
+          "children": [
+            {
+              "name": "issue",
+              "data_type": "object",
+              "nullable": false,
+              "description": "Individual compliance issue",
+              "children": [
+                {
+                  "name": "issue_type",
+                  "data_type": "string",
+                  "nullable": true,
+                  "description": "Type of compliance issue",
+                  "enum_values": [
+                    "SANCTIONS_LIST_REVIEW",
+                    "PEP_STATUS_VERIFICATION"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "data_type": "string",
+                  "nullable": true,
+                  "description": "Status of the compliance issue",
+                  "enum_values": [
+                    "PENDING",
+                    "COMPLETED"
+                  ]
+                },
+                {
+                  "name": "severity",
+                  "data_type": "string",
+                  "nullable": true,
+                  "description": "Severity level of the compliance issue",
+                  "enum_values": [
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "required_documents",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Documents required for the KYC refresh request",
+      "children": [
+        {
+          "name": "document",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Required document type",
+          "enum_values": [
+            "PROOF_OF_ADDRESS",
+            "UPDATED_ID_VERIFICATION",
+            "INCOME_VERIFICATION",
+            "SOURCE_OF_FUNDS_STATEMENT"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "required_actions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Actions required for the KYC refresh request",
+      "children": [
+        {
+          "name": "action",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Required action type",
+          "enum_values": [
+            "COMPLETE_KYC_QUESTIONNAIRE",
+            "SUBMIT_SUPPORTING_DOCUMENTS",
+            "ATTEND_VERIFICATION_CALL",
+            "PROVIDE_TRANSACTION_JUSTIFICATION"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deadline",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Deadline for the KYC refresh request",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Status of the KYC refresh request",
+      "enum_values": [
+        "PENDING_CUSTOMER_RESPONSE",
+        "IN_PROGRESS",
+        "COMPLETED"
+      ]
+    },
+    {
+      "name": "internal_notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Internal notes related to the KYC refresh request"
+    }
+  ]
+}

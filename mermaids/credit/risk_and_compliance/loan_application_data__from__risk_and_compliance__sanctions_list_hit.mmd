@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: sanctions_list_hit"]
+    in_sanctionsListHit_matchedEntity_name["sanctionsListHit.matchedEntity.name"]
+    in_sanctionsListHit_matchedEntity_dateOfBirth["sanctionsListHit.matchedEntity.dateOfBirth"]
+    in_sanctionsListHit_sanctionListsMatched___matchScore["sanctionsListHit.sanctionListsMatched[].matchScore"]
+    in_sanctionsListHit_matchedEntity_entityType["sanctionsListHit.matchedEntity.entityType"]
+    in_sanctionsListHit_matchedEntity_identificationDocuments["sanctionsListHit.matchedEntity.identificationDocuments"]
+    in_sanctionsListHit_status["sanctionsListHit.status"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___applicant_date_of_birth["loan_applications[].applicant.date_of_birth"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___employment_employment_status["loan_applications[].employment.employment_status"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+    out_loan_applications___application_status["loan_applications[].application_status"]
+  end
+  in_sanctionsListHit_matchedEntity_name -->|SEMANTIC| out_loan_applications___applicant_full_name
+  in_sanctionsListHit_matchedEntity_dateOfBirth -->|EXACT| out_loan_applications___applicant_date_of_birth
+  in_sanctionsListHit_sanctionListsMatched___matchScore -->|TRANSFORMED| out_loan_applications___loan_details_requested_amount
+  in_sanctionsListHit_matchedEntity_entityType -->|SEMANTIC| out_loan_applications___employment_employment_status
+  in_sanctionsListHit_matchedEntity_identificationDocuments -->|TRANSFORMED| out_loan_applications___financial_profile_total_assets
+  in_sanctionsListHit_matchedEntity_identificationDocuments -->|TRANSFORMED| out_loan_applications___collateral_property_value
+  in_sanctionsListHit_status -->|EXACT| out_loan_applications___application_status

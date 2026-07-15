@@ -1,0 +1,55 @@
+flowchart LR
+  subgraph IN["customer_services: address_updates"]
+    in_timestamp["timestamp"]
+    in_department["department"]
+    in_targetDepartment["targetDepartment"]
+    in_previousAddress["previousAddress"]
+    in_newAddress["newAddress"]
+    in_customerId["customerId"]
+    in_previousAddress_addressLine1["previousAddress.addressLine1"]
+    in_newAddress_addressLine1["newAddress.addressLine1"]
+    in_status["status"]
+    in_previousAddress_country["previousAddress.country"]
+    in_newAddress_country["newAddress.country"]
+    in_previousAddress_postalCode["previousAddress.postalCode"]
+    in_newAddress_postalCode["newAddress.postalCode"]
+  end
+  subgraph OUT["accounts: product_holding_data"]
+    out_product_holding_data_timestamp["product_holding_data.timestamp"]
+    out_product_holding_data_source_department["product_holding_data.source_department"]
+    out_product_holding_data_target_department["product_holding_data.target_department"]
+    out_product_holding_data_data_version["product_holding_data.data_version"]
+    out_product_holding_data_holdings["product_holding_data.holdings"]
+    out_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    out_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    out_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    out_product_holding_data_holdings___product_name["product_holding_data.holdings[].product_name"]
+    out_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+    out_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    out_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    out_product_holding_data_holdings___account_opened_date["product_holding_data.holdings[].account_opened_date"]
+    out_product_holding_data_holdings___last_transaction_date["product_holding_data.holdings[].last_transaction_date"]
+    out_product_holding_data_holdings___monthly_turnover["product_holding_data.holdings[].monthly_turnover"]
+    out_product_holding_data_holdings___credit_limit["product_holding_data.holdings[].credit_limit"]
+    out_product_holding_data_holdings___is_primary_account["product_holding_data.holdings[].is_primary_account"]
+    out_product_holding_data_summary_total_customers["product_holding_data.summary.total_customers"]
+    out_product_holding_data_summary_total_holdings["product_holding_data.summary.total_holdings"]
+    out_product_holding_data_summary_total_balance["product_holding_data.summary.total_balance"]
+    out_product_holding_data_summary_currency["product_holding_data.summary.currency"]
+  end
+  in_timestamp -->|EXACT| out_product_holding_data_timestamp
+  in_department -->|RENAMED| out_product_holding_data_source_department
+  in_targetDepartment -->|RENAMED| out_product_holding_data_target_department
+  in_previousAddress -->|MERGE| out_product_holding_data_holdings
+  in_newAddress -->|MERGE| out_product_holding_data_holdings
+  in_customerId -->|EXACT| out_product_holding_data_holdings___customer_id
+  in_previousAddress_addressLine1 -->|SEMANTIC| out_product_holding_data_holdings___product_name
+  in_newAddress_addressLine1 -->|SEMANTIC| out_product_holding_data_holdings___product_name
+  in_status -->|RENAMED| out_product_holding_data_holdings___account_status
+  in_previousAddress_country -->|SEMANTIC| out_product_holding_data_holdings___currency
+  in_newAddress_country -->|SEMANTIC| out_product_holding_data_holdings___currency
+  in_customerId -->|EXACT| out_product_holding_data_summary_total_customers
+  in_previousAddress_postalCode -->|SEMANTIC| out_product_holding_data_summary_total_balance
+  in_newAddress_postalCode -->|SEMANTIC| out_product_holding_data_summary_total_balance
+  in_previousAddress_country -->|SEMANTIC| out_product_holding_data_summary_currency
+  in_newAddress_country -->|SEMANTIC| out_product_holding_data_summary_currency

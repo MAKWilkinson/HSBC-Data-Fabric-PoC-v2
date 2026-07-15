@@ -1,0 +1,81 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "hardship_request.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "adeb1bfab0ab8d0e"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account numbers, and loan disbursement instructions, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_name",
+      "sources": [
+        "customer_name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The borrower name is renamed from the customer's name."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
+      "sources": [
+        "account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The account number is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
+      "sources": [
+        "monthly_payment_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The disbursement amount captures the same concept as the monthly payment amount."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The disbursement date is copied exactly from the timestamp in the inbound file."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].destination_account",
+      "sources": [
+        "account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The destination account is copied exactly from the account number in the inbound file."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

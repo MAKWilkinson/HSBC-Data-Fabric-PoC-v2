@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph IN["credit: repayment_schedule"]
+    in_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    in_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    in_repayment_schedule_generated_date["repayment_schedule.generated_date"]
+    in_repayment_schedule_metadata_source_system["repayment_schedule.metadata.source_system"]
+    in_repayment_schedule_metadata_destination_system["repayment_schedule.metadata.destination_system"]
+    in_repayment_schedule_repayments___status["repayment_schedule.repayments[].status"]
+    in_repayment_schedule_repayments___addressLine1["repayment_schedule.repayments[].addressLine1"]
+    in_repayment_schedule_repayments___city["repayment_schedule.repayments[].city"]
+    in_repayment_schedule_repayments___postalCode["repayment_schedule.repayments[].postalCode"]
+  end
+  subgraph OUT["customer_services: address_updates"]
+    out_updateId["updateId"]
+    out_customerId["customerId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_targetDepartment["targetDepartment"]
+    out_updateType["updateType"]
+    out_previousAddress["previousAddress"]
+    out_newAddress["newAddress"]
+    out_status["status"]
+    out_priority["priority"]
+  end
+  in_repayment_schedule_loan_id -->|RENAMED| out_updateId
+  in_repayment_schedule_customer_id -->|EXACT| out_customerId
+  in_repayment_schedule_generated_date -->|RENAMED| out_timestamp
+  in_repayment_schedule_metadata_source_system -->|SEMANTIC| out_department
+  in_repayment_schedule_metadata_destination_system -->|SEMANTIC| out_targetDepartment
+  in_repayment_schedule_repayments___status -->|SEMANTIC| out_updateType
+  in_repayment_schedule_repayments___addressLine1 -->|MERGE| out_previousAddress
+  in_repayment_schedule_repayments___city -->|MERGE| out_previousAddress
+  in_repayment_schedule_repayments___postalCode -->|MERGE| out_previousAddress
+  in_repayment_schedule_repayments___addressLine1 -->|MERGE| out_newAddress
+  in_repayment_schedule_repayments___city -->|MERGE| out_newAddress
+  in_repayment_schedule_repayments___postalCode -->|MERGE| out_newAddress
+  in_repayment_schedule_repayments___status -->|EXACT| out_status

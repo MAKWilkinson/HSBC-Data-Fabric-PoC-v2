@@ -1,0 +1,28 @@
+flowchart LR
+  subgraph IN["marketing: pre_approved_credit_offer"]
+    in_customer_details_first_name["customer_details.first_name"]
+    in_customer_details_last_name["customer_details.last_name"]
+    in_timestamp["timestamp"]
+    in_customer_details_email["customer_details.email"]
+    in_credit_offer_offer_amount["credit_offer.offer_amount"]
+    in_credit_offer_term_months["credit_offer.term_months"]
+    in_customer_details_account_number["customer_details.account_number"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___timestamp["loan_applications[].timestamp"]
+    out_loan_applications___applicant_email["loan_applications[].applicant.email"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___loan_details_term_months["loan_applications[].loan_details.term_months"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+    out_loan_applications___application_status["loan_applications[].application_status"]
+  end
+  in_customer_details_first_name -->|MERGE| out_loan_applications___applicant_full_name
+  in_customer_details_last_name -->|MERGE| out_loan_applications___applicant_full_name
+  in_timestamp -->|EXACT| out_loan_applications___timestamp
+  in_customer_details_email -->|RENAMED| out_loan_applications___applicant_email
+  in_credit_offer_offer_amount -->|EXACT| out_loan_applications___loan_details_requested_amount
+  in_credit_offer_term_months -->|EXACT| out_loan_applications___loan_details_term_months
+  in_customer_details_account_number -->|SEMANTIC| out_loan_applications___financial_profile_total_assets
+  in_credit_offer_offer_amount -->|SEMANTIC| out_loan_applications___collateral_property_value

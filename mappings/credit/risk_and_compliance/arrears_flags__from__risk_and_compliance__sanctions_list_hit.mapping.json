@@ -1,0 +1,164 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/arrears_flags.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "arrears_flags.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
+    "fingerprint": "abfc890937492958"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's 'sanctionsListHit' object and the outbound file's 'arrears_flags' array share similar concepts, such as customer information and risk factors.",
+  "mappings": [
+    {
+      "outbound_field": "account_id",
+      "sources": [
+        "matchedEntity.entityId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "customer_id",
+      "sources": [
+        "matchedEntity.entityId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "customer_name",
+      "sources": [
+        "sanctionsListHit.matchedEntity.name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "product_type",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].listName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrears_days",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "outstanding_balance",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "minimum_payment_due",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "payment_due_date",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "last_payment_date",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+    },
+    {
+      "outbound_field": "flag_severity",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "risk_category",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "compliance_action_required",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "action_type",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "flag_date",
+      "sources": [
+        "sanctionsListHit.auditTrail.detectionTimestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    }
+  ]
+}

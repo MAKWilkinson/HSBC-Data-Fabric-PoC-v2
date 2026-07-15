@@ -1,0 +1,109 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "available_cash_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "06b9a31daf92a921"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
+      "providing_system": "investments",
+      "consuming_system": "marketing",
+      "message_file_name": "eligible_customers_for_new_product.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "317394ffaaa6bd66"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like customer information, product name, and eligibility criteria, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "metadata.source_department",
+      "sources": [
+        "fromDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as fromDepartment in the inbound file, but with a different name."
+    },
+    {
+      "outbound_field": "metadata.target_department",
+      "sources": [
+        "toDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as toDepartment in the inbound file, but with a different name."
+    },
+    {
+      "outbound_field": "metadata.product_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely product-specific information."
+    },
+    {
+      "outbound_field": "metadata.generated_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the timestamp field in the inbound file."
+    },
+    {
+      "outbound_field": "metadata.eligibility_criteria",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely product-specific information."
+    },
+    {
+      "outbound_field": "eligible_customers[].customer_id",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the accountNumber field in the inbound file."
+    },
+    {
+      "outbound_field": "eligible_customers[].customer_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely customer-specific information."
+    },
+    {
+      "outbound_field": "eligible_customers[].email",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely customer-specific information."
+    },
+    {
+      "outbound_field": "eligible_customers[].account_balance",
+      "sources": [
+        "availableCashBalance"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of the availableCashBalance field in the inbound file."
+    },
+    {
+      "outbound_field": "summary.total_eligible_customers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely summary information."
+    }
+  ]
+}

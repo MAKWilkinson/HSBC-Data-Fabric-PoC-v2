@@ -1,0 +1,189 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "payment_holiday_application.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "9b67eea3fbe2bc23"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share customer-related concepts, such as account numbers and product types, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "applicationId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the application ID."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp."
+    },
+    {
+      "outbound_field": "sourceSystem",
+      "sources": [
+        "department.source"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from department source to source system."
+    },
+    {
+      "outbound_field": "destinationSystem",
+      "sources": [
+        "department.destination"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from department destination to destination system."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "paymentHolidayRequest.requestedMonths",
+        "paymentHolidayRequest.startDate",
+        "paymentHolidayRequest.endDate"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of requested months, start date, and end date."
+    },
+    {
+      "outbound_field": "arrears_status[].customerId",
+      "sources": [
+        "customer.customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID."
+    },
+    {
+      "outbound_field": "arrears_status[].accountNumber",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the account number."
+    },
+    {
+      "outbound_field": "arrears_status[].productType",
+      "sources": [
+        "account.accountType"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from account type to product type."
+    },
+    {
+      "outbound_field": "arrears_status[].arrearsAmount",
+      "sources": [
+        "account.currentBalance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Derived from the current account balance."
+    },
+    {
+      "outbound_field": "arrears_status[].currency",
+      "sources": [
+        "account.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the currency."
+    },
+    {
+      "outbound_field": "arrears_status[].arrearsMonths",
+      "sources": [
+        "paymentHolidayRequest.requestedMonths"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the requested months."
+    },
+    {
+      "outbound_field": "arrears_status[].status",
+      "sources": [
+        "applicationStatus"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from application status to arrears status."
+    },
+    {
+      "outbound_field": "arrears_status[].startDate",
+      "sources": [
+        "paymentHolidayRequest.startDate"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the start date."
+    },
+    {
+      "outbound_field": "arrears_status[].lastPaymentDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].nextPaymentDueDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "arrears_status[].riskLevel",
+      "sources": [
+        "paymentHolidayRequest.reason"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as the reason for requesting a payment holiday."
+    },
+    {
+      "outbound_field": "arrears_status[].actionRequired",
+      "sources": [
+        "applicationStatus"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from application status to action required."
+    },
+    {
+      "outbound_field": "arrears_status[].notes",
+      "sources": [
+        "additionalNotes"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the additional notes."
+    }
+  ]
+}

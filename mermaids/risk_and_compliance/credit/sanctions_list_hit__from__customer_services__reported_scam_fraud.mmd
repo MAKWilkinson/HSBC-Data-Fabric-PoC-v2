@@ -1,0 +1,42 @@
+flowchart LR
+  subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
+    in_reportDate["reportDate"]
+    in_sourceDeployment["sourceDeployment"]
+    in_targetDeployment["targetDeployment"]
+    in_incident_incidentId["incident.incidentId"]
+    in_severity["severity"]
+    in_incident_detectionDate["incident.detectionDate"]
+    in_customer_customerId["customer.customerId"]
+    in_customer_customerName["customer.customerName"]
+    in_customer_customerTier["customer.customerTier"]
+    in_customer_accountNumber["customer.accountNumber"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_sanctionsListHit_severity["sanctionsListHit.severity"]
+    out_sanctionsListHit_status["sanctionsListHit.status"]
+    out_matchedEntity_entityId["matchedEntity.entityId"]
+    out_matchedEntity_name["matchedEntity.name"]
+    out_matchedEntity_dateOfBirth["matchedEntity.dateOfBirth"]
+    out_matchedEntity_nationality["matchedEntity.nationality"]
+    out_associatedAccounts_accountNumber["associatedAccounts.accountNumber"]
+    out_reviewDetails_assignedTo["reviewDetails.assignedTo"]
+    out_auditTrail_detectionTimestamp["auditTrail.detectionTimestamp"]
+  end
+  in_reportId -->|EXACT| out_messageId
+  in_reportDate -->|RENAMED| out_timestamp
+  in_sourceDeployment -->|EXACT| out_source
+  in_targetDeployment -->|RENAMED| out_destination
+  in_incident_incidentId -->|SEMANTIC| out_sanctionsListHit_hitId
+  in_severity -->|EXACT| out_sanctionsListHit_severity
+  in_incident_detectionDate -->|SEMANTIC| out_sanctionsListHit_status
+  in_customer_customerId -->|EXACT| out_matchedEntity_entityId
+  in_customer_customerName -->|RENAMED| out_matchedEntity_name
+  in_customer_customerTier -->|SEMANTIC| out_matchedEntity_nationality
+  in_customer_accountNumber -->|EXACT| out_associatedAccounts_accountNumber
+  in_reportDate -->|RENAMED| out_auditTrail_detectionTimestamp

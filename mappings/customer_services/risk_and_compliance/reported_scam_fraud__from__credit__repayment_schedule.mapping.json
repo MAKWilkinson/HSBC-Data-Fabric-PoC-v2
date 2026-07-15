@@ -1,0 +1,142 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "reported_scam_fraud.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "c99a436a39d11fa2"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "reportId",
+      "sources": [
+        "repayment_schedule.loan_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from loan ID to report ID."
+    },
+    {
+      "outbound_field": "reportDate",
+      "sources": [
+        "repayment_schedule.start_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as start date but with a different name."
+    },
+    {
+      "outbound_field": "sourceDeployment",
+      "sources": [
+        "repayment_schedule.metadata.source_system"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of source system field."
+    },
+    {
+      "outbound_field": "targetDeployment",
+      "sources": [
+        "repayment_schedule.metadata.destination_system"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of destination system field."
+    },
+    {
+      "outbound_field": "reportType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "severity",
+      "sources": [
+        "repayment_schedule.repayment_frequency"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept as repayment frequency but with a different name."
+    },
+    {
+      "outbound_field": "incident.incidentId",
+      "sources": [
+        "repayment_schedule.loan_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from loan ID to incident ID."
+    },
+    {
+      "outbound_field": "incident.detectionDate",
+      "sources": [
+        "repayment_schedule.start_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as start date but with a different name."
+    },
+    {
+      "outbound_field": "customer.customerId",
+      "sources": [
+        "repayment_schedule.customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of customer ID field."
+    },
+    {
+      "outbound_field": "customer.customerName",
+      "sources": [
+        "repayment_schedule.customer_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of customer name field."
+    },
+    {
+      "outbound_field": "fraudDetails.fraudDescription",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "riskIndicators",
+      "sources": [
+        "repayment_schedule.repayments"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of repayment schedule fields to form risk indicators."
+    },
+    {
+      "outbound_field": "actionsTaken",
+      "sources": [
+        "repayment_schedule.repayments"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of repayment schedule fields to form actions taken."
+    }
+  ]
+}

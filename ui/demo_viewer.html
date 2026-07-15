@@ -75,7 +75,7 @@
   #empty-side { padding: 18px; color: #93a1af; font-size: 13px; }
 
   /* ---------- Main ---------- */
-  #main { flex: 1; height: 100vh; overflow-y: auto; padding: 26px 32px 60px; }
+  #main { flex: 1; min-width: 0; height: 100vh; overflow-y: auto; padding: 26px 32px 60px; }
   #detail { max-width: 1100px; margin: 0 auto; }
 
   .flowline { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
@@ -97,7 +97,7 @@
 
   .card {
     background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-    padding: 18px 20px; margin-bottom: 18px;
+    padding: 18px 20px; margin-bottom: 18px; overflow-x: auto;
   }
   .card h3 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
 
@@ -121,17 +121,25 @@
   .tabs button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   /* table */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  #tab-body { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  th:nth-child(1) { width: 22%; }   /* outbound field */
+  th:nth-child(2) { width: 26%; }   /* sources */
+  th:nth-child(3) { width: 12%; }   /* transformation */
+  th:nth-child(4) { width: 10%; }   /* confidence */
+  th:nth-child(5) { width: 30%; }   /* reasoning */
   th {
     text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
     color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line);
   }
   td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td, td .mono { overflow-wrap: anywhere; word-break: break-word; }
   tr:last-child td { border-bottom: 0; }
   td .mono { font-size: 12px; }
   .src-chip {
     display: inline-block; background: #eef1f4; border-radius: 4px;
     padding: 1px 6px; margin: 1px 3px 1px 0; font-size: 11.5px;
+    white-space: normal; overflow-wrap: anywhere; word-break: break-word;
   }
   .badge {
     display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .04em;
@@ -147,7 +155,7 @@
   .conf-cell .num { font-size: 12px; color: var(--muted); }
   .conf-cell .bar { height: 6px; background: #edf0f3; border-radius: 3px; overflow: hidden; margin-top: 3px; }
   .conf-cell .bar > div { height: 100%; }
-  td.reason { color: var(--muted); font-size: 12.5px; max-width: 340px; line-height: 1.45; }
+  td.reason { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
   tr.low td { background: #fdf6f5; }
 
   /* diagram */
@@ -183,18 +191,22 @@
 
 <main id="main">
   <div id="placeholder">
-    <h2>Select a mapping</h2>
-    <p>Choose a file pair on the left, or use ← → to step through them.</p>
+    <h2 id="ph-title">Select a mapping</h2>
+    <p id="ph-text">Choose a file pair on the left, or use ← → to step through them.</p>
   </div>
   <div id="detail" hidden></div>
 </main>
 
+<script src="viewer_data.js"></script>
 <script>
-const DATA = [{"inbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json", "providing_system": "investments", "consuming_system": "marketing", "message_file_name": "eligible_customers_for_new_product.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json", "fingerprint": "375134c47e052981"}, "outbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/campaign_details.json", "providing_system": "marketing", "consuming_system": "customer_services", "message_file_name": "campaign_details.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json", "fingerprint": "2150590bcc66cd64"}, "related": true, "relatedness_confidence": 0.85, "relatedness_reasoning": "The inbound file contains customer information, which is used to create a marketing campaign in the outbound file.", "mappings": [{"outbound_field": "campaign_id", "sources": ["metadata.source_department", "metadata.target_department"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The campaign ID is derived from the source and target departments."}, {"outbound_field": "campaign_name", "sources": ["metadata.product_name"], "transformation": "EXACT", "confidence": 1.0, "reasoning": "The campaign name is an exact copy of the product name from the inbound file."}, {"outbound_field": "department_from", "sources": ["metadata.source_department"], "transformation": "RENAMED", "confidence": 0.9, "reasoning": "The department from field is renamed from the source department in the inbound file."}, {"outbound_field": "department_to", "sources": ["metadata.target_department"], "transformation": "RENAMED", "confidence": 1.0, "reasoning": "The department to field is an exact copy of the target department from the inbound file."}, {"outbound_field": "start_date", "sources": ["metadata.generated_date"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The start date is derived from the generated date in the inbound file."}, {"outbound_field": "end_date", "sources": ["metadata.generated_date"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The end date is derived from the generated date in the inbound file."}, {"outbound_field": "campaign_type", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The campaign type is derived from the investment experience level of eligible customers."}, {"outbound_field": "target_segment.age_range", "sources": ["eligible_customers[].customer_tenure_months"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment age range is derived from the customer tenure months."}, {"outbound_field": "target_segment.account_type", "sources": ["eligible_customers[].account_balance"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment account type is derived from the account balance."}, {"outbound_field": "target_segment.income_level", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment income level is derived from the investment experience level."}, {"outbound_field": "target_segment.geographical_region", "sources": ["eligible_customers[].customer_name"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment geographical region is derived from the customer name."}, {"outbound_field": "budget.currency", "sources": ["metadata.source_department"], "transformation": "RENAMED", "confidence": 1.0, "reasoning": "The budget currency is an exact copy of the source department's currency."}, {"outbound_field": "budget.total_amount", "sources": ["summary.total_eligible_assets"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The budget total amount is derived from the total eligible assets."}, {"outbound_field": "key_messages", "sources": ["eligible_customers[].recommended_product_allocation"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The key messages are derived from the recommended product allocation for eligible customers."}, {"outbound_field": "customer_service_requirements.expected_inquiry_volume", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The expected inquiry volume is derived from the total eligible customers."}, {"outbound_field": "customer_service_requirements.support_languages", "sources": ["eligible_customers[].email"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The support languages are derived from the email addresses of eligible customers."}, {"outbound_field": "customer_service_requirements.priority_topics", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The priority topics are derived from the investment experience level of eligible customers."}, {"outbound_field": "customer_service_requirements.escalation_threshold", "sources": ["eligible_customers[].risk_profile"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The escalation threshold is derived from the risk profile of eligible customers."}, {"outbound_field": "success_metrics.target_conversions", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target conversions are derived from the total eligible customers."}, {"outbound_field": "success_metrics.target_engagement_rate", "sources": ["summary.average_account_balance"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target engagement rate is derived from the average account balance."}, {"outbound_field": "success_metrics.target_customer_satisfaction", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target customer satisfaction is derived from the total eligible customers."}], "_file": "marketing/customer_services/campaign_details__from__investments__eligible_customers_for_new_product.mapping.json"}];
+// Demo fallback: shows sample records unless the pipeline has written viewer_data.js
+const DEMO_DATA = [{"inbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json", "providing_system": "investments", "consuming_system": "marketing", "message_file_name": "eligible_customers_for_new_product.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json", "fingerprint": "375134c47e052981"}, "outbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/credit/pre_approved_credit_offer.json", "providing_system": "marketing", "consuming_system": "credit", "message_file_name": "pre_approved_credit_offer.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json", "fingerprint": "927aeded75e4fc66"}, "related": true, "relatedness_confidence": 0.85, "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.", "mappings": [{"outbound_field": "customer_details.first_name", "sources": ["metadata.source_department", "eligible_customers[].customer_name"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "Same concept as inbound customer name, but different field name."}, {"outbound_field": "customer_details.last_name", "sources": ["metadata.source_department", "eligible_customers[].customer_name"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "Same concept as inbound customer name, but different field name."}, {"outbound_field": "customer_details.email", "sources": ["metadata.source_department", "eligible_customers[].email"], "transformation": "EXACT", "confidence": 0.95, "reasoning": "Exact copy of inbound email field."}, {"outbound_field": "credit_offer.product_type", "sources": ["metadata.product_name"], "transformation": "SEMANTIC", "confidence": 0.8, "reasoning": "Same concept as inbound product name, but different field name."}, {"outbound_field": "credit_offer.offer_amount", "sources": ["eligible_customers[].account_balance"], "transformation": "TRANSFORMED", "confidence": 0.9, "reasoning": "Derived from inbound account balance by computation."}], "_file": "marketing/credit/pre_approved_credit_offer__from__investments__eligible_customers_for_new_product.mapping.json"}, {"inbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json", "providing_system": "investments", "consuming_system": "marketing", "message_file_name": "eligible_customers_for_new_product.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json", "fingerprint": "375134c47e052981"}, "outbound_schema": {"source": {"path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/campaign_details.json", "providing_system": "marketing", "consuming_system": "customer_services", "message_file_name": "campaign_details.json", "file_format": "json"}, "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json", "fingerprint": "2150590bcc66cd64"}, "related": true, "relatedness_confidence": 0.85, "relatedness_reasoning": "The inbound file contains customer information, which is used to create a marketing campaign in the outbound file.", "mappings": [{"outbound_field": "campaign_id", "sources": ["metadata.source_department", "metadata.target_department"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The campaign ID is derived from the source and target departments."}, {"outbound_field": "campaign_name", "sources": ["metadata.product_name"], "transformation": "EXACT", "confidence": 1.0, "reasoning": "The campaign name is an exact copy of the product name from the inbound file."}, {"outbound_field": "department_from", "sources": ["metadata.source_department"], "transformation": "RENAMED", "confidence": 0.9, "reasoning": "The department from field is renamed from the source department in the inbound file."}, {"outbound_field": "department_to", "sources": ["metadata.target_department"], "transformation": "RENAMED", "confidence": 1.0, "reasoning": "The department to field is an exact copy of the target department from the inbound file."}, {"outbound_field": "start_date", "sources": ["metadata.generated_date"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The start date is derived from the generated date in the inbound file."}, {"outbound_field": "end_date", "sources": ["metadata.generated_date"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The end date is derived from the generated date in the inbound file."}, {"outbound_field": "campaign_type", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The campaign type is derived from the investment experience level of eligible customers."}, {"outbound_field": "target_segment.age_range", "sources": ["eligible_customers[].customer_tenure_months"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment age range is derived from the customer tenure months."}, {"outbound_field": "target_segment.account_type", "sources": ["eligible_customers[].account_balance"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment account type is derived from the account balance."}, {"outbound_field": "target_segment.income_level", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment income level is derived from the investment experience level."}, {"outbound_field": "target_segment.geographical_region", "sources": ["eligible_customers[].customer_name"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target segment geographical region is derived from the customer name."}, {"outbound_field": "budget.currency", "sources": ["metadata.source_department"], "transformation": "RENAMED", "confidence": 1.0, "reasoning": "The budget currency is an exact copy of the source department's currency."}, {"outbound_field": "budget.total_amount", "sources": ["summary.total_eligible_assets"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The budget total amount is derived from the total eligible assets."}, {"outbound_field": "key_messages", "sources": ["eligible_customers[].recommended_product_allocation"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The key messages are derived from the recommended product allocation for eligible customers."}, {"outbound_field": "customer_service_requirements.expected_inquiry_volume", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The expected inquiry volume is derived from the total eligible customers."}, {"outbound_field": "customer_service_requirements.support_languages", "sources": ["eligible_customers[].email"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The support languages are derived from the email addresses of eligible customers."}, {"outbound_field": "customer_service_requirements.priority_topics", "sources": ["eligible_customers[].investment_experience_level"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The priority topics are derived from the investment experience level of eligible customers."}, {"outbound_field": "customer_service_requirements.escalation_threshold", "sources": ["eligible_customers[].risk_profile"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The escalation threshold is derived from the risk profile of eligible customers."}, {"outbound_field": "success_metrics.target_conversions", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target conversions are derived from the total eligible customers."}, {"outbound_field": "success_metrics.target_engagement_rate", "sources": ["summary.average_account_balance"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target engagement rate is derived from the average account balance."}, {"outbound_field": "success_metrics.target_customer_satisfaction", "sources": ["summary.total_eligible_customers"], "transformation": "SEMANTIC", "confidence": 0.9, "reasoning": "The target customer satisfaction is derived from the total eligible customers."}], "_file": "marketing/customer_services/campaign_details__from__investments__eligible_customers_for_new_product.mapping.json"}];
+const DATA = (window.MAPPING_DATA && window.MAPPING_DATA.length) ? window.MAPPING_DATA : DEMO_DATA;
 
 /* ---------------- helpers ---------------- */
 const $ = (sel, el=document) => el.querySelector(sel);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const brk = s => esc(s).replace(/([._])/g, "$1<wbr>");   // tidy wrap points in long field paths
 const stem = name => String(name ?? "").replace(/\.[^.]+$/, "");
 const TRANSFORM_COLORS = { EXACT:"#1a7f4b", RENAMED:"#2563ae", SEMANTIC:"#b06a12", MERGE:"#7048b0", TRANSFORMED:"#0e7c86", UNMAPPED:"#8a94a0" };
 const THRESHOLD = 0.7;   // matches config confidence_threshold
@@ -213,6 +225,7 @@ let filtered = DATA.map((_, i) => i);
 let current = -1;
 let activeTab = "table";
 let dimLow = true;
+let useMmd = false;
 
 /* ---------------- sidebar ---------------- */
 function renderList() {
@@ -401,17 +414,21 @@ async function renderDiagram(rec) {
   const body = $("#tab-body");
   const legend = Object.entries(TRANSFORM_COLORS)
     .map(([k, v]) => "<span><i style=\"background:" + v + "\"></i>" + k + "</span>").join("");
+  const hasMmd = typeof rec._mermaid === "string" && rec._mermaid.trim().length > 0;
   body.innerHTML =
     '<div class="diagram-controls">' +
       '<label><input type="checkbox" id="dim-low"' + (dimLow ? " checked" : "") + "> dash edges below " + THRESHOLD + "</label>" +
+      (hasMmd ? '<label><input type="checkbox" id="use-mmd"' + (useMmd ? " checked" : "") + "> use pipeline .mmd</label>" : "") +
       '<div class="legend">' + legend + "</div>" +
     "</div>" +
     '<div id="diagram-wrap"><div id="diagram">Rendering…</div></div>';
   $("#dim-low").onchange = e => { dimLow = e.target.checked; renderDiagram(rec); };
+  if (hasMmd) $("#use-mmd").onchange = e => { useMmd = e.target.checked; renderDiagram(rec); };
 
   const seq = ++renderSeq;
   try {
-    const { svg } = await mermaid.render("m" + seq, buildMermaid(rec));
+    const source = (useMmd && rec._mermaid) ? rec._mermaid : buildMermaid(rec);
+    const { svg } = await mermaid.render("m" + seq, source);
     if (seq === renderSeq) $("#diagram").innerHTML = svg;
   } catch (err) {
     if (seq === renderSeq) $("#diagram").innerHTML =
@@ -428,7 +445,14 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") navOffset(1);
 });
 renderList();
-if (DATA.length) select(filtered[0]);
+if (DATA.length) {
+  select(filtered[0]);
+} else {
+  $("#ph-title").textContent = "No mapping data found";
+  $("#ph-text").innerHTML = "Run the pipeline, then refresh the data file with " +
+    "<code>python viewer.py</code> (writes <code>viewer_data.js</code> from the " +
+    "<code>mappings/</code> and <code>mermaids/</code> folders), and reload this page.";
+}
 </script>
 </body>
 </html>

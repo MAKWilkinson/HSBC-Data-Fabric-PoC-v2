@@ -1,0 +1,239 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
+    "providing_system": "investments",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "trade_records.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "trade_records",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A list of trade records exchanged between banking departments",
+      "children": [
+        {
+          "name": "trade_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the trade"
+        },
+        {
+          "name": "timestamp",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp of when the trade was executed",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "trader_id",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unique identifier for the trader who initiated the trade"
+        },
+        {
+          "name": "trader_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the trader who initiated the trade"
+        },
+        {
+          "name": "department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department responsible for the trade (Investments)"
+        },
+        {
+          "name": "asset_class",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Asset class of the traded instrument (Equities, Fixed Income, Derivatives)",
+          "enum_values": [
+            "Equities",
+            "Fixed Income",
+            "Derivatives"
+          ]
+        },
+        {
+          "name": "instrument",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Specific instrument traded (IBM Stock, US Treasury Bond, EUR/USD Currency Forward)",
+          "enum_values": [
+            "IBM Stock",
+            "US Treasury Bond",
+            "EUR/USD Currency Forward"
+          ]
+        },
+        {
+          "name": "isin",
+          "data_type": "string",
+          "nullable": false,
+          "description": "International Securities Identification Number for the instrument",
+          "enum_values": [
+            "US4592001014",
+            "US912828RX86"
+          ]
+        },
+        {
+          "name": "side",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Side of the trade (BUY, SELL)",
+          "enum_values": [
+            "BUY",
+            "SELL"
+          ]
+        },
+        {
+          "name": "quantity",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of units traded"
+        },
+        {
+          "name": "price",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Price per unit traded",
+          "fmt": "currency"
+        },
+        {
+          "name": "settlement_currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency used for settlement (USD)",
+          "fmt": "currency_code",
+          "enum_values": [
+            "USD"
+          ]
+        },
+        {
+          "name": "trade_value",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Total value of the trade",
+          "fmt": "currency"
+        },
+        {
+          "name": "counterparty",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the counterparty (Goldman Sachs, JPMorgan Chase, Deutsche Bank)",
+          "enum_values": [
+            "Goldman Sachs",
+            "JPMorgan Chase",
+            "Deutsche Bank"
+          ]
+        },
+        {
+          "name": "counterparty_id",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unique identifier for the counterparty (GS-001, JPM-001, DB-001)",
+          "enum_values": [
+            "GS-001",
+            "JPM-001",
+            "DB-001"
+          ]
+        },
+        {
+          "name": "settlement_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of settlement for the trade",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "trading_venue",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Trading venue where the trade was executed (NYSE, OTC)",
+          "enum_values": [
+            "NYSE",
+            "OTC"
+          ]
+        },
+        {
+          "name": "execution_venue",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Execution venue where the trade was executed (Electronic Communication Network, Phone)",
+          "enum_values": [
+            "Electronic Communication Network",
+            "Phone"
+          ]
+        },
+        {
+          "name": "risk_level",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Risk level of the trade (LOW, MEDIUM, HIGH)",
+          "enum_values": [
+            "LOW",
+            "MEDIUM",
+            "HIGH"
+          ]
+        },
+        {
+          "name": "compliance_status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Compliance status of the trade (APPROVED, PENDING_REVIEW, UNDER_INVESTIGATION)",
+          "enum_values": [
+            "APPROVED",
+            "PENDING_REVIEW",
+            "UNDER_INVESTIGATION"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metadata",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Contextual information about the message",
+      "children": [
+        {
+          "name": "report_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of report generation",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "total_trades",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Total number of trades in the message"
+        },
+        {
+          "name": "total_value_usd",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Total value of all trades in USD",
+          "fmt": "currency"
+        },
+        {
+          "name": "source_system",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Source system that generated the message (Trading System v4.2)",
+          "enum_values": [
+            "Trading System v4.2"
+          ]
+        },
+        {
+          "name": "data_classification",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Classification of the data (CONFIDENTIAL)",
+          "enum_values": [
+            "CONFIDENTIAL"
+          ]
+        }
+      ]
+    }
+  ]
+}

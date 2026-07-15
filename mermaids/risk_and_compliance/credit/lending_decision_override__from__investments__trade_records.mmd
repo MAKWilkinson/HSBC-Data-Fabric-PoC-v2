@@ -1,0 +1,51 @@
+flowchart LR
+  subgraph IN["investments: trade_records"]
+    in_trade_records___trade_id["trade_records[].trade_id"]
+    in_trade_records___timestamp["trade_records[].timestamp"]
+    in_metadata_source_system["metadata.source_system"]
+    in_metadata_report_date["metadata.report_date"]
+    in_trade_records___instrument["trade_records[].instrument"]
+    in_trade_records___trader_id["trade_records[].trader_id"]
+    in_trade_records___compliance_status["trade_records[].compliance_status"]
+    in_trade_records___risk_level["trade_records[].risk_level"]
+    in_trade_records___trader_name["trade_records[].trader_name"]
+  end
+  subgraph OUT["risk_and_compliance: lending_decision_override"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_payload_loanApplicationId["payload.loanApplicationId"]
+    out_payload_customerId["payload.customerId"]
+    out_payload_originalDecision["payload.originalDecision"]
+    out_payload_overrideDecision["payload.overrideDecision"]
+    out_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
+    out_payload_riskAssessmentDetails_debtToIncomeRatio["payload.riskAssessmentDetails.debtToIncomeRatio"]
+    out_payload_riskAssessmentDetails_loanToValueRatio["payload.riskAssessmentDetails.loanToValueRatio"]
+    out_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
+    out_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
+    out_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
+    out_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
+    out_payload_complianceFlags_amlCheckCompleted["payload.complianceFlags.amlCheckCompleted"]
+    out_payload_complianceFlags_sanctionsCheckCompleted["payload.complianceFlags.sanctionsCheckCompleted"]
+    out_payload_complianceFlags_creditPolicyWaiverRequired["payload.complianceFlags.creditPolicyWaiverRequired"]
+  end
+  in_trade_records___trade_id -->|EXACT| out_messageId
+  in_trade_records___timestamp -->|EXACT| out_timestamp
+  in_metadata_source_system -->|RENAMED| out_source
+  in_metadata_report_date -->|SEMANTIC| out_messageType
+  in_trade_records___instrument -->|SEMANTIC| out_payload_loanApplicationId
+  in_trade_records___trader_id -->|SEMANTIC| out_payload_customerId
+  in_trade_records___compliance_status -->|SEMANTIC| out_payload_originalDecision
+  in_trade_records___compliance_status -->|SEMANTIC| out_payload_overrideDecision
+  in_trade_records___risk_level -->|SEMANTIC| out_payload_riskAssessmentDetails_creditScore
+  in_trade_records___risk_level -->|SEMANTIC| out_payload_riskAssessmentDetails_debtToIncomeRatio
+  in_trade_records___risk_level -->|SEMANTIC| out_payload_riskAssessmentDetails_loanToValueRatio
+  in_trade_records___risk_level -->|SEMANTIC| out_payload_riskAssessmentDetails_mitigatingFactors
+  in_trade_records___trader_name -->|SEMANTIC| out_payload_overrideApprovalDetails_approvedBy
+  in_trade_records___risk_level -->|SEMANTIC| out_payload_overrideApprovalDetails_approvalLevel
+  in_trade_records___timestamp -->|SEMANTIC| out_payload_overrideApprovalDetails_approvalDate
+  in_trade_records___compliance_status -->|SEMANTIC| out_payload_complianceFlags_amlCheckCompleted
+  in_trade_records___compliance_status -->|SEMANTIC| out_payload_complianceFlags_sanctionsCheckCompleted
+  in_trade_records___compliance_status -->|SEMANTIC| out_payload_complianceFlags_creditPolicyWaiverRequired

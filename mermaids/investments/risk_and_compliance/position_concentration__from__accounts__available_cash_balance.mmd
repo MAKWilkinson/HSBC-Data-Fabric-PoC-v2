@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph IN["accounts: available_cash_balance"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_fromDepartment["fromDepartment"]
+    in_toDepartment["toDepartment"]
+    in_asOfDate["asOfDate"]
+    in_details_pendingDeposits["details.pendingDeposits"]
+    in_details_pendingWithdrawals["details.pendingWithdrawals"]
+    in_availableCashBalance["availableCashBalance"]
+    in_currency["currency"]
+  end
+  subgraph OUT["investments: position_concentration"]
+    out_message_id["message_id"]
+    out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_destination_department["destination_department"]
+    out_report_type["report_type"]
+    out_reporting_date["reporting_date"]
+    out_data_portfolio_summary_total_positions["data.portfolio_summary.total_positions"]
+    out_data_portfolio_summary_total_market_value["data.portfolio_summary.total_market_value"]
+    out_data_portfolio_summary_currency["data.portfolio_summary.currency"]
+    out_data_concentration_by_sector___sector["data.concentration_by_sector[].sector"]
+    out_data_concentration_by_single_name___issuer_name["data.concentration_by_single_name[].issuer_name"]
+  end
+  in_messageId -->|EXACT| out_message_id
+  in_timestamp -->|EXACT| out_timestamp
+  in_fromDepartment -->|RENAMED| out_source_department
+  in_toDepartment -->|RENAMED| out_destination_department
+  in_asOfDate -->|SEMANTIC| out_reporting_date
+  in_details_pendingDeposits -->|MERGE| out_data_portfolio_summary_total_positions
+  in_details_pendingWithdrawals -->|MERGE| out_data_portfolio_summary_total_positions
+  in_availableCashBalance -->|SEMANTIC| out_data_portfolio_summary_total_market_value
+  in_currency -->|EXACT| out_data_portfolio_summary_currency

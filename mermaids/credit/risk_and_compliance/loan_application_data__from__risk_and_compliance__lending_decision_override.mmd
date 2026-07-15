@@ -1,0 +1,22 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: lending_decision_override"]
+    in_payload_customerId["payload.customerId"]
+    in_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
+    in_payload_employmentStatus["payload.employmentStatus"]
+    in_payload_financialProfile_totalAssets["payload.financialProfile.totalAssets"]
+    in_payload_collateralPropertyValue["payload.collateralPropertyValue"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___employment_employment_status["loan_applications[].employment.employment_status"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+    out_loan_applications___application_status["loan_applications[].application_status"]
+    out_loan_applications___submitted_by["loan_applications[].submitted_by"]
+  end
+  in_payload_customerId -->|EXACT| out_loan_applications___applicant_customer_id
+  in_payload_loanDetails_loanAmount -->|EXACT| out_loan_applications___loan_details_requested_amount
+  in_payload_employmentStatus -->|RENAMED| out_loan_applications___employment_employment_status
+  in_payload_financialProfile_totalAssets -->|EXACT| out_loan_applications___financial_profile_total_assets
+  in_payload_collateralPropertyValue -->|RENAMED| out_loan_applications___collateral_property_value

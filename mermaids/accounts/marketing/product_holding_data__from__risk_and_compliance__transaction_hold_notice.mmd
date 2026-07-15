@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_accountNumber["accountNumber"]
+    in_status["status"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_transactionsAffected___currency["transactionsAffected[].currency"]
+    in_holdEffectiveDate["holdEffectiveDate"]
+    in_transactionsAffected___customerName["transactionsAffected[].customerName"]
+  end
+  subgraph OUT["accounts: product_holding_data"]
+    out_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    out_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    out_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    out_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+    out_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    out_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    out_product_holding_data_holdings___account_opened_date["product_holding_data.holdings[].account_opened_date"]
+    out_product_hholding_data_summary_total_customers["product_hholding_data.summary.total_customers"]
+  end
+  in_noticeId -->|EXACT| out_product_holding_data_holdings___customer_id
+  in_accountNumber -->|EXACT| out_product_holding_data_holdings___account_number
+  in_status -->|RENAMED| out_product_holding_data_holdings___account_status
+  in_transactionsAffected___amount -->|SEMANTIC| out_product_holding_data_holdings___balance
+  in_transactionsAffected___currency -->|EXACT| out_product_holding_data_holdings___currency
+  in_holdEffectiveDate -->|RENAMED| out_product_holding_data_holdings___account_opened_date
+  in_transactionsAffected___customerName -->|SEMANTIC| out_product_hholding_data_summary_total_customers

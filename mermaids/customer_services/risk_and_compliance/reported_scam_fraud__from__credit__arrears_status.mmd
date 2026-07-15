@@ -1,0 +1,39 @@
+flowchart LR
+  subgraph IN["credit: arrears_status"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_sourceSystem["sourceSystem"]
+    in_destinationSystem["destinationSystem"]
+    in_arrears_status___riskLevel["arrears_status[].riskLevel"]
+    in_arrears_status__["arrears_status[]"]
+    in_arrears_status___customerId["arrears_status[].customerId"]
+    in_arrears_status___accountNumber["arrears_status[].accountNumber"]
+    in_notes["notes"]
+  end
+  subgraph OUT["customer_services: reported_scam_fraud"]
+    out_reportId["reportId"]
+    out_reportDate["reportDate"]
+    out_sourceDeployment["sourceDeployment"]
+    out_targetDeployment["targetDeployment"]
+    out_reportType["reportType"]
+    out_severity["severity"]
+    out_incident["incident"]
+    out_customer["customer"]
+    out_fraudDetails["fraudDetails"]
+    out_riskIndicators["riskIndicators"]
+    out_actionsTaken["actionsTaken"]
+    out_additionalNotes["additionalNotes"]
+    out_escalationRequired["escalationRequired"]
+  end
+  in_messageId -->|RENAMED| out_reportId
+  in_timestamp -->|EXACT| out_reportDate
+  in_sourceSystem -->|RENAMED| out_sourceDeployment
+  in_destinationSystem -->|RENAMED| out_targetDeployment
+  in_arrears_status___riskLevel -->|SEMANTIC| out_severity
+  in_arrears_status__ -->|MERGE| out_incident
+  in_arrears_status___customerId -->|MERGE| out_customer
+  in_arrears_status___accountNumber -->|MERGE| out_customer
+  in_arrears_status__ -->|MERGE| out_fraudDetails
+  in_arrears_status__ -->|MERGE| out_riskIndicators
+  in_arrears_status__ -->|MERGE| out_actionsTaken
+  in_notes -->|EXACT| out_additionalNotes

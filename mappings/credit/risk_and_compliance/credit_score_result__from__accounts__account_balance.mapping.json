@@ -1,0 +1,84 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "credit_score_result.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "0574b272efdab1ab"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and credit score assessment, which suggests a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "customer.customer_id",
+      "sources": [
+        "account_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The customer ID field was renamed from account_id to customer.customer_id."
+    },
+    {
+      "outbound_field": "credit_score.score",
+      "sources": [
+        "balance",
+        "available_balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The credit score is derived from the account balance and available balance, capturing a similar concept."
+    },
+    {
+      "outbound_field": "credit_score.rating",
+      "sources": [
+        "account_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The credit rating is derived from the account status, capturing a similar concept."
+    },
+    {
+      "outbound_field": "credit_assessment.total_credit_limit",
+      "sources": [
+        "available_balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "The total credit limit is derived from the available balance, capturing a similar concept."
+    },
+    {
+      "outbound_field": "credit_assessment.outstanding_balance",
+      "sources": [
+        "balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.5,
+      "reasoning": "The outstanding balance is derived from the account balance, capturing a similar concept."
+    },
+    {
+      "outbound_field": "risk_indicators.fraud_risk",
+      "sources": [
+        "pending_transactions"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.4,
+      "reasoning": "The fraud risk level is derived from the pending transactions, capturing a similar concept."
+    }
+  ]
+}

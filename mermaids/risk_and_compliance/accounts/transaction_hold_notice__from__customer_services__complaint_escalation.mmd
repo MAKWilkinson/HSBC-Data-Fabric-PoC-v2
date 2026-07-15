@@ -1,0 +1,42 @@
+flowchart LR
+  subgraph IN["customer_services: complaint_escalation"]
+    in_escalation_id["escalation_id"]
+    in_timestamp["timestamp"]
+    in_source_department["source_department"]
+    in_target_department["target_department"]
+    in_complaint_complaint_type["complaint.complaint_type"]
+    in_complaint_severity_level["complaint.severity_level"]
+    in_complaint_account_number["complaint.account_number"]
+    in_complaint_customer_id["complaint.customer_id"]
+    in_complaint_customer_name["complaint.customer_name"]
+    in_escalation_reason["escalation_reason"]
+    in_complaint_complaint_date["complaint.complaint_date"]
+    in_complaint_documents_attached["complaint.documents_attached"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+  end
+  in_escalation_id -->|EXACT| out_noticeId
+  in_timestamp -->|EXACT| out_timestamp
+  in_source_department -->|RENAMED| out_department
+  in_target_department -->|RENAMED| out_recipientDepartment
+  in_complaint_complaint_type -->|SEMANTIC| out_noticeType
+  in_complaint_severity_level -->|SEMANTIC| out_severity
+  in_complaint_account_number -->|EXACT| out_accountNumber
+  in_complaint_customer_id -->|EXACT| out_customerId
+  in_complaint_customer_name -->|EXACT| out_customerName
+  in_escalation_reason -->|SEMANTIC| out_holdReason
+  in_complaint_complaint_date -->|SEMANTIC| out_holdEffectiveDate
+  in_complaint_documents_attached -->|MERGE| out_transactionsAffected

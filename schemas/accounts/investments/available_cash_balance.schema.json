@@ -1,0 +1,104 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+    "providing_system": "accounts",
+    "consuming_system": "investments",
+    "message_file_name": "available_cash_balance.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "messageId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the message"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the available cash balance was updated",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "fromDepartment",
+      "data_type": "string",
+      "nullable": true,
+      "description": "The department that originated the data (in this case, Accounts)"
+    },
+    {
+      "name": "toDepartment",
+      "data_type": "string",
+      "nullable": true,
+      "description": "The department that received the message (in this case, Investments)"
+    },
+    {
+      "name": "subject",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Summary of the available cash balance update"
+    },
+    {
+      "name": "accountNumber",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the account",
+      "fmt": "account_number"
+    },
+    {
+      "name": "currency",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Currency of the available cash balance (in this case, USD)",
+      "fmt": "currency_code",
+      "enum_values": [
+        "USD"
+      ]
+    },
+    {
+      "name": "availableCashBalance",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Current available cash balance for the account"
+    },
+    {
+      "name": "asOfDate",
+      "data_type": "date",
+      "nullable": false,
+      "description": "Date as of which the available cash balance was calculated",
+      "fmt": "date"
+    },
+    {
+      "name": "details",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Breakdown of the available cash balance",
+      "children": [
+        {
+          "name": "clearedCash",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of cleared cash"
+        },
+        {
+          "name": "pendingDeposits",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of pending deposits"
+        },
+        {
+          "name": "pendingWithdrawals",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of pending withdrawals"
+        }
+      ]
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional information or instructions related to the available cash balance update"
+    }
+  ]
+}

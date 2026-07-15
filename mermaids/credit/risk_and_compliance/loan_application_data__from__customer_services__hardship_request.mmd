@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph IN["customer_services: hardship_request"]
+    in_customer_id["customer_id"]
+    in_customer_name["customer_name"]
+    in_date_of_birth["date_of_birth"]
+    in_contact_email["contact_email"]
+    in_contact_number["contact_number"]
+    in_monthly_income["monthly_income"]
+    in_requested_duration_months["requested_duration_months"]
+    in_monthly_expenses["monthly_expenses"]
+    in_outstanding_balance["outstanding_balance"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___applicant_date_of_birth["loan_applications[].applicant.date_of_birth"]
+    out_loan_applications___applicant_email["loan_applications[].applicant.email"]
+    out_loan_applications___applicant_phone["loan_applications[].applicant.phone"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___loan_details_term_months["loan_applications[].loan_details.term_months"]
+    out_loan_applications___employment_annual_income["loan_applications[].employment.annual_income"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+  end
+  in_customer_id -->|EXACT| out_loan_applications___applicant_customer_id
+  in_customer_name -->|RENAMED| out_loan_applications___applicant_full_name
+  in_date_of_birth -->|EXACT| out_loan_applications___applicant_date_of_birth
+  in_contact_email -->|RENAMED| out_loan_applications___applicant_email
+  in_contact_number -->|RENAMED| out_loan_applications___applicant_phone
+  in_monthly_income -->|SEMANTIC| out_loan_applications___loan_details_requested_amount
+  in_requested_duration_months -->|EXACT| out_loan_applications___loan_details_term_months
+  in_monthly_income -->|SEMANTIC| out_loan_applications___employment_annual_income
+  in_monthly_expenses -->|SEMANTIC| out_loan_applications___financial_profile_total_assets
+  in_outstanding_balance -->|SEMANTIC| out_loan_applications___collateral_property_value

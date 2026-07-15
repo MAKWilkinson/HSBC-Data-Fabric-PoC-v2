@@ -1,0 +1,131 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "funds_settlement.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "1f4d1b6218c95405"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/position_concentration.json",
+      "providing_system": "investments",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "position_concentration.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/position_concentration.schema.json",
+    "fingerprint": "c0f14a3468af458a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share similar concepts such as settlement transactions and portfolio concentrations, but the systems do not obviously connect.",
+  "mappings": [
+    {
+      "outbound_field": "message_id",
+      "sources": [
+        "settlement_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from settlement_id."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "settlement_timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "source_department",
+      "sources": [
+        "from_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from from_department."
+    },
+    {
+      "outbound_field": "destination_department",
+      "sources": [
+        "to_department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from to_department."
+    },
+    {
+      "outbound_field": "report_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "reporting_date",
+      "sources": [
+        "settlement_date"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning."
+    },
+    {
+      "outbound_field": "data.portfolio_summary.total_positions",
+      "sources": [
+        "total_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as total_amount without an exact name match."
+    },
+    {
+      "outbound_field": "data.portfolio_summary.total_market_value",
+      "sources": [
+        "total_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as total_amount without an exact name match."
+    },
+    {
+      "outbound_field": "data.concentration_by_sector",
+      "sources": [
+        "settlements[].fund_id"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of fund_id fields from settlements array."
+    },
+    {
+      "outbound_field": "data.concentration_by_single_name",
+      "sources": [
+        "settlements[].fund_id"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of fund_id fields from settlements array."
+    },
+    {
+      "outbound_field": "data.concentration_by_geography",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "data.regulatory_threshold_alert",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

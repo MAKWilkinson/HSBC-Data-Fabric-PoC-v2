@@ -1,0 +1,23 @@
+flowchart LR
+  subgraph IN["accounts: salary_credits"]
+    in_employee_personal_account_account_number["employee.personal_account.account_number"]
+    in_employee_name["employee.name"]
+    in_department_from_name["department_from.name"]
+    in_settlement_details_initiated_at["settlement_details.initiated_at"]
+    in_amount["amount"]
+    in_settlement_details_settled_at["settlement_details.settled_at"]
+  end
+  subgraph OUT["credit: arrears_flags"]
+    out_arrears_flags___account_id["arrears_flags[].account_id"]
+    out_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    out_arrears_flags___product_type["arrears_flags[].product_type"]
+    out_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
+    out_arrears_flags___outstanding_balance["arrears_flags[].outstanding_balance"]
+    out_arrears_flags___minimum_payment_due["arrears_flags[].minimum_payment_due"]
+  end
+  in_employee_personal_account_account_number -->|RENAMED| out_arrears_flags___account_id
+  in_employee_name -->|RENAMED| out_arrears_flags___customer_name
+  in_department_from_name -->|SEMANTIC| out_arrears_flags___product_type
+  in_settlement_details_initiated_at -->|TRANSFORMED| out_arrears_flags___arrears_status
+  in_amount -->|EXACT| out_arrears_flags___outstanding_balance
+  in_settlement_details_settled_at -->|TRANSFORMED| out_arrears_flags___minimum_payment_due

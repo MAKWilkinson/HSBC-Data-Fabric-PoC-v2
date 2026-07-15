@@ -1,0 +1,56 @@
+flowchart LR
+  subgraph IN["accounts: product_holding_data"]
+    in_product_holding_data_timestamp["product_holding_data.timestamp"]
+    in_product_holding_data_product_name["product_holding_data.product_name"]
+    in_product_holding_data_source_department["product_holding_data.source_department"]
+    in_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    in_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    in_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    in_product_holding_data_holdings___account_opened_date["product_holding_data.holdings[].account_opened_date"]
+    in_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    in_product_holding_data_holdings___monthly_turnover["product_holding_data.holdings[].monthly_turnover"]
+    in_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+  end
+  subgraph OUT["marketing: campaign_details"]
+    out_campaign_id["campaign_id"]
+    out_campaign_name["campaign_name"]
+    out_department_from["department_from"]
+    out_start_date["start_date"]
+    out_end_date["end_date"]
+    out_campaign_type["campaign_type"]
+    out_target_segment_age_range["target_segment.age_range"]
+    out_target_segment_account_type["target_segment.account_type"]
+    out_target_segment_income_level["target_segment.income_level"]
+    out_target_segment_geographical_region["target_segment.geographical_region"]
+    out_budget_currency["budget.currency"]
+    out_budget_total_amount["budget.total_amount"]
+    out_key_messages["key_messages"]
+    out_customer_service_requirements_expected_inquiry_volume["customer_service_requirements.expected_inquiry_volume"]
+    out_customer_service_requirements_support_languages["customer_service_requirements.support_languages"]
+    out_customer_service_requirements_priority_topics["customer_service_requirements.priority_topics"]
+    out_customer_service_requirements_escalation_threshold["customer_service_requirements.escalation_threshold"]
+    out_success_metrics_target_conversions["success_metrics.target_conversions"]
+    out_success_metrics_target_engagement_rate["success_metrics.target_engagement_rate"]
+    out_success_metrics_target_customer_satisfaction["success_metrics.target_customer_satisfaction"]
+    out_created_date["created_date"]
+    out_created_by["created_by"]
+    out_version["version"]
+  end
+  in_product_holding_data_timestamp -->|SEMANTIC| out_campaign_id
+  in_product_holding_data_product_name -->|RENAMED| out_campaign_name
+  in_product_holding_data_source_department -->|EXACT| out_department_from
+  in_product_holding_data_timestamp -->|SEMANTIC| out_start_date
+  in_product_holding_data_timestamp -->|SEMANTIC| out_end_date
+  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_target_segment_age_range
+  in_product_holding_data_holdings___account_number -->|SEMANTIC| out_target_segment_account_type
+  in_product_holding_data_holdings___balance -->|SEMANTIC| out_target_segment_income_level
+  in_product_holding_data_holdings___account_opened_date -->|SEMANTIC| out_target_segment_geographical_region
+  in_product_holding_data_holdings___currency -->|EXACT| out_budget_currency
+  in_product_holding_data_holdings___balance -->|SEMANTIC| out_budget_total_amount
+  in_product_holding_data_holdings___monthly_turnover -->|SEMANTIC| out_customer_service_requirements_expected_inquiry_volume
+  in_product_holding_data_holdings___account_opened_date -->|SEMANTIC| out_customer_service_requirements_support_languages
+  in_product_holding_data_holdings___account_status -->|SEMANTIC| out_customer_service_requirements_priority_topics
+  in_product_holding_data_holdings___account_status -->|SEMANTIC| out_customer_service_requirements_escalation_threshold
+  in_product_holding_data_holdings___monthly_turnover -->|SEMANTIC| out_success_metrics_target_conversions
+  in_product_holding_data_holdings___monthly_turnover -->|SEMANTIC| out_success_metrics_target_engagement_rate
+  in_product_holding_data_holdings___account_status -->|SEMANTIC| out_success_metrics_target_customer_satisfaction

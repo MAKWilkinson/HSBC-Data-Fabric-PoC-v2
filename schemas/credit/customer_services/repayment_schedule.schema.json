@@ -1,0 +1,263 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+    "providing_system": "credit",
+    "consuming_system": "customer_services",
+    "message_file_name": "repayment_schedule.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "repayment_schedule",
+      "data_type": "object",
+      "nullable": false,
+      "description": "The repayment schedule for a loan",
+      "children": [
+        {
+          "name": "loan_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the loan"
+        },
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "customer_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The name of the customer"
+        },
+        {
+          "name": "loan_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of loan (e.g. Personal Loan)",
+          "enum_values": [
+            "Personal Loan",
+            "Business Loan"
+          ]
+        },
+        {
+          "name": "principal_amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "The initial amount borrowed",
+          "fmt": "currency"
+        },
+        {
+          "name": "interest_rate",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "The interest rate applied to the loan",
+          "fmt": "percentage"
+        },
+        {
+          "name": "loan_term_months",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "The number of months the loan is taken out for"
+        },
+        {
+          "name": "start_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "The date the loan was started",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "maturity_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "The date the loan is due to mature",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The currency in which the loan is denominated",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP",
+            "USD",
+            "EUR"
+          ]
+        },
+        {
+          "name": "schedule_version",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The version number of the repayment schedule"
+        },
+        {
+          "name": "generated_date",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "When the repayment schedule was generated",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "repayment_frequency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The frequency at which repayments are made (e.g. Monthly)",
+          "enum_values": [
+            "Monthly",
+            "Quarterly",
+            "Annually"
+          ]
+        },
+        {
+          "name": "total_repayments",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "The total number of repayments required"
+        },
+        {
+          "name": "repayments",
+          "data_type": "array",
+          "nullable": false,
+          "description": "A list of individual repayment schedules",
+          "children": [
+            {
+              "name": "payment_number",
+              "data_type": "integer",
+              "nullable": false,
+              "description": "The number of the payment"
+            },
+            {
+              "name": "due_date",
+              "data_type": "date",
+              "nullable": false,
+              "description": "The date the payment is due",
+              "fmt": "iso8601"
+            },
+            {
+              "name": "principal_payment",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The amount of principal paid in this repayment",
+              "fmt": "currency"
+            },
+            {
+              "name": "interest_payment",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The amount of interest paid in this repayment",
+              "fmt": "currency"
+            },
+            {
+              "name": "total_payment",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The total amount paid in this repayment",
+              "fmt": "currency"
+            },
+            {
+              "name": "outstanding_balance",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The remaining balance after this repayment",
+              "fmt": "currency"
+            },
+            {
+              "name": "status",
+              "data_type": "string",
+              "nullable": false,
+              "description": "The status of the payment (e.g. Pending)",
+              "enum_values": [
+                "Pending",
+                "Paid",
+                "Overdue"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "summary",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Summary information about the repayment schedule",
+          "children": [
+            {
+              "name": "total_amount_payable",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The total amount payable over the life of the loan",
+              "fmt": "currency"
+            },
+            {
+              "name": "total_interest",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The total interest paid over the life of the loan",
+              "fmt": "currency"
+            },
+            {
+              "name": "amount_paid_to_date",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "The amount paid to date",
+              "fmt": "currency"
+            },
+            {
+              "name": "next_payment_due",
+              "data_type": "date",
+              "nullable": false,
+              "description": "The date the next payment is due",
+              "fmt": "iso8601"
+            },
+            {
+              "name": "next_payment_amount",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The amount of the next payment",
+              "fmt": "currency"
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Metadata about the repayment schedule",
+          "children": [
+            {
+              "name": "source_system",
+              "data_type": "string",
+              "nullable": false,
+              "description": "The system that originated the data"
+            },
+            {
+              "name": "destination_system",
+              "data_type": "string",
+              "nullable": false,
+              "description": "The system that received the data",
+              "enum_values": [
+                "Customer Services",
+                "Internal"
+              ]
+            },
+            {
+              "name": "message_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the message"
+            },
+            {
+              "name": "timestamp",
+              "data_type": "datetime",
+              "nullable": false,
+              "description": "When the message was generated",
+              "fmt": "iso8601"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

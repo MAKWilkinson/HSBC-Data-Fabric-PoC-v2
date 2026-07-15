@@ -1,0 +1,23 @@
+flowchart LR
+  subgraph IN["customer_services: address_updates"]
+    in_updateId["updateId"]
+    in_department["department"]
+    in_targetDepartment["targetDepartment"]
+    in_timestamp["timestamp"]
+    in_updateType["updateType"]
+    in_customerId["customerId"]
+  end
+  subgraph OUT["accounts: transaction_stream"]
+    out_transaction_id["transaction_id"]
+    out_counterparty_system["counterparty_system"]
+    out_transaction_date["transaction_date"]
+    out_amount["amount"]
+    out_transaction_type["transaction_type"]
+    out_eligible_customers["eligible_customers"]
+  end
+  in_updateId -->|EXACT| out_transaction_id
+  in_department -->|SEMANTIC| out_counterparty_system
+  in_targetDepartment -->|SEMANTIC| out_counterparty_system
+  in_timestamp -->|EXACT| out_transaction_date
+  in_updateType -->|SEMANTIC| out_transaction_type
+  in_customerId -->|SEMANTIC| out_eligible_customers

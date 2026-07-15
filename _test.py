@@ -21,6 +21,7 @@ import persistence
 import ingestion
 import extraction
 import map
+import graph
 
 import logging
 from _logging_config import setup_logging
@@ -174,6 +175,12 @@ def test_map_f2f():
         print("\n")
 
 
+# Graphs
+
+def test_graph():
+    graph.graph_all_mappings()
+
+
 # Persistence
 
 def test_persistence():
@@ -272,8 +279,13 @@ if __name__ == "__main__":
 
     # _testing_message("TESTING_F2F_MAPPING")
     # test_map_f2f()
+
+    # GRAPH
+
+    # _testing_message("TESTING_CREATE_GRAPHS")
+    # test_graph()
     
     #     # PERSISTENCE
 
-    _testing_message("TESTING_PERSISTENCE")
-    test_persistence()
+    # _testing_message("TESTING_PERSISTENCE")
+    # test_persistence()

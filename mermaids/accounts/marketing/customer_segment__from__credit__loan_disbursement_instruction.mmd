@@ -1,0 +1,44 @@
+flowchart LR
+  subgraph IN["credit: loan_disbursement_instruction"]
+    in_loan_disbursement_instructions___instruction_id["loan_disbursement_instructions[].instruction_id"]
+    in_loan_disbursement_instructions___destination_account["loan_disbursement_instructions[].destination_account"]
+    in_loan_disbursement_instructions___created_date["loan_disbursement_instructions[].created_date"]
+    in_loan_disbursement_instructions___purpose["loan_disbursement_instructions[].purpose"]
+    in_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
+    in_loan_disbursement_instructions___remarks["loan_disbursement_instructions[].remarks"]
+    in_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
+    in_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    in_loan_disbursement_instructions___disbursement_date["loan_disbursement_instructions[].disbursement_date"]
+  end
+  subgraph OUT["accounts: customer_segment"]
+    out_metadata_source["metadata.source"]
+    out_metadata_destination["metadata.destination"]
+    out_metadata_timestamp["metadata.timestamp"]
+    out_metadata_message_type["metadata.message_type"]
+    out_segments__["segments[]"]
+    out_segments___segment_id["segments[].segment_id"]
+    out_segments___segment_name["segments[].segment_name"]
+    out_segments___description["segments[].description"]
+    out_segments___customer_count["segments[].customer_count"]
+    out_segments___avg_account_balance["segments[].avg_account_balance"]
+    out_segments___avg_monthly_transactions["segments[].avg_monthly_transactions"]
+    out_segments___product_holding["segments[].product_holding"]
+    out_summary_total_customers["summary.total_customers"]
+    out_summary_total_assets_under_management["summary.total_assets_under_management"]
+    out_summary_report_period["summary.report_period"]
+  end
+  in_loan_disbursement_instructions___instruction_id -->|RENAMED| out_metadata_source
+  in_loan_disbursement_instructions___destination_account -->|RENAMED| out_metadata_destination
+  in_loan_disbursement_instructions___created_date -->|RENAMED| out_metadata_timestamp
+  in_loan_disbursement_instructions___purpose -->|SEMANTIC| out_metadata_message_type
+  in_loan_disbursement_instructions___borrower_name -->|SEMANTIC| out_segments__
+  in_loan_disbursement_instructions___instruction_id -->|RENAMED| out_segments___segment_id
+  in_loan_disbursement_instructions___borrower_name -->|RENAMED| out_segments___segment_name
+  in_loan_disbursement_instructions___remarks -->|SEMANTIC| out_segments___description
+  in_loan_disbursement_instructions___borrower_account_number -->|SEMANTIC| out_segments___customer_count
+  in_loan_disbursement_instructions___disbursement_amount -->|SEMANTIC| out_segments___avg_account_balance
+  in_loan_disbursement_instructions___disbursement_date -->|SEMANTIC| out_segments___avg_monthly_transactions
+  in_loan_disbursement_instructions___purpose -->|SEMANTIC| out_segments___product_holding
+  in_loan_disbursement_instructions___borrower_name -->|SEMANTIC| out_summary_total_customers
+  in_loan_disbursement_instructions___disbursement_amount -->|SEMANTIC| out_summary_total_assets_under_management
+  in_loan_disbursement_instructions___created_date -->|RENAMED| out_summary_report_period

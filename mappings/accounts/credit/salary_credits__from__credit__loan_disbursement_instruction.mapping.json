@@ -1,0 +1,113 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as loan disbursement instructions and salary credits, with compatible providing/consuming systems.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "instruction_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from instruction_id to transaction_id."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "created_date",
+        "approved_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as created_date and approved_date, but with a different name."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "disbursement_amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy from disbursement_amount to amount."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy from currency to currency."
+    },
+    {
+      "outbound_field": "employee.name",
+      "sources": [
+        "borrower_name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from borrower_name to employee.name."
+    },
+    {
+      "outbound_field": "department_from.name",
+      "sources": [
+        "purpose"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as purpose, but with a different name."
+    },
+    {
+      "outbound_field": "authorizer.name",
+      "sources": [
+        "created_by",
+        "approved_by"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as created_by and approved_by, but with a different name."
+    },
+    {
+      "outbound_field": "reference",
+      "sources": [
+        "instruction_id",
+        "loan_term_months"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of instruction_id and loan_term_months to create the reference field."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact field copy from status to status."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+flowchart LR
+  subgraph IN["accounts: available_cash_balance"]
+    in_messageId["messageId"]
+    in_accountNumber["accountNumber"]
+    in_availableCashBalance["availableCashBalance"]
+    in_currency["currency"]
+  end
+  subgraph OUT["investments: debit_credit_instruction"]
+    out_debit_credit_instructions___instructions___transaction_id["debit_credit_instructions[].instructions[].transaction_id"]
+    out_debit_credit_instructions___instructions___account_number["debit_credit_instructions[].instructions[].account_number"]
+    out_debit_credit_instructions___instructions___instruction_type["debit_credit_instructions[].instructions[].instruction_type"]
+    out_debit_credit_instructions___instructions___amount["debit_credit_instructions[].instructions[].amount"]
+    out_debit_credit_instructions___instructions___currency["debit_credit_instructions[].instructions[].currency"]
+    out_debit_credit_instructions___total_debit_amount["debit_credit_instructions[].total_debit_amount"]
+    out_debit_credit_instructions___total_credit_amount["debit_credit_instructions[].total_credit_amount"]
+  end
+  in_messageId -->|RENAMED| out_debit_credit_instructions___instructions___transaction_id
+  in_accountNumber -->|EXACT| out_debit_credit_instructions___instructions___account_number
+  in_availableCashBalance -->|SEMANTIC| out_debit_credit_instructions___instructions___amount
+  in_currency -->|EXACT| out_debit_credit_instructions___instructions___currency

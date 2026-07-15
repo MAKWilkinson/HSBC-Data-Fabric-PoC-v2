@@ -1,0 +1,92 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "loan_application_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "cc85053f05f356ed"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like customer information, loan details, and employment data, which could be transformed from the inbound file to the outbound file.",
+  "mappings": [
+    {
+      "outbound_field": "loan_applications[].applicant.full_name",
+      "sources": [
+        "sanctionsListHit.matchedEntity.name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The full name of the applicant is likely derived from the matched entity's name."
+    },
+    {
+      "outbound_field": "loan_applications[].applicant.date_of_birth",
+      "sources": [
+        "sanctionsListHit.matchedEntity.dateOfBirth"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "The date of birth is copied exactly from the matched entity's date of birth."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.requested_amount",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "The requested amount is likely derived from the match score of the sanction list hit."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.employment_status",
+      "sources": [
+        "sanctionsListHit.matchedEntity.entityType"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The employment status is likely derived from the entity type of the matched entity."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_assets",
+      "sources": [
+        "sanctionsListHit.matchedEntity.identificationDocuments"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "The total assets are likely derived from the identification documents of the matched entity."
+    },
+    {
+      "outbound_field": "loan_applications[].collateral.property_value",
+      "sources": [
+        "sanctionsListHit.matchedEntity.identificationDocuments"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "The property value is likely derived from the identification documents of the matched entity."
+    },
+    {
+      "outbound_field": "loan_applications[].application_status",
+      "sources": [
+        "sanctionsListHit.status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "The application status is copied exactly from the sanctions list hit's status."
+    }
+  ]
+}

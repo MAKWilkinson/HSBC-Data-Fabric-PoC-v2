@@ -1,0 +1,151 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "providing_system": "customer_services",
+      "consuming_system": "accounts",
+      "message_file_name": "address_updates.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "be43dc882657f455"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "available_cash_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "06b9a31daf92a921"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types don't form a clear pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "updateId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the update ID from the inbound file."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp from the inbound file."
+    },
+    {
+      "outbound_field": "fromDepartment",
+      "sources": [
+        "department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed department field from the inbound file."
+    },
+    {
+      "outbound_field": "toDepartment",
+      "sources": [
+        "targetDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed target department field from the inbound file."
+    },
+    {
+      "outbound_field": "subject",
+      "sources": [
+        "updateType",
+        "previousAddress",
+        "newAddress"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept as update type, previous and new addresses from the inbound file."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed customer ID field from the inbound file."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "availableCashBalance",
+      "sources": [
+        "previousAddress.postalCode",
+        "newAddress.postalCode"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of previous and new postal codes from the inbound file."
+    },
+    {
+      "outbound_field": "asOfDate",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp from the inbound file."
+    },
+    {
+      "outbound_field": "details.clearedCash",
+      "sources": [
+        "previousAddress.postalCode",
+        "newAddress.postalCode"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of previous and new postal codes from the inbound file."
+    },
+    {
+      "outbound_field": "details.pendingDeposits",
+      "sources": [
+        "previousAddress.postalCode",
+        "newAddress.postalCode"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of previous and new postal codes from the inbound file."
+    },
+    {
+      "outbound_field": "details.pendingWithdrawals",
+      "sources": [
+        "previousAddress.postalCode",
+        "newAddress.postalCode"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of previous and new postal codes from the inbound file."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "status",
+        "priority"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Captures the same concept as status and priority fields from the inbound file."
+    }
+  ]
+}

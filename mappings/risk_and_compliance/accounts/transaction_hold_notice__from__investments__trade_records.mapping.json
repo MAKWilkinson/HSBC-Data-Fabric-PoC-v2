@@ -1,0 +1,118 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
+      "providing_system": "investments",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "trade_records.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
+    "fingerprint": "5863e28d703e0fd3"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "transaction_hold_notice.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "9f44391b50bd12de"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like trade_id, timestamp, and department, which could be used to generate a transaction hold notice.",
+  "mappings": [
+    {
+      "outbound_field": "noticeId",
+      "sources": [
+        "trade_records[].trade_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of trade_id field."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "trade_records[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact copy of timestamp field."
+    },
+    {
+      "outbound_field": "department",
+      "sources": [
+        "trade_records[].department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of department field."
+    },
+    {
+      "outbound_field": "noticeType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "severity",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "trade_records[].instrument"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as instrument field."
+    },
+    {
+      "outbound_field": "customerId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "customerName",
+      "sources": [
+        "trade_records[].trader_name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as trader_name field with a different name."
+    },
+    {
+      "outbound_field": "holdReason",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "transactionsAffected",
+      "sources": [
+        "trade_records[]"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of multiple trade records fields."
+    },
+    {
+      "outbound_field": "riskScore",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

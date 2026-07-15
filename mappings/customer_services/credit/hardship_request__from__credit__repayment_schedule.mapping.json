@@ -1,0 +1,191 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "providing_system": "customer_services",
+      "consuming_system": "credit",
+      "message_file_name": "hardship_request.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "adeb1bfab0ab8d0e"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, loan details, and repayment schedules, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "request_id",
+      "sources": [
+        "repayment_schedule.loan_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The request ID is likely derived from the loan ID."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "repayment_schedule.generated_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The timestamp in the outbound file captures a similar concept to the generated date in the inbound file."
+    },
+    {
+      "outbound_field": "customer_id",
+      "sources": [
+        "repayment_schedule.customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "The customer ID is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "customer_name",
+      "sources": [
+        "repayment_schedule.customer_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The customer name is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "account_number",
+      "sources": [
+        "repayment_schedule.repayments[].payment_number"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The account number in the outbound file captures a similar concept to the payment numbers in the inbound file."
+    },
+    {
+      "outbound_field": "request_type",
+      "sources": [
+        "repayment_schedule.repayment_frequency"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The request type in the outbound file captures a similar concept to the repayment frequency in the inbound file."
+    },
+    {
+      "outbound_field": "hardship_reason",
+      "sources": [
+        "repayment_schedule.repayments[].status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The hardship reason in the outbound file captures a similar concept to the repayment status in the inbound file."
+    },
+    {
+      "outbound_field": "monthly_income",
+      "sources": [
+        "repayment_schedule.repayments[].principal_payment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The monthly income in the outbound file captures a similar concept to the principal payments in the inbound file."
+    },
+    {
+      "outbound_field": "monthly_expenses",
+      "sources": [
+        "repayment_schedule.repayments[].interest_payment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The monthly expenses in the outbound file captures a similar concept to the interest payments in the inbound file."
+    },
+    {
+      "outbound_field": "outstanding_balance",
+      "sources": [
+        "repayment_schedule.repayments[].outstanding_balance"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The outstanding balance is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "monthly_payment_amount",
+      "sources": [
+        "repayment_schedule.repayments[].total_payment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The monthly payment amount in the outbound file captures a similar concept to the total payments in the inbound file."
+    },
+    {
+      "outbound_field": "requested_relief_type",
+      "sources": [
+        "repayment_schedule.repayments[].status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The requested relief type in the outbound file captures a similar concept to the repayment status in the inbound file."
+    },
+    {
+      "outbound_field": "requested_duration_months",
+      "sources": [
+        "repayment_schedule.repayments[].payment_number"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The requested duration months in the outbound file captures a similar concept to the payment numbers in the inbound file."
+    },
+    {
+      "outbound_field": "supporting_documents",
+      "sources": [
+        "repayment_schedule.repayments[].status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The supporting documents in the outbound file captures a similar concept to the repayment status in the inbound file."
+    },
+    {
+      "outbound_field": "contact_number",
+      "sources": [
+        "repayment_schedule.repayments[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The contact number in the outbound file captures a similar concept to the customer name in the inbound file."
+    },
+    {
+      "outbound_field": "contact_email",
+      "sources": [
+        "repayment_schedule.repayments[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The contact email in the outbound file captures a similar concept to the customer name in the inbound file."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "repayment_schedule.repayments[].status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The priority in the outbound file captures a similar concept to the repayment status in the inbound file."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "repayment_schedule.repayments[].status"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The status is copied exactly from the inbound file."
+    }
+  ]
+}

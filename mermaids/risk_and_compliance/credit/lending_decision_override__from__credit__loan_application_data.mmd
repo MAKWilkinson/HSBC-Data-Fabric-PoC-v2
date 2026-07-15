@@ -1,0 +1,61 @@
+flowchart LR
+  subgraph IN["credit: loan_application_data"]
+    in_loan_applications___timestamp["loan_applications[].timestamp"]
+    in_loan_applications["loan_applications"]
+    in_loan_applications___application_id["loan_applications[].application_id"]
+    in_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
+    in_loan_applications___application_status["loan_applications[].application_status"]
+    in_loan_applications___financial_profile["loan_applications[].financial_profile"]
+    in_loan_applications___financial_profile_credit_score["loan_applications[].financial_profile.credit_score"]
+    in_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    in_loan_applications___financial_profile_total_liabilities["loan_applications[].financial_profile.total_liabilities"]
+    in_loan_applications___collateral["loan_applications[].collateral"]
+    in_loan_applications___employment["loan_applications[].employment"]
+    in_loan_applications___loan_details["loan_applications[].loan_details"]
+    in_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    in_internal_audit_flag["internal_audit_flag"]
+  end
+  subgraph OUT["risk_and_compliance: lending_decision_override"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_payload["payload"]
+    out_payload_loanApplicationId["payload.loanApplicationId"]
+    out_payload_customerId["payload.customerId"]
+    out_payload_originalDecision["payload.originalDecision"]
+    out_payload_overrideDecision["payload.overrideDecision"]
+    out_payload_overrideReason["payload.overrideReason"]
+    out_payload_riskAssessmentDetails["payload.riskAssessmentDetails"]
+    out_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
+    out_payload_riskAssessmentDetails_debtToIncomeRatio["payload.riskAssessmentDetails.debtToIncomeRatio"]
+    out_payload_riskAssessmentDetails_loanToValueRatio["payload.riskAssessmentDetails.loanToValueRatio"]
+    out_payload_riskAssessmentDetails_yearsOfIncome["payload.riskAssessmentDetails.yearsOfIncome"]
+    out_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
+    out_payload_overrideApprovalDetails["payload.overrideApprovalDetails"]
+    out_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
+    out_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
+    out_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
+    out_payload_overrideApprovalDetails_conditions["payload.overrideApprovalDetails.conditions"]
+    out_payload_loanDetails["payload.loanDetails"]
+    out_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
+    out_payload_loanDetails_approvalDate["payload.loanDetails.approvalDate"]
+    out_unmapped_inbound_fields["unmapped_inbound_fields"]
+  end
+  in_loan_applications___timestamp -->|EXACT| out_timestamp
+  in_loan_applications -->|SEMANTIC| out_payload
+  in_loan_applications___application_id -->|RENAMED| out_payload_loanApplicationId
+  in_loan_applications___applicant_customer_id -->|RENAMED| out_payload_customerId
+  in_loan_applications___application_status -->|SEMANTIC| out_payload_overrideDecision
+  in_loan_applications___financial_profile -->|SEMANTIC| out_payload_riskAssessmentDetails
+  in_loan_applications___financial_profile_credit_score -->|EXACT| out_payload_riskAssessmentDetails_creditScore
+  in_loan_applications___financial_profile_total_assets -->|MERGE| out_payload_riskAssessmentDetails_debtToIncomeRatio
+  in_loan_applications___financial_profile_total_liabilities -->|MERGE| out_payload_riskAssessmentDetails_debtToIncomeRatio
+  in_loan_applications___collateral -->|SEMANTIC| out_payload_riskAssessmentDetails_loanToValueRatio
+  in_loan_applications___employment -->|SEMANTIC| out_payload_riskAssessmentDetails_yearsOfIncome
+  in_loan_applications___application_status -->|SEMANTIC| out_payload_overrideApprovalDetails
+  in_loan_applications___timestamp -->|SEMANTIC| out_payload_overrideApprovalDetails_approvalDate
+  in_loan_applications___loan_details -->|SEMANTIC| out_payload_loanDetails
+  in_loan_applications___loan_details_requested_amount -->|RENAMED| out_payload_loanDetails_loanAmount
+  in_loan_applications___timestamp -->|SEMANTIC| out_payload_loanDetails_approvalDate

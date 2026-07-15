@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph IN["accounts: transaction_stream"]
+    in_transaction_id["transaction_id"]
+    in_transaction_date["transaction_date"]
+    in_counterparty_system["counterparty_system"]
+    in_eligible_customers___customer_id["eligible_customers[].customer_id"]
+  end
+  subgraph OUT["risk_and_compliance: sanctions_list_hit"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_sanctionsListHit_hitId["sanctionsListHit.hitId"]
+    out_matchedEntity_entityId["matchedEntity.entityId"]
+    out_matchedEntity_name["matchedEntity.name"]
+    out_matchedEntity_dateOfBirth["matchedEntity.dateOfBirth"]
+    out_associatedAccounts___accountNumber["associatedAccounts[].accountNumber"]
+  end
+  in_transaction_id -->|EXACT| out_messageId
+  in_transaction_date -->|SEMANTIC| out_timestamp
+  in_counterparty_system -->|RENAMED| out_source
+  in_transaction_id -->|EXACT| out_sanctionsListHit_hitId
+  in_eligible_customers___customer_id -->|MERGE| out_matchedEntity_entityId
+  in_eligible_customers___customer_id -->|SEMANTIC| out_matchedEntity_name
+  in_transaction_id -->|EXACT| out_associatedAccounts___accountNumber

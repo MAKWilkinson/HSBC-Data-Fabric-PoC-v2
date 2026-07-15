@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph IN["marketing: campaign_details"]
+    in_campaign_id["campaign_id"]
+    in_target_segment_account_type["target_segment.account_type"]
+    in_created_date["created_date"]
+    in_department_from["department_from"]
+    in_department_to["department_to"]
+    in_campaign_objectives["campaign_objectives"]
+    in_target_segment["target_segment"]
+    in_success_metrics["success_metrics"]
+    in_customer_service_requirements["customer_service_requirements"]
+  end
+  subgraph OUT["customer_services: address_updates"]
+    out_updateId["updateId"]
+    out_customerId["customerId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_targetDepartment["targetDepartment"]
+    out_updateType["updateType"]
+    out_previousAddress["previousAddress"]
+    out_newAddress["newAddress"]
+    out_status["status"]
+    out_priority["priority"]
+  end
+  in_campaign_id -->|RENAMED| out_updateId
+  in_target_segment_account_type -->|SEMANTIC| out_customerId
+  in_created_date -->|RENAMED| out_timestamp
+  in_department_from -->|MERGE| out_department
+  in_department_to -->|MERGE| out_department
+  in_department_to -->|EXACT| out_targetDepartment
+  in_campaign_objectives -->|SEMANTIC| out_updateType
+  in_target_segment -->|SEMANTIC| out_previousAddress
+  in_target_segment -->|SEMANTIC| out_newAddress
+  in_success_metrics -->|SEMANTIC| out_status
+  in_customer_service_requirements -->|SEMANTIC| out_priority

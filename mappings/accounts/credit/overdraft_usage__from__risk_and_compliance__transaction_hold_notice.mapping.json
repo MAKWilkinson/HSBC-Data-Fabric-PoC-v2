@@ -1,0 +1,111 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "transaction_hold_notice.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "9f44391b50bd12de"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "overdraft_usage.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "affa3aa27b3800ff"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts, such as account numbers and transaction details, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "fileId",
+      "sources": [
+        "noticeId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the notice ID from the inbound file."
+    },
+    {
+      "outbound_field": "sentDate",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same timestamp concept, but renamed to 'sentDate' in the outbound file."
+    },
+    {
+      "outbound_field": "fromDepartment",
+      "sources": [
+        "department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the department name from the inbound file."
+    },
+    {
+      "outbound_field": "toDepartment",
+      "sources": [
+        "recipientDepartment"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same recipient department concept, but renamed to 'toDepartment' in the outbound file."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the account number from the inbound file."
+    },
+    {
+      "outbound_field": "overdraftLimit",
+      "sources": [
+        "estimatedHoldDuration"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The estimated hold duration concept is related to the overdraft limit, but not an exact copy."
+    },
+    {
+      "outbound_field": "overdraftUsed",
+      "sources": [
+        "transactionsAffected[].amount"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of transaction amounts from the inbound file to calculate the overdraft used."
+    },
+    {
+      "outbound_field": "usagePercent",
+      "sources": [
+        "transactionsAffected[].amount",
+        "overdraftLimit"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The usage percentage is calculated based on the transaction amounts and overdraft limit, but not an exact copy."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the notes from the inbound file."
+    }
+  ]
+}

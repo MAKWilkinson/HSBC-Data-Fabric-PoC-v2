@@ -1,0 +1,108 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "transaction_hold_notice.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "9f44391b50bd12de"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "salary_credits.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "c846c04291c7ca1a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as account numbers, customer information, and transaction details, making them plausibly connected by data lineage.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "noticeId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "transactionsAffected[].amount"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of multiple inbound fields representing transaction amounts."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "transactionsAffected[].currency"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of multiple inbound fields representing transaction currencies."
+    },
+    {
+      "outbound_field": "employee.employee_id",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "employee.name",
+      "sources": [
+        "customerName"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "department_from.name",
+      "sources": [
+        "department"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "authorizer.name",
+      "sources": [
+        "issuedBy"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "reference",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

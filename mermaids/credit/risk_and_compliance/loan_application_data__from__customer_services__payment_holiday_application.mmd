@@ -1,0 +1,20 @@
+flowchart LR
+  subgraph IN["customer_services: payment_holiday_application"]
+    in_customer_name["customer.name"]
+    in_customer_email["customer.email"]
+    in_account_loanAmount["account.loanAmount"]
+    in_requestedBy_employeeId["requestedBy.employeeId"]
+    in_account_currentBalance["account.currentBalance"]
+  end
+  subgraph OUT["credit: loan_application_data"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___applicant_email["loan_applications[].applicant.email"]
+    out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___employment_employer_name["loan_applications[].employment.employer_name"]
+    out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+  end
+  in_customer_name -->|RENAMED| out_loan_applications___applicant_full_name
+  in_customer_email -->|EXACT| out_loan_applications___applicant_email
+  in_account_loanAmount -->|EXACT| out_loan_applications___loan_details_requested_amount
+  in_requestedBy_employeeId -->|SEMANTIC| out_loan_applications___employment_employer_name
+  in_account_currentBalance -->|SEMANTIC| out_loan_applications___financial_profile_total_assets

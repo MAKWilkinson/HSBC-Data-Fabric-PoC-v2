@@ -1,0 +1,252 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+    "providing_system": "risk_and_compliance",
+    "consuming_system": "accounts",
+    "message_file_name": "transaction_hold_notice.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "noticeId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the transaction hold notice"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp when the transaction hold was issued",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that originated the transaction hold notice"
+    },
+    {
+      "name": "recipientDepartment",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Department receiving the transaction hold notice"
+    },
+    {
+      "name": "noticeType",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Type of transaction hold notice (e.g. TRANSACTION_HOLD)",
+      "enum_values": [
+        "TRANSACTION_HOLD"
+      ]
+    },
+    {
+      "name": "severity",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Severity level of the transaction hold notice (e.g. HIGH)",
+      "enum_values": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    {
+      "name": "accountNumber",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Account number associated with the transaction hold notice"
+    },
+    {
+      "name": "customerId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Customer ID associated with the transaction hold notice"
+    },
+    {
+      "name": "customerName",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Full name of the customer associated with the transaction hold notice"
+    },
+    {
+      "name": "holdReason",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Reason for holding the transaction (e.g. suspicious transaction pattern detected)",
+      "enum_values": [
+        "Suspicious transaction pattern detected",
+        "Velocity threshold exceeded",
+        "Sanctioned jurisdiction destination"
+      ]
+    },
+    {
+      "name": "holdEffectiveDate",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Date when the transaction hold becomes effective",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "estimatedHoldDuration",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Estimated duration of the transaction hold (e.g. 5 business days)",
+      "enum_values": [
+        "1 day",
+        "3 days",
+        "5 business days"
+      ]
+    },
+    {
+      "name": "transactionsAffected",
+      "data_type": "array",
+      "nullable": false,
+      "description": "List of transactions affected by the transaction hold notice",
+      "children": [
+        {
+          "name": "transactionId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for each affected transaction"
+        },
+        {
+          "name": "amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount of the affected transaction",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency of the affected transaction",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP",
+            "USD",
+            "EUR"
+          ]
+        },
+        {
+          "name": "destinationCountry",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Destination country of the affected transaction",
+          "enum_values": [
+            "MM",
+            "IR",
+            "US"
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Status of the affected transaction (e.g. HELD)",
+          "enum_values": [
+            "HELD",
+            "RELEASED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "riskScore",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Risk score associated with the transaction hold notice"
+    },
+    {
+      "name": "riskFlags",
+      "data_type": "array",
+      "nullable": false,
+      "description": "List of risk flags associated with the transaction hold notice",
+      "enum_values": [
+        "unusual_geographic_pattern",
+        "velocity_threshold_exceeded",
+        "sanctioned_jurisdiction_destination",
+        "high_transaction_amount"
+      ]
+    },
+    {
+      "name": "requiredActions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "List of required actions for the transaction hold notice",
+      "enum_values": [
+        "Verify customer identity and business purpose",
+        "Obtain source of funds documentation",
+        "Review 6-month transaction history",
+        "Escalate to compliance officer for final approval"
+      ]
+    },
+    {
+      "name": "escalationLevel",
+      "data_type": "integer",
+      "nullable": false,
+      "description": "Escalation level associated with the transaction hold notice",
+      "enum_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "approvalRequired",
+      "data_type": "boolean",
+      "nullable": false,
+      "description": "Indicates whether approval is required for the transaction hold notice",
+      "enum_values": [
+        "True",
+        "False"
+      ]
+    },
+    {
+      "name": "approverRole",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Role of the approver required for the transaction hold notice",
+      "enum_values": [
+        "Senior Compliance Officer",
+        "Compliance Manager"
+      ]
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional notes or comments for the transaction hold notice"
+    },
+    {
+      "name": "expiryDate",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Date when the transaction hold expires",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "issuedBy",
+      "data_type": "string",
+      "nullable": false,
+      "description": "System or entity that issued the transaction hold notice",
+      "enum_values": [
+        "automated_compliance_system_v2.1"
+      ]
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Priority level of the transaction hold notice (e.g. URGENT)",
+      "enum_values": [
+        "URGENT",
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    }
+  ]
+}

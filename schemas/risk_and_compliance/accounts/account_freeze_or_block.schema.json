@@ -1,0 +1,268 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+    "providing_system": "risk_and_compliance",
+    "consuming_system": "accounts",
+    "message_file_name": "account_freeze_or_block.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "messageId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the message"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the action was taken",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "source",
+      "data_type": "string",
+      "nullable": false,
+      "description": "System that originated the message"
+    },
+    {
+      "name": "destination",
+      "data_type": "string",
+      "nullable": true,
+      "description": "System that received the message (may be 'none' for internal use)"
+    },
+    {
+      "name": "messageType",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Type of action taken on the account",
+      "enum_values": [
+        "account_freeze_or_block"
+      ]
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Level of urgency for the message",
+      "enum_values": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    {
+      "name": "action",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Type of action taken on the account (e.g. freeze, block)",
+      "enum_values": [
+        "freeze",
+        "block"
+      ]
+    },
+    {
+      "name": "account",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Account details",
+      "children": [
+        {
+          "name": "accountNumber",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the account",
+          "fmt": "iban"
+        },
+        {
+          "name": "accountHolder",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the account holder"
+        },
+        {
+          "name": "accountType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of account (e.g. current, savings)",
+          "enum_values": [
+            "Current Account",
+            "Savings Account"
+          ]
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency associated with the account",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP",
+            "USD",
+            "EUR"
+          ]
+        },
+        {
+          "name": "branch",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Branch where the account is held"
+        }
+      ]
+    },
+    {
+      "name": "freezeDetails",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Freeze details",
+      "children": [
+        {
+          "name": "freezeType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of freeze (e.g. full, partial)",
+          "enum_values": [
+            "full",
+            "partial"
+          ]
+        },
+        {
+          "name": "reason",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Reason for the freeze"
+        },
+        {
+          "name": "description",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Detailed description of the freeze"
+        },
+        {
+          "name": "initiatedBy",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Person who initiated the freeze"
+        },
+        {
+          "name": "department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that initiated the freeze"
+        },
+        {
+          "name": "effectiveFrom",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the freeze took effect",
+          "fmt": "iso8601"
+        }
+      ]
+    },
+    {
+      "name": "restrictions",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Restrictions on account activity",
+      "children": [
+        {
+          "name": "allowIncomingTransfers",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Allow incoming transfers to the account"
+        },
+        {
+          "name": "allowOutgoingTransfers",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Allow outgoing transfers from the account"
+        },
+        {
+          "name": "allowWithdrawals",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Allow withdrawals from the account"
+        },
+        {
+          "name": "allowCardTransactions",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Allow card transactions on the account"
+        },
+        {
+          "name": "allowCheques",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Allow cheque transactions on the account"
+        }
+      ]
+    },
+    {
+      "name": "escalation",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Escalation details",
+      "children": [
+        {
+          "name": "level",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Level of escalation required"
+        },
+        {
+          "name": "requiresApproval",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Whether approval is required for the freeze"
+        },
+        {
+          "name": "approvalDeadline",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp by which approval must be given",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "complianceOfficer",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the compliance officer responsible for approval"
+        }
+      ]
+    },
+    {
+      "name": "additionalInfo",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Additional information about the freeze",
+      "children": [
+        {
+          "name": "caseReference",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique reference for the case"
+        },
+        {
+          "name": "riskScore",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Risk score associated with the account",
+          "fmt": "percentage"
+        },
+        {
+          "name": "customerNotificationSent",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Whether a notification was sent to the customer"
+        },
+        {
+          "name": "regulatoryReporting",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Whether regulatory reporting is required for the freeze"
+        }
+      ]
+    }
+  ]
+}

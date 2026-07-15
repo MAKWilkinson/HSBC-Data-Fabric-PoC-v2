@@ -1,0 +1,49 @@
+flowchart LR
+  subgraph IN["accounts: funds_settlement"]
+    in_settlements___fund_id["settlements[].fund_id"]
+    in_settlements___timestamp["settlements[].timestamp"]
+    in_created_by["created_by"]
+    in_from_department["from_department"]
+    in_to_department["to_department"]
+    in_settlements___fund_name["settlements[].fund_name"]
+    in_settlements___transaction_type["settlements[].transaction_type"]
+    in_settlements___amount["settlements[].amount"]
+    in_currency["currency"]
+    in_total_amount["total_amount"]
+    in_settlement_date["settlement_date"]
+    in_settlements___verified["settlements[].verified"]
+    in_settlements___settlement_status["settlements[].settlement_status"]
+  end
+  subgraph OUT["investments: trade_records"]
+    out_trade_records___trade_id["trade_records[].trade_id"]
+    out_trade_records___timestamp["trade_records[].timestamp"]
+    out_trade_records___trader_id["trade_records[].trader_id"]
+    out_trade_records___department["trade_records[].department"]
+    out_trade_records___asset_class["trade_records[].asset_class"]
+    out_trade_records___instrument["trade_records[].instrument"]
+    out_trade_records___side["trade_records[].side"]
+    out_trade_records___quantity["trade_records[].quantity"]
+    out_trade_records___price["trade_records[].price"]
+    out_trade_records___settlement_currency["trade_records[].settlement_currency"]
+    out_trade_records___trade_value["trade_records[].trade_value"]
+    out_trade_records___counterparty["trade_records[].counterparty"]
+    out_trade_records___settlement_date["trade_records[].settlement_date"]
+    out_trade_records___trading_venue["trade_records[].trading_venue"]
+    out_trade_records___execution_venue["trade_records[].execution_venue"]
+    out_trade_records___risk_level["trade_records[].risk_level"]
+    out_trade_records___compliance_status["trade_records[].compliance_status"]
+  end
+  in_settlements___fund_id -->|RENAMED| out_trade_records___trade_id
+  in_settlements___timestamp -->|EXACT| out_trade_records___timestamp
+  in_created_by -->|RENAMED| out_trade_records___trader_id
+  in_from_department -->|MERGE| out_trade_records___department
+  in_to_department -->|MERGE| out_trade_records___department
+  in_settlements___fund_name -->|SEMANTIC| out_trade_records___instrument
+  in_settlements___transaction_type -->|RENAMED| out_trade_records___side
+  in_settlements___amount -->|EXACT| out_trade_records___quantity
+  in_settlements___amount -->|EXACT| out_trade_records___price
+  in_currency -->|EXACT| out_trade_records___settlement_currency
+  in_total_amount -->|EXACT| out_trade_records___trade_value
+  in_settlement_date -->|EXACT| out_trade_records___settlement_date
+  in_settlements___verified -->|SEMANTIC| out_trade_records___risk_level
+  in_settlements___settlement_status -->|RENAMED| out_trade_records___compliance_status

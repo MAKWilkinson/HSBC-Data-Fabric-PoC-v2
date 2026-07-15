@@ -1,0 +1,65 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
+      "providing_system": "investments",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "trade_records.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
+    "fingerprint": "5863e28d703e0fd3"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "customer",
+      "message_file_name": "kyc_refresh_request.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
+    "fingerprint": "d6ee458d7d9192ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "customer.customer_id",
+      "sources": [
+        "trade_records[].trader_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept, different name."
+    },
+    {
+      "outbound_field": "customer.full_name",
+      "sources": [
+        "trade_records[].trader_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept, different name and format."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.last_refresh_date",
+      "sources": [
+        "metadata.report_date"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.refresh_reason",
+      "sources": [
+        "metadata.total_trades"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept, different name and format."
+    }
+  ]
+}

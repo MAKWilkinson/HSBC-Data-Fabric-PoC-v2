@@ -1,0 +1,171 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+    "providing_system": "investments",
+    "consuming_system": "accounts",
+    "message_file_name": "debit_credit_instruction.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "debit_credit_instructions",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A collection of debit and credit instructions",
+      "children": [
+        {
+          "name": "instruction_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the instruction"
+        },
+        {
+          "name": "timestamp",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp of when the instruction was created",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "source_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The department that originated the instruction"
+        },
+        {
+          "name": "target_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The department that will receive the instruction"
+        },
+        {
+          "name": "instructions",
+          "data_type": "array",
+          "nullable": false,
+          "description": "A collection of individual debit and credit instructions",
+          "children": [
+            {
+              "name": "transaction_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the transaction"
+            },
+            {
+              "name": "account_number",
+              "data_type": "string",
+              "nullable": false,
+              "description": "The account number associated with the instruction",
+              "fmt": "iban"
+            },
+            {
+              "name": "instruction_type",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Type of instruction (debit or credit)",
+              "enum_values": [
+                "debit",
+                "credit"
+              ]
+            },
+            {
+              "name": "amount",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "The amount associated with the instruction",
+              "fmt": "currency"
+            },
+            {
+              "name": "currency",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Currency of the transaction",
+              "fmt": "currency_code",
+              "enum_values": [
+                "GBP"
+              ]
+            },
+            {
+              "name": "description",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Description of the instruction"
+            },
+            {
+              "name": "fund_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the fund"
+            },
+            {
+              "name": "fund_name",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Name of the fund"
+            },
+            {
+              "name": "effective_date",
+              "data_type": "date",
+              "nullable": false,
+              "description": "Date when the instruction will be effective",
+              "fmt": "iso8601"
+            },
+            {
+              "name": "status",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Status of the instruction (pending, approved, etc.)",
+              "enum_values": [
+                "pending",
+                "approved"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "total_debit_amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Total debit amount for the instructions",
+          "fmt": "currency"
+        },
+        {
+          "name": "total_credit_amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Total credit amount for the instructions",
+          "fmt": "currency"
+        },
+        {
+          "name": "batch_reference",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the batch of instructions"
+        },
+        {
+          "name": "approval_status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Status of the approval process",
+          "enum_values": [
+            "approved",
+            "rejected"
+          ]
+        },
+        {
+          "name": "approver",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the person who approved the instructions",
+          "fmt": "email"
+        },
+        {
+          "name": "approval_timestamp",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the approval was made",
+          "fmt": "iso8601"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph IN["accounts: product_holding_data"]
+    in_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    in_product_holding_data_holdings___product_name["product_holding_data.holdings[].product_name"]
+    in_product_holding_data_source_department["product_holding_data.source_department"]
+    in_product_holding_data_timestamp["product_holding_data.timestamp"]
+  end
+  subgraph OUT["marketing: offer_scripts"]
+    out_id["id"]
+    out_name["name"]
+    out_department_from["department_from"]
+    out_created_date["created_date"]
+    out_script_type["script_type"]
+  end
+  in_product_holding_data_holdings___customer_id -->|RENAMED| out_id
+  in_product_holding_data_holdings___product_name -->|SEMANTIC| out_name
+  in_product_holding_data_source_department -->|EXACT| out_department_from
+  in_product_holding_data_timestamp -->|SEMANTIC| out_created_date

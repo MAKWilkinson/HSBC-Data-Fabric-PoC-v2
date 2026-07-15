@@ -1,0 +1,106 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be used as input for the outbound file's product holding data.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact timestamp field copy."
+    },
+    {
+      "outbound_field": "product_holding_data.source_department",
+      "sources": [
+        "source"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source concept, different name."
+    },
+    {
+      "outbound_field": "product_holding_data.target_department",
+      "sources": [
+        "destination"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Conceptually related to destination field."
+    },
+    {
+      "outbound_field": "product_holding_data.data_version",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Conceptually related to account number field."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact account number field copy."
+    },
+    {
+      "outbound_field": "product_hholding_data.holdings[].product_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "account.accountType"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Conceptually related to account type field."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [
+        "account.accountHolder"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Derived from account holder information."
+    }
+  ]
+}

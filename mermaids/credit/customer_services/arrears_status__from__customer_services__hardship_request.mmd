@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["customer_services: hardship_request"]
+    in_request_id["request_id"]
+    in_timestamp["timestamp"]
+    in_hardship_severity["hardship_severity"]
+    in_monthly_income["monthly_income"]
+    in_monthly_expenses["monthly_expenses"]
+    in_outstanding_balance["outstanding_balance"]
+    in_account_number["account_number"]
+    in_requested_relief_type["requested_relief_type"]
+    in_status["status"]
+  end
+  subgraph OUT["credit: arrears_status"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_sourceSystem["sourceSystem"]
+    out_destinationSystem["destinationSystem"]
+    out_arrears_status["arrears_status"]
+    out_arrearsAmount["arrearsAmount"]
+    out_currency["currency"]
+    out_arrearsMonths["arrearsMonths"]
+    out_status["status"]
+  end
+  in_request_id -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_hardship_severity -->|SEMANTIC| out_arrears_status
+  in_monthly_income -->|SEMANTIC| out_arrears_status
+  in_monthly_expenses -->|SEMANTIC| out_arrears_status
+  in_outstanding_balance -->|SEMANTIC| out_arrearsAmount
+  in_account_number -->|SEMANTIC| out_currency
+  in_requested_relief_type -->|SEMANTIC| out_arrearsMonths
+  in_status -->|EXACT| out_status

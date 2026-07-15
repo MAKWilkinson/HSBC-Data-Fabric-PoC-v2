@@ -1,0 +1,268 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+    "providing_system": "credit",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "loan_application_data.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "loan_applications",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A list of loan applications submitted to the risk and compliance department",
+      "children": [
+        {
+          "name": "application_id",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unique identifier for a loan application"
+        },
+        {
+          "name": "timestamp",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the loan application was submitted",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "applicant",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the applicant",
+          "children": [
+            {
+              "name": "customer_id",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Unique identifier for the customer"
+            },
+            {
+              "name": "full_name",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Full name of the applicant"
+            },
+            {
+              "name": "date_of_birth",
+              "data_type": "date",
+              "nullable": true,
+              "description": "Date of birth for the applicant",
+              "fmt": "iso8601"
+            },
+            {
+              "name": "email",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Email address of the applicant",
+              "fmt": "email"
+            },
+            {
+              "name": "phone",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Phone number of the applicant",
+              "fmt": "phone"
+            }
+          ]
+        },
+        {
+          "name": "loan_details",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the loan being applied for",
+          "children": [
+            {
+              "name": "loan_type",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Type of loan being applied for (e.g. mortgage, personal)",
+              "enum_values": [
+                "Mortgage",
+                "Personal Loan"
+              ]
+            },
+            {
+              "name": "requested_amount",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "Amount requested for the loan",
+              "fmt": "currency"
+            },
+            {
+              "name": "currency",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Currency of the loan (e.g. GBP, USD)",
+              "fmt": "currency_code",
+              "enum_values": [
+                "GBP",
+                "USD"
+              ]
+            },
+            {
+              "name": "term_months",
+              "data_type": "integer",
+              "nullable": false,
+              "description": "Term of the loan in months"
+            },
+            {
+              "name": "interest_rate_type",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Type of interest rate for the loan (e.g. fixed, variable)",
+              "enum_values": [
+                "Fixed",
+                "Variable"
+              ]
+            },
+            {
+              "name": "purpose",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Purpose of the loan (e.g. residential property purchase, home improvement)",
+              "enum_values": [
+                "Residential Property Purchase",
+                "Home Improvement"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "employment",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the applicant's employment",
+          "children": [
+            {
+              "name": "employment_status",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Current employment status (e.g. employed, self-employed)",
+              "enum_values": [
+                "Employed",
+                "Self-Employed"
+              ]
+            },
+            {
+              "name": "employer_name",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Name of the applicant's employer"
+            },
+            {
+              "name": "job_title",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Job title of the applicant"
+            },
+            {
+              "name": "annual_income",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "Annual income of the applicant",
+              "fmt": "currency"
+            },
+            {
+              "name": "employment_start_date",
+              "data_type": "date",
+              "nullable": true,
+              "description": "Date when the applicant started their current employment",
+              "fmt": "iso8601"
+            }
+          ]
+        },
+        {
+          "name": "financial_profile",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the applicant's financial profile",
+          "children": [
+            {
+              "name": "total_assets",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Total assets of the applicant",
+              "fmt": "currency"
+            },
+            {
+              "name": "total_liabilities",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Total liabilities of the applicant",
+              "fmt": "currency"
+            },
+            {
+              "name": "credit_score",
+              "data_type": "integer",
+              "nullable": false,
+              "description": "Credit score of the applicant"
+            },
+            {
+              "name": "existing_loans",
+              "data_type": "integer",
+              "nullable": true,
+              "description": "Number of existing loans for the applicant"
+            },
+            {
+              "name": "default_history",
+              "data_type": "boolean",
+              "nullable": false,
+              "description": "Whether the applicant has a history of defaults"
+            },
+            {
+              "name": "credit_inquiries_last_6m",
+              "data_type": "integer",
+              "nullable": true,
+              "description": "Number of credit inquiries made by the applicant in the last 6 months"
+            }
+          ]
+        },
+        {
+          "name": "collateral",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the collateral being used for the loan",
+          "children": [
+            {
+              "name": "property_value",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Value of the property being used as collateral",
+              "fmt": "currency"
+            },
+            {
+              "name": "property_location",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Location of the property being used as collateral"
+            },
+            {
+              "name": "loan_to_value",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "Loan-to-value ratio for the loan"
+            }
+          ]
+        },
+        {
+          "name": "application_status",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Current status of the loan application (e.g. under review, pending compliance review)",
+          "enum_values": [
+            "Under Review",
+            "Pending Compliance Review"
+          ]
+        },
+        {
+          "name": "submitted_by",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the person who submitted the loan application"
+        }
+      ]
+    }
+  ]
+}

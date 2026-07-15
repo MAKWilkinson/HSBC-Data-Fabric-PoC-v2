@@ -1,0 +1,36 @@
+flowchart LR
+  subgraph IN["credit: monthly_repayment_direct_debit"]
+    in_department_from["department.from"]
+    in_department_to["department.to"]
+    in_timestamp["timestamp"]
+    in_repayments___loanId["repayments[].loanId"]
+    in_recordCount["recordCount"]
+    in_totalAmount["totalAmount"]
+  end
+  subgraph OUT["accounts: customer_segment"]
+    out_metadata_source["metadata.source"]
+    out_metadata_destination["metadata.destination"]
+    out_metadata_timestamp["metadata.timestamp"]
+    out_metadata_message_type["metadata.message_type"]
+    out_segments___segment_id["segments[].segment_id"]
+    out_segments___segment_name["segments[].segment_name"]
+    out_segments___description["segments[].description"]
+    out_segments___customer_count["segments[].customer_count"]
+    out_segments___avg_account_balance["segments[].avg_account_balance"]
+    out_segments___avg_monthly_transactions["segments[].avg_monthly_transactions"]
+    out_product_holding["product_holding"]
+    out_summary_total_customers["summary.total_customers"]
+    out_summary_total_assets_under_management["summary.total_assets_under_management"]
+    out_summary_report_period["summary.report_period"]
+  end
+  in_department_from -->|RENAMED| out_metadata_source
+  in_department_to -->|RENAMED| out_metadata_destination
+  in_timestamp -->|EXACT| out_metadata_timestamp
+  in_repayments___loanId -->|SEMANTIC| out_segments___segment_id
+  in_department_from -->|SEMANTIC| out_segments___segment_name
+  in_department_to -->|SEMANTIC| out_segments___description
+  in_recordCount -->|SEMANTIC| out_segments___customer_count
+  in_totalAmount -->|SEMANTIC| out_segments___avg_account_balance
+  in_repayments___loanId -->|SEMANTIC| out_product_holding
+  in_recordCount -->|SEMANTIC| out_summary_total_customers
+  in_totalAmount -->|SEMANTIC| out_summary_total_assets_under_management

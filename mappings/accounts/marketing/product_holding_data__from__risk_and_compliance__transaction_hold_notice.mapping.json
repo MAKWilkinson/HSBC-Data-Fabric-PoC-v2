@@ -1,0 +1,99 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "transaction_hold_notice.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "9f44391b50bd12de"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and transaction data, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "noticeId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The customer ID field in the outbound file is an exact copy of the notice ID field in the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The account number field in the outbound file is an exact copy of the account number field in the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The account status field in the outbound file is a renamed version of the transaction status field in the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [
+        "transactionsAffected[].amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The balance field in the outbound file captures the same concept as the transaction amount field in the inbound file, but with a different name."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].currency",
+      "sources": [
+        "transactionsAffected[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The currency field in the outbound file is an exact copy of the transaction currency field in the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_opened_date",
+      "sources": [
+        "holdEffectiveDate"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The account opened date field in the outbound file is a renamed version of the hold effective date field in the inbound file."
+    },
+    {
+      "outbound_field": "product_hholding_data.summary.total_customers",
+      "sources": [
+        "transactionsAffected[].customerName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The total customers field in the outbound file captures the same concept as the customer name field in the inbound file, but with a different name."
+    }
+  ]
+}

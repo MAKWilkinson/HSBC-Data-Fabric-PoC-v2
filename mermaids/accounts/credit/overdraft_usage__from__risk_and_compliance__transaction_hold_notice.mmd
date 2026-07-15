@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_timestamp["timestamp"]
+    in_department["department"]
+    in_recipientDepartment["recipientDepartment"]
+    in_accountNumber["accountNumber"]
+    in_estimatedHoldDuration["estimatedHoldDuration"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_overdraftLimit["overdraftLimit"]
+    in_notes["notes"]
+  end
+  subgraph OUT["accounts: overdraft_usage"]
+    out_fileId["fileId"]
+    out_sentDate["sentDate"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_accountNumber["accountNumber"]
+    out_overdraftLimit["overdraftLimit"]
+    out_overdraftUsed["overdraftUsed"]
+    out_usagePercent["usagePercent"]
+    out_notes["notes"]
+  end
+  in_noticeId -->|EXACT| out_fileId
+  in_timestamp -->|RENAMED| out_sentDate
+  in_department -->|EXACT| out_fromDepartment
+  in_recipientDepartment -->|RENAMED| out_toDepartment
+  in_accountNumber -->|EXACT| out_accountNumber
+  in_estimatedHoldDuration -->|SEMANTIC| out_overdraftLimit
+  in_transactionsAffected___amount -->|MERGE| out_overdraftUsed
+  in_transactionsAffected___amount -->|SEMANTIC| out_usagePercent
+  in_overdraftLimit -->|SEMANTIC| out_usagePercent
+  in_notes -->|EXACT| out_notes

@@ -1,0 +1,36 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: account_freeze_or_block"]
+    in_messageId["messageId"]
+    in_timestamp["timestamp"]
+    in_account_accountNumber["account.accountNumber"]
+    in_account_currency["account.currency"]
+    in_account_accountHolder["account.accountHolder"]
+    in_destination["destination"]
+    in_escalation_complianceOfficer["escalation.complianceOfficer"]
+    in_messageType["messageType"]
+  end
+  subgraph OUT["accounts: salary_credits"]
+    out_transaction_id["transaction_id"]
+    out_timestamp["timestamp"]
+    out_amount["amount"]
+    out_currency["currency"]
+    out_employee_employee_id["employee.employee_id"]
+    out_employee_name["employee.name"]
+    out_department_from_name["department_from.name"]
+    out_authorizer_name["authorizer.name"]
+    out_reference["reference"]
+    out_status["status"]
+  end
+  in_messageId -->|EXACT| out_transaction_id
+  in_timestamp -->|EXACT| out_timestamp
+  in_account_accountNumber -->|SEMANTIC| out_amount
+  in_account_currency -->|SEMANTIC| out_amount
+  in_account_currency -->|EXACT| out_currency
+  in_account_accountNumber -->|SEMANTIC| out_employee_employee_id
+  in_account_accountHolder -->|SEMANTIC| out_employee_employee_id
+  in_account_accountHolder -->|EXACT| out_employee_name
+  in_destination -->|RENAMED| out_department_from_name
+  in_escalation_complianceOfficer -->|RENAMED| out_authorizer_name
+  in_messageId -->|SEMANTIC| out_reference
+  in_timestamp -->|SEMANTIC| out_reference
+  in_messageType -->|SEMANTIC| out_status

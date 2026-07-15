@@ -1,0 +1,101 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/complaint_escalation.json",
+      "providing_system": "customer_services",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "complaint_escalation.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
+    "fingerprint": "f79c6ac2c91f2e36"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like customer name, loan details, and repayment schedule, which makes sense as a pipeline step from credit to customer services.",
+  "mappings": [
+    {
+      "outbound_field": "complaint.complaint_id",
+      "sources": [
+        "repayment_schedule.loan_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed loan ID as complaint ID."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "repayment_schedule.generated_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Timestamp represents the generation date of the repayment schedule."
+    },
+    {
+      "outbound_field": "source_department",
+      "sources": [
+        "repayment_schedule.metadata.source_system"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed source system as department."
+    },
+    {
+      "outbound_field": "target_department",
+      "sources": [
+        "repayment_schedule.metadata.destination_system"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed destination system as target department."
+    },
+    {
+      "outbound_field": "complaint.complaint_date",
+      "sources": [
+        "repayment_schedule.start_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Complaint date represents the start date of the loan."
+    },
+    {
+      "outbound_field": "complaint.customer_id",
+      "sources": [
+        "repayment_schedule.customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of customer ID from inbound to outbound."
+    },
+    {
+      "outbound_field": "complaint.customer_name",
+      "sources": [
+        "repayment_schedule.customer_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact copy of customer name from inbound to outbound."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "repayment_schedule.principal_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.95,
+      "reasoning": "Amount represents the principal amount borrowed."
+    }
+  ]
+}

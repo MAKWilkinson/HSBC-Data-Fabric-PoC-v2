@@ -1,0 +1,117 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "providing_system": "customer_services",
+      "consuming_system": "accounts",
+      "message_file_name": "address_updates.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "be43dc882657f455"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "customer_segment.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "6e2c803e95220d65"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share customer-related concepts, with address updates potentially leading to customer segments.",
+  "mappings": [
+    {
+      "outbound_field": "metadata.source",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the customer ID."
+    },
+    {
+      "outbound_field": "metadata.destination",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the customer ID."
+    },
+    {
+      "outbound_field": "metadata.timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "Exact timestamp copy."
+    },
+    {
+      "outbound_field": "metadata.message_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "segments[].segment_id",
+      "sources": [
+        "updateId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the update ID."
+    },
+    {
+      "outbound_field": "segments[].segment_name",
+      "sources": [
+        "department",
+        "targetDepartment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as department and target department."
+    },
+    {
+      "outbound_field": "segments[].description",
+      "sources": [
+        "previousAddress.addressLine1",
+        "previousAddress.addressLine2"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as previous address lines."
+    },
+    {
+      "outbound_field": "segments[].customer_count",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the customer ID count."
+    },
+    {
+      "outbound_field": "summary.total_customers",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Renamed from the total customer count."
+    },
+    {
+      "outbound_field": "summary.total_assets_under_management",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+    "providing_system": "credit",
+    "consuming_system": "customer_services",
+    "message_file_name": "arrears_status.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "messageId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the message"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the arrears status was recorded",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "sourceSystem",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The system that originated the data"
+    },
+    {
+      "name": "destinationSystem",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The system that received the message"
+    },
+    {
+      "name": "arrears_status",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Array of arrears status records for each customer",
+      "children": [
+        {
+          "name": "customerId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "accountNumber",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Account number associated with the customer"
+        },
+        {
+          "name": "productType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of product or service for which arrears exist"
+        },
+        {
+          "name": "arrearsAmount",
+          "data_type": "decimal",
+          "nullable": true,
+          "description": "Total amount of arrears owed by the customer",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency in which the arrears amount is denominated",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        },
+        {
+          "name": "arrearsMonths",
+          "data_type": "integer",
+          "nullable": true,
+          "description": "Number of months the customer has been in arrears"
+        },
+        {
+          "name": "status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current status of the arrears (e.g. active, early, no arrears)",
+          "enum_values": [
+            "ACTIVE_ARREARS",
+            "EARLY_ARREARS",
+            "NO_ARREARS"
+          ]
+        },
+        {
+          "name": "startDate",
+          "data_type": "date",
+          "nullable": true,
+          "description": "Date when the arrears started",
+          "fmt": "date"
+        },
+        {
+          "name": "lastPaymentDate",
+          "data_type": "date",
+          "nullable": true,
+          "description": "Date of the last payment made by the customer",
+          "fmt": "date"
+        },
+        {
+          "name": "nextPaymentDueDate",
+          "data_type": "date",
+          "nullable": true,
+          "description": "Date when the next payment is due from the customer",
+          "fmt": "date"
+        },
+        {
+          "name": "riskLevel",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Risk level associated with the arrears (e.g. high, medium, low)",
+          "enum_values": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        },
+        {
+          "name": "actionRequired",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Indicates whether action is required to resolve the arrears"
+        },
+        {
+          "name": "notes",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Additional notes or comments about the arrears status"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["credit: repayment_schedule"]
+    in_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    in_repayment_schedule_generated_date["repayment_schedule.generated_date"]
+    in_repayment_schedule_metadata_destination_system["repayment_schedule.metadata.destination_system"]
+    in_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    in_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    in_repayment_schedule_repayments_payment_number["repayment_schedule.repayments.payment_number"]
+    in_repayment_schedule_repayments_due_date["repayment_schedule.repayments.due_date"]
+    in_repayment_schedule_repayments_status["repayment_schedule.repayments.status"]
+    in_repayment_schedule_repayments_repayment_frequency["repayment_schedule.repayments.repayment_frequency"]
+  end
+  subgraph OUT["customer_services: dispute_chargeback_request"]
+    out_requestId["requestId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_customerDetails_customerId["customerDetails.customerId"]
+    out_customerDetails_customerName["customerDetails.customerName"]
+    out_transactionDetails_transactionId["transactionDetails.transactionId"]
+    out_transactionDetails_transactionDate["transactionDetails.transactionDate"]
+    out_disputeDetails_disputeType["disputeDetails.disputeType"]
+    out_evidenceProvided___type["evidenceProvided[].type"]
+  end
+  in_repayment_schedule_loan_id -->|RENAMED| out_requestId
+  in_repayment_schedule_generated_date -->|SEMANTIC| out_timestamp
+  in_repayment_schedule_metadata_destination_system -->|SEMANTIC| out_department
+  in_repayment_schedule_customer_id -->|EXACT| out_customerDetails_customerId
+  in_repayment_schedule_customer_name -->|EXACT| out_customerDetails_customerName
+  in_repayment_schedule_repayments_payment_number -->|SEMANTIC| out_transactionDetails_transactionId
+  in_repayment_schedule_repayments_due_date -->|SEMANTIC| out_transactionDetails_transactionDate
+  in_repayment_schedule_repayments_status -->|SEMANTIC| out_disputeDetails_disputeType
+  in_repayment_schedule_repayments_repayment_frequency -->|SEMANTIC| out_evidenceProvided___type

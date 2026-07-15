@@ -1,0 +1,189 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "arrears_status.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "1714538579997464"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's 'sanctionsListHit' object and the outbound file's 'arrears_status' array share similar concepts of risk assessment and customer information.",
+  "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "sourceSystem",
+      "sources": [
+        "risk_and_compliance"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source system as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "destinationSystem",
+      "sources": [
+        "credit"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same destination system as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "arrears_status",
+      "sources": [
+        "sanctionsListHit.riskFactors"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "customerId",
+      "sources": [
+        "matchedEntity.entityId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same source entity ID as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "accountNumber",
+      "sources": [
+        "associatedAccounts.accountNumber"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source account number as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "productType",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].listName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "arrearsAmount",
+      "sources": [
+        "sanctionsListHit.riskFactors"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "associatedAccounts[].currency"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source currency as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "arrearsMonths",
+      "sources": [
+        "sanctionsListHit.riskFactors"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "sanctionsListHit.status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same source status as an inbound field, but the outbound field name differs."
+    },
+    {
+      "outbound_field": "startDate",
+      "sources": [
+        "sanctionsListHit.auditTrail.detectionTimestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "lastPaymentDate",
+      "sources": [
+        "sanctionsListHit.auditTrail.detectionTimestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "nextPaymentDueDate",
+      "sources": [
+        "sanctionsListHit.auditTrail.detectionTimestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "riskLevel",
+      "sources": [
+        "sanctionsListHit.riskFactors"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "actionRequired",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "sanctionsListHit.reviewDetails.notes"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Same source notes as an inbound field, but the outbound field name differs."
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "funds_settlement.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "1f4d1b6218c95405"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
+      "providing_system": "investments",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "trade_records.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
+    "fingerprint": "5863e28d703e0fd3"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share similar concepts, such as settlement transactions and trade records, which could be connected by data lineage.",
+  "mappings": [
+    {
+      "outbound_field": "trade_records[].trade_id",
+      "sources": [
+        "settlements[].fund_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from fund ID to trade ID."
+    },
+    {
+      "outbound_field": "trade_records[].timestamp",
+      "sources": [
+        "settlements[].timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].trader_id",
+      "sources": [
+        "created_by"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Renamed from created by to trader ID."
+    },
+    {
+      "outbound_field": "trade_records[].department",
+      "sources": [
+        "from_department",
+        "to_department"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combination of from department and to department."
+    },
+    {
+      "outbound_field": "trade_records[].asset_class",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "trade_records[].instrument",
+      "sources": [
+        "settlements[].fund_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "trade_records[].side",
+      "sources": [
+        "settlements[].transaction_type"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from transaction type to side."
+    },
+    {
+      "outbound_field": "trade_records[].quantity",
+      "sources": [
+        "settlements[].amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].price",
+      "sources": [
+        "settlements[].amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].settlement_currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].trade_value",
+      "sources": [
+        "total_amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].counterparty",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "trade_records[].settlement_date",
+      "sources": [
+        "settlement_date"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "trade_records[].trading_venue",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "trade_records[].execution_venue",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.5,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "trade_records[].risk_level",
+      "sources": [
+        "settlements[].verified"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Captures the same concept or value as an inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "trade_records[].compliance_status",
+      "sources": [
+        "settlements[].settlement_status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from settlement status to compliance status."
+    }
+  ]
+}

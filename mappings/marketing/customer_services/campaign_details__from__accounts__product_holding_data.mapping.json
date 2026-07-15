@@ -1,0 +1,226 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "campaign_details.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "89dedbcc42df434e"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file contains product holding data, which could be used to create a marketing campaign, and the outbound file is a campaign details report.",
+  "mappings": [
+    {
+      "outbound_field": "campaign_id",
+      "sources": [
+        "product_holding_data.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The campaign ID likely corresponds to the timestamp of the product holding data."
+    },
+    {
+      "outbound_field": "campaign_name",
+      "sources": [
+        "product_holding_data.product_name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The campaign name is a renamed version of the product name."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "product_holding_data.source_department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The department from field is an exact copy of the source department field."
+    },
+    {
+      "outbound_field": "start_date",
+      "sources": [
+        "product_holding_data.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The start date likely corresponds to the timestamp of the product holding data."
+    },
+    {
+      "outbound_field": "end_date",
+      "sources": [
+        "product_holding_data.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The end date likely corresponds to the timestamp of the product holding data."
+    },
+    {
+      "outbound_field": "campaign_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely a marketing campaign type classification."
+    },
+    {
+      "outbound_field": "target_segment.age_range",
+      "sources": [
+        "product_holding_data.holdings[].customer_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target segment age range likely corresponds to the customer ID of the product holding data."
+    },
+    {
+      "outbound_field": "target_segment.account_type",
+      "sources": [
+        "product_holding_data.holdings[].account_number"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target segment account type likely corresponds to the account number of the product holding data."
+    },
+    {
+      "outbound_field": "target_segment.income_level",
+      "sources": [
+        "product_holding_data.holdings[].balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target segment income level likely corresponds to the balance of the product holding data."
+    },
+    {
+      "outbound_field": "target_segment.geographical_region",
+      "sources": [
+        "product_holding_data.holdings[].account_opened_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target segment geographical region likely corresponds to the account opened date of the product holding data."
+    },
+    {
+      "outbound_field": "budget.currency",
+      "sources": [
+        "product_holding_data.holdings[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The budget currency is an exact copy of the currency field in the product holding data."
+    },
+    {
+      "outbound_field": "budget.total_amount",
+      "sources": [
+        "product_holding_data.holdings[].balance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The budget total amount likely corresponds to the balance of the product holding data."
+    },
+    {
+      "outbound_field": "key_messages",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely marketing campaign key messages."
+    },
+    {
+      "outbound_field": "customer_service_requirements.expected_inquiry_volume",
+      "sources": [
+        "product_holding_data.holdings[].monthly_turnover"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The expected inquiry volume likely corresponds to the monthly turnover of the product holding data."
+    },
+    {
+      "outbound_field": "customer_service_requirements.support_languages",
+      "sources": [
+        "product_holding_data.holdings[].account_opened_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The support languages likely correspond to the account opened date of the product holding data."
+    },
+    {
+      "outbound_field": "customer_service_requirements.priority_topics",
+      "sources": [
+        "product_holding_data.holdings[].account_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The priority topics likely correspond to the account status of the product holding data."
+    },
+    {
+      "outbound_field": "customer_service_requirements.escalation_threshold",
+      "sources": [
+        "product_holding_data.holdings[].account_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The escalation threshold likely corresponds to the account status of the product holding data."
+    },
+    {
+      "outbound_field": "success_metrics.target_conversions",
+      "sources": [
+        "product_holding_data.holdings[].monthly_turnover"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target conversions likely correspond to the monthly turnover of the product holding data."
+    },
+    {
+      "outbound_field": "success_metrics.target_engagement_rate",
+      "sources": [
+        "product_holding_data.holdings[].monthly_turnover"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target engagement rate likely corresponds to the monthly turnover of the product holding data."
+    },
+    {
+      "outbound_field": "success_metrics.target_customer_satisfaction",
+      "sources": [
+        "product_holding_data.holdings[].account_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The target customer satisfaction likely corresponds to the account status of the product holding data."
+    },
+    {
+      "outbound_field": "created_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "created_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "version",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

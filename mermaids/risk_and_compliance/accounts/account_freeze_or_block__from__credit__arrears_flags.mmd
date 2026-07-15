@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph IN["credit: arrears_flags"]
+    in_arrears_flags___account_id["arrears_flags[].account_id"]
+    in_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    in_arrears_flags___product_type["arrears_flags[].product_type"]
+    in_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
+    in_arrears_flags___flag_severity["arrears_flags[].flag_severity"]
+    in_arrears_flags___notes["arrears_flags[].notes"]
+    in_arrears_flags___risk_category["arrears_flags[].risk_category"]
+  end
+  subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
+    out_account_product_type["account.product_type"]
+    out_account_arrears_status["account.arrears_status"]
+    out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_freezeDetails_reason["freezeDetails.reason"]
+    out_escalation_level["escalation.level"]
+  end
+  in_arrears_flags___account_id -->|RENAMED| out_account_accountNumber
+  in_arrears_flags___customer_name -->|RENAMED| out_account_accountHolder
+  in_arrears_flags___product_type -->|EXACT| out_account_product_type
+  in_arrears_flags___arrears_status -->|EXACT| out_account_arrears_status
+  in_arrears_flags___flag_severity -->|SEMANTIC| out_freezeDetails_freezeType
+  in_arrears_flags___notes -->|SEMANTIC| out_freezeDetails_reason
+  in_arrears_flags___risk_category -->|SEMANTIC| out_escalation_level

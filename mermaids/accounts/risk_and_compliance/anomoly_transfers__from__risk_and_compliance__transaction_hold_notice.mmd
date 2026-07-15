@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_timestamp["timestamp"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_accountNumber["accountNumber"]
+    in_recipientDepartment["recipientDepartment"]
+    in_noticeType["noticeType"]
+    in_riskScore["riskScore"]
+  end
+  subgraph OUT["accounts: anomoly_transfers"]
+    out_transfer_id["transfer_id"]
+    out_transfer_date["transfer_date"]
+    out_amount["amount"]
+    out_from_account["from_account"]
+    out_to_account["to_account"]
+    out_transfer_type["transfer_type"]
+    out_risk_score["risk_score"]
+  end
+  in_noticeId -->|EXACT| out_transfer_id
+  in_timestamp -->|RENAMED| out_transfer_date
+  in_transactionsAffected___amount -->|MERGE| out_amount
+  in_accountNumber -->|RENAMED| out_from_account
+  in_recipientDepartment -->|SEMANTIC| out_to_account
+  in_noticeType -->|RENAMED| out_transfer_type
+  in_riskScore -->|EXACT| out_risk_score

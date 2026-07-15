@@ -1,0 +1,198 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's sanctions list hit message shares concepts with the outbound file's loan disbursement instructions, such as entity matching and risk factors.",
+  "mappings": [
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_name",
+      "sources": [
+        "sanctionsListHit.matchedEntity.name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The borrower name is a concept shared between the two files."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "The disbursement amount is derived from risk factors associated with the sanctions list hit."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].currency",
+      "sources": [
+        "sanctionsListHit.matchedEntity.identificationDocuments[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The currency is a concept shared between the two files, related to identification documents."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_date",
+      "sources": [
+        "sanctionsListHit.auditTrail.detectionTimestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The disbursement date is a concept shared between the two files, related to audit trail detection timestamps."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].destination_account",
+      "sources": [
+        "sanctionsListHit.associatedAccounts[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The destination account is a concept shared between the two files, related to associated accounts."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].status",
+      "sources": [
+        "sanctionsListHit.status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The status field has been renamed from 'PENDING_REVIEW' to 'APPROVED/PENDING'."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].created_by",
+      "sources": [
+        "sanctionsListHit.reviewDetails.assignedTo"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The created by field is a concept shared between the two files, related to review details."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].created_date",
+      "sources": [
+        "sanctionsListHit.reviewDetails.reviewDeadline"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The created date field is a concept shared between the two files, related to review details."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].approved_by",
+      "sources": [
+        "sanctionsListHit.reviewDetails.assignedTo"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The approved by field is a concept shared between the two files, related to review details."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].approved_date",
+      "sources": [
+        "sanctionsListHit.reviewDetails.reviewDeadline"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The approved date field is a concept shared between the two files, related to review details."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].remarks",
+      "sources": [
+        "sanctionsListHit.reviewDetails.notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The remarks field is a concept shared between the two files, related to review details."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].instruction_id",
+      "sources": [
+        "sanctionsListHit.hitId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The instruction id field has been renamed from 'hitId' to 'instruction_id'."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].loan_id",
+      "sources": [
+        "sanctionsListHit.matchedEntity.entityId"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The loan id field is a concept shared between the two files, related to entity matching."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
+      "sources": [
+        "sanctionsListHit.matchedEntity.identificationDocuments[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The borrower account number is a concept shared between the two files, related to identification documents."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].disbursement_method",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The disbursement method field is a concept shared between the two files, related to sanction lists."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].purpose",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The purpose field is a concept shared between the two files, related to risk factors."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].loan_term_months",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The loan term months field is a concept shared between the two files, related to sanction lists."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].interest_rate",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The interest rate field is a concept shared between the two files, related to risk factors."
+    },
+    {
+      "outbound_field": "loan_disbursement_instructions[].record_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

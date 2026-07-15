@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["customer_services: address_updates"]
+    in_updateId["updateId"]
+    in_timestamp["timestamp"]
+    in_department["department"]
+    in_targetDepartment["targetDepartment"]
+    in_customerId["customerId"]
+    in_previousAddress_postalCode["previousAddress.postalCode"]
+    in_status["status"]
+    in_priority["priority"]
+  end
+  subgraph OUT["accounts: overdraft_usage"]
+    out_fileId["fileId"]
+    out_sentDate["sentDate"]
+    out_fromDepartment["fromDepartment"]
+    out_toDepartment["toDepartment"]
+    out_accountNumber["accountNumber"]
+    out_overdraftLimit["overdraftLimit"]
+    out_overdraftUsed["overdraftUsed"]
+    out_usagePercent["usagePercent"]
+    out_notes["notes"]
+  end
+  in_updateId -->|EXACT| out_fileId
+  in_timestamp -->|EXACT| out_sentDate
+  in_department -->|RENAMED| out_fromDepartment
+  in_targetDepartment -->|EXACT| out_toDepartment
+  in_customerId -->|RENAMED| out_accountNumber
+  in_previousAddress_postalCode -->|SEMANTIC| out_overdraftLimit
+  in_previousAddress_postalCode -->|SEMANTIC| out_overdraftUsed
+  in_previousAddress_postalCode -->|SEMANTIC| out_usagePercent
+  in_status -->|SEMANTIC| out_notes
+  in_priority -->|SEMANTIC| out_notes

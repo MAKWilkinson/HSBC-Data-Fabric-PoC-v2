@@ -1,0 +1,20 @@
+flowchart LR
+  subgraph IN["customer_services: address_updates"]
+    in_updateId["updateId"]
+    in_timestamp["timestamp"]
+    in_customerId["customerId"]
+    in_updateType["updateType"]
+  end
+  subgraph OUT["accounts: anomoly_transfers"]
+    out_transfer_id["transfer_id"]
+    out_transfer_date["transfer_date"]
+    out_amount["amount"]
+    out_from_account["from_account"]
+    out_to_account["to_account"]
+    out_transfer_type["transfer_type"]
+    out_risk_score["risk_score"]
+  end
+  in_updateId -->|EXACT| out_transfer_id
+  in_timestamp -->|RENAMED| out_transfer_date
+  in_customerId -->|SEMANTIC| out_from_account
+  in_updateType -->|RENAMED| out_transfer_type

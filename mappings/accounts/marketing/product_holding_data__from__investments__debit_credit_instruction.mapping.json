@@ -1,0 +1,111 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like account numbers, product IDs, and currency codes, which suggests a connection between the two systems.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "debit_credit_instructions.instructions[].transaction_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The customer ID is renamed from the transaction ID."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [
+        "debit_credit_instructions.instructions[].account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The account number is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_id",
+      "sources": [
+        "debit_credit_instructions.instructions[].fund_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The product ID is renamed from the fund ID."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "debit_credit_instructions.instructions[].status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The account status is renamed from the instruction status."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [
+        "debit_credit_instructions.instructions[].amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The balance is derived from the instruction amount, considering the transaction type."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].currency",
+      "sources": [
+        "debit_credit_instructions.instructions[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The currency is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_customers",
+      "sources": [
+        "debit_credit_instructions.total_debit_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The total customers is derived from the total debit amount, considering the account status."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_holdings",
+      "sources": [
+        "debit_credit_instructions.total_credit_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "The total holdings is derived from the total credit amount, considering the account status."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_balance",
+      "sources": [
+        "debit_credit_instructions.total_debit_amount",
+        "debit_credit_instructions.total_credit_amount"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "The total balance is derived from the total debit and credit amounts, considering the account status."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+flowchart LR
+  subgraph IN["credit: loan_application_data"]
+    in_loan_applications___customer_id["loan_applications[].customer_id"]
+    in_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    in_loan_applications___loan_details_purpose["loan_applications[].loan_details.purpose"]
+    in_loan_applications___timestamp["loan_applications[].timestamp"]
+    in_loan_applications___application_status["loan_applications[].application_status"]
+    in_loan_applications___loan_details_currency["loan_applications[].loan_details.currency"]
+    in_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+    in_loan_applications___submitted_by["loan_applications[].submitted_by"]
+    in_loan_applications___financial_profile_credit_score["loan_applications[].financial_profile.credit_score"]
+  end
+  subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
+    out_account_accountType["account.accountType"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_priority["priority"]
+    out_action["action"]
+    out_account_currency["account.currency"]
+    out_branch["branch"]
+    out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_freezeDetails_reason["freezeDetails.reason"]
+    out_freezeDetails_description["freezeDetails.description"]
+    out_freezeDetails_initiatedBy["freezeDetails.initiatedBy"]
+    out_freezeDetails_department["freezeDetails.department"]
+    out_escalation_level["escalation.level"]
+    out_escalation_requiresApproval["escalation.requiresApproval"]
+    out_escalation_approvalDeadline["escalation.approvalDeadline"]
+    out_escalation_complianceOfficer["escalation.complianceOfficer"]
+    out_additionalInfo_caseReference["additionalInfo.caseReference"]
+    out_additionalInfo_riskScore["additionalInfo.riskScore"]
+    out_additionalInfo_customerNotificationSent["additionalInfo.customerNotificationSent"]
+    out_additionalInfo_regulatoryReporting["additionalInfo.regulatoryReporting"]
+  end
+  in_loan_applications___customer_id -->|RENAMED| out_account_accountNumber
+  in_loan_applications___applicant_full_name -->|SEMANTIC| out_account_accountHolder
+  in_loan_applications___loan_details_purpose -->|SEMANTIC| out_account_accountType
+  in_loan_applications___timestamp -->|EXACT| out_timestamp
+  in_loan_applications___application_status -->|SEMANTIC| out_messageType
+  in_loan_applications___application_status -->|SEMANTIC| out_action
+  in_loan_applications___loan_details_currency -->|RENAMED| out_account_currency
+  in_loan_applications___collateral_property_value -->|SEMANTIC| out_freezeDetails_freezeType
+  in_loan_applications___application_status -->|SEMANTIC| out_freezeDetails_reason
+  in_loan_applications___submitted_by -->|RENAMED| out_freezeDetails_initiatedBy
+  in_loan_applications___financial_profile_credit_score -->|SEMANTIC| out_escalation_level
+  in_loan_applications___application_status -->|SEMANTIC| out_escalation_requiresApproval
+  in_loan_applications___financial_profile_credit_score -->|SEMANTIC| out_escalation_complianceOfficer
+  in_loan_applications___financial_profile_credit_score -->|SEMANTIC| out_additionalInfo_riskScore
+  in_loan_applications___financial_profile_credit_score -->|SEMANTIC| out_additionalInfo_regulatoryReporting

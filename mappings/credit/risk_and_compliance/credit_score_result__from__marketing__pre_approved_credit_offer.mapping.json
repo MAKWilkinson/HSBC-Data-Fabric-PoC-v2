@@ -1,0 +1,82 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "providing_system": "marketing",
+      "consuming_system": "credit",
+      "message_file_name": "pre_approved_credit_offer.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "c63cd952ba1aa1b2"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "providing_system": "credit",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "credit_score_result.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "0574b272efdab1ab"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "customer.name",
+      "sources": [
+        "customer_details.first_name",
+        "customer_details.last_name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as inbound fields, but renamed."
+    },
+    {
+      "outbound_field": "customer.date_of_birth",
+      "sources": [
+        "customer_details.date_of_birth"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+    },
+    {
+      "outbound_field": "credit_score.score",
+      "sources": [
+        "credit_offer.credit_score_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as inbound field without an exact name match."
+    },
+    {
+      "outbound_field": "credit_assessment.total_credit_limit",
+      "sources": [
+        "credit_offer.offer_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "Outbound field is derived from inbound data by computation or formatting."
+    },
+    {
+      "outbound_field": "risk_indicators.fraud_risk",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "review_status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Same concept as inbound field, but renamed."
+    }
+  ]
+}

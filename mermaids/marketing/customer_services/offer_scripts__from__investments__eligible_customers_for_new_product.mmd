@@ -1,0 +1,43 @@
+flowchart LR
+  subgraph IN["investments: eligible_customers_for_new_product"]
+    in_eligible_customers___customer_id["eligible_customers[].customer_id"]
+    in_metadata_product_name["metadata.product_name"]
+    in_eligible_customers___customer_name["eligible_customers[].customer_name"]
+    in_metadata_source_department["metadata.source_department"]
+    in_metadata_target_department["metadata.target_department"]
+    in_metadata_generated_date["metadata.generated_date"]
+    in_eligible_customers___customer_tenure_months["eligible_customers[].customer_tenure_months"]
+    in_eligible_customers___investment_experience_level["eligible_customers[].investment_experience_level"]
+    in_eligible_customers___recommended_product_allocation["eligible_customers[].recommended_product_allocation"]
+    in_eligible_customers___last_investment_activity["eligible_customers[].last_investment_activity"]
+  end
+  subgraph OUT["marketing: offer_scripts"]
+    out_id["id"]
+    out_name["name"]
+    out_department_from["department_from"]
+    out_department_to["department_to"]
+    out_created_date["created_date"]
+    out_effective_date["effective_date"]
+    out_status["status"]
+    out_target_segment["target_segment"]
+    out_script_type["script_type"]
+    out_duration_seconds["duration_seconds"]
+    out_content["content"]
+    out_call_to_action["call_to_action"]
+    out_success_metric["success_metric"]
+  end
+  in_eligible_customers___customer_id -->|EXACT| out_id
+  in_metadata_product_name -->|SEMANTIC| out_name
+  in_eligible_customers___customer_name -->|SEMANTIC| out_name
+  in_metadata_source_department -->|EXACT| out_department_from
+  in_metadata_target_department -->|EXACT| out_department_to
+  in_metadata_generated_date -->|EXACT| out_created_date
+  in_metadata_generated_date -->|SEMANTIC| out_effective_date
+  in_eligible_customers___customer_tenure_months -->|SEMANTIC| out_target_segment
+  in_eligible_customers___investment_experience_level -->|SEMANTIC| out_target_segment
+  in_eligible_customers___recommended_product_allocation -->|SEMANTIC| out_script_type
+  in_eligible_customers___last_investment_activity -->|SEMANTIC| out_duration_seconds
+  in_metadata_product_name -->|SEMANTIC| out_content
+  in_eligible_customers___customer_tenure_months -->|SEMANTIC| out_content
+  in_eligible_customers___customer_tenure_months -->|SEMANTIC| out_call_to_action
+  in_eligible_customers___recommended_product_allocation -->|SEMANTIC| out_success_metric

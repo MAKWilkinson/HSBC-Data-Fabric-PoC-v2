@@ -1,0 +1,157 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+    "providing_system": "customer_services",
+    "consuming_system": "accounts",
+    "message_file_name": "address_updates.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "updateId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the address update request"
+    },
+    {
+      "name": "customerId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the customer associated with the address update"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the address update was requested",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that originated the address update request"
+    },
+    {
+      "name": "targetDepartment",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Target department for the address update request"
+    },
+    {
+      "name": "updateType",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Type of address update (e.g., change, correction)",
+      "enum_values": [
+        "address_change",
+        "other"
+      ]
+    },
+    {
+      "name": "previousAddress",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Previous address information for the customer",
+      "children": [
+        {
+          "name": "addressLine1",
+          "data_type": "string",
+          "nullable": true,
+          "description": "First line of the previous address"
+        },
+        {
+          "name": "addressLine2",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Second line of the previous address (if applicable)"
+        },
+        {
+          "name": "city",
+          "data_type": "string",
+          "nullable": false,
+          "description": "City of the previous address"
+        },
+        {
+          "name": "postalCode",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Postal code of the previous address"
+        },
+        {
+          "name": "country",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Country of the previous address",
+          "enum_values": [
+            "United Kingdom",
+            "other"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "newAddress",
+      "data_type": "object",
+      "nullable": false,
+      "description": "New address information for the customer",
+      "children": [
+        {
+          "name": "addressLine1",
+          "data_type": "string",
+          "nullable": true,
+          "description": "First line of the new address"
+        },
+        {
+          "name": "addressLine2",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Second line of the new address (if applicable)"
+        },
+        {
+          "name": "city",
+          "data_type": "string",
+          "nullable": false,
+          "description": "City of the new address"
+        },
+        {
+          "name": "postalCode",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Postal code of the new address"
+        },
+        {
+          "name": "country",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Country of the new address",
+          "enum_values": [
+            "United Kingdom",
+            "other"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Current status of the address update request (e.g., pending, approved)",
+      "enum_values": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Priority level of the address update request (e.g., normal, high)",
+      "enum_values": [
+        "normal",
+        "high"
+      ]
+    }
+  ]
+}

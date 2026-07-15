@@ -1,0 +1,147 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+    "providing_system": "accounts",
+    "consuming_system": "investments",
+    "message_file_name": "funds_settlement.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "settlement_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the settlement transaction"
+    },
+    {
+      "name": "settlement_date",
+      "data_type": "date",
+      "nullable": false,
+      "description": "Date of the settlement transaction",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "from_department",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that initiated the settlement"
+    },
+    {
+      "name": "to_department",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Department that received the settlement"
+    },
+    {
+      "name": "currency",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Currency used for the settlement transaction",
+      "fmt": "currency_code",
+      "enum_values": [
+        "GBP"
+      ]
+    },
+    {
+      "name": "total_amount",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Total amount of the settlement transaction"
+    },
+    {
+      "name": "settlement_status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Status of the settlement transaction (e.g. completed, pending)",
+      "enum_values": [
+        "completed"
+      ]
+    },
+    {
+      "name": "settlements",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Array of individual settlements within the transaction",
+      "children": [
+        {
+          "name": "fund_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the fund"
+        },
+        {
+          "name": "fund_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Name of the fund"
+        },
+        {
+          "name": "transaction_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of transaction (e.g. transfer_in, transfer_out)",
+          "enum_values": [
+            "transfer_in"
+          ]
+        },
+        {
+          "name": "amount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Amount transferred for the fund"
+        },
+        {
+          "name": "reference",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Reference number for the transaction"
+        },
+        {
+          "name": "timestamp",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp of the transaction",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "verified",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Verification status of the transaction",
+          "enum_values": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "created_by",
+      "data_type": "string",
+      "nullable": true,
+      "description": "System that created the settlement message"
+    },
+    {
+      "name": "approved_by",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Person who approved the settlement transaction",
+      "fmt": "email",
+      "enum_values": [
+        "john.smith@hsbc.com"
+      ]
+    },
+    {
+      "name": "approval_timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of approval for the settlement transaction",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional notes or comments about the settlement transaction"
+    }
+  ]
+}

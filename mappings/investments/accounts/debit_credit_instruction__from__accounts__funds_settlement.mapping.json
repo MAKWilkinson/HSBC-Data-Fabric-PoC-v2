@@ -1,0 +1,56 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "funds_settlement.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "1f4d1b6218c95405"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share similar concepts, such as settlement transactions and debit/credit instructions, which could be connected by data lineage.",
+  "mappings": [
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].transaction_id",
+      "sources": [
+        "settlements[].fund_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The transaction ID is renamed from fund ID."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].account_number",
+      "sources": [
+        "settlements[].fund_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The account number is derived from the fund name."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].amount",
+      "sources": [
+        "settlements[].amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The amount is copied exactly from the settlement transaction."
+    }
+  ]
+}

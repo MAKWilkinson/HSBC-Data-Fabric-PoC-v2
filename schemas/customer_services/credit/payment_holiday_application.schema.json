@@ -1,0 +1,208 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+    "providing_system": "customer_services",
+    "consuming_system": "credit",
+    "message_file_name": "payment_holiday_application.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "applicationId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the payment holiday application"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the application was submitted",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "department",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the department that originated the data",
+      "children": [
+        {
+          "name": "source",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Source of the application (customer services)"
+        },
+        {
+          "name": "destination",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Destination of the application (credit department)"
+        }
+      ]
+    },
+    {
+      "name": "customer",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the customer making the request",
+      "children": [
+        {
+          "name": "customerId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Full name of the customer"
+        },
+        {
+          "name": "email",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Email address of the customer",
+          "fmt": "email"
+        },
+        {
+          "name": "phone",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Phone number of the customer",
+          "fmt": "phone"
+        }
+      ]
+    },
+    {
+      "name": "account",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the account being requested for payment holiday",
+      "children": [
+        {
+          "name": "accountNumber",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the account"
+        },
+        {
+          "name": "accountType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of account being requested (Mortgage)"
+        },
+        {
+          "name": "loanAmount",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Original loan amount for the mortgage",
+          "fmt": "currency"
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Currency of the account (GBP)",
+          "fmt": "currency_code"
+        },
+        {
+          "name": "currentBalance",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Current balance of the account",
+          "fmt": "currency"
+        }
+      ]
+    },
+    {
+      "name": "paymentHolidayRequest",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the payment holiday request",
+      "children": [
+        {
+          "name": "requestedMonths",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of months requested for payment holiday"
+        },
+        {
+          "name": "startDate",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Start date of the payment holiday period",
+          "fmt": "date"
+        },
+        {
+          "name": "endDate",
+          "data_type": "date",
+          "nullable": false,
+          "description": "End date of the payment holiday period",
+          "fmt": "date"
+        },
+        {
+          "name": "reason",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Reason for requesting a payment holiday (Temporary financial hardship due to job loss)"
+        },
+        {
+          "name": "monthlyPayment",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Monthly payment amount during the payment holiday period",
+          "fmt": "currency"
+        }
+      ]
+    },
+    {
+      "name": "applicationStatus",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Current status of the application (PENDING_REVIEW)"
+    },
+    {
+      "name": "requestedBy",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the person requesting the payment holiday",
+      "children": [
+        {
+          "name": "employeeId",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the employee"
+        },
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Full name of the person requesting the payment holiday"
+        },
+        {
+          "name": "role",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Role of the person requesting the payment holiday (Customer Service Representative)"
+        }
+      ]
+    },
+    {
+      "name": "additionalNotes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional notes or comments about the application"
+    },
+    {
+      "name": "supportingDocuments",
+      "data_type": "array",
+      "nullable": false,
+      "description": "List of supporting documents for the application",
+      "enum_values": [
+        "employment_termination_letter",
+        "financial_hardship_declaration"
+      ]
+    }
+  ]
+}

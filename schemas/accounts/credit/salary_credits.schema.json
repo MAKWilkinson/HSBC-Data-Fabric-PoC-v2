@@ -1,0 +1,275 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+    "providing_system": "accounts",
+    "consuming_system": "credit",
+    "message_file_name": "salary_credits.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "transaction_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the transaction"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of the transaction",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "amount",
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Amount of the salary credit",
+      "fmt": "currency"
+    },
+    {
+      "name": "currency",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Currency of the transaction",
+      "fmt": "currency_code",
+      "enum_values": [
+        "GBP"
+      ]
+    },
+    {
+      "name": "employee",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the employee receiving the salary credit",
+      "children": [
+        {
+          "name": "employee_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the employee"
+        },
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the employee"
+        },
+        {
+          "name": "position",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Job title or position of the employee"
+        },
+        {
+          "name": "personal_account",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Information about the employee's personal account",
+          "children": [
+            {
+              "name": "account_number",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Account number of the employee's personal account",
+              "fmt": "account_number",
+              "enum_values": [
+                "12345678"
+              ]
+            },
+            {
+              "name": "sort_code",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Sort code of the employee's personal account",
+              "fmt": "sort_code",
+              "enum_values": [
+                "40-12-34"
+              ]
+            },
+            {
+              "name": "bank_name",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Name of the bank associated with the employee's personal account",
+              "enum_values": [
+                "HSBC UK"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "department_from",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the department that originated the salary credit",
+      "children": [
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the originating department",
+          "enum_values": [
+            "Accounts Department"
+          ]
+        },
+        {
+          "name": "department_code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Code of the originating department",
+          "enum_values": [
+            "ACCT-01"
+          ]
+        },
+        {
+          "name": "contact",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Contact information for the originating department",
+          "fmt": "email",
+          "enum_values": [
+            "accounts-payroll@hsbc.example"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "department_to",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the department that received the salary credit",
+      "children": [
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the receiving department",
+          "enum_values": [
+            "Credit Department"
+          ]
+        },
+        {
+          "name": "department_code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Code of the receiving department",
+          "enum_values": [
+            "CRED-02"
+          ]
+        },
+        {
+          "name": "contact",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Contact information for the receiving department",
+          "fmt": "email",
+          "enum_values": [
+            "credit-ops@hsbc.example"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "authorizer",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the person who authorized the salary credit",
+      "children": [
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the authorizer",
+          "enum_values": [
+            "Sandra Lee"
+          ]
+        },
+        {
+          "name": "employee_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the authorizer",
+          "enum_values": [
+            "E-10012"
+          ]
+        },
+        {
+          "name": "role",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Role of the authorizer",
+          "enum_values": [
+            "Payroll Manager"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reference",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique reference for the salary credit transaction",
+      "enum_values": [
+        "Payroll-June-2026-EM-10234"
+      ]
+    },
+    {
+      "name": "status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Status of the salary credit transaction",
+      "enum_values": [
+        "Completed"
+      ]
+    },
+    {
+      "name": "settlement_details",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the settlement process for the salary credit",
+      "children": [
+        {
+          "name": "initiated_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the settlement was initiated",
+          "fmt": "iso8601",
+          "enum_values": [
+            "2026-06-23T09:15:00Z"
+          ]
+        },
+        {
+          "name": "settled_at",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Timestamp when the settlement was completed",
+          "fmt": "iso8601",
+          "enum_values": [
+            "2026-06-23T09:15:05Z"
+          ]
+        },
+        {
+          "name": "clearing_method",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Method used for clearing the settlement",
+          "enum_values": [
+            "Faster Payments"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional notes or comments about the salary credit transaction",
+      "enum_values": [
+        "Monthly salary credit for June 2026"
+      ]
+    }
+  ]
+}

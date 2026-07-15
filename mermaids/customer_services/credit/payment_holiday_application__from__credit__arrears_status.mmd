@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph IN["credit: arrears_status"]
+    in_arrears_status___customerId["arrears_status[].customerId"]
+    in_arrears_status___accountNumber["arrears_status[].accountNumber"]
+    in_arrears_status___arrearsMonths["arrears_status[].arrearsMonths"]
+    in_arrears_status___startDate["arrears_status[].startDate"]
+  end
+  subgraph OUT["customer_services: payment_holiday_application"]
+    out_customer_customerId["customer.customerId"]
+    out_customer_name["customer.name"]
+    out_customer_email["customer.email"]
+    out_account_accountNumber["account.accountNumber"]
+    out_paymentHolidayRequest_requestedMonths["paymentHolidayRequest.requestedMonths"]
+    out_paymentHolidayRequest_startDate["paymentHolidayRequest.startDate"]
+  end
+  in_arrears_status___customerId -->|EXACT| out_customer_customerId
+  in_arrears_status___customerId -->|SEMANTIC| out_customer_name
+  in_arrears_status___accountNumber -->|SEMANTIC| out_customer_name
+  in_arrears_status___accountNumber -->|EXACT| out_account_accountNumber
+  in_arrears_status___arrearsMonths -->|EXACT| out_paymentHolidayRequest_requestedMonths
+  in_arrears_status___startDate -->|EXACT| out_paymentHolidayRequest_startDate

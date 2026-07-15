@@ -1,0 +1,49 @@
+flowchart LR
+  subgraph IN["investments: position_concentration"]
+    in_message_id["message_id"]
+    in_timestamp["timestamp"]
+    in_source_department["source_department"]
+    in_destination_department["destination_department"]
+    in_risk_level["risk_level"]
+    in_data_portfolio_summary_total_positions["data.portfolio_summary.total_positions"]
+    in_customerName["customerName"]
+    in_data_concentration_by_sector["data.concentration_by_sector"]
+  end
+  subgraph OUT["risk_and_compliance: transaction_hold_notice"]
+    out_noticeId["noticeId"]
+    out_timestamp["timestamp"]
+    out_department["department"]
+    out_recipientDepartment["recipientDepartment"]
+    out_noticeType["noticeType"]
+    out_severity["severity"]
+    out_accountNumber["accountNumber"]
+    out_customerId["customerId"]
+    out_customerName["customerName"]
+    out_holdReason["holdReason"]
+    out_holdEffectiveDate["holdEffectiveDate"]
+    out_estimatedHoldDuration["estimatedHoldDuration"]
+    out_transactionsAffected["transactionsAffected"]
+    out_riskScore["riskScore"]
+    out_riskFlags["riskFlags"]
+    out_requiredActions["requiredActions"]
+    out_escalationLevel["escalationLevel"]
+    out_approvalRequired["approvalRequired"]
+    out_approverRole["approverRole"]
+    out_notes["notes"]
+    out_expiryDate["expiryDate"]
+    out_issuedBy["issuedBy"]
+    out_priority["priority"]
+  end
+  in_message_id -->|EXACT| out_noticeId
+  in_timestamp -->|EXACT| out_timestamp
+  in_source_department -->|RENAMED| out_department
+  in_destination_department -->|RENAMED| out_recipientDepartment
+  in_risk_level -->|SEMANTIC| out_severity
+  in_data_portfolio_summary_total_positions -->|TRANSFORMED| out_accountNumber
+  in_customerName -->|SEMANTIC| out_customerId
+  in_data_portfolio_summary_total_positions -->|TRANSFORMED| out_customerName
+  in_timestamp -->|EXACT| out_holdEffectiveDate
+  in_data_concentration_by_sector -->|MERGE| out_transactionsAffected
+  in_data_concentration_by_sector -->|MERGE| out_riskFlags
+  in_timestamp -->|EXACT| out_expiryDate
+  in_risk_level -->|SEMANTIC| out_priority

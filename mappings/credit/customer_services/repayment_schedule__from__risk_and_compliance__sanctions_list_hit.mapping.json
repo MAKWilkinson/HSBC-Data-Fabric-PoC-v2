@@ -1,0 +1,151 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "credit",
+      "message_file_name": "sanctions_list_hit.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "af91b511895fb246"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "providing_system": "credit",
+      "consuming_system": "customer_services",
+      "message_file_name": "repayment_schedule.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "92c002733b77b1ec"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share concepts like customer name, address, and loan information, which makes sense as a pipeline step from risk_and_compliance to credit.",
+  "mappings": [
+    {
+      "outbound_field": "repayment_schedule.customer_id",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the message ID."
+    },
+    {
+      "outbound_field": "repayment_schedule.customer_name",
+      "sources": [
+        "sanctionsListHit.matchedEntity.name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as the matched entity name."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_id",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the message ID."
+    },
+    {
+      "outbound_field": "repayment_schedule.principal_amount",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].listVersion"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Derived from the sanction list version."
+    },
+    {
+      "outbound_field": "repayment_schedule.interest_rate",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Same concept as the risk factors."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_term_months",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].matchScore"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.5,
+      "reasoning": "Derived from the match score."
+    },
+    {
+      "outbound_field": "repayment_schedule.start_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp."
+    },
+    {
+      "outbound_field": "repayment_schedule.maturity_date",
+      "sources": [
+        "sanctionsListHit.reviewDetails.reviewDeadline"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as the review deadline."
+    },
+    {
+      "outbound_field": "repayment_schedule.currency",
+      "sources": [
+        "sanctionsListHit.matchedEntity.nationality"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Same concept as the nationality."
+    },
+    {
+      "outbound_field": "repayment_schedule.schedule_version",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "repayment_schedule.generated_date",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the timestamp."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayment_frequency",
+      "sources": [
+        "sanctionsListHit.sanctionListsMatched[].listName"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as the sanction list name."
+    },
+    {
+      "outbound_field": "repayment_schedule.total_repayments",
+      "sources": [
+        "sanctionsListHit.riskFactors[]"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Derived from the risk factors."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

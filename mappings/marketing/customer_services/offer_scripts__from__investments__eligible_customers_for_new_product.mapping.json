@@ -1,0 +1,147 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
+      "providing_system": "investments",
+      "consuming_system": "marketing",
+      "message_file_name": "eligible_customers_for_new_product.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "317394ffaaa6bd66"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "providing_system": "marketing",
+      "consuming_system": "customer_services",
+      "message_file_name": "offer_scripts.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "add593882baa2b92"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file provides eligible customers for a new product, and the outbound file offers scripts to customer services based on those customers' characteristics.",
+  "mappings": [
+    {
+      "outbound_field": "id",
+      "sources": [
+        "eligible_customers[].customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID from the inbound file."
+    },
+    {
+      "outbound_field": "name",
+      "sources": [
+        "metadata.product_name",
+        "eligible_customers[].customer_name"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Combination of product name and customer name to form the offer script's name."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "metadata.source_department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the source department from the inbound file."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "metadata.target_department"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the target department from the inbound file."
+    },
+    {
+      "outbound_field": "created_date",
+      "sources": [
+        "metadata.generated_date"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the generated date from the inbound file."
+    },
+    {
+      "outbound_field": "effective_date",
+      "sources": [
+        "metadata.generated_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as generated date, but with a different name."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "target_segment",
+      "sources": [
+        "eligible_customers[].customer_tenure_months",
+        "eligible_customers[].investment_experience_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Combination of customer tenure and investment experience to form the target segment."
+    },
+    {
+      "outbound_field": "script_type",
+      "sources": [
+        "eligible_customers[].recommended_product_allocation"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as recommended product allocation, but with a different name."
+    },
+    {
+      "outbound_field": "duration_seconds",
+      "sources": [
+        "eligible_customers[].last_investment_activity"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as last investment activity, but with a different name."
+    },
+    {
+      "outbound_field": "content",
+      "sources": [
+        "metadata.product_name",
+        "eligible_customers[].customer_tenure_months"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Combination of product name and customer tenure to form the script content."
+    },
+    {
+      "outbound_field": "call_to_action",
+      "sources": [
+        "eligible_customers[].customer_tenure_months"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as customer tenure, but with a different name."
+    },
+    {
+      "outbound_field": "success_metric",
+      "sources": [
+        "eligible_customers[].recommended_product_allocation"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Same concept as recommended product allocation, but with a different name."
+    }
+  ]
+}

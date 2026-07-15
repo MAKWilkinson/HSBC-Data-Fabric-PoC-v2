@@ -1,0 +1,86 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "investments",
+      "message_file_name": "available_cash_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "06b9a31daf92a921"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "providing_system": "investments",
+      "consuming_system": "accounts",
+      "message_file_name": "debit_credit_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "4912399b5613c4fb"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file provides available cash balance information, which could be used to generate debit/credit instructions for accounts. The systems involved (accounts and investments) also form a plausible pipeline step.",
+  "mappings": [
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].transaction_id",
+      "sources": [
+        "messageId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "The transaction ID is renamed from the message ID."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].account_number",
+      "sources": [
+        "accountNumber"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The account number is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].instruction_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].amount",
+      "sources": [
+        "availableCashBalance"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "The amount is derived from the available cash balance, capturing a similar concept."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 1.0,
+      "reasoning": "The currency is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].total_debit_amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].total_credit_amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

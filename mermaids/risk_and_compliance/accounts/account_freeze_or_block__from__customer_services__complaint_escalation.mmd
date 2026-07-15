@@ -1,0 +1,51 @@
+flowchart LR
+  subgraph IN["customer_services: complaint_escalation"]
+    in_escalation_id["escalation_id"]
+    in_timestamp["timestamp"]
+    in_source_department["source_department"]
+    in_target_department["target_department"]
+    in_complaint_complaint_type["complaint.complaint_type"]
+    in_severity_level["severity_level"]
+    in_escalation_reason["escalation_reason"]
+    in_complaint_account_number["complaint.account_number"]
+    in_complaint_customer_name["complaint.customer_name"]
+    in_complaint_currency["complaint.currency"]
+    in_complaint_description["complaint.description"]
+    in_assigned_to["assigned_to"]
+  end
+  subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_priority["priority"]
+    out_action["action"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
+    out_account_accountType["account.accountType"]
+    out_account_currency["account.currency"]
+    out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_freezeDetails_reason["freezeDetails.reason"]
+    out_freezeDetails_description["freezeDetails.description"]
+    out_freezeDetails_initiatedBy["freezeDetails.initiatedBy"]
+    out_freezeDetails_department["freezeDetails.department"]
+    out_escalation_level["escalation.level"]
+  end
+  in_escalation_id -->|EXACT| out_messageId
+  in_timestamp -->|EXACT| out_timestamp
+  in_source_department -->|RENAMED| out_source
+  in_target_department -->|RENAMED| out_destination
+  in_complaint_complaint_type -->|SEMANTIC| out_messageType
+  in_severity_level -->|RENAMED| out_priority
+  in_escalation_reason -->|SEMANTIC| out_action
+  in_complaint_account_number -->|EXACT| out_account_accountNumber
+  in_complaint_customer_name -->|RENAMED| out_account_accountHolder
+  in_complaint_complaint_type -->|SEMANTIC| out_account_accountType
+  in_complaint_currency -->|EXACT| out_account_currency
+  in_escalation_reason -->|SEMANTIC| out_freezeDetails_freezeType
+  in_escalation_reason -->|SEMANTIC| out_freezeDetails_reason
+  in_complaint_description -->|SEMANTIC| out_freezeDetails_description
+  in_assigned_to -->|RENAMED| out_freezeDetails_initiatedBy
+  in_source_department -->|RENAMED| out_freezeDetails_department
+  in_severity_level -->|SEMANTIC| out_escalation_level

@@ -17,6 +17,7 @@ import time
 
 from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
 import config
+import persistence
 
 import logging
 logger = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ def call_llm(
             # Assumes the injected client exposes `complete(prompt) -> str`.
             # Once the SDK is chosen, change only this line (and the import).
             response: str = client.chat(prompt)
+            persistence.record_raw_response(response, label="response")
             return config.extract_json(response)
         
         except Exception as error:  # noqa: BLE001 - SDK undecided; retry broadly

@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph IN["accounts: overdraft_usage"]
+    in_fileId["fileId"]
+    in_sentDate["sentDate"]
+    in_fromDepartment["fromDepartment"]
+    in_toDepartment["toDepartment"]
+    in_accountNumber["accountNumber"]
+    in_overdraftUsed["overdraftUsed"]
+    in_overdraftLimit["overdraftLimit"]
+    in_usagePercent["usagePercent"]
+  end
+  subgraph OUT["credit: credit_score_result"]
+    out_result_id["result_id"]
+    out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_destination_department["destination_department"]
+    out_customer_customer_id["customer.customer_id"]
+    out_credit_score_score["credit_score.score"]
+    out_credit_assessment_total_credit_limit["credit_assessment.total_credit_limit"]
+    out_credit_assessment_outstanding_balance["credit_assessment.outstanding_balance"]
+    out_credit_assessment_utilization_rate["credit_assessment.utilization_rate"]
+    out_risk_indicators_fraud_risk["risk_indicators.fraud_risk"]
+  end
+  in_fileId -->|EXACT| out_result_id
+  in_sentDate -->|RENAMED| out_timestamp
+  in_fromDepartment -->|EXACT| out_source_department
+  in_toDepartment -->|EXACT| out_destination_department
+  in_accountNumber -->|RENAMED| out_customer_customer_id
+  in_overdraftUsed -->|SEMANTIC| out_credit_score_score
+  in_overdraftLimit -->|SEMANTIC| out_credit_score_score
+  in_overdraftLimit -->|EXACT| out_credit_assessment_total_credit_limit
+  in_overdraftUsed -->|EXACT| out_credit_assessment_outstanding_balance
+  in_usagePercent -->|SEMANTIC| out_credit_assessment_utilization_rate

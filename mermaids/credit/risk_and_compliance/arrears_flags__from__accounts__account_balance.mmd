@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph IN["accounts: account_balance"]
+    in_account_id["account_id"]
+    in_customer_id["customer_id"]
+    in_account_type["account_type"]
+    in_account_status["account_status"]
+    in_balance["balance"]
+    in_available_balance["available_balance"]
+    in_last_updated["last_updated"]
+  end
+  subgraph OUT["credit: arrears_flags"]
+    out_arrears_flags___account_id["arrears_flags[].account_id"]
+    out_arrears_flags___customer_id["arrears_flags[].customer_id"]
+    out_arrears_flags___product_type["arrears_flags[].product_type"]
+    out_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    out_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
+    out_arrears_flags___outstanding_balance["arrears_flags[].outstanding_balance"]
+    out_arrears_flags___minimum_payment_due["arrears_flags[].minimum_payment_due"]
+    out_arrears_flags___payment_due_date["arrears_flags[].payment_due_date"]
+    out_arrears_flags___flag_date["arrears_flags[].flag_date"]
+  end
+  in_account_id -->|EXACT| out_arrears_flags___account_id
+  in_customer_id -->|EXACT| out_arrears_flags___customer_id
+  in_account_type -->|SEMANTIC| out_arrears_flags___product_type
+  in_customer_id -->|SEMANTIC| out_arrears_flags___customer_name
+  in_account_status -->|SEMANTIC| out_arrears_flags___arrears_status
+  in_balance -->|TRANSFORMED| out_arrears_flags___outstanding_balance
+  in_available_balance -->|TRANSFORMED| out_arrears_flags___minimum_payment_due
+  in_last_updated -->|TRANSFORMED| out_arrears_flags___payment_due_date
+  in_last_updated -->|TRANSFORMED| out_arrears_flags___flag_date

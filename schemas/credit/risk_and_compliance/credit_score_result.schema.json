@@ -1,0 +1,258 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+    "providing_system": "credit",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "credit_score_result.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "result_id",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the credit score result"
+    },
+    {
+      "name": "timestamp",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp of when the credit score was generated",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "source_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that originated the data (credit)"
+    },
+    {
+      "name": "destination_department",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that received the credit score result (risk_and_compliance)"
+    },
+    {
+      "name": "customer",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Information about the customer",
+      "children": [
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The customer's name (John Smith)"
+        },
+        {
+          "name": "date_of_birth",
+          "data_type": "date",
+          "nullable": false,
+          "description": "The customer's date of birth (1985-06-15)",
+          "fmt": "date"
+        },
+        {
+          "name": "account_number",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The customer's account number (GB89HSBC12345678901234)",
+          "fmt": "iban"
+        }
+      ]
+    },
+    {
+      "name": "credit_score",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Credit score information",
+      "children": [
+        {
+          "name": "score",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "The credit score (745)",
+          "enum_values": [
+            "300",
+            "850"
+          ]
+        },
+        {
+          "name": "score_range_min",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Minimum value of the credit score range (300)",
+          "enum_values": [
+            "300"
+          ]
+        },
+        {
+          "name": "score_range_max",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Maximum value of the credit score range (850)",
+          "enum_values": [
+            "850"
+          ]
+        },
+        {
+          "name": "rating",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Credit rating (Good)",
+          "enum_values": [
+            "Good"
+          ]
+        },
+        {
+          "name": "assessment_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of credit assessment (2024-01-15)",
+          "fmt": "date"
+        }
+      ]
+    },
+    {
+      "name": "credit_assessment",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Credit assessment information",
+      "children": [
+        {
+          "name": "total_credit_limit",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Total credit limit (50000)",
+          "enum_values": [
+            "50000"
+          ]
+        },
+        {
+          "name": "outstanding_balance",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Outstanding balance (12500)",
+          "enum_values": [
+            "12500"
+          ]
+        },
+        {
+          "name": "utilization_rate",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Credit utilization rate (0.25)",
+          "fmt": "percentage"
+        },
+        {
+          "name": "payment_history_score",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Payment history score (95)",
+          "enum_values": [
+            "95"
+          ]
+        },
+        {
+          "name": "delinquencies",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of delinquencies (0)",
+          "enum_values": [
+            "0"
+          ]
+        },
+        {
+          "name": "default_risk_level",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Default risk level (Low)",
+          "enum_values": [
+            "Low"
+          ]
+        },
+        {
+          "name": "recommended_action",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Recommended action (Approve)",
+          "enum_values": [
+            "Approve"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "risk_indicators",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Risk indicators information",
+      "children": [
+        {
+          "name": "fraud_risk",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Fraud risk level (Low)",
+          "enum_values": [
+            "Low"
+          ]
+        },
+        {
+          "name": "compliance_flags",
+          "data_type": "array",
+          "nullable": true,
+          "description": "Compliance flags (empty array)",
+          "children": [
+            {
+              "name": "flag",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Individual compliance flag"
+            }
+          ]
+        },
+        {
+          "name": "regulatory_concerns",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Regulatory concerns (None)",
+          "enum_values": [
+            "None"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "review_status",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Review status (Completed)",
+      "enum_values": [
+        "Completed"
+      ]
+    },
+    {
+      "name": "reviewed_by",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Person who reviewed the credit score result (CREDIT-ANALYST-042)",
+      "enum_values": [
+        "CREDIT-ANALYST-042"
+      ]
+    },
+    {
+      "name": "approval_signature",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Digital signature for approval (A45CD7EF9K2L5MN8)",
+      "enum_values": [
+        "A45CD7EF9K2L5MN8"
+      ]
+    }
+  ]
+}

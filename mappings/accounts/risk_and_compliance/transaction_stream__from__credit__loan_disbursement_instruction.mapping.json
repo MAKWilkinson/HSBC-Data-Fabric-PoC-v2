@@ -1,0 +1,83 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+      "providing_system": "accounts",
+      "consuming_system": "risk_and_compliance",
+      "message_file_name": "transaction_stream.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
+    "fingerprint": "ea72bfbe5aab17bb"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts such as loan disbursement, borrower information, and transaction details, making them plausibly connected by data lineage.",
+  "mappings": [
+    {
+      "outbound_field": "transaction_id",
+      "sources": [
+        "loan_disbursement_instructions[].instruction_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the instruction ID from the inbound file."
+    },
+    {
+      "outbound_field": "counterparty_system",
+      "sources": [
+        "loan_disbursement_instructions[].destination_account"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Renamed from destination account to counterparty system."
+    },
+    {
+      "outbound_field": "transaction_date",
+      "sources": [
+        "loan_disbursement_instructions[].disbursement_date"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the disbursement date from the inbound file."
+    },
+    {
+      "outbound_field": "amount",
+      "sources": [
+        "loan_disbursement_instructions[].disbursement_amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the disbursement amount from the inbound file."
+    },
+    {
+      "outbound_field": "transaction_type",
+      "sources": [
+        "loan_disbursement_instructions[].purpose"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Captures the same concept as the purpose field from the inbound file."
+    },
+    {
+      "outbound_field": "eligible_customers",
+      "sources": [
+        "loan_disbursement_instructions[].borrower_account_number"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Combination of borrower account numbers from the inbound file."
+    }
+  ]
+}

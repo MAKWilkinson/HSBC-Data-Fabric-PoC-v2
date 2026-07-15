@@ -1,0 +1,193 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/arrears_flags.json",
+    "providing_system": "credit",
+    "consuming_system": "risk_and_compliance",
+    "message_file_name": "arrears_flags.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "arrears_flags",
+      "data_type": "array",
+      "nullable": false,
+      "description": "A list of arrears flags for customers",
+      "children": [
+        {
+          "name": "account_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the account"
+        },
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer"
+        },
+        {
+          "name": "customer_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "The name of the customer"
+        },
+        {
+          "name": "product_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of product for which arrears are reported",
+          "enum_values": [
+            "Mortgage",
+            "Personal Loan",
+            "Credit Card"
+          ]
+        },
+        {
+          "name": "arrears_status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current arrears status for the customer",
+          "enum_values": [
+            "30_days",
+            "60_days",
+            "15_days"
+          ]
+        },
+        {
+          "name": "arrears_days",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Number of days the customer is in arrears"
+        },
+        {
+          "name": "outstanding_balance",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "The outstanding balance for the account",
+          "fmt": "currency"
+        },
+        {
+          "name": "minimum_payment_due",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Minimum payment due for the account",
+          "fmt": "currency"
+        },
+        {
+          "name": "payment_due_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date by which the minimum payment is due",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "last_payment_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of the last payment made by the customer",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "flag_severity",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Severity level of the arrears flag",
+          "enum_values": [
+            "HIGH",
+            "CRITICAL",
+            "MEDIUM"
+          ]
+        },
+        {
+          "name": "risk_category",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Risk category for the customer's account",
+          "enum_values": [
+            "WATCH_LIST",
+            "DEFAULT_RISK",
+            "EARLY_WARNING"
+          ]
+        },
+        {
+          "name": "compliance_action_required",
+          "data_type": "boolean",
+          "nullable": false,
+          "description": "Indicates whether compliance action is required for the account"
+        },
+        {
+          "name": "action_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of action required for the account",
+          "enum_values": [
+            "NOTIFICATION",
+            "ESCALATION",
+            "REMINDER"
+          ]
+        },
+        {
+          "name": "flag_date",
+          "data_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the arrears flag was raised",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "notes",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Additional notes or comments about the account"
+        }
+      ]
+    },
+    {
+      "name": "metadata",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Contextual information about the message",
+      "children": [
+        {
+          "name": "report_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of the report",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "total_flagged_accounts",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Total number of accounts flagged in this report"
+        },
+        {
+          "name": "source_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that originated the data",
+          "enum_values": [
+            "Credit"
+          ]
+        },
+        {
+          "name": "destination_department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Department that received the data",
+          "enum_values": [
+            "Risk_and_Compliance"
+          ]
+        },
+        {
+          "name": "report_version",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Version number of the report",
+          "enum_values": [
+            "1.0"
+          ]
+        }
+      ]
+    }
+  ]
+}

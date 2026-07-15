@@ -1,0 +1,96 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "transaction_hold_notice.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "9f44391b50bd12de"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "providing_system": "accounts",
+      "consuming_system": "credit",
+      "message_file_name": "account_balance.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "ec4418c1ea952a7a"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The files share similar concepts, such as account numbers and customer information, which suggests a plausible connection between them.",
+  "mappings": [
+    {
+      "outbound_field": "account_id",
+      "sources": [
+        "noticeId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the notice ID field."
+    },
+    {
+      "outbound_field": "customer_id",
+      "sources": [
+        "customerId"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the customer ID field."
+    },
+    {
+      "outbound_field": "account_type",
+      "sources": [
+        "department",
+        "recipientDepartment"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The account type is derived from the department and recipient department fields, capturing a similar concept."
+    },
+    {
+      "outbound_field": "currency",
+      "sources": [
+        "accountNumber",
+        "customerId"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "The currency is derived from the account number and customer ID fields, capturing a similar concept."
+    },
+    {
+      "outbound_field": "balance",
+      "sources": [
+        "estimatedHoldDuration",
+        "transactionsAffected"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "The balance is derived from the estimated hold duration and transactions affected fields, capturing a similar concept."
+    },
+    {
+      "outbound_field": "available_balance",
+      "sources": [
+        "balance",
+        "pending_transactions"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "The available balance is derived from the balance and pending transactions fields, capturing a similar concept."
+    },
+    {
+      "outbound_field": "pending_transactions",
+      "sources": [
+        "transactionsAffected"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Exact copy of the transactions affected field."
+    }
+  ]
+}

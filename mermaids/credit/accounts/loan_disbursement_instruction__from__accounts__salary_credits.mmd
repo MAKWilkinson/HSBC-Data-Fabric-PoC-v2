@@ -1,0 +1,58 @@
+flowchart LR
+  subgraph IN["accounts: salary_credits"]
+    in_transaction_id["transaction_id"]
+    in_employee_employee_id["employee.employee_id"]
+    in_employee_name["employee.name"]
+    in_employee_personal_account_account_number["employee.personal_account.account_number"]
+    in_amount["amount"]
+    in_currency["currency"]
+    in_timestamp["timestamp"]
+    in_department_from_name["department_from.name"]
+    in_employee_personal_account_bank_name["employee.personal_account.bank_name"]
+    in_department_to_name["department_to.name"]
+    in_settlement_details_initiated_at["settlement_details.initiated_at"]
+    in_settlement_details_settled_at["settlement_details.settled_at"]
+    in_status["status"]
+    in_authorizer_name["authorizer.name"]
+    in_notes["notes"]
+  end
+  subgraph OUT["credit: loan_disbursement_instruction"]
+    out_loan_disbursement_instructions___instruction_id["loan_disbursement_instructions[].instruction_id"]
+    out_loan_disbursement_instructions___loan_id["loan_disbursement_instructions[].loan_id"]
+    out_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
+    out_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
+    out_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
+    out_loan_disbursement_instructions___currency["loan_disbursement_instructions[].currency"]
+    out_loan_disbursement_instructions___disbursement_date["loan_disbursement_instructions[].disbursement_date"]
+    out_loan_disbursement_instructions___disbursement_method["loan_disbursement_instructions[].disbursement_method"]
+    out_loan_disbursement_instructions___destination_account["loan_disbursement_instructions[].destination_account"]
+    out_loan_disbursement_instructions___destination_bank_code["loan_disbursement_instructions[].destination_bank_code"]
+    out_loan_disbursement_instructions___purpose["loan_disbursement_instructions[].purpose"]
+    out_loan_disbursement_instructions___loan_term_months["loan_disbursement_instructions[].loan_term_months"]
+    out_loan_disbursement_instructions___interest_rate["loan_disbursement_instructions[].interest_rate"]
+    out_loan_disbursement_instructions___status["loan_disbursement_instructions[].status"]
+    out_loan_disbursement_instructions___created_by["loan_disbursement_instructions[].created_by"]
+    out_loan_disbursement_instructions___created_date["loan_disbursement_instructions[].created_date"]
+    out_loan_disbursement_instructions___approved_by["loan_disbursement_instructions[].approved_by"]
+    out_loan_disbursement_instructions___approved_date["loan_disbursement_instructions[].approved_date"]
+    out_loan_disbursement_instructions___remarks["loan_disbursement_instructions[].remarks"]
+  end
+  in_transaction_id -->|EXACT| out_loan_disbursement_instructions___instruction_id
+  in_employee_employee_id -->|RENAMED| out_loan_disbursement_instructions___loan_id
+  in_employee_name -->|SEMANTIC| out_loan_disbursement_instructions___borrower_name
+  in_employee_personal_account_account_number -->|SEMANTIC| out_loan_disbursement_instructions___borrower_account_number
+  in_amount -->|EXACT| out_loan_disbursement_instructions___disbursement_amount
+  in_currency -->|EXACT| out_loan_disbursement_instructions___currency
+  in_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_date
+  in_department_from_name -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_method
+  in_employee_personal_account_account_number -->|SEMANTIC| out_loan_disbursement_instructions___destination_account
+  in_employee_personal_account_bank_name -->|SEMANTIC| out_loan_disbursement_instructions___destination_bank_code
+  in_department_to_name -->|SEMANTIC| out_loan_disbursement_instructions___purpose
+  in_settlement_details_initiated_at -->|SEMANTIC| out_loan_disbursement_instructions___loan_term_months
+  in_settlement_details_settled_at -->|SEMANTIC| out_loan_disbursement_instructions___interest_rate
+  in_status -->|EXACT| out_loan_disbursement_instructions___status
+  in_authorizer_name -->|SEMANTIC| out_loan_disbursement_instructions___created_by
+  in_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___created_date
+  in_authorizer_name -->|SEMANTIC| out_loan_disbursement_instructions___approved_by
+  in_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___approved_date
+  in_notes -->|SEMANTIC| out_loan_disbursement_instructions___remarks

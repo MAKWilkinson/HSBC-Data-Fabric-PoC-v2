@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph IN["risk_and_compliance: transaction_hold_notice"]
+    in_noticeId["noticeId"]
+    in_timestamp["timestamp"]
+    in_transactionsAffected___amount["transactionsAffected[].amount"]
+    in_transactionsAffected___currency["transactionsAffected[].currency"]
+    in_customerId["customerId"]
+    in_customerName["customerName"]
+    in_department["department"]
+    in_issuedBy["issuedBy"]
+  end
+  subgraph OUT["accounts: salary_credits"]
+    out_transaction_id["transaction_id"]
+    out_timestamp["timestamp"]
+    out_amount["amount"]
+    out_currency["currency"]
+    out_employee_employee_id["employee.employee_id"]
+    out_employee_name["employee.name"]
+    out_department_from_name["department_from.name"]
+    out_authorizer_name["authorizer.name"]
+    out_reference["reference"]
+  end
+  in_noticeId -->|EXACT| out_transaction_id
+  in_timestamp -->|EXACT| out_timestamp
+  in_transactionsAffected___amount -->|MERGE| out_amount
+  in_transactionsAffected___currency -->|MERGE| out_currency
+  in_customerId -->|RENAMED| out_employee_employee_id
+  in_customerName -->|EXACT| out_employee_name
+  in_department -->|RENAMED| out_department_from_name
+  in_issuedBy -->|SEMANTIC| out_authorizer_name

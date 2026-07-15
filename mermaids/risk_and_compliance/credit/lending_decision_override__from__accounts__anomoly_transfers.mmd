@@ -1,0 +1,58 @@
+flowchart LR
+  subgraph IN["accounts: anomoly_transfers"]
+    in_transfer_id["transfer_id"]
+    in_transfer_date["transfer_date"]
+    in_amount["amount"]
+    in_from_account["from_account"]
+    in_to_account["to_account"]
+    in_transfer_type["transfer_type"]
+    in_risk_score["risk_score"]
+  end
+  subgraph OUT["risk_and_compliance: lending_decision_override"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_payload["payload"]
+    out_payload_loanApplicationId["payload.loanApplicationId"]
+    out_payload_customerId["payload.customerId"]
+    out_payload_originalDecision["payload.originalDecision"]
+    out_payload_overrideDecision["payload.overrideDecision"]
+    out_payload_overrideReason["payload.overrideReason"]
+    out_payload_riskAssessmentDetails["payload.riskAssessmentDetails"]
+    out_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
+    out_payload_riskAssessmentDetails_debtToIncomeRatio["payload.riskAssessmentDetails.debtToIncomeRatio"]
+    out_payload_riskAssessmentDetails_loanToValueRatio["payload.riskAssessmentDetails.loanToValueRatio"]
+    out_payload_riskAssessmentDetails_yearsOfIncome["payload.riskAssessmentDetails.yearsOfIncome"]
+    out_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
+    out_payload_overrideApprovalDetails["payload.overrideApprovalDetails"]
+    out_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
+    out_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
+    out_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
+    out_payload_overrideApprovalDetails_conditions["payload.overrideApprovalDetails.conditions"]
+    out_payload_complianceFlags["payload.complianceFlags"]
+    out_payload_complianceFlags_amlCheckCompleted["payload.complianceFlags.amlCheckCompleted"]
+    out_payload_complianceFlags_sanctionsCheckCompleted["payload.complianceFlags.sanctionsCheckCompleted"]
+    out_payload_complianceFlags_creditPolicyWaiverRequired["payload.complianceFlags.creditPolicyWaiverRequired"]
+    out_payload_complianceFlags_waiverDocumentReference["payload.complianceFlags.waiverDocumentReference"]
+  end
+  in_transfer_id -->|EXACT| out_messageId
+  in_transfer_date -->|RENAMED| out_timestamp
+  in_amount -->|SEMANTIC| out_payload
+  in_from_account -->|SEMANTIC| out_payload
+  in_to_account -->|SEMANTIC| out_payload
+  in_transfer_type -->|SEMANTIC| out_payload
+  in_risk_score -->|SEMANTIC| out_payload
+  in_transfer_id -->|EXACT| out_payload_loanApplicationId
+  in_transfer_type -->|RENAMED| out_payload_originalDecision
+  in_risk_score -->|SEMANTIC| out_payload_overrideDecision
+  in_transfer_type -->|SEMANTIC| out_payload_overrideReason
+  in_risk_score -->|SEMANTIC| out_payload_riskAssessmentDetails
+  in_risk_score -->|EXACT| out_payload_riskAssessmentDetails_creditScore
+  in_transfer_type -->|SEMANTIC| out_payload_riskAssessmentDetails_mitigatingFactors
+  in_risk_score -->|SEMANTIC| out_payload_overrideApprovalDetails
+  in_transfer_date -->|RENAMED| out_payload_overrideApprovalDetails_approvalDate
+  in_transfer_type -->|SEMANTIC| out_payload_overrideApprovalDetails_conditions
+  in_risk_score -->|SEMANTIC| out_payload_complianceFlags
+  in_risk_score -->|SEMANTIC| out_payload_complianceFlags_creditPolicyWaiverRequired

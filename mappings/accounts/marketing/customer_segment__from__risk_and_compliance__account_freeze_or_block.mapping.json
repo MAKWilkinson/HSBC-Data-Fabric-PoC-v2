@@ -1,0 +1,65 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "providing_system": "risk_and_compliance",
+      "consuming_system": "accounts",
+      "message_file_name": "account_freeze_or_block.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "7e5b29ca2090b35d"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "customer_segment.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "6e2c803e95220d65"
+  },
+  "related": true,
+  "relatedness_confidence": 0.85,
+  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be used as input for the outbound file's customer segments and summary statistics.",
+  "mappings": [
+    {
+      "outbound_field": "metadata.timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Timestamp field copied exactly from inbound to outbound."
+    },
+    {
+      "outbound_field": "segments[].segment_id",
+      "sources": [
+        "account.accountNumber"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Account number renamed as segment ID in the outbound file."
+    },
+    {
+      "outbound_field": "segments[].segment_name",
+      "sources": [
+        "account.accountType"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Account type used to determine customer segment name."
+    },
+    {
+      "outbound_field": "summary.total_customers",
+      "sources": [
+        "account.accountHolder"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.9,
+      "reasoning": "Total customers calculated by counting account holders in the inbound file."
+    }
+  ]
+}

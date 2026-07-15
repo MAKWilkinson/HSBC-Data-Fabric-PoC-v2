@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["investments: debit_credit_instruction"]
+    in_debit_credit_instructions_instructions___transaction_id["debit_credit_instructions.instructions[].transaction_id"]
+    in_debit_credit_instructions_instructions___account_number["debit_credit_instructions.instructions[].account_number"]
+    in_debit_credit_instructions_instructions___fund_id["debit_credit_instructions.instructions[].fund_id"]
+    in_debit_credit_instructions_instructions___status["debit_credit_instructions.instructions[].status"]
+    in_debit_credit_instructions_instructions___amount["debit_credit_instructions.instructions[].amount"]
+    in_debit_credit_instructions_instructions___currency["debit_credit_instructions.instructions[].currency"]
+    in_debit_credit_instructions_total_debit_amount["debit_credit_instructions.total_debit_amount"]
+    in_debit_credit_instructions_total_credit_amount["debit_credit_instructions.total_credit_amount"]
+  end
+  subgraph OUT["accounts: product_holding_data"]
+    out_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
+    out_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    out_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    out_product_holding_data_holdings___account_status["product_holding_data.holdings[].account_status"]
+    out_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    out_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    out_product_holding_data_summary_total_customers["product_holding_data.summary.total_customers"]
+    out_product_holding_data_summary_total_holdings["product_holding_data.summary.total_holdings"]
+    out_product_holding_data_summary_total_balance["product_holding_data.summary.total_balance"]
+  end
+  in_debit_credit_instructions_instructions___transaction_id -->|RENAMED| out_product_holding_data_holdings___customer_id
+  in_debit_credit_instructions_instructions___account_number -->|EXACT| out_product_holding_data_holdings___account_number
+  in_debit_credit_instructions_instructions___fund_id -->|RENAMED| out_product_holding_data_holdings___product_id
+  in_debit_credit_instructions_instructions___status -->|RENAMED| out_product_holding_data_holdings___account_status
+  in_debit_credit_instructions_instructions___amount -->|SEMANTIC| out_product_holding_data_holdings___balance
+  in_debit_credit_instructions_instructions___currency -->|EXACT| out_product_holding_data_holdings___currency
+  in_debit_credit_instructions_total_debit_amount -->|SEMANTIC| out_product_holding_data_summary_total_customers
+  in_debit_credit_instructions_total_credit_amount -->|SEMANTIC| out_product_holding_data_summary_total_holdings
+  in_debit_credit_instructions_total_debit_amount -->|MERGE| out_product_holding_data_summary_total_balance
+  in_debit_credit_instructions_total_credit_amount -->|MERGE| out_product_holding_data_summary_total_balance

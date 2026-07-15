@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json",
     "providing_system": "investments",
     "consuming_system": "marketing",
     "message_file_name": "eligible_customers_for_new_product.json",

@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph IN["credit: repayment_schedule"]
+    in_repayment_schedule_customer_id["repayment_schedule.customer_id"]
+    in_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    in_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    in_repayment_schedule_loan_type["repayment_schedule.loan_type"]
+    in_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
+    in_repayment_schedule_currency["repayment_schedule.currency"]
+    in_repayment_schedule_repayments___total_repayments["repayment_schedule.repayments[].total_repayments"]
+    in_repayment_schedule_start_date["repayment_schedule.start_date"]
+    in_repayment_schedule_maturity_date["repayment_schedule.maturity_date"]
+  end
+  subgraph OUT["customer_services: payment_holiday_application"]
+    out_customer_customerId["customer.customerId"]
+    out_customer_name["customer.name"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountType["account.accountType"]
+    out_account_loanAmount["account.loanAmount"]
+    out_account_currency["account.currency"]
+    out_paymentHolidayRequest_requestedMonths["paymentHolidayRequest.requestedMonths"]
+    out_paymentHolidayRequest_startDate["paymentHolidayRequest.startDate"]
+    out_paymentHolidayRequest_endDate["paymentHolidayRequest.endDate"]
+  end
+  in_repayment_schedule_customer_id -->|EXACT| out_customer_customerId
+  in_repayment_schedule_customer_name -->|RENAMED| out_customer_name
+  in_repayment_schedule_loan_id -->|RENAMED| out_account_accountNumber
+  in_repayment_schedule_loan_type -->|RENAMED| out_account_accountType
+  in_repayment_schedule_principal_amount -->|EXACT| out_account_loanAmount
+  in_repayment_schedule_currency -->|EXACT| out_account_currency
+  in_repayment_schedule_repayments___total_repayments -->|SEMANTIC| out_paymentHolidayRequest_requestedMonths
+  in_repayment_schedule_start_date -->|EXACT| out_paymentHolidayRequest_startDate
+  in_repayment_schedule_maturity_date -->|SEMANTIC| out_paymentHolidayRequest_endDate

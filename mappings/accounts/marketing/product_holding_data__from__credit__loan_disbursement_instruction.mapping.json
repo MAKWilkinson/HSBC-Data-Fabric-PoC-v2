@@ -1,0 +1,88 @@
+{
+  "inbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "providing_system": "credit",
+      "consuming_system": "accounts",
+      "message_file_name": "loan_disbursement_instruction.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "021dbb140abb6781"
+  },
+  "outbound_schema": {
+    "source": {
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "providing_system": "accounts",
+      "consuming_system": "marketing",
+      "message_file_name": "product_holding_data.json",
+      "file_format": "json"
+    },
+    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "e070c85cd104c5ba"
+  },
+  "related": true,
+  "relatedness_confidence": 0.7,
+  "relatedness_reasoning": "The files share some common concepts like account numbers, product IDs, and currency codes, but the systems don't obviously connect.",
+  "mappings": [
+    {
+      "outbound_field": "product_holding_data.holdings[].customer_id",
+      "sources": [
+        "loan_disbursement_instructions[].borrower_account_number"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The customer ID is renamed from the borrower account number."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_number",
+      "sources": [
+        "loan_disbursement_instructions[].borrower_account_number"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The account number is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].product_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].account_status",
+      "sources": [
+        "loan_disbursement_instructions[].status"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "The account status is renamed from the loan disbursement instruction status."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].balance",
+      "sources": [
+        "loan_disbursement_instructions[].disbursement_amount"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.9,
+      "reasoning": "The balance is derived from the disbursement amount by computation."
+    },
+    {
+      "outbound_field": "product_holding_data.holdings[].currency",
+      "sources": [
+        "loan_disbursement_instructions[].currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "The currency is copied exactly from the inbound file."
+    },
+    {
+      "outbound_field": "product_holding_data.summary.total_customers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field exists inbound; likely system-generated."
+    }
+  ]
+}

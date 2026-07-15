@@ -1,0 +1,73 @@
+{
+  "source": {
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+    "providing_system": "accounts",
+    "consuming_system": "credit",
+    "message_file_name": "overdraft_usage.json",
+    "file_format": "json"
+  },
+  "fields": [
+    {
+      "name": "fileId",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the file"
+    },
+    {
+      "name": "fileName",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Name of the file, including path and extension"
+    },
+    {
+      "name": "sentDate",
+      "data_type": "datetime",
+      "nullable": false,
+      "description": "Timestamp when the file was sent",
+      "fmt": "iso8601"
+    },
+    {
+      "name": "fromDepartment",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that originated the data"
+    },
+    {
+      "name": "toDepartment",
+      "data_type": "string",
+      "nullable": false,
+      "description": "The department that received the data"
+    },
+    {
+      "name": "accountNumber",
+      "data_type": "string",
+      "nullable": false,
+      "description": "Unique identifier for the account"
+    },
+    {
+      "name": "overdraftLimit",
+      "data_type": "integer",
+      "nullable": true,
+      "description": "The maximum amount of overdraft allowed for the account"
+    },
+    {
+      "name": "overdraftUsed",
+      "data_type": "integer",
+      "nullable": true,
+      "description": "The actual amount of overdraft used by the account"
+    },
+    {
+      "name": "usagePercent",
+      "data_type": "decimal",
+      "nullable": true,
+      "description": "Percentage of the overdraft limit actually used",
+      "fmt": "percentage"
+    },
+    {
+      "name": "notes",
+      "data_type": "string",
+      "nullable": true,
+      "description": "Additional comments or notes about the account's overdraft usage"
+    }
+  ]
+}

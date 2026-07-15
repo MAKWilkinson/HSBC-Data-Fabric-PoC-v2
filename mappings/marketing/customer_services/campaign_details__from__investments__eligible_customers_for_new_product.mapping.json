@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/investments/marketing/eligible_customers_for_new_product.json",
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
       "providing_system": "investments",
       "consuming_system": "marketing",
       "message_file_name": "eligible_customers_for_new_product.json",
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "375134c47e052981"
+    "fingerprint": "317394ffaaa6bd66"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/App/data/marketing/customer_services/campaign_details.json",
+      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "campaign_details.json",
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "2150590bcc66cd64"
+    "fingerprint": "89dedbcc42df434e"
   },
   "related": true,
   "relatedness_confidence": 0.85,
