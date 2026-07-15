@@ -12,7 +12,7 @@ import ingestion
 import extraction
 import map
 import graph
-import viewer
+import viewer as viewer
 
 
 def run_workflow() -> None:

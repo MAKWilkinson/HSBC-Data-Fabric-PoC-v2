@@ -11,9 +11,11 @@ import os
 import json
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
-import ollama
 import json
 import time
+
+import ollama
+import boto3
 
 from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMapping
 import config
@@ -223,11 +225,102 @@ class AnthropicLLMClient(LLMClient):
     ...
 
 
+import boto3
+
+
+class BedrockLLMClient(LLMClient):
+    """Implementation of LLMClient for AWS Bedrock (Anthropic Claude models).
+
+    Auth: boto3 automatically uses the AWS_BEARER_TOKEN_BEDROCK env var
+    (Bedrock API key) if set, otherwise falls back to the standard AWS
+    credential chain (env vars, ~/.aws, instance role).
+    """
+
+    _DEFAULTS: dict[str, Any] = {
+        # Client Params
+        "aws_region": "us-east-1",
+        "request_timeout": 600,
+
+        # Message Response Params
+        # NOTE: must be an inference profile ID, not the base model ID.
+        # "us." for US regional routing, "global." for cross-region.
+        "model": "global.anthropic.claude-fable-5",
+        "temperature": 0.0,
+        "max_tokens": 4096,
+
+        # Pipeline threshold for schema validation
+        "confidence_threshold": 0.7,
+    }
+
+    _ENV_MAP: dict[str, str] = {
+        "AWS_REGION": "aws_region",
+        "BEDROCK_TIMEOUT": "request_timeout",
+        "BEDROCK_MODEL": "model",
+        "BEDROCK_TEMPERATURE": "temperature",
+        "BEDROCK_MAX_TOKENS": "max_tokens",
+        "CONFIDENCE_THRESHOLD": "confidence_threshold",
+    }
+
+    @classmethod
+    def load_config(cls, path: Path | None = None) -> dict[str, Any]:
+        """Same precedence as OllamaLLMClient: defaults < JSON file < env vars."""
+        config = dict(cls._DEFAULTS)
+
+        if path is not None:
+            file_path = Path(path)
+            if file_path.exists():
+                config.update(json.loads(file_path.read_text(encoding="utf-8")))
+            else:
+                logger.warning("Config file %s not found; using defaults + env", file_path)
+
+        for env_var, key in cls._ENV_MAP.items():
+            raw = os.getenv(env_var)
+            if raw is not None:
+                config[key] = _coerce(raw, type(cls._DEFAULTS[key]))
+
+        return config
+
+    def __init__(self, config: dict[str, Any]):
+        from botocore.config import Config as BotoConfig
+
+        self._client = boto3.client(
+            "bedrock-runtime",
+            region_name=config["aws_region"],
+            config=BotoConfig(
+                read_timeout=config.get("request_timeout"),
+                connect_timeout=30,
+                retries={"max_attempts": 0},  # call_llm owns retry policy
+            ),
+        )
+        self._config = config
+
+    def chat(self, prompt: str) -> str:
+        """Single prompt in, response text out — same contract as Ollama's chat."""
+        response = self._client.converse(
+            modelId=self._config["model"],
+            messages=[{"role": "user", "content": [{"text": prompt}]}],
+            inferenceConfig={
+                "temperature": self._config["temperature"],
+                "maxTokens": self._config["max_tokens"],
+            },
+        )
+
+        # Fable 5 can decline requests: the API returns HTTP 200 with a
+        # refusal stop reason rather than an error. Raise so call_llm's
+        # retry/error path handles it instead of extract_json choking.
+        stop_reason = response.get("stopReason", "")
+        if stop_reason == "refusal":
+            raise RuntimeError(f"Model refused the request (stopReason={stop_reason})")
+
+        blocks = response["output"]["message"]["content"]
+        return "".join(b["text"] for b in blocks if "text" in b)
+
+    
 class HSBCLLMClient(LLMClient):
     ...
 
 
-def get_llm_client(provider: str = "ollama", config_path: Path | None = None) -> LLMClient:
+def get_llm_client(provider: str = "bedrock", config_path: Path | None = None) -> LLMClient:
     """Construct and return a configured LLM client.
     
     The factory loads provider-specific config from defaults, JSON file, and
@@ -257,12 +350,15 @@ def get_llm_client(provider: str = "ollama", config_path: Path | None = None) ->
     if provider == "ollama":
         config = OllamaLLMClient.load_config(config_path)
         return OllamaLLMClient(config)
-    # elif provider == "anthropic":
-    #      config = AnthropicLLMClient.load_config(config_path)
-    #      return AnthropicLLMClient(config)
-    # elif provider == "hsbc":
-    #      config = HSBCLLMClient.load_config(config_path)
-    #      return HSBCLLMClient(config)
+    elif provider == "anthropic":
+        config = AnthropicLLMClient.load_config(config_path)
+        return AnthropicLLMClient(config)
+    elif provider == "bedrock":
+        config = BedrockLLMClient.load_config(config_path)
+        return AnthropicLLMClient(config)
+    elif provider == "hsbc":
+        config = HSBCLLMClient.load_config(config_path)
+        return HSBCLLMClient(config)
     else:
         raise ValueError(f"Unknown LLM provider: {provider}.")
  
