@@ -1,5 +1,6 @@
 flowchart LR
   subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
     in_reportDate["reportDate"]
     in_targetDeployment["targetDeployment"]
     in_reportType["reportType"]
@@ -11,9 +12,9 @@ flowchart LR
     in_fraudDetails_currency["fraudDetails.currency"]
     in_fraudDetails_fraudDescription["fraudDetails.fraudDescription"]
     in_incident_reportedByName["incident.reportedByName"]
-    in_incident_detectionDate["incident.detectionDate"]
+    in_fraudDetails_transactionStatus["fraudDetails.transactionStatus"]
     in_escalationRequired["escalationRequired"]
-    in_reportId["reportId"]
+    in_documentationRef["documentationRef"]
   end
   subgraph OUT["risk_and_compliance: account_freeze_or_block"]
     out_messageId["messageId"]
@@ -48,7 +49,8 @@ flowchart LR
     out_additionalInfo_customerNotificationSent["additionalInfo.customerNotificationSent"]
     out_additionalInfo_regulatoryReporting["additionalInfo.regulatoryReporting"]
   end
-  in_reportDate -->|SEMANTIC| out_timestamp
+  in_reportId -->|RENAMED| out_messageId
+  in_reportDate -->|RENAMED| out_timestamp
   in_targetDeployment -->|SEMANTIC| out_source
   in_reportType -->|SEMANTIC| out_messageType
   in_severity -->|SEMANTIC| out_priority
@@ -60,7 +62,13 @@ flowchart LR
   in_reportType -->|SEMANTIC| out_freezeDetails_reason
   in_fraudDetails_fraudDescription -->|RENAMED| out_freezeDetails_description
   in_incident_reportedByName -->|SEMANTIC| out_freezeDetails_initiatedBy
-  in_incident_detectionDate -->|SEMANTIC| out_freezeDetails_effectiveFrom
+  in_reportDate -->|SEMANTIC| out_freezeDetails_effectiveFrom
+  in_fraudDetails_transactionStatus -->|SEMANTIC| out_restrictions_allowIncomingTransfers
+  in_fraudDetails_transactionStatus -->|SEMANTIC| out_restrictions_allowOutgoingTransfers
+  in_actionsTaken -->|SEMANTIC| out_restrictions_allowWithdrawals
+  in_actionsTaken -->|SEMANTIC| out_restrictions_allowCardTransactions
+  in_actionsTaken -->|SEMANTIC| out_restrictions_allowCheques
   in_escalationRequired -->|RENAMED| out_escalation_requiresApproval
-  in_reportId -->|RENAMED| out_additionalInfo_caseReference
+  in_documentationRef -->|RENAMED| out_additionalInfo_caseReference
   in_actionsTaken -->|SEMANTIC| out_additionalInfo_customerNotificationSent
+  in_severity -->|SEMANTIC| out_additionalInfo_regulatoryReporting

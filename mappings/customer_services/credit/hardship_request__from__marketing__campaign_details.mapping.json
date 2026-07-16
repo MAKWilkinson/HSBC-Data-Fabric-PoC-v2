@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "campaign_details.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "60092d15f7b3f417"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "b3ae882ac099ab57"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "hardship_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "5424ceabfa455be7"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "bcc0f6470ff14660"
   },
   "related": false,
   "relatedness_confidence": 0.15,

@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "arrears_status.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "b6c6d9868f60d986"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "6cfe8f733d3f650c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "address_updates.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "6852dc0d84b3c057"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "4f7daed66a164cf6"
   },
   "related": false,
   "relatedness_confidence": 0.12,

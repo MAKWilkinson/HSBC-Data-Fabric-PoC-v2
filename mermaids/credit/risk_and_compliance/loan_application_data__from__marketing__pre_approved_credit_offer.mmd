@@ -16,7 +16,6 @@ flowchart LR
     in_eligibility_criteria_credit_score_required["eligibility_criteria.credit_score_required"]
     in_status["status"]
     in_department_from["department_from"]
-    in_department_to["department_to"]
   end
   subgraph OUT["credit: loan_application_data"]
     out_loan_applications___application_id["loan_applications[].application_id"]
@@ -73,4 +72,3 @@ flowchart LR
   in_eligibility_criteria_credit_score_required -->|SEMANTIC| out_loan_applications___financial_profile_credit_score
   in_status -->|SEMANTIC| out_loan_applications___application_status
   in_department_from -->|SEMANTIC| out_metadata_source_department
-  in_department_to -->|SEMANTIC| out_metadata_destination_department

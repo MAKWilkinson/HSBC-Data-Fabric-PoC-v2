@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
     "providing_system": "customer_services",
     "consuming_system": "credit",
     "message_file_name": "hardship_request.json",

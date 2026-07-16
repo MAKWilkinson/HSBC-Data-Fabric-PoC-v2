@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
     "providing_system": "accounts",
     "consuming_system": "marketing",
     "message_file_name": "customer_segment.json",

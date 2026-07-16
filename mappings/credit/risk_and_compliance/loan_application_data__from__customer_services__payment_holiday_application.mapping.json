@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "payment_holiday_application.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "27fbcc0d55a0c2b8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "59637fbc5a5a2e8c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file represents a payment holiday application (a request to suspend loan payments), while the outbound file represents new loan applications. These are fundamentally different transaction types with minimal field overlap. The inbound file contains payment holiday-specific fields (requestedMonths, startDate, endDate, monthlyPayment) that have no counterpart in a loan application schema. The outbound file requires extensive financial and employment data (credit_score, annual_income, employment_start_date, total_assets, total_liabilities) that are not present in the inbound payment holiday application. While both involve customer and account data, the semantic purpose and required fields are too divergent to constitute a plausible data lineage relationship.",
+  "relatedness_reasoning": "The inbound file documents a payment holiday application (a request to suspend loan payments), while the outbound file describes new loan applications with full underwriting details (employment, income, credit score, collateral). These represent fundamentally different business processes with minimal field overlap. The inbound file contains no employment, income, credit score, collateral, or affordability data that would be required to populate the outbound loan application schema. While both mention customer and account details, the outbound file requires extensive financial and employment information not present in the payment holiday request.",
   "mappings": []
 }

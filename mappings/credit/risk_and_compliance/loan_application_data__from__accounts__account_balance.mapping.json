@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains only account balance snapshots with transaction data; the outbound file requires comprehensive loan application data including applicant personal information, employment details, financial profile, collateral information, and compliance checks. These represent fundamentally different data domains with minimal field overlap (only customer_id and currency are shared), and account balance data alone cannot plausibly generate a complete loan application record.",
+  "relatedness_reasoning": "The inbound file contains only account balance snapshots with transaction and account status data; the outbound file requires comprehensive loan application data including applicant personal information, employment details, financial profile, collateral, and compliance checks. While both files involve the credit department, the outbound schema demands fields (full_name, date_of_birth, email, phone, employer_name, job_title, annual_income, credit_score, property details, etc.) that are entirely absent from the inbound account_balance schema. The inbound file provides no applicant identity, employment, income, or collateral information needed to populate a loan application.",
   "mappings": []
 }

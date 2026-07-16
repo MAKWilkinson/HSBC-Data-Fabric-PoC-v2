@@ -8,8 +8,6 @@ flowchart LR
     in_timestamp["timestamp"]
     in_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
     in_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
-    in_payload_overrideReason["payload.overrideReason"]
-    in_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
     in_payload_overrideApprovalDetails_conditions["payload.overrideApprovalDetails.conditions"]
   end
   subgraph OUT["credit: loan_disbursement_instruction"]
@@ -38,9 +36,7 @@ flowchart LR
   in_payload_loanDetails_currency -->|EXACT| out_loan_disbursement_instructions___currency
   in_payload_loanDetails_loanTerm -->|RENAMED| out_loan_disbursement_instructions___loan_term_months
   in_payload_overrideDecision -->|SEMANTIC| out_loan_disbursement_instructions___status
-  in_timestamp -->|RENAMED| out_loan_disbursement_instructions___created_date
+  in_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___created_date
   in_payload_overrideApprovalDetails_approvedBy -->|RENAMED| out_loan_disbursement_instructions___approved_by
   in_payload_overrideApprovalDetails_approvalDate -->|RENAMED| out_loan_disbursement_instructions___approved_date
-  in_payload_overrideReason -->|MERGE| out_loan_disbursement_instructions___remarks
-  in_payload_riskAssessmentDetails_mitigatingFactors -->|MERGE| out_loan_disbursement_instructions___remarks
-  in_payload_overrideApprovalDetails_conditions -->|MERGE| out_loan_disbursement_instructions___remarks
+  in_payload_overrideApprovalDetails_conditions -->|SEMANTIC| out_loan_disbursement_instructions___remarks

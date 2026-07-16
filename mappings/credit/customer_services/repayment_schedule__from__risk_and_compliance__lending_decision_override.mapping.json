@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "lending_decision_override.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "1ceb115af441643a"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "95d158cb56c0e451"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "repayment_schedule.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "2db86c06ce74430c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "07fbf04f7904ad19"
   },
   "related": true,
   "relatedness_confidence": 0.72,
@@ -168,70 +168,70 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Principal payment per installment is calculated via amortization algorithm not present in inbound data."
+      "reasoning": "Principal payment per installment is calculated via amortization schedule, not provided in inbound."
     },
     {
       "outbound_field": "repayment_schedule.repayments[].interest_payment",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Interest payment per installment requires interest rate which is not in the inbound message."
+      "reasoning": "Interest payment per installment is calculated via amortization schedule using interest rate not in inbound."
     },
     {
       "outbound_field": "repayment_schedule.repayments[].total_payment",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Total payment is derived from principal and interest payments which are not available in inbound."
+      "reasoning": "Total payment is sum of principal and interest per installment, derived from amortization logic."
     },
     {
       "outbound_field": "repayment_schedule.repayments[].outstanding_balance",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Outstanding balance is calculated during amortization schedule generation."
+      "reasoning": "Outstanding balance is calculated iteratively through amortization schedule."
     },
     {
       "outbound_field": "repayment_schedule.repayments[].status",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Repayment status is system-generated and not present in the inbound override message."
+      "reasoning": "Repayment status is system-generated at schedule creation time, not present in inbound."
     },
     {
       "outbound_field": "repayment_schedule.summary.total_amount_payable",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Total amount payable is calculated from the amortization schedule and requires interest rate."
+      "confidence": 0.85,
+      "reasoning": "Total amount payable is sum of all repayments, calculated from amortization schedule."
     },
     {
       "outbound_field": "repayment_schedule.summary.total_interest",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Total interest is calculated from amortization and requires interest rate not in inbound."
+      "confidence": 0.85,
+      "reasoning": "Total interest is derived from amortization schedule using interest rate not in inbound."
     },
     {
       "outbound_field": "repayment_schedule.summary.amount_paid_to_date",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Amount paid to date is a runtime value tracking actual payments, not derivable from the override message."
+      "reasoning": "Amount paid to date is zero at schedule generation time; not sourced from inbound."
     },
     {
       "outbound_field": "repayment_schedule.summary.next_payment_due",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Next payment due is calculated from start date and payment frequency."
+      "reasoning": "Next payment due date is the first installment due date, calculated from start date."
     },
     {
       "outbound_field": "repayment_schedule.summary.next_payment_amount",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Next payment amount is derived from the amortization schedule."
+      "reasoning": "Next payment amount is the first installment total, calculated from amortization schedule."
     },
     {
       "outbound_field": "repayment_schedule.metadata.source_system",
@@ -239,29 +239,31 @@
         "destination"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Inbound destination 'credit' becomes the source_system for the outbound message to customer_services."
+      "confidence": 0.8,
+      "reasoning": "Inbound destination is 'credit' system, which becomes the source_system for the outbound message."
     },
     {
       "outbound_field": "repayment_schedule.metadata.destination_system",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Destination system 'Customer Services' is not present in inbound; it is the target system for this outbound message."
+      "reasoning": "Destination system 'Customer Services' is not present in inbound; it is the configured target for this outbound message."
     },
     {
       "outbound_field": "repayment_schedule.metadata.message_id",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Outbound message_id is a new identifier generated for this transmission, not derived from inbound messageId."
+      "reasoning": "Outbound message_id is a new system-generated identifier for the repayment schedule transmission."
     },
     {
       "outbound_field": "repayment_schedule.metadata.timestamp",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Outbound timestamp is generated at time of message transmission, not the inbound override timestamp."
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Outbound timestamp likely corresponds to when the repayment schedule message is generated/transmitted."
     }
   ]
 }

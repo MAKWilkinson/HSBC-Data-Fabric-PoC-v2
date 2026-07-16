@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "funds_settlement.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "cfc8d72f9e643a69"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "dc0cb76dc64ae3e1"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
       "providing_system": "investments",
       "consuming_system": "accounts",
       "message_file_name": "debit_credit_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "ab7b63e219393fc2"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "778fb979f428bf63"
   },
   "related": true,
   "relatedness_confidence": 0.82,

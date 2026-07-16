@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
     "providing_system": "credit",
     "consuming_system": "risk_and_compliance",
     "message_file_name": "loan_application_data.json",
@@ -71,7 +71,7 @@
           "name": "loan_details",
           "data_type": "object",
           "nullable": false,
-          "description": "Specifications and terms of the requested loan",
+          "description": "Core loan product parameters and terms requested by the applicant",
           "children": [
             {
               "name": "loan_type",
@@ -104,13 +104,13 @@
               "name": "term_months",
               "data_type": "integer",
               "nullable": false,
-              "description": "Duration of the loan repayment period in months"
+              "description": "Loan repayment term in months"
             },
             {
               "name": "interest_rate_type",
               "data_type": "string",
               "nullable": false,
-              "description": "Classification of the interest rate structure for the loan",
+              "description": "Classification of interest rate structure for the loan",
               "enum_values": [
                 "Fixed",
                 "Variable"
@@ -120,7 +120,7 @@
               "name": "purpose",
               "data_type": "string",
               "nullable": false,
-              "description": "Stated business purpose or use of the loan funds"
+              "description": "Stated purpose or intended use of the loan funds"
             }
           ]
         },
@@ -128,7 +128,7 @@
           "name": "employment",
           "data_type": "object",
           "nullable": false,
-          "description": "Employment and income information of the applicant",
+          "description": "Employment and income information of the applicant used for affordability assessment",
           "children": [
             {
               "name": "employment_status",
@@ -143,7 +143,7 @@
               "name": "employer_name",
               "data_type": "string",
               "nullable": false,
-              "description": "Legal name of the applicant's current employer"
+              "description": "Name of the applicant's current employer"
             },
             {
               "name": "job_title",
@@ -155,7 +155,7 @@
               "name": "annual_income",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Gross annual income of the applicant from employment",
+              "description": "Gross annual income of the applicant in the stated currency",
               "fmt": "currency"
             },
             {
@@ -177,39 +177,39 @@
               "name": "total_assets",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Total value of the applicant's assets",
+              "description": "Total value of the applicant's assets in the stated currency",
               "fmt": "currency"
             },
             {
               "name": "total_liabilities",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Total value of the applicant's outstanding liabilities and debts",
+              "description": "Total value of the applicant's outstanding liabilities in the stated currency",
               "fmt": "currency"
             },
             {
               "name": "credit_score",
               "data_type": "integer",
               "nullable": false,
-              "description": "Credit rating score of the applicant from credit reference agencies"
+              "description": "Credit score of the applicant from a credit reference agency, typically on a scale of 0\u2013999"
             },
             {
               "name": "existing_loans",
               "data_type": "integer",
               "nullable": false,
-              "description": "Number of active loan facilities currently held by the applicant"
+              "description": "Number of existing active loans held by the applicant"
             },
             {
               "name": "default_history",
               "data_type": "boolean",
               "nullable": false,
-              "description": "Indicator of whether the applicant has any history of loan or credit defaults"
+              "description": "Indicator of whether the applicant has a history of loan defaults"
             },
             {
               "name": "credit_inquiries_last_6m",
               "data_type": "integer",
               "nullable": false,
-              "description": "Number of credit inquiries made against the applicant's record in the last 6 months"
+              "description": "Number of credit inquiries made against the applicant's credit file in the last 6 months"
             }
           ]
         },
@@ -217,13 +217,13 @@
           "name": "collateral",
           "data_type": "object",
           "nullable": false,
-          "description": "Details of collateral or security offered against the loan",
+          "description": "Details of collateral offered to secure the loan, typically property for mortgages",
           "children": [
             {
               "name": "property_value",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Estimated market value of the property offered as collateral",
+              "description": "Estimated market value of the collateral property in the stated currency",
               "fmt": "currency"
             },
             {
@@ -235,8 +235,8 @@
             {
               "name": "loan_to_value",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Loan-to-value ratio expressed as a percentage; the proportion of the loan amount relative to the collateral value. Zero or null indicates no collateral is being used",
+              "nullable": false,
+              "description": "Loan-to-value ratio expressed as a percentage; ratio of requested loan amount to collateral property value. Zero indicates no collateral is offered or applicable",
               "fmt": "percentage"
             }
           ]
@@ -271,7 +271,7 @@
           "name": "required_compliance_checks",
           "data_type": "array",
           "nullable": false,
-          "description": "List of compliance and regulatory checks that must be performed on this application",
+          "description": "List of compliance and regulatory checks that must be performed on the application",
           "children": [
             {
               "name": "check_type",
@@ -300,7 +300,7 @@
           "name": "source_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The originating department that created and sent the message",
+          "description": "Department that originated and submitted the data",
           "enum_values": [
             "Credit"
           ]
@@ -309,7 +309,7 @@
           "name": "destination_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The receiving department responsible for processing the message",
+          "description": "Department that is the intended recipient of the data for review and processing",
           "enum_values": [
             "Risk and Compliance"
           ]
@@ -318,7 +318,7 @@
           "name": "batch_date",
           "data_type": "date",
           "nullable": false,
-          "description": "Date on which the batch of applications was created",
+          "description": "Date on which the batch of applications was prepared and submitted",
           "fmt": "iso8601"
         },
         {
@@ -337,7 +337,7 @@
           "name": "data_classification",
           "data_type": "string",
           "nullable": false,
-          "description": "Security classification level indicating the sensitivity and handling requirements of the data",
+          "description": "Security and confidentiality classification level of the data",
           "enum_values": [
             "Internal - Confidential"
           ]

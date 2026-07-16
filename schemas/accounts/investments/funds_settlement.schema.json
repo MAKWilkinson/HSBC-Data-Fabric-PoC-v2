@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
     "providing_system": "accounts",
     "consuming_system": "investments",
     "message_file_name": "funds_settlement.json",

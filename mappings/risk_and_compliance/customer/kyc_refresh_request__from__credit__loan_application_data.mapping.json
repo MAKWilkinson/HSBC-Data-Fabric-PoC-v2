@@ -1,43 +1,43 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "customer",
       "message_file_name": "kyc_refresh_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "c9a77344b85d7db6"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
+    "fingerprint": "4775eb9488600380"
   },
   "related": true,
   "relatedness_confidence": 0.78,
-  "relatedness_reasoning": "Both files involve customer identity and compliance workflows; risk_and_compliance receives loan applications from credit and initiates KYC refresh requests back to credit, forming a plausible pipeline where loan application data triggers compliance actions.",
+  "relatedness_reasoning": "Both files involve customer identity and compliance workflows; Risk and Compliance receives loan applications from Credit and initiates KYC refresh requests back to Credit/Customer systems. Customer identity fields (ID, name, DOB, contact) clearly correspond, and the outbound file's purpose (KYC refresh triggered by loan application review) aligns with inbound compliance checks.",
   "mappings": [
     {
       "outbound_field": "request_id",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field in inbound; system-generated unique identifier for the KYC request."
+      "reasoning": "System-generated unique identifier for the KYC refresh request; no source in inbound schema."
     },
     {
       "outbound_field": "request_timestamp",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "System-generated timestamp for when the KYC refresh request was created; distinct from application submission time."
+      "confidence": 0.95,
+      "reasoning": "System-generated timestamp for request creation; not derived from inbound data."
     },
     {
       "outbound_field": "department_from",
@@ -54,8 +54,8 @@
         "metadata.source_department"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Inbound source_department is 'Credit', which becomes the outbound department_to for the response."
+      "confidence": 0.8,
+      "reasoning": "Inbound source_department is 'Credit', which becomes the outbound department_to for the return request."
     },
     {
       "outbound_field": "priority",
@@ -64,7 +64,7 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.7,
-      "reasoning": "Risk category 'Medium' or 'Low' from application may influence priority assignment; 'HIGH' priority suggests medium/high-risk applications trigger urgent KYC refresh."
+      "reasoning": "Risk category 'Medium' or 'Low' from inbound may map to priority 'HIGH' based on compliance urgency, but transformation logic is not explicit."
     },
     {
       "outbound_field": "customer.customer_id",
@@ -73,7 +73,7 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct match of customer identifier from applicant to customer object."
+      "reasoning": "Direct match of customer identifier from applicant object."
     },
     {
       "outbound_field": "customer.full_name",
@@ -82,7 +82,7 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct match of applicant full name to customer full name."
+      "reasoning": "Direct match of applicant's full name."
     },
     {
       "outbound_field": "customer.date_of_birth",
@@ -91,14 +91,14 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct match of applicant date of birth to customer date of birth."
+      "reasoning": "Direct match of applicant's date of birth."
     },
     {
       "outbound_field": "customer.national_id",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No national ID or passport field exists in inbound loan application schema."
+      "reasoning": "No national ID or passport field exists in inbound schema."
     },
     {
       "outbound_field": "customer.email",
@@ -107,7 +107,7 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct match of applicant email to customer email."
+      "reasoning": "Direct match of applicant's email address."
     },
     {
       "outbound_field": "customer.phone",
@@ -116,13 +116,13 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct match of applicant phone to customer phone."
+      "reasoning": "Direct match of applicant's phone number."
     },
     {
       "outbound_field": "kyc_refresh_details.last_refresh_date",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
+      "confidence": 0.9,
       "reasoning": "No historical KYC refresh date exists in inbound loan application data."
     },
     {
@@ -132,7 +132,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.65,
-      "reasoning": "Presence of 'AML/KYC Verification' in required_compliance_checks suggests PERIODIC_REVIEW or compliance-driven refresh trigger."
+      "reasoning": "Presence of 'AML/KYC Verification' in required_compliance_checks suggests PERIODIC_REVIEW trigger, but mapping is indirect."
     },
     {
       "outbound_field": "kyc_refresh_details.risk_flag",
@@ -141,7 +141,7 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.7,
-      "reasoning": "Risk category 'Medium' or 'Low' may be transformed to a boolean flag indicating elevated risk."
+      "reasoning": "Risk category presence (Medium/Low) may indicate risk_flag=true, but transformation logic is implicit."
     },
     {
       "outbound_field": "kyc_refresh_details.risk_level",
@@ -149,19 +149,17 @@
         "loan_applications[].risk_category"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Inbound risk_category 'Medium' or 'Low' maps to outbound risk_level enum value 'MEDIUM'."
+      "confidence": 0.85,
+      "reasoning": "Inbound risk_category 'Medium' maps to outbound risk_level 'MEDIUM'."
     },
     {
       "outbound_field": "kyc_refresh_details.trigger_factors",
       "sources": [
-        "loan_applications[].required_compliance_checks",
-        "loan_applications[].financial_profile.default_history",
-        "loan_applications[].financial_profile.credit_inquiries_last_6m"
+        "loan_applications[].required_compliance_checks"
       ],
-      "transformation": "MERGE",
-      "confidence": 0.65,
-      "reasoning": "Combination of required compliance checks, default history, and recent credit inquiries form risk trigger factors."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Compliance check types (AML/KYC, Sanctions Screening) may populate trigger_factors array, but transformation is not explicit."
     },
     {
       "outbound_field": "kyc_refresh_details.compliance_issues",
@@ -170,44 +168,44 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.75,
-      "reasoning": "Required compliance checks are transformed into compliance issues array with issue_type, status, and severity."
+      "reasoning": "Required compliance checks map to compliance_issues array with issue_type, status, and severity derived from check requirements."
     },
     {
       "outbound_field": "required_documents",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
+      "confidence": 0.85,
       "reasoning": "No document requirements specified in inbound loan application schema."
     },
     {
       "outbound_field": "required_actions",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "No specific customer actions are defined in inbound loan application schema."
+      "confidence": 0.85,
+      "reasoning": "No specific customer actions listed in inbound schema; derived from compliance workflow logic."
     },
     {
       "outbound_field": "deadline",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No deadline or response timeframe is specified in inbound loan application data."
+      "reasoning": "No deadline information present in inbound schema; system-generated based on policy."
     },
     {
       "outbound_field": "status",
       "sources": [
         "loan_applications[].application_status"
       ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.6,
-      "reasoning": "Application status 'Under Review' or 'Pending Compliance Review' may trigger outbound status 'PENDING_CUSTOMER_RESPONSE'."
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound application_status 'Pending Compliance Review' may trigger outbound status 'PENDING_CUSTOMER_RESPONSE', but mapping is indirect."
     },
     {
       "outbound_field": "internal_notes",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No internal notes or recommendations field exists in inbound loan application schema."
+      "confidence": 0.9,
+      "reasoning": "No internal notes field in inbound schema; generated by Risk and Compliance analyst."
     }
   ]
 }

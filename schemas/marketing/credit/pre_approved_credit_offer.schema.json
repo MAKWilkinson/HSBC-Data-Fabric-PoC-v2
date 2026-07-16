@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
     "providing_system": "marketing",
     "consuming_system": "credit",
     "message_file_name": "pre_approved_credit_offer.json",
@@ -241,7 +241,7 @@
           "name": "channel",
           "data_type": "string",
           "nullable": false,
-          "description": "Communication channel through which the offer will be delivered",
+          "description": "Communication channel through which the offer will be delivered to the customer",
           "enum_values": [
             "email"
           ]
@@ -261,7 +261,7 @@
       "name": "status",
       "data_type": "string",
       "nullable": false,
-      "description": "Current state of the offer in the approval workflow; indicates it awaits credit department review",
+      "description": "Current workflow status of the offer within the credit department",
       "enum_values": [
         "pending_credit_review"
       ]
@@ -270,7 +270,7 @@
       "name": "approval_required",
       "data_type": "boolean",
       "nullable": false,
-      "description": "Flag indicating whether credit department approval is required before the offer can be extended to the customer"
+      "description": "Flag indicating whether credit department approval is required before the offer can be sent to the customer"
     }
   ]
 }

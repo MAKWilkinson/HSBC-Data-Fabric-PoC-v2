@@ -12,7 +12,7 @@ flowchart LR
     in_credit_score_result_risk_indicators_compliance_flags["credit_score_result.risk_indicators.compliance_flags"]
     in_credit_score_result_risk_indicators_regulatory_concerns["credit_score_result.risk_indicators.regulatory_concerns"]
     in_credit_score_result_review_status["credit_score_result.review_status"]
-    in_credit_score_result_reviewed_by["credit_score_result.reviewed_by"]
+    in_credit_score_result_credit_assessment_recommended_action["credit_score_result.credit_assessment.recommended_action"]
   end
   subgraph OUT["risk_and_compliance: kyc_refresh_request"]
     out_request_id["request_id"]
@@ -53,4 +53,4 @@ flowchart LR
   in_credit_score_result_risk_indicators_compliance_flags -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
   in_credit_score_result_risk_indicators_regulatory_concerns -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
   in_credit_score_result_review_status -->|SEMANTIC| out_status
-  in_credit_score_result_reviewed_by -->|SEMANTIC| out_internal_notes
+  in_credit_score_result_credit_assessment_recommended_action -->|SEMANTIC| out_internal_notes

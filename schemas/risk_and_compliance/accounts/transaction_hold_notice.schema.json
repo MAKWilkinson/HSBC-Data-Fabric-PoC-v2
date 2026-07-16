@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
     "providing_system": "risk_and_compliance",
     "consuming_system": "accounts",
     "message_file_name": "transaction_hold_notice.json",

@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
     "providing_system": "customer_services",
     "consuming_system": "risk_and_compliance",
     "message_file_name": "reported_scam_fraud.json",
@@ -147,7 +147,7 @@
       "name": "fraudDetails",
       "data_type": "object",
       "nullable": false,
-      "description": "Detailed information about the fraudulent transaction and scheme",
+      "description": "Detailed information about the fraudulent transaction and activity",
       "children": [
         {
           "name": "fraudDescription",
@@ -159,7 +159,7 @@
           "name": "amountInvolved",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Monetary amount of the fraudulent transaction",
+          "description": "Monetary value of the fraudulent transaction",
           "fmt": "currency"
         },
         {
@@ -249,7 +249,7 @@
       "name": "additionalNotes",
       "data_type": "string",
       "nullable": true,
-      "description": "Free-text narrative providing context, evidence, or supplementary details about the incident"
+      "description": "Free-text narrative providing context, evidence, or supplementary details about the incident and investigation"
     },
     {
       "name": "escalationRequired",

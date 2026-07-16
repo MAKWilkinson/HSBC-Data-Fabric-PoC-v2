@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "credit_score_result.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "df5907e22b67b515"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "84b067a6b0257002"
   },
   "related": true,
   "relatedness_confidence": 0.72,
@@ -199,7 +199,7 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No regulatory concern data exists in inbound account balance schema; this requires separate regulatory screening."
+      "reasoning": "No regulatory concern data exists in inbound account balance schema; this requires separate compliance checks."
     },
     {
       "outbound_field": "credit_score_result.review_status",

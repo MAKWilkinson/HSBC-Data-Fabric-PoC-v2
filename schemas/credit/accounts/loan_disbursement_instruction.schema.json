@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
     "providing_system": "credit",
     "consuming_system": "accounts",
     "message_file_name": "loan_disbursement_instruction.json",
@@ -148,7 +148,7 @@
           "name": "remarks",
           "data_type": "string",
           "nullable": true,
-          "description": "Free-text notes or comments regarding the disbursement instruction, such as approval status or special conditions"
+          "description": "Free-text notes or comments regarding the disbursement instruction, such as approval conditions or processing notes"
         }
       ]
     }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "funds_settlement.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "cfc8d72f9e643a69"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "dc0cb76dc64ae3e1"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains loan disbursement instructions from credit to accounts (fund transfer execution), while the outbound file describes investment fund settlements from accounts to investments. These represent fundamentally different business processes: loan disbursement is a credit operation, while fund settlement to investments is an asset management operation. No meaningful field correspondence exists between loan-specific data (loan_id, borrower_name, loan_term_months, interest_rate) and investment fund settlement data (fund_id, fund_name, transaction_type). The files operate in different domains with incompatible structures.",
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions from credit to accounts (fund transfer execution), while the outbound file describes investment fund settlements from accounts to investments. These represent fundamentally different business processes: loan disbursement is a credit operation, while fund settlement to investments is an asset management operation. No meaningful field correspondence exists between loan-specific data (loan_id, borrower_name, loan_term_months, interest_rate) and investment fund settlement data (fund_id, fund_name, transaction_type). The files serve unrelated purposes despite both involving money movement.",
   "mappings": []
 }

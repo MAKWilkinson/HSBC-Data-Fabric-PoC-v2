@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "account_freeze_or_block.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "e1c9147687113059"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "2fc5bc1cd4af12f9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "related": false,
   "relatedness_confidence": 0.15,

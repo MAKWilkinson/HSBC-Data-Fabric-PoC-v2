@@ -1,5 +1,6 @@
 flowchart LR
   subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
     in_reportDate["reportDate"]
     in_targetDeployment["targetDeployment"]
     in_severity["severity"]
@@ -8,7 +9,9 @@ flowchart LR
     in_reportType["reportType"]
     in_escalationRequired["escalationRequired"]
     in_riskIndicators["riskIndicators"]
+    in_incident_incidentType["incident.incidentType"]
     in_actionsTaken["actionsTaken"]
+    in_transactionStatus["transactionStatus"]
     in_additionalNotes["additionalNotes"]
   end
   subgraph OUT["risk_and_compliance: kyc_refresh_request"]
@@ -35,7 +38,8 @@ flowchart LR
     out_status["status"]
     out_internal_notes["internal_notes"]
   end
-  in_reportDate -->|SEMANTIC| out_request_timestamp
+  in_reportId -->|RENAMED| out_request_id
+  in_reportDate -->|RENAMED| out_request_timestamp
   in_targetDeployment -->|SEMANTIC| out_department_from
   in_severity -->|SEMANTIC| out_priority
   in_customer_customerId -->|RENAMED| out_customer_customer_id
@@ -44,5 +48,8 @@ flowchart LR
   in_escalationRequired -->|SEMANTIC| out_kyc_refresh_details_risk_flag
   in_severity -->|SEMANTIC| out_kyc_refresh_details_risk_level
   in_riskIndicators -->|TRANSFORMED| out_kyc_refresh_details_trigger_factors
+  in_reportType -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
+  in_incident_incidentType -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
   in_actionsTaken -->|SEMANTIC| out_required_actions
+  in_transactionStatus -->|SEMANTIC| out_status
   in_additionalNotes -->|RENAMED| out_internal_notes

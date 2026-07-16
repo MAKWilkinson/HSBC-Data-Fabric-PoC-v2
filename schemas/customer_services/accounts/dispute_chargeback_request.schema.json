@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
     "providing_system": "customer_services",
     "consuming_system": "accounts",
     "message_file_name": "dispute_chargeback_request.json",
@@ -226,7 +226,7 @@
       "name": "priority",
       "data_type": "string",
       "nullable": true,
-      "description": "Priority level assigned to the dispute request for processing urgency",
+      "description": "Processing priority level assigned to this dispute request",
       "enum_values": [
         "high"
       ]
@@ -247,7 +247,7 @@
           "name": "action",
           "data_type": "string",
           "nullable": false,
-          "description": "Specific action required to process the dispute",
+          "description": "Specific action to be performed during dispute resolution",
           "enum_values": [
             "credit_investigation",
             "merchant_contact",

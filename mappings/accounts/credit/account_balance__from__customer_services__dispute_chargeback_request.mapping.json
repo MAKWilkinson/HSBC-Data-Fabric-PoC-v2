@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file is a dispute chargeback request from customer_services to accounts; the outbound file is an account balance snapshot from accounts to credit. These serve fundamentally different purposes: one is event-driven dispute processing, the other is a state snapshot for credit review. While both systems touch the accounts department, there is no plausible data lineage connecting dispute request fields to account balance fields. The outbound schema requires real-time balance, account type, and pending transaction data that are not present in the inbound dispute schema.",
+  "relatedness_reasoning": "The inbound file is a dispute chargeback request from customer_services to accounts; the outbound file is account balance data from accounts to credit. While both files involve the accounts department, they serve fundamentally different purposes: one is dispute processing input, the other is balance reporting output. There is minimal field overlap (only customer_id and currency are conceptually shared), and the outbound file's structure (account balances, pending transactions, account status) cannot plausibly be derived from dispute chargeback request data. These appear to be independent data flows rather than a lineage chain.",
   "mappings": []
 }

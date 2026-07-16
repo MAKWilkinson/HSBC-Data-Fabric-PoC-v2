@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "transaction_stream.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "1f287415832ad3fe"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
+    "fingerprint": "266591bccd0ac103"
   },
   "related": false,
-  "relatedness_confidence": 0.05,
-  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any data lineage mapping. Without outbound fields to trace back to inbound sources, no relationship can be determined.",
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any field-level lineage. While the systems form a plausible pipeline (accounts \u2192 risk_and_compliance), without outbound field definitions there is no basis for mapping.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "salary_credits.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "e343a18ec9d213eb"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "b7021963156184c9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains salary credit transactions from Accounts to Credit, while the outbound file contains loan disbursement instructions from Credit back to Accounts. These represent fundamentally different business processes (payroll vs. lending) with minimal field overlap. The inbound file describes employee salary deposits; the outbound describes loan principal disbursements to borrowers. No shared identifiers, account holders, or transaction purposes connect them.",
+  "relatedness_reasoning": "The inbound file contains salary credit transactions from Accounts to Credit, while the outbound file contains loan disbursement instructions from Credit back to Accounts. These represent fundamentally different business processes (payroll vs. lending) with minimal field overlap. The outbound file requires loan-specific data (loan_id, loan_term_months, interest_rate, purpose enum values) that do not exist in the inbound salary schema, and the conceptual domains are distinct.",
   "mappings": []
 }

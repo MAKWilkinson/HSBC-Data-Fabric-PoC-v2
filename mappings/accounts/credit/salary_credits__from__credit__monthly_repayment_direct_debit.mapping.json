@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "salary_credits.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "e343a18ec9d213eb"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "b7021963156184c9"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "Inbound file contains loan repayment instructions from Credit to Accounts; outbound file contains salary credit transactions from Accounts to Credit. These are opposite transaction types (debt collection vs. income credit) with fundamentally different purposes, no overlapping field semantics, and no plausible data transformation pathway between them.",
+  "relatedness_reasoning": "The inbound file contains loan repayment instructions from Credit to Accounts, while the outbound file contains salary credit transactions from Accounts to Credit. These represent opposite transaction flows with fundamentally different purposes (debt collection vs. income distribution). Field overlap is minimal and coincidental (only timestamp and currency codes); the outbound file's rich employee and authorizer details have no counterpart in the loan repayment schema.",
   "mappings": []
 }

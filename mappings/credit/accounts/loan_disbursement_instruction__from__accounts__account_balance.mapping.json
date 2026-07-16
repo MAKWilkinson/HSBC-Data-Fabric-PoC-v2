@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,

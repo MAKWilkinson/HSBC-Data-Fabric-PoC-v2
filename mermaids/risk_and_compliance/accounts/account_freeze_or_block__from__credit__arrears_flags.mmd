@@ -9,8 +9,9 @@ flowchart LR
     in_arrears_flags___product_type["arrears_flags[].product_type"]
     in_arrears_flags___risk_category["arrears_flags[].risk_category"]
     in_arrears_flags___notes["arrears_flags[].notes"]
-    in_arrears_flags___arrears_days["arrears_flags[].arrears_days"]
+    in_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
     in_arrears_flags___outstanding_balance["arrears_flags[].outstanding_balance"]
+    in_arrears_flags___arrears_days["arrears_flags[].arrears_days"]
   end
   subgraph OUT["risk_and_compliance: account_freeze_or_block"]
     out_messageId["messageId"]
@@ -53,10 +54,14 @@ flowchart LR
   in_arrears_flags___customer_name -->|RENAMED| out_account_accountHolder
   in_arrears_flags___product_type -->|SEMANTIC| out_account_accountType
   in_arrears_flags___risk_category -->|SEMANTIC| out_freezeDetails_reason
-  in_arrears_flags___notes -->|SEMANTIC| out_freezeDetails_description
+  in_arrears_flags___notes -->|MERGE| out_freezeDetails_description
+  in_arrears_flags___arrears_status -->|MERGE| out_freezeDetails_description
+  in_arrears_flags___outstanding_balance -->|MERGE| out_freezeDetails_description
   in_arrears_flags___flag_date -->|SEMANTIC| out_freezeDetails_effectiveFrom
   in_arrears_flags___flag_severity -->|SEMANTIC| out_escalation_level
   in_arrears_flags___compliance_action_required -->|SEMANTIC| out_escalation_requiresApproval
-  in_arrears_flags___arrears_days -->|TRANSFORMED| out_additionalInfo_riskScore
-  in_arrears_flags___outstanding_balance -->|TRANSFORMED| out_additionalInfo_riskScore
+  in_arrears_flags___flag_severity -->|MERGE| out_additionalInfo_riskScore
+  in_arrears_flags___risk_category -->|MERGE| out_additionalInfo_riskScore
+  in_arrears_flags___arrears_days -->|MERGE| out_additionalInfo_riskScore
   in_arrears_flags___flag_severity -->|SEMANTIC| out_additionalInfo_regulatoryReporting
+  in_arrears_flags___risk_category -->|SEMANTIC| out_additionalInfo_regulatoryReporting

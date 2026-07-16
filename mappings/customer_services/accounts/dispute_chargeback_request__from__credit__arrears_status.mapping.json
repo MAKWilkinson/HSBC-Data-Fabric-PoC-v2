@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "arrears_status.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "b6c6d9868f60d986"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "6cfe8f733d3f650c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains arrears status data from credit department, while the outbound file is a dispute/chargeback request to accounts department. These represent fundamentally different business processes with minimal field overlap: arrears tracking vs. transaction disputes. No shared transaction identifiers, merchant data, or dispute concepts exist in the inbound schema.",
+  "relatedness_reasoning": "The inbound file contains arrears status data from credit department, while the outbound file is a dispute/chargeback request. These represent fundamentally different business processes with minimal field overlap. The inbound file tracks account arrears history and risk; the outbound file documents customer-initiated transaction disputes. No meaningful data lineage exists between them.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "lending_decision_override.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "1ceb115af441643a"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "95d158cb56c0e451"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file documents fraud/scam incidents reported to risk_and_compliance, while the outbound file communicates lending decision overrides to the credit system. These represent fundamentally different business processes with no meaningful field overlap: fraud reports contain incident details, customer harm, and protective actions, whereas lending overrides contain loan terms, credit scores, and approval conditions. The systems are connected but the message types serve unrelated purposes.",
+  "relatedness_reasoning": "The inbound file documents fraud/scam incidents reported to risk_and_compliance, while the outbound file communicates lending decision overrides to the credit system. These represent fundamentally different business processes with no meaningful field overlap: fraud reports contain incident details, customer harm, and protective actions, whereas lending overrides contain loan applications, credit scores, and approval conditions. The only shared concepts are customer identifiers and currency codes, which are insufficient to establish data lineage.",
   "mappings": []
 }

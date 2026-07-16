@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
       "providing_system": "investments",
       "consuming_system": "accounts",
       "message_file_name": "debit_credit_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "ab7b63e219393fc2"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
+    "fingerprint": "778fb979f428bf63"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "related": false,
   "relatedness_confidence": 0.15,

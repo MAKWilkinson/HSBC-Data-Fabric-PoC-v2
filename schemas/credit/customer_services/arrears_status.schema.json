@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
     "providing_system": "credit",
     "consuming_system": "customer_services",
     "message_file_name": "arrears_status.json",

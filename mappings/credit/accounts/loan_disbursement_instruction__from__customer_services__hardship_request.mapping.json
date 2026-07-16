@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "hardship_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "5424ceabfa455be7"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "bcc0f6470ff14660"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file documents a hardship assistance request (financial relief for distressed customers), while the outbound file contains loan disbursement instructions (fund transfers for new loan origination). These represent fundamentally different business processes with no meaningful field overlap; hardship requests seek payment reduction/deferral, not new loan disbursement. The only shared concepts (customer identifiers, account numbers, currency) are too generic to establish data lineage.",
+  "relatedness_reasoning": "The inbound file documents a hardship assistance request (financial relief for distressed customers), while the outbound file contains loan disbursement instructions (fund transfers for new loan origination). These represent fundamentally different business processes with minimal field overlap; no customer relief decision from hardship_request would logically trigger a new loan disbursement to accounts.",
   "mappings": []
 }

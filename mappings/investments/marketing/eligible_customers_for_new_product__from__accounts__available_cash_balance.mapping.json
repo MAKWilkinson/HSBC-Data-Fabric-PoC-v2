@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "available_cash_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "69117896ce7ad823"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "11ca038dab06b5d9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
       "providing_system": "investments",
       "consuming_system": "marketing",
       "message_file_name": "eligible_customers_for_new_product.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "395d11e98c3c6d0c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "5e8dc5894aecb5e4"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains only cash balance data for a single account with no customer identity, contact, tenure, or investment experience information. The outbound file requires detailed customer profiles, eligibility criteria evaluation, and marketing contact details that are entirely absent from the inbound schema. While both files flow through the Investments system, they serve fundamentally different purposes (cash reporting vs. customer segmentation) with no meaningful field overlap.",
+  "relatedness_reasoning": "The inbound file contains cash balance data for a single account, while the outbound file contains customer eligibility data for marketing a product. No field names, concepts, or data structures overlap meaningfully. The inbound schema provides account-level financial data (cleared cash, pending deposits/withdrawals), while the outbound schema requires customer-level attributes (name, email, tenure, risk profile, investment experience) that are entirely absent from the inbound schema. These appear to be unrelated data flows serving different business purposes.",
   "mappings": []
 }

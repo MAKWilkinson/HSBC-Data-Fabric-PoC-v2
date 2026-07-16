@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "offer_scripts.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
-    "fingerprint": "db4cbe1108cb3518"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "5539ef372c6fe4ac"
   },
   "related": true,
   "relatedness_confidence": 0.72,

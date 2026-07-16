@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "anomoly_transfers.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "b410a9729961ef35"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
+    "fingerprint": "af6d1ff32f1fbca0"
   },
   "related": false,
   "relatedness_confidence": 0.05,
-  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish any data lineage. Additionally, the inbound file contains loan disbursement instructions while the outbound file is named 'anomoly_transfers.json' suggesting a different purpose; without outbound field definitions, no meaningful mapping can be established.",
+  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish any data lineage. Additionally, the inbound file contains loan disbursement instructions while the outbound file is named 'anomoly_transfers.json' suggesting a different purpose; without outbound field definitions, no meaningful mapping can be attempted.",
   "mappings": []
 }

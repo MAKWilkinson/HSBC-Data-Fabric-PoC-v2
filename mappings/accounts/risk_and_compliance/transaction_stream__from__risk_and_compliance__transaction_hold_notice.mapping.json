@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "transaction_hold_notice.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "52b27510617a2c1c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "a4cf70376b8fdd15"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/transaction_stream.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "transaction_stream.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "1f287415832ad3fe"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
+    "fingerprint": "266591bccd0ac103"
   },
   "related": false,
   "relatedness_confidence": 0.15,

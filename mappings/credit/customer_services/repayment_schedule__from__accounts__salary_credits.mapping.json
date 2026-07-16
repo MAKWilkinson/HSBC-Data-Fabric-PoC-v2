@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "salary_credits.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "e343a18ec9d213eb"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "b7021963156184c9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "repayment_schedule.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "2db86c06ce74430c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "07fbf04f7904ad19"
   },
   "related": false,
   "relatedness_confidence": 0.15,

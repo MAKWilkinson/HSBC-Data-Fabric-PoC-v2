@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "d166a0ff74f6665e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "9bb78145829f26ef"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "credit_score_result.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "df5907e22b67b515"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "84b067a6b0257002"
   },
   "related": false,
-  "relatedness_confidence": 0.25,
-  "relatedness_reasoning": "While both files involve the credit department and share customer_id as a common identifier, the inbound file is a pre-approved credit offer from marketing, and the outbound file is a credit score assessment result sent to risk_and_compliance. The outbound file contains credit scoring, payment history, delinquencies, fraud risk, and compliance data that are not present in the inbound offer schema. The inbound file provides offer terms and eligibility criteria, not credit assessment results. These represent fundamentally different data domains and purposes within the credit workflow, not a direct data lineage transformation.",
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "While both files involve the credit department and share customer_id, the inbound file is a pre-approved credit offer from marketing, and the outbound file is a credit score assessment result sent to risk_and_compliance. The outbound file contains detailed credit scoring, payment history, delinquencies, and risk indicators that are not present in the inbound offer schema. The inbound file provides offer terms and eligibility criteria, not credit assessment data. These represent fundamentally different business processes: offer generation vs. credit risk assessment.",
   "mappings": []
 }

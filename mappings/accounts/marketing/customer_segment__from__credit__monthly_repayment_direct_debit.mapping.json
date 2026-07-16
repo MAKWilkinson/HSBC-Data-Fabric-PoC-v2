@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains individual loan repayment transactions with payment details, while the outbound file contains aggregated customer segmentation metrics and product holdings. There is no field overlap, no shared concepts, and the data structures serve fundamentally different purposes (transaction processing vs. customer analytics). The files do not form a plausible pipeline step.",
+  "relatedness_reasoning": "The inbound file contains individual loan repayment transaction data (direct debit instructions), while the outbound file contains aggregated customer segmentation and marketing analytics. No field names, concepts, or data structures overlap meaningfully. The inbound file provides operational transaction-level detail; the outbound file provides strategic segment-level summaries. These represent fundamentally different data domains with no plausible transformation path.",
   "mappings": []
 }

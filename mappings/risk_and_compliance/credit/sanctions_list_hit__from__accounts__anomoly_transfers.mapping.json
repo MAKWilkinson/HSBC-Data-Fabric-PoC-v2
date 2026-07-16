@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "anomoly_transfers.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "b410a9729961ef35"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
+    "fingerprint": "af6d1ff32f1fbca0"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "sanctions_list_hit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "a400be36b720540e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "1a7b1cc951bd9c34"
   },
   "related": false,
   "relatedness_confidence": 0.05,

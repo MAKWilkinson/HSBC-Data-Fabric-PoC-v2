@@ -1,36 +1,36 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "lending_decision_override.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "1ceb115af441643a"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "95d158cb56c0e451"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": true,
   "relatedness_confidence": 0.75,
-  "relatedness_reasoning": "The inbound file represents a lending decision override approval from risk_and_compliance to credit; the outbound file represents loan disbursement instructions from credit to accounts. This forms a logical pipeline: an override approval triggers disbursement preparation. Both files share loan identifiers, customer/borrower concepts, loan amounts, currency, and loan terms. The outbound file's structure and content are plausibly derived from processing an approved override.",
+  "relatedness_reasoning": "The inbound file represents a lending decision override approval from risk_and_compliance to credit; the outbound file represents loan disbursement instructions from credit to accounts. This forms a logical pipeline: an override approval triggers disbursement preparation. Both files share loan identifiers, customer/borrower concepts, loan amounts, currency, and loan terms, indicating data lineage from approval to execution.",
   "mappings": [
     {
       "outbound_field": "loan_disbursement_instructions[].instruction_id",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "System-generated unique identifier for the disbursement instruction; no source in inbound."
+      "reasoning": "System-generated unique identifier for the disbursement instruction; no source in inbound schema."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].loan_id",
@@ -46,14 +46,14 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.7,
-      "reasoning": "Inbound contains customerId but not borrower name; name likely retrieved from customer master data in credit system."
+      "reasoning": "Borrower legal name is not present in inbound schema; likely retrieved from customer master data in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.8,
-      "reasoning": "Account number not present in inbound; likely sourced from customer account records in credit system."
+      "confidence": 0.7,
+      "reasoning": "Account number is not present in inbound schema; likely retrieved from customer banking details in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
@@ -62,7 +62,7 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.95,
-      "reasoning": "Inbound loanAmount directly maps to outbound disbursement_amount."
+      "reasoning": "Inbound loanAmount directly maps to outbound disbursement_amount as the principal to be disbursed."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].currency",
@@ -71,42 +71,42 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Currency field name and ISO 4217 code format match exactly between inbound and outbound."
+      "reasoning": "Currency code is copied directly from inbound loan details to outbound disbursement instruction."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_date",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.6,
-      "reasoning": "Inbound contains approvalDate but not a scheduled disbursement date; likely calculated or set by credit system workflow."
+      "reasoning": "Scheduled disbursement date is not present in inbound schema; likely calculated or set by credit system based on approval date and processing rules."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_method",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "Disbursement method not specified in inbound; likely a default or system-determined value."
+      "reasoning": "Disbursement method is not specified in inbound schema; likely a default or system-determined value based on loan product type."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_account",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.8,
-      "reasoning": "Destination account not present in inbound; sourced from borrower account records in credit system."
+      "confidence": 0.7,
+      "reasoning": "Destination account number is not present in inbound schema; likely retrieved from customer banking details in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "Bank identifier code not present in inbound; sourced from account routing information in credit system."
+      "confidence": 0.7,
+      "reasoning": "Bank identifier code is not present in inbound schema; likely retrieved from customer banking details in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].purpose",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.75,
-      "reasoning": "Loan purpose not captured in inbound override message; likely stored separately in loan agreement or product details."
+      "confidence": 0.6,
+      "reasoning": "Loan purpose is not present in inbound schema; likely stored separately in credit system loan details or derived from product type."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].loan_term_months",
@@ -121,8 +121,8 @@
       "outbound_field": "loan_disbursement_instructions[].interest_rate",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.8,
-      "reasoning": "Interest rate not present in inbound override message; sourced from loan product or pricing details in credit system."
+      "confidence": 0.7,
+      "reasoning": "Interest rate is not present in inbound schema; likely determined by credit system based on risk assessment and product terms."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].status",
@@ -131,23 +131,23 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.75,
-      "reasoning": "Inbound overrideDecision of 'APPROVED' maps to outbound status 'APPROVED'; represents approval state."
+      "reasoning": "Inbound overrideDecision value 'APPROVED' maps to outbound status 'APPROVED', indicating the disbursement instruction inherits approval status from the override."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_by",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "Credit officer who created the disbursement instruction not specified in inbound; determined by credit system workflow."
+      "reasoning": "Credit officer who created the disbursement instruction is not present in inbound schema; likely a credit system user, not from the override message."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_date",
       "sources": [
         "timestamp"
       ],
-      "transformation": "RENAMED",
+      "transformation": "SEMANTIC",
       "confidence": 0.7,
-      "reasoning": "Inbound message timestamp could represent when the override was processed and disbursement instruction created."
+      "reasoning": "Inbound message timestamp may serve as the basis for created_date, though the actual creation date in credit system may differ slightly."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].approved_by",
@@ -165,18 +165,16 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Inbound approvalDate maps to outbound approved_date for the disbursement instruction."
+      "reasoning": "Inbound approvalDate maps to outbound approved_date as the date the disbursement was approved."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].remarks",
       "sources": [
-        "payload.overrideReason",
-        "payload.riskAssessmentDetails.mitigatingFactors",
         "payload.overrideApprovalDetails.conditions"
       ],
-      "transformation": "MERGE",
+      "transformation": "SEMANTIC",
       "confidence": 0.65,
-      "reasoning": "Remarks could be populated from override reason, mitigating factors, and approval conditions as free-text notes."
+      "reasoning": "Inbound conditions array may be serialized or summarized into outbound remarks field as approval conditions or processing notes."
     }
   ]
 }

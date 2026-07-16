@@ -1,36 +1,36 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "account_freeze_or_block.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "e1c9147687113059"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "2fc5bc1cd4af12f9"
   },
   "related": true,
   "relatedness_confidence": 0.72,
-  "relatedness_reasoning": "Risk and Compliance receives loan applications and may freeze accounts based on compliance findings; both files share customer identity concepts (customer_id, full_name) and currency/account details, forming a plausible downstream action pipeline.",
+  "relatedness_reasoning": "Risk and Compliance receives loan applications and may trigger account freezes based on compliance findings; customer identity and risk assessment concepts overlap, and the system pipeline (Credit \u2192 Risk and Compliance \u2192 Accounts) is logically coherent for fraud/compliance-driven account actions.",
   "mappings": [
     {
       "outbound_field": "messageId",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent identifier in inbound schema; system-generated message identifier."
+      "reasoning": "No equivalent identifier in inbound; system-generated message identifier."
     },
     {
       "outbound_field": "timestamp",
@@ -39,7 +39,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.7,
-      "reasoning": "Outbound timestamp likely derived from or based on application submission time, though may be regenerated at freeze action time."
+      "reasoning": "Outbound timestamp likely derived from or based on application submission time, though may be regenerated at freeze decision point."
     },
     {
       "outbound_field": "source",
@@ -47,43 +47,47 @@
         "metadata.destination_department"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Inbound destination_department is 'Risk and Compliance', which becomes the source system for the outbound message."
+      "confidence": 0.8,
+      "reasoning": "Outbound source is 'risk_and_compliance', which is the destination_department of the inbound batch."
     },
     {
       "outbound_field": "destination",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Outbound destination 'accounts' is not present in inbound schema; determined by routing rules external to the data."
+      "reasoning": "Destination 'accounts' is not present in inbound schema; routing decision made within risk_and_compliance."
     },
     {
       "outbound_field": "messageType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Message type 'account_freeze_or_block' is a classification of the outbound action, not derived from inbound fields."
+      "confidence": 0.9,
+      "reasoning": "Message type 'account_freeze_or_block' is determined by risk_and_compliance processing logic, not directly sourced from inbound."
     },
     {
       "outbound_field": "priority",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "Priority level is not present in inbound schema; determined by compliance workflow rules."
+      "sources": [
+        "loan_applications[].risk_category"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Priority 'high' may be inferred from risk_category or compliance findings, though not explicitly mapped."
     },
     {
       "outbound_field": "action",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Action 'freeze' is a compliance decision output, not derived from inbound loan application data."
+      "confidence": 0.9,
+      "reasoning": "Action 'freeze' is a compliance decision outcome, not directly sourced from inbound application data."
     },
     {
       "outbound_field": "account.accountNumber",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "IBAN account number is not present in inbound loan application schema; must be looked up from accounts system."
+      "sources": [
+        "loan_applications[].applicant.customer_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Customer ID may be used to look up account number, but no direct IBAN field exists in inbound; likely requires external account lookup."
     },
     {
       "outbound_field": "account.accountHolder",
@@ -91,14 +95,14 @@
         "loan_applications[].applicant.full_name"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Account holder name corresponds to applicant full_name from the loan application."
+      "confidence": 0.9,
+      "reasoning": "Applicant full_name directly corresponds to account holder name."
     },
     {
       "outbound_field": "account.accountType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
+      "confidence": 0.85,
       "reasoning": "Account type 'Current Account' is not derivable from loan application data; determined by accounts system."
     },
     {
@@ -106,42 +110,43 @@
       "sources": [
         "loan_applications[].loan_details.currency"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.75,
-      "reasoning": "Currency code from loan details may inform or correlate with account currency, though account currency is not guaranteed to match loan currency."
+      "transformation": "EXACT",
+      "confidence": 0.85,
+      "reasoning": "Currency code 'GBP' is present in both inbound loan_details and outbound account."
     },
     {
       "outbound_field": "account.branch",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Branch location 'London City' is not present in inbound schema; determined by accounts system or customer master data."
+      "reasoning": "Branch location 'London City' is not present in inbound schema; determined by accounts system or customer profile."
     },
     {
       "outbound_field": "freezeDetails.freezeType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Freeze type 'full' is a compliance action classification, not derived from inbound loan application fields."
+      "confidence": 0.9,
+      "reasoning": "Freeze type 'full' is a compliance decision, not sourced from inbound application data."
     },
     {
       "outbound_field": "freezeDetails.reason",
       "sources": [
         "loan_applications[].financial_profile.default_history",
-        "loan_applications[].risk_category"
+        "loan_applications[].required_compliance_checks[].check_type"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Freeze reason 'suspected_fraud' may be inferred from default history or risk category, but is not explicitly stated in inbound data."
+      "confidence": 0.55,
+      "reasoning": "Reason 'suspected_fraud' may be inferred from default history or AML/KYC compliance checks, but no explicit fraud indicator in inbound."
     },
     {
       "outbound_field": "freezeDetails.description",
       "sources": [
-        "loan_applications[].required_compliance_checks"
+        "loan_applications[].application_status",
+        "loan_applications[].required_compliance_checks[].check_type"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.55,
-      "reasoning": "Description narrative may be constructed from compliance check types and findings, but is not directly present in inbound schema."
+      "confidence": 0.5,
+      "reasoning": "Description narrative likely constructed from compliance check findings and application status, but no direct narrative field in inbound."
     },
     {
       "outbound_field": "freezeDetails.initiatedBy",
@@ -150,114 +155,121 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.5,
-      "reasoning": "Initiator may relate to the compliance officer reviewing the application, but inbound only has submitted_by credit officer."
+      "reasoning": "May reference the credit officer who submitted the application, but freeze is initiated by compliance officer, not directly mapped."
     },
     {
       "outbound_field": "freezeDetails.department",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Department 'Fraud Investigation Unit' is a specific organizational unit not present in inbound schema."
+      "confidence": 0.9,
+      "reasoning": "Department 'Fraud Investigation Unit' is not present in inbound; determined by risk_and_compliance internal structure."
     },
     {
       "outbound_field": "freezeDetails.effectiveFrom",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Effective date of freeze is a compliance action timestamp, not derivable from inbound application data."
+      "sources": [
+        "loan_applications[].timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.55,
+      "reasoning": "Effective date may be based on application timestamp or compliance review completion, but not directly sourced."
     },
     {
       "outbound_field": "restrictions.allowIncomingTransfers",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Transaction restriction flags are compliance policy outputs, not present in inbound loan application schema."
+      "reasoning": "Transaction restriction policy is determined by compliance rules, not sourced from inbound application data."
     },
     {
       "outbound_field": "restrictions.allowOutgoingTransfers",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Transaction restriction flags are compliance policy outputs, not present in inbound loan application schema."
+      "reasoning": "Transaction restriction policy is determined by compliance rules, not sourced from inbound application data."
     },
     {
       "outbound_field": "restrictions.allowWithdrawals",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Transaction restriction flags are compliance policy outputs, not present in inbound loan application schema."
+      "reasoning": "Transaction restriction policy is determined by compliance rules, not sourced from inbound application data."
     },
     {
       "outbound_field": "restrictions.allowCardTransactions",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Transaction restriction flags are compliance policy outputs, not present in inbound loan application schema."
+      "reasoning": "Transaction restriction policy is determined by compliance rules, not sourced from inbound application data."
     },
     {
       "outbound_field": "restrictions.allowCheques",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Transaction restriction flags are compliance policy outputs, not present in inbound loan application schema."
+      "reasoning": "Transaction restriction policy is determined by compliance rules, not sourced from inbound application data."
     },
     {
       "outbound_field": "escalation.level",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Escalation level is a workflow management field, not derivable from inbound loan application data."
+      "confidence": 0.9,
+      "reasoning": "Escalation level is determined by internal compliance workflow, not sourced from inbound application."
     },
     {
       "outbound_field": "escalation.requiresApproval",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Approval requirement is a compliance workflow decision, not present in inbound schema."
+      "confidence": 0.9,
+      "reasoning": "Approval requirement is determined by compliance policy, not sourced from inbound application."
     },
     {
       "outbound_field": "escalation.approvalDeadline",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Approval deadline is a workflow management timestamp, not derivable from inbound data."
+      "confidence": 0.9,
+      "reasoning": "Approval deadline is determined by compliance workflow, not sourced from inbound application."
     },
     {
       "outbound_field": "escalation.complianceOfficer",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Assigned compliance officer is not present in inbound schema; determined by compliance workflow assignment."
+      "reasoning": "Assigned compliance officer is determined by internal workflow, not sourced from inbound application."
     },
     {
       "outbound_field": "additionalInfo.caseReference",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Case reference is a compliance case management identifier, not present in inbound loan application schema."
+      "sources": [
+        "loan_applications[].application_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Case reference may be derived from or linked to the application_id, but represents a separate compliance case identifier."
     },
     {
       "outbound_field": "additionalInfo.riskScore",
       "sources": [
-        "loan_applications[].financial_profile.credit_score"
+        "loan_applications[].financial_profile.credit_score",
+        "loan_applications[].risk_category"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.55,
-      "reasoning": "Risk score may be derived from credit score and other financial profile data, but is not directly equivalent."
+      "confidence": 0.6,
+      "reasoning": "Risk score may be computed from credit_score and risk_category, but no direct percentage-based risk score in inbound."
     },
     {
       "outbound_field": "additionalInfo.customerNotificationSent",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Notification status is a compliance action tracking field, not present in inbound schema."
+      "reasoning": "Notification status is determined by accounts system execution, not sourced from inbound application."
     },
     {
       "outbound_field": "additionalInfo.regulatoryReporting",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Regulatory reporting flag is a compliance requirement determination, not present in inbound schema."
+      "sources": [
+        "loan_applications[].required_compliance_checks[].check_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Regulatory reporting requirement may be inferred from compliance checks like 'Sanctions Screening', but not explicitly indicated."
     }
   ]
 }

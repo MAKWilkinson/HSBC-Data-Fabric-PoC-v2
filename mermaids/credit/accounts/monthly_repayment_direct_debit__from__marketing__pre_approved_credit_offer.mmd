@@ -8,6 +8,7 @@ flowchart LR
     in_offer_id["offer_id"]
     in_credit_offer_monthly_payment["credit_offer.monthly_payment"]
     in_credit_offer_currency["credit_offer.currency"]
+    in_timestamp["timestamp"]
   end
   subgraph OUT["credit: monthly_repayment_direct_debit"]
     out_repaymentId["repaymentId"]
@@ -37,3 +38,4 @@ flowchart LR
   in_credit_offer_monthly_payment -->|EXACT| out_repayments___repaymentAmount
   in_credit_offer_currency -->|EXACT| out_repayments___currency
   in_credit_offer_monthly_payment -->|TRANSFORMED| out_totalAmount
+  in_timestamp -->|RENAMED| out_timestamp

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains direct debit repayment instructions from Credit to Accounts, while the outbound file contains account balance snapshots from Accounts back to Credit. These represent fundamentally different data domains (repayment instructions vs. account balances) with minimal field overlap. The only shared concepts are customer_id and currency, which are insufficient to establish meaningful data lineage. The outbound file's structure (account balances, pending transactions, account status) cannot be reasonably derived from the inbound file's repayment instruction data.",
+  "relatedness_reasoning": "The inbound file contains loan repayment instructions (direct debit collections), while the outbound file contains account balance snapshots. These represent fundamentally different data domains with no meaningful field overlap. The inbound file describes what money should be collected; the outbound describes current account states. No plausible transformation chain connects them.",
   "mappings": []
 }

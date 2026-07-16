@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "address_updates.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "6852dc0d84b3c057"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
+    "fingerprint": "4f7daed66a164cf6"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "available_cash_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "69117896ce7ad823"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "11ca038dab06b5d9"
   },
   "related": false,
   "relatedness_confidence": 0.05,

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "available_cash_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "69117896ce7ad823"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "11ca038dab06b5d9"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (fund outflows from accounts), while the outbound file reports available cash balances (fund positions). These represent different business processes with minimal field overlap; the outbound file's structure and purpose (cash balance reporting to investments) do not plausibly derive from loan disbursement data.",
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (fund transfer execution), while the outbound file reports available cash balances for investment allocation. These represent different business processes with minimal field overlap: inbound focuses on outgoing loan disbursements with borrower and loan details, outbound focuses on cash position reporting with balance components. No shared account identifiers, amounts, or dates that would indicate direct data lineage.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "anomoly_transfers.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "b410a9729961ef35"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
+    "fingerprint": "af6d1ff32f1fbca0"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish data lineage. Additionally, the inbound file contains scheduled direct debit repayment instructions, while the outbound file name suggests anomaly detection output \u2014 fundamentally different purposes with no evident field correspondence.",
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish data lineage. Additionally, the inbound file contains structured repayment instructions while the outbound file name suggests anomaly detection output\u2014fundamentally different purposes with no observable field overlap.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "overdraft_usage.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "d302878353e5eda9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "1d542763352b8603"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains overdraft usage metrics (overdraft limits, usage amounts, percentages) while the outbound file contains comprehensive loan application data (applicant demographics, employment, financial profile, collateral). These represent fundamentally different data domains with no meaningful field overlap; overdraft monitoring does not plausibly feed into loan application submission workflows.",
+  "relatedness_reasoning": "The inbound file contains overdraft usage metrics (overdraft limits, usage amounts, percentages) for existing accounts, while the outbound file contains comprehensive loan application data (applicant demographics, employment, financial profile, collateral, compliance checks). These represent fundamentally different business processes: overdraft monitoring vs. new loan origination. No meaningful field overlap exists between overdraft usage reporting and loan application submission.",
   "mappings": []
 }

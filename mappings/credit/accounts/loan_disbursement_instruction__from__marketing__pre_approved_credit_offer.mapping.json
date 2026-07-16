@@ -1,29 +1,29 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "d166a0ff74f6665e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "9bb78145829f26ef"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": true,
-  "relatedness_confidence": 0.78,
-  "relatedness_reasoning": "The inbound pre-approved credit offer from marketing to credit system plausibly triggers loan disbursement instructions from credit to accounts. Both files share loan/credit concepts (amount, currency, interest rate, term), customer identifiers, and account numbers. The system pipeline (marketing \u2192 credit \u2192 accounts) and message types (offer \u2192 disbursement instruction) form a logical workflow step.",
+  "relatedness_confidence": 0.75,
+  "relatedness_reasoning": "The inbound pre-approved credit offer from marketing to credit system plausibly triggers loan disbursement instructions from credit to accounts. Both files share loan/credit concepts (amount, currency, interest rate, term), customer identifiers, and represent sequential workflow steps in a lending pipeline.",
   "mappings": [
     {
       "outbound_field": "loan_disbursement_instructions[].instruction_id",
@@ -38,8 +38,8 @@
         "offer_id"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Offer ID from marketing becomes the loan ID in credit system after approval and conversion to loan contract."
+      "confidence": 0.8,
+      "reasoning": "Offer identifier from marketing becomes loan identifier in credit system after approval."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].borrower_name",
@@ -48,7 +48,7 @@
         "customer_details.last_name"
       ],
       "transformation": "MERGE",
-      "confidence": 0.9,
+      "confidence": 0.85,
       "reasoning": "Customer's first and last name combined to form legal borrower name."
     },
     {
@@ -57,7 +57,7 @@
         "customer_details.account_number"
       ],
       "transformation": "EXACT",
-      "confidence": 0.95,
+      "confidence": 0.9,
       "reasoning": "Customer's existing bank account number used directly as borrower account for disbursement."
     },
     {
@@ -66,8 +66,8 @@
         "credit_offer.offer_amount"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.95,
-      "reasoning": "Offered credit amount becomes the disbursement amount upon loan approval."
+      "confidence": 0.9,
+      "reasoning": "Offered credit amount becomes the disbursement principal amount."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].currency",
@@ -80,19 +80,17 @@
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_date",
-      "sources": [
-        "offer_validity.start_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.65,
-      "reasoning": "Offer start date may inform disbursement scheduling, though actual disbursement date likely determined by credit system processing."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Scheduled disbursement date determined by credit system processing, not present in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_method",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Disbursement method (Bank Transfer) is a credit system operational decision not specified in inbound offer."
+      "reasoning": "Disbursement method (Bank Transfer) is a credit system policy decision, not specified in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_account",
@@ -100,21 +98,21 @@
         "customer_details.account_number"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Customer's account number serves as destination for fund transfer."
+      "confidence": 0.8,
+      "reasoning": "Customer's account number serves as the destination for fund transfer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Bank identifier code not provided in inbound offer; determined by credit system from account details."
+      "confidence": 0.9,
+      "reasoning": "Bank identifier code not provided in inbound offer; determined by credit system from account lookup."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].purpose",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
+      "confidence": 0.85,
       "reasoning": "Loan purpose (Working Capital, Equipment Purchase) not specified in pre-approved offer schema."
     },
     {
@@ -124,7 +122,7 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Loan term in months copied directly from credit offer to disbursement instruction."
+      "reasoning": "Loan term in months copied directly from credit offer terms."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].interest_rate",
@@ -142,44 +140,42 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.7,
-      "reasoning": "Inbound status 'pending_credit_review' transforms to outbound status enum (APPROVED or PENDING) after credit review completion."
+      "reasoning": "Inbound status 'pending_credit_review' transforms to outbound status enum (APPROVED/PENDING) after credit review."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_by",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Credit officer identifier is a credit system operational field not present in inbound offer."
+      "reasoning": "Credit officer identifier is system-generated metadata, not present in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.65,
-      "reasoning": "Offer timestamp may inform creation date, though disbursement instruction creation date is likely set by credit system."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Disbursement instruction creation date is determined by credit system processing, not in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].approved_by",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Approving credit manager identifier is a credit system operational field not in inbound offer."
+      "reasoning": "Approver identifier is system-generated by credit manager, not present in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].approved_date",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Approval date is determined by credit system workflow, not provided in inbound offer."
+      "confidence": 0.9,
+      "reasoning": "Approval date determined by credit system workflow, not specified in inbound offer."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].remarks",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Free-text remarks are credit system operational notes not sourced from inbound offer."
+      "confidence": 0.9,
+      "reasoning": "Free-text remarks added by credit officers during processing; not sourced from inbound offer."
     }
   ]
 }

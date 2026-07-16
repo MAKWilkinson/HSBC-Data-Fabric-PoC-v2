@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/address_updates.json",
     "providing_system": "customer_services",
     "consuming_system": "accounts",
     "message_file_name": "address_updates.json",

@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
     "providing_system": "risk_and_compliance",
     "consuming_system": "credit",
     "message_file_name": "lending_decision_override.json",

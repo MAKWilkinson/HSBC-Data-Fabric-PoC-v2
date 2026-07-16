@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "payment_holiday_application.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "27fbcc0d55a0c2b8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "59637fbc5a5a2e8c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file captures a payment holiday application request (suspension of payments), while the outbound file instructs monthly repayment collections via direct debit. These represent opposite business intents: the inbound requests payment suspension, the outbound schedules payment collection. No fields logically correspond between a payment holiday application and an active repayment batch instruction.",
+  "relatedness_reasoning": "The inbound file captures a payment holiday application request (suspension of payments), while the outbound file instructs monthly repayment collections via direct debit. These represent opposite business intents: the inbound requests payment suspension, the outbound enforces payment collection. No fields meaningfully correspond between the two schemas.",
   "mappings": []
 }

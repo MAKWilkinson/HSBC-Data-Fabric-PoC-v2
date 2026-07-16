@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "d166a0ff74f6665e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "9bb78145829f26ef"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains only aggregated segment-level metrics and summary statistics with no individual customer data, while the outbound file requires specific customer identities, personal details, and individualized credit offer terms. The inbound schema provides no customer_id, names, contact information, or individual financial data needed to populate the outbound schema; the data structures are fundamentally incompatible for direct lineage.",
+  "relatedness_reasoning": "The inbound file contains only aggregated segment-level metrics and summary statistics with no individual customer data, while the outbound file requires specific customer identities, personal details, and individualized credit offer terms. There is no plausible way to derive individual customer records, names, emails, phone numbers, or personalized credit offers from segment-level aggregate data alone.",
   "mappings": []
 }

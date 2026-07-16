@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
     "providing_system": "credit",
     "consuming_system": "risk_and_compliance",
     "message_file_name": "credit_score_result.json",

@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/accounts/debit_credit_instruction.json",
     "providing_system": "investments",
     "consuming_system": "accounts",
     "message_file_name": "debit_credit_instruction.json",

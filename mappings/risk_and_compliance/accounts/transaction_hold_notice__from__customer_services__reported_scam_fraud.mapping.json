@@ -1,36 +1,38 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/transaction_hold_notice.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "transaction_hold_notice.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "52b27510617a2c1c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
+    "fingerprint": "a4cf70376b8fdd15"
   },
   "related": true,
-  "relatedness_confidence": 0.92,
-  "relatedness_reasoning": "Both files concern fraud/scam incidents and transaction holds; inbound reports fraud to risk_and_compliance, outbound notifies accounts of transaction holds \u2014 a direct causal pipeline. Multiple fields map clearly: customer identifiers, account details, transaction amounts, currency, country codes, severity, and risk indicators all correspond.",
+  "relatedness_confidence": 0.82,
+  "relatedness_reasoning": "Both files concern fraud/scam incidents and transaction holds; risk_and_compliance receives fraud reports from customer_services and sends transaction hold notices to accounts. Customer, transaction, and risk severity data flow logically from inbound to outbound, forming a clear compliance pipeline.",
   "mappings": [
     {
       "outbound_field": "noticeId",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "System-generated unique identifier for the hold notice; no source in inbound."
+      "sources": [
+        "reportId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.75,
+      "reasoning": "Both are unique identifiers for compliance actions; reportId becomes the basis for noticeId generation."
     },
     {
       "outbound_field": "timestamp",
@@ -38,28 +40,28 @@
         "reportDate"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Timestamp of notice generation likely derived from or close to the report date."
+      "confidence": 0.8,
+      "reasoning": "reportDate marks when the fraud report was created; timestamp marks when the hold notice was generated, likely shortly after."
     },
     {
       "outbound_field": "department",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.98,
+      "confidence": 0.95,
       "reasoning": "Hardcoded enum value 'Risk and Compliance' representing the issuing department; not derived from inbound data."
     },
     {
       "outbound_field": "recipientDepartment",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.98,
+      "confidence": 0.95,
       "reasoning": "Hardcoded enum value 'Accounts' representing the destination department; not derived from inbound data."
     },
     {
       "outbound_field": "noticeType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.98,
+      "confidence": 0.95,
       "reasoning": "Hardcoded enum value 'TRANSACTION_HOLD' representing the notice classification; not derived from inbound data."
     },
     {
@@ -67,9 +69,9 @@
       "sources": [
         "severity"
       ],
-      "transformation": "TRANSFORMED",
+      "transformation": "EXACT",
       "confidence": 0.9,
-      "reasoning": "Inbound severity 'high' is transformed to outbound enum 'HIGH' (case normalization)."
+      "reasoning": "Both fields represent risk severity level; inbound severity is 'high' enum, outbound is 'HIGH' enum (case transformation)."
     },
     {
       "outbound_field": "accountNumber",
@@ -77,8 +79,8 @@
         "customer.accountNumber"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.92,
-      "reasoning": "Inbound customer.accountNumber (masked account) maps to outbound accountNumber; format differs (account_number to iban) but represents the same account identifier."
+      "confidence": 0.85,
+      "reasoning": "Inbound customer.accountNumber (masked account) becomes outbound accountNumber; note format differs (account_number to iban) but represents the same account identifier."
     },
     {
       "outbound_field": "customerId",
@@ -86,7 +88,7 @@
         "customer.customerId"
       ],
       "transformation": "EXACT",
-      "confidence": 0.98,
+      "confidence": 0.95,
       "reasoning": "Direct copy of customer identifier from inbound to outbound."
     },
     {
@@ -95,8 +97,8 @@
         "customer.customerName"
       ],
       "transformation": "EXACT",
-      "confidence": 0.98,
-      "reasoning": "Direct copy of customer name from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Direct copy of customer full name from inbound to outbound."
     },
     {
       "outbound_field": "holdReason",
@@ -105,7 +107,7 @@
         "riskIndicators"
       ],
       "transformation": "MERGE",
-      "confidence": 0.88,
+      "confidence": 0.8,
       "reasoning": "Hold reason combines fraud description and risk indicators to explain why the transaction hold was placed."
     },
     {
@@ -114,15 +116,15 @@
         "incident.detectionDate"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Hold effective date likely corresponds to incident detection date or shortly thereafter."
+      "confidence": 0.7,
+      "reasoning": "Hold becomes effective around the time the incident was detected; detectionDate serves as the logical basis for hold activation."
     },
     {
       "outbound_field": "estimatedHoldDuration",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No inbound field specifies hold duration; likely determined by compliance policy or manual assessment."
+      "reasoning": "No inbound field specifies hold duration; this is a compliance policy decision not derived from the fraud report."
     },
     {
       "outbound_field": "transactionsAffected[].transactionId",
@@ -130,8 +132,8 @@
         "fraudDetails.transactionReference"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.92,
-      "reasoning": "Inbound transactionReference maps to outbound transactionId; same concept, different name."
+      "confidence": 0.85,
+      "reasoning": "Inbound transactionReference identifies the fraudulent transaction; becomes transactionId in the held transactions list."
     },
     {
       "outbound_field": "transactionsAffected[].amount",
@@ -139,7 +141,7 @@
         "fraudDetails.amountInvolved"
       ],
       "transformation": "EXACT",
-      "confidence": 0.98,
+      "confidence": 0.95,
       "reasoning": "Direct copy of fraudulent transaction amount from inbound to outbound."
     },
     {
@@ -148,8 +150,8 @@
         "fraudDetails.currency"
       ],
       "transformation": "EXACT",
-      "confidence": 0.98,
-      "reasoning": "Direct copy of currency code from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Direct copy of currency code (GBP) from inbound to outbound."
     },
     {
       "outbound_field": "transactionsAffected[].destinationCountry",
@@ -157,24 +159,26 @@
         "fraudDetails.recipientCountry"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.95,
-      "reasoning": "Inbound recipientCountry (country of fraudulent recipient) maps to outbound destinationCountry; same concept, different name."
+      "confidence": 0.9,
+      "reasoning": "Inbound recipientCountry (NI) identifies where fraudulent funds were sent; becomes destinationCountry in held transaction details."
     },
     {
       "outbound_field": "transactionsAffected[].status",
       "sources": [
         "fraudDetails.transactionStatus"
       ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.88,
-      "reasoning": "Inbound transactionStatus 'blocked' is transformed to outbound enum 'HELD' (semantically equivalent hold state)."
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Inbound transactionStatus is 'blocked'; outbound status is 'HELD' (semantically equivalent compliance state)."
     },
     {
       "outbound_field": "riskScore",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "No quantified risk score in inbound; likely computed from riskIndicators or severity by compliance system."
+      "sources": [
+        "riskIndicators"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Risk score is computed from the array of risk indicators; no single inbound field directly provides a numeric score."
     },
     {
       "outbound_field": "riskFlags",
@@ -182,8 +186,8 @@
         "riskIndicators"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.95,
-      "reasoning": "Inbound riskIndicators array maps to outbound riskFlags array; same concept, different name."
+      "confidence": 0.9,
+      "reasoning": "Inbound riskIndicators array becomes outbound riskFlags array; same concept, different field name."
     },
     {
       "outbound_field": "requiredActions",
@@ -191,15 +195,17 @@
         "actionsTaken"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.82,
-      "reasoning": "Inbound actionsTaken describes past actions; outbound requiredActions describes future actions for Accounts department to resolve the hold."
+      "confidence": 0.75,
+      "reasoning": "Inbound actionsTaken describes protective actions already executed; outbound requiredActions specifies actions the Accounts department must perform (derived from incident context)."
     },
     {
       "outbound_field": "escalationLevel",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.88,
-      "reasoning": "No numeric escalation level in inbound; likely derived from severity or escalationRequired flag by compliance system."
+      "sources": [
+        "escalationRequired"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Inbound escalationRequired is a boolean flag; outbound escalationLevel is a numeric tier derived from severity and escalation flag."
     },
     {
       "outbound_field": "approvalRequired",
@@ -207,47 +213,47 @@
         "escalationRequired"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Inbound escalationRequired flag indicates need for escalation; outbound approvalRequired indicates need for senior approval to release hold."
+      "confidence": 0.75,
+      "reasoning": "Inbound escalationRequired boolean indicates need for escalation; outbound approvalRequired indicates need for senior management approval (related compliance concept)."
     },
     {
       "outbound_field": "approverRole",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Hardcoded enum value 'Senior Compliance Officer'; not derived from inbound data."
+      "reasoning": "Hardcoded enum value 'Senior Compliance Officer' representing the authorized approver role; not derived from inbound data."
     },
     {
       "outbound_field": "notes",
       "sources": [
         "additionalNotes"
       ],
-      "transformation": "RENAMED",
+      "transformation": "EXACT",
       "confidence": 0.9,
-      "reasoning": "Inbound additionalNotes maps to outbound notes; same concept, different name."
+      "reasoning": "Direct copy of supplementary narrative details from inbound additionalNotes to outbound notes."
     },
     {
       "outbound_field": "expiryDate",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.88,
-      "reasoning": "No expiry date in inbound; likely computed by adding hold duration to effective date or determined by policy."
+      "confidence": 0.9,
+      "reasoning": "No inbound field specifies when the hold notice expires; this is a compliance policy decision."
     },
     {
       "outbound_field": "issuedBy",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.98,
-      "reasoning": "Hardcoded enum value 'automated_compliance_system_v2.1' representing the issuing system; not derived from inbound data."
+      "confidence": 0.95,
+      "reasoning": "Hardcoded enum value 'automated_compliance_system_v2.1' identifying the issuing system; not derived from inbound data."
     },
     {
       "outbound_field": "priority",
       "sources": [
         "severity"
       ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.85,
-      "reasoning": "Inbound severity 'high' is transformed to outbound enum 'URGENT' (high severity maps to urgent priority)."
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound severity 'high' maps to outbound priority 'URGENT'; both indicate urgency level of the compliance action."
     }
   ]
 }

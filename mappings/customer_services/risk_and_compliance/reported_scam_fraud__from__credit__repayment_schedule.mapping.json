@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/repayment_schedule.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "repayment_schedule.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "2db86c06ce74430c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
+    "fingerprint": "07fbf04f7904ad19"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains loan repayment schedule data (financial product details, payment schedules, balances), while the outbound file is a fraud/scam incident report (detection, investigation, remediation). These represent fundamentally different business domains with no overlapping field concepts, purposes, or data flows. A repayment schedule would not logically transform into a fraud report.",
+  "relatedness_reasoning": "The inbound file contains loan repayment schedule data (financial product details, payment schedules, balances), while the outbound file is a fraud/scam incident report (fraud detection, transaction blocking, risk indicators). These represent fundamentally different business domains with no meaningful field overlap. The inbound schema contains no fraud indicators, incident details, transaction blocking status, or risk signals. While both files reference customer_id and customer_name, this alone is insufficient to establish data lineage when the core purposes and content are entirely distinct.",
   "mappings": []
 }

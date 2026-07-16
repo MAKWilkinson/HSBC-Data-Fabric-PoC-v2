@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "available_cash_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "69117896ce7ad823"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "11ca038dab06b5d9"
   },
   "related": false,
   "relatedness_confidence": 0.12,
-  "relatedness_reasoning": "The inbound file documents a chargeback dispute request from customer_services to accounts, while the outbound file reports available cash balances from accounts to investments. These serve fundamentally different purposes: dispute processing vs. cash position reporting. Only two fields (accountNumber and currency) show any semantic overlap, but they serve entirely different contexts and the outbound file's structure cannot reasonably be derived from the inbound file's structure.",
+  "relatedness_reasoning": "The inbound file documents a chargeback dispute request from customer_services to accounts, while the outbound file reports available cash balances from accounts to investments. These serve fundamentally different purposes: dispute processing vs. cash position reporting. Only two fields show any semantic overlap (currency and timestamp), which is insufficient to establish meaningful data lineage. The outbound file's structure (cash balance components, fund allocation context) cannot be reasonably derived from dispute transaction data.",
   "mappings": []
 }

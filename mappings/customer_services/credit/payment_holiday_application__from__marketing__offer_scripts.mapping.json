@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "offer_scripts.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
-    "fingerprint": "db4cbe1108cb3518"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "5539ef372c6fe4ac"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "payment_holiday_application.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "27fbcc0d55a0c2b8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "59637fbc5a5a2e8c"
   },
   "related": false,
   "relatedness_confidence": 0.15,

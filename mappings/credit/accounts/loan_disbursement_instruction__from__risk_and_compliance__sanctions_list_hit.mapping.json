@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "sanctions_list_hit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "a400be36b720540e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "1a7b1cc951bd9c34"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file documents sanctions screening hits and compliance review workflows, while the outbound file contains loan disbursement instructions for fund transfers. These represent fundamentally different business processes with no meaningful field overlap; sanctions hits trigger compliance holds, not loan disbursements. The only shared concepts (account numbers, currency) are too generic to establish data lineage.",
+  "relatedness_reasoning": "The inbound file documents sanctions screening hits and compliance review workflows, while the outbound file contains loan disbursement instructions for fund transfers. These represent fundamentally different business processes with no overlapping field concepts, purposes, or data flows. The inbound file is compliance/risk-focused; the outbound is transactional/operational. No plausible transformation chain connects them.",
   "mappings": []
 }

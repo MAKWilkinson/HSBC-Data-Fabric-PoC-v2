@@ -5,9 +5,8 @@ flowchart LR
     in_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
     in_product_holding_data_holdings___available_balance["product_holding_data.holdings[].available_balance"]
     in_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
-    in_product_holding_data_holdings___credit_limit["product_holding_data.holdings[].credit_limit"]
-    in_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
     in_product_holding_data_holdings___monthly_turnover["product_holding_data.holdings[].monthly_turnover"]
+    in_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
     in_product_holding_data_holdings___is_primary_account["product_holding_data.holdings[].is_primary_account"]
   end
   subgraph OUT["marketing: pre_approved_credit_offer"]
@@ -48,8 +47,9 @@ flowchart LR
   in_product_holding_data_holdings___account_number -->|EXACT| out_customer_details_account_number
   in_product_holding_data_holdings___available_balance -->|TRANSFORMED| out_credit_offer_offer_amount
   in_product_holding_data_holdings___balance -->|TRANSFORMED| out_credit_offer_offer_amount
-  in_product_holding_data_holdings___credit_limit -->|TRANSFORMED| out_credit_offer_offer_amount
-  in_product_holding_data_holdings___currency -->|SEMANTIC| out_credit_offer_currency
+  in_product_holding_data_holdings___monthly_turnover -->|TRANSFORMED| out_credit_offer_offer_amount
+  in_product_holding_data_holdings___currency -->|EXACT| out_credit_offer_currency
+  in_product_holding_data_holdings___monthly_turnover -->|TRANSFORMED| out_credit_offer_monthly_payment
   in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_eligibility_criteria_existing_customer
   in_product_holding_data_holdings___balance -->|TRANSFORMED| out_marketing_campaign_segment
   in_product_holding_data_holdings___monthly_turnover -->|TRANSFORMED| out_marketing_campaign_segment

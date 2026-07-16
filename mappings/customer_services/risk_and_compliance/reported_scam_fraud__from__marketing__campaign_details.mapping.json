@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "campaign_details.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "60092d15f7b3f417"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "b3ae882ac099ab57"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file contains fraud/scam incident reports (transaction details, risk indicators, customer account information). These represent fundamentally different domains with no meaningful field overlap; campaign_details describes promotional activities, while reported_scam_fraud describes security incidents. The systems are connected (marketing \u2192 customer_services \u2192 risk_and_compliance) but these specific files serve unrelated purposes within that pipeline.",
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file contains fraud/scam incident reports (transaction details, risk indicators, customer account information). These represent fundamentally different domains with no meaningful field overlap; campaign_details describes promotional activities, while reported_scam_fraud describes security incidents. The systems are connected (marketing \u2192 customer_services \u2192 risk_and_compliance) but the message types serve unrelated purposes.",
   "mappings": []
 }

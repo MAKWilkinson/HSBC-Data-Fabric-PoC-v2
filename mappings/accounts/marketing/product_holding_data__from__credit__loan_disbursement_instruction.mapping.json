@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "product_holding_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "8e70e5616cb49d16"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "6a02bd146c572c43"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (transaction-level fund transfer orders), while the outbound file contains product holding data (customer account portfolio snapshots). These represent fundamentally different data domains with minimal field overlap; loan disbursement is a transactional event, while product holdings is a state snapshot. No meaningful field correspondence exists between the schemas.",
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (transaction-level fund transfer orders), while the outbound file contains product holding data (customer account portfolio snapshots). These represent fundamentally different data domains: one is transactional/operational (a single disbursement event), the other is master data/reporting (account balances and product relationships). No meaningful field correspondence exists between them.",
   "mappings": []
 }

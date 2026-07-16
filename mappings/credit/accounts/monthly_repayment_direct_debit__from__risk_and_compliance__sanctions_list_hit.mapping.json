@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/sanctions_list_hit.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "sanctions_list_hit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "a400be36b720540e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
+    "fingerprint": "1a7b1cc951bd9c34"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": false,
-  "relatedness_confidence": 0.08,
-  "relatedness_reasoning": "The inbound file contains sanctions screening hit notifications with compliance review and entity matching data; the outbound file contains monthly loan repayment direct debit instructions. These serve fundamentally different business purposes (compliance/risk vs. collections/payments) with no meaningful field overlap beyond generic identifiers and timestamps. The account numbers present in both files serve entirely different contexts (frozen sanctioned accounts vs. active repayment accounts), and there is no logical data flow from sanctions detection to repayment processing.",
+  "relatedness_confidence": 0.12,
+  "relatedness_reasoning": "The inbound file contains sanctions screening hit notifications with compliance review data, while the outbound file contains monthly loan repayment direct debit instructions. These serve fundamentally different business purposes (compliance/risk vs. collections/payments) with minimal field overlap. The only shared concepts are account numbers and currency codes, which are too generic to establish meaningful data lineage.",
   "mappings": []
 }

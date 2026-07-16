@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "funds_settlement.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "cfc8d72f9e643a69"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "dc0cb76dc64ae3e1"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/risk_and_compliance/trade_records.json",
       "providing_system": "investments",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "trade_records.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
-    "fingerprint": "fa0581e0fb3586e7"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
+    "fingerprint": "0732cd486cace56a"
   },
   "related": false,
   "relatedness_confidence": 0.15,

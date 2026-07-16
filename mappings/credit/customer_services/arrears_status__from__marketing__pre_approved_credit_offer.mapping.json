@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "d166a0ff74f6665e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "9bb78145829f26ef"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "arrears_status.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "b6c6d9868f60d986"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "6cfe8f733d3f650c"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains pre-approved credit offer data (marketing \u2192 credit), while the outbound file contains arrears status data (credit \u2192 customer_services). These represent fundamentally different business processes: offer generation vs. payment delinquency tracking. Only customer_id and account_number overlap as identifiers, but the outbound file's core payload (arrears amounts, payment dates, delinquency status) has no corresponding source fields in the inbound schema, which focuses on offer terms and eligibility criteria rather than account performance or payment history.",
+  "relatedness_reasoning": "The inbound file contains pre-approved credit offer details (marketing to credit), while the outbound file reports arrears status (credit to customer services). These represent fundamentally different business processes: offer generation vs. delinquency reporting. No meaningful field overlap exists; customer_id and account_number appear in both but serve entirely different contexts. The outbound file's core payload (arrears amounts, payment dates, risk levels) has no source in an offer-generation inbound file.",
   "mappings": []
 }

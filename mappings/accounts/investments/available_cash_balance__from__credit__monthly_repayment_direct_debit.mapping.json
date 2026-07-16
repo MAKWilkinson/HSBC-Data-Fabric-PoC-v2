@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/available_cash_balance.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "available_cash_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "69117896ce7ad823"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
+    "fingerprint": "11ca038dab06b5d9"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains loan repayment instructions from Credit to Accounts, while the outbound file reports available cash balances from Accounts to Investments. These represent fundamentally different business processes (debt collection vs. liquidity reporting) with no overlapping field concepts, incompatible currencies (GBP vs. USD), and no plausible data transformation pathway between them.",
+  "relatedness_reasoning": "The inbound file contains loan repayment instructions from Credit to Accounts, while the outbound file reports cash balance details from Accounts to Investments. These serve fundamentally different purposes: one is a transaction instruction, the other is a balance report. No meaningful field correspondence exists between repayment batch data and cash balance components. The systems are connected sequentially but the files are not data lineage related.",
   "mappings": []
 }

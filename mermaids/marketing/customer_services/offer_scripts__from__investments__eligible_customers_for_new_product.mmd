@@ -4,6 +4,8 @@ flowchart LR
     in_metadata_target_department["metadata.target_department"]
     in_metadata_generated_date["metadata.generated_date"]
     in_eligible_customers___recommended_product_allocation["eligible_customers[].recommended_product_allocation"]
+    in_eligible_customers___email["eligible_customers[].email"]
+    in_metadata_eligibility_criteria["metadata.eligibility_criteria"]
     in_summary_total_eligible_customers["summary.total_eligible_customers"]
   end
   subgraph OUT["marketing: offer_scripts"]
@@ -26,8 +28,13 @@ flowchart LR
   end
   in_metadata_product_name -->|SEMANTIC| out_offer_scripts___name
   in_metadata_target_department -->|SEMANTIC| out_offer_scripts___department_from
-  in_metadata_generated_date -->|SEMANTIC| out_offer_scripts___created_date
+  in_metadata_generated_date -->|TRANSFORMED| out_offer_scripts___created_date
+  in_metadata_generated_date -->|TRANSFORMED| out_offer_scripts___effective_date
   in_metadata_product_name -->|MERGE| out_offer_scripts___target_segment
   in_eligible_customers___recommended_product_allocation -->|MERGE| out_offer_scripts___target_segment
+  in_eligible_customers___email -->|SEMANTIC| out_offer_scripts___script_type
+  in_metadata_product_name -->|MERGE| out_offer_scripts___content
+  in_metadata_eligibility_criteria -->|MERGE| out_offer_scripts___content
+  in_eligible_customers___recommended_product_allocation -->|MERGE| out_offer_scripts___content
   in_summary_total_eligible_customers -->|SEMANTIC| out_metadata_total_scripts
   in_metadata_generated_date -->|SEMANTIC| out_metadata_last_updated

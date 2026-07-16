@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "salary_credits.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "e343a18ec9d213eb"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "b7021963156184c9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains salary credit transactions from the Accounts department to the Credit department, while the outbound file contains loan applications from Credit to Risk and Compliance. These represent fundamentally different business processes with minimal field overlap; salary credits are income deposits, not loan applications. The outbound file requires applicant personal data (DOB, email, phone, credit score, assets, liabilities) that is entirely absent from the inbound schema, and the outbound structure (loan_applications array with detailed financial profiles) cannot be reasonably derived from salary transaction data.",
+  "relatedness_reasoning": "The inbound file contains salary credit transaction data from Accounts to Credit department, while the outbound file contains loan application data from Credit to Risk and Compliance. These represent fundamentally different business processes with minimal field overlap; salary credits are payroll transactions, not loan applications. The outbound file requires applicant personal data (DOB, email, phone, credit score, assets, liabilities) that is not present in the inbound salary credit schema.",
   "mappings": []
 }

@@ -2,8 +2,9 @@ flowchart LR
   subgraph IN["investments: eligible_customers_for_new_product"]
     in_metadata_product_name["metadata.product_name"]
     in_metadata_target_department["metadata.target_department"]
-    in_summary_total_eligible_customers["summary.total_eligible_customers"]
     in_metadata_generated_date["metadata.generated_date"]
+    in_metadata_eligibility_criteria["metadata.eligibility_criteria"]
+    in_summary_total_eligible_customers["summary.total_eligible_customers"]
   end
   subgraph OUT["marketing: campaign_details"]
     out_campaign_id["campaign_id"]
@@ -39,8 +40,11 @@ flowchart LR
   end
   in_metadata_product_name -->|SEMANTIC| out_campaign_name
   in_metadata_target_department -->|SEMANTIC| out_department_from
+  in_metadata_generated_date -->|SEMANTIC| out_start_date
   in_metadata_product_name -->|SEMANTIC| out_campaign_type
+  in_metadata_eligibility_criteria -->|SEMANTIC| out_campaign_objectives
+  in_metadata_product_name -->|SEMANTIC| out_key_messages
+  in_metadata_eligibility_criteria -->|SEMANTIC| out_key_messages
   in_summary_total_eligible_customers -->|SEMANTIC| out_customer_service_requirements_expected_inquiry_volume
-  in_metadata_product_name -->|SEMANTIC| out_customer_service_requirements_priority_topics
   in_summary_total_eligible_customers -->|SEMANTIC| out_success_metrics_target_conversions
   in_metadata_generated_date -->|SEMANTIC| out_created_date

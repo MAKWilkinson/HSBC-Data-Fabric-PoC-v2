@@ -1,6 +1,5 @@
 flowchart LR
   subgraph IN["marketing: pre_approved_credit_offer"]
-    in_offer_id["offer_id"]
     in_customer_id["customer_id"]
     in_customer_details_first_name["customer_details.first_name"]
     in_customer_details_last_name["customer_details.last_name"]
@@ -8,7 +7,6 @@ flowchart LR
     in_credit_offer_offer_amount["credit_offer.offer_amount"]
     in_credit_offer_interest_rate["credit_offer.interest_rate"]
     in_credit_offer_term_months["credit_offer.term_months"]
-    in_offer_validity_start_date["offer_validity.start_date"]
     in_credit_offer_currency["credit_offer.currency"]
     in_credit_offer_monthly_payment["credit_offer.monthly_payment"]
     in_credit_offer_total_repayable["credit_offer.total_repayable"]
@@ -29,6 +27,7 @@ flowchart LR
     out_repayment_schedule_generated_date["repayment_schedule.generated_date"]
     out_repayment_schedule_repayment_frequency["repayment_schedule.repayment_frequency"]
     out_repayment_schedule_total_repayments["repayment_schedule.total_repayments"]
+    out_repayment_schedule_repayments["repayment_schedule.repayments"]
     out_repayment_schedule_repayments___payment_number["repayment_schedule.repayments[].payment_number"]
     out_repayment_schedule_repayments___due_date["repayment_schedule.repayments[].due_date"]
     out_repayment_schedule_repayments___principal_payment["repayment_schedule.repayments[].principal_payment"]
@@ -46,7 +45,6 @@ flowchart LR
     out_repayment_schedule_metadata_message_id["repayment_schedule.metadata.message_id"]
     out_repayment_schedule_metadata_timestamp["repayment_schedule.metadata.timestamp"]
   end
-  in_offer_id -->|RENAMED| out_repayment_schedule_loan_id
   in_customer_id -->|EXACT| out_repayment_schedule_customer_id
   in_customer_details_first_name -->|MERGE| out_repayment_schedule_customer_name
   in_customer_details_last_name -->|MERGE| out_repayment_schedule_customer_name
@@ -54,22 +52,24 @@ flowchart LR
   in_credit_offer_offer_amount -->|RENAMED| out_repayment_schedule_principal_amount
   in_credit_offer_interest_rate -->|EXACT| out_repayment_schedule_interest_rate
   in_credit_offer_term_months -->|RENAMED| out_repayment_schedule_loan_term_months
-  in_offer_validity_start_date -->|SEMANTIC| out_repayment_schedule_start_date
-  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_maturity_date
-  in_offer_validity_start_date -->|TRANSFORMED| out_repayment_schedule_maturity_date
   in_credit_offer_currency -->|EXACT| out_repayment_schedule_currency
-  in_credit_offer_monthly_payment -->|SEMANTIC| out_repayment_schedule_repayment_frequency
   in_credit_offer_term_months -->|SEMANTIC| out_repayment_schedule_total_repayments
-  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_repayments___due_date
+  in_credit_offer_offer_amount -->|TRANSFORMED| out_repayment_schedule_repayments
+  in_credit_offer_interest_rate -->|TRANSFORMED| out_repayment_schedule_repayments
+  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_repayments
+  in_credit_offer_monthly_payment -->|TRANSFORMED| out_repayment_schedule_repayments
   in_credit_offer_offer_amount -->|TRANSFORMED| out_repayment_schedule_repayments___principal_payment
+  in_credit_offer_interest_rate -->|TRANSFORMED| out_repayment_schedule_repayments___principal_payment
   in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_repayments___principal_payment
-  in_credit_offer_interest_rate -->|TRANSFORMED| out_repayment_schedule_repayments___interest_payment
   in_credit_offer_offer_amount -->|TRANSFORMED| out_repayment_schedule_repayments___interest_payment
+  in_credit_offer_interest_rate -->|TRANSFORMED| out_repayment_schedule_repayments___interest_payment
+  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_repayments___interest_payment
   in_credit_offer_monthly_payment -->|SEMANTIC| out_repayment_schedule_repayments___total_payment
   in_credit_offer_offer_amount -->|TRANSFORMED| out_repayment_schedule_repayments___outstanding_balance
+  in_credit_offer_interest_rate -->|TRANSFORMED| out_repayment_schedule_repayments___outstanding_balance
+  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_repayments___outstanding_balance
   in_credit_offer_total_repayable -->|RENAMED| out_repayment_schedule_summary_total_amount_payable
   in_credit_offer_total_repayable -->|TRANSFORMED| out_repayment_schedule_summary_total_interest
   in_credit_offer_offer_amount -->|TRANSFORMED| out_repayment_schedule_summary_total_interest
-  in_credit_offer_term_months -->|TRANSFORMED| out_repayment_schedule_summary_next_payment_due
   in_credit_offer_monthly_payment -->|SEMANTIC| out_repayment_schedule_summary_next_payment_amount
   in_department_from -->|SEMANTIC| out_repayment_schedule_metadata_source_system

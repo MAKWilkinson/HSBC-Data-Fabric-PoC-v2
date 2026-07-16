@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/credit_score_result.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "credit_score_result.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "df5907e22b67b515"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
+    "fingerprint": "84b067a6b0257002"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/customer/kyc_refresh_request.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "customer",
       "message_file_name": "kyc_refresh_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "c9a77344b85d7db6"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
+    "fingerprint": "4775eb9488600380"
   },
   "related": true,
   "relatedness_confidence": 0.72,
@@ -175,21 +175,21 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No document requirement list exists in inbound; likely determined by KYC policy engine or compliance rules."
+      "reasoning": "No document requirements exist in inbound credit score result; determined by KYC policy or risk assessment rules."
     },
     {
       "outbound_field": "required_actions",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No required actions list exists in inbound; likely determined by KYC policy engine or compliance rules."
+      "reasoning": "No required actions exist in inbound; determined by KYC policy or risk assessment rules."
     },
     {
       "outbound_field": "deadline",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "No deadline field exists in inbound; likely calculated by policy engine based on refresh reason and risk level."
+      "reasoning": "No deadline exists in inbound; calculated based on KYC policy and current timestamp."
     },
     {
       "outbound_field": "status",
@@ -198,16 +198,16 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.6,
-      "reasoning": "Inbound review_status ('Completed') may trigger outbound status ('PENDING_CUSTOMER_RESPONSE'); weak semantic connection as values differ."
+      "reasoning": "Inbound review_status ('Completed') may trigger outbound status ('PENDING_CUSTOMER_RESPONSE'); weak connection as values differ significantly."
     },
     {
       "outbound_field": "internal_notes",
       "sources": [
-        "credit_score_result.reviewed_by"
+        "credit_score_result.credit_assessment.recommended_action"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.5,
-      "reasoning": "Reviewer identifier from inbound may be included in internal notes; very weak connection as field purposes differ significantly."
+      "confidence": 0.55,
+      "reasoning": "Inbound recommended_action may inform internal notes; weak connection as inbound field is structured recommendation, not free-form notes."
     }
   ]
 }

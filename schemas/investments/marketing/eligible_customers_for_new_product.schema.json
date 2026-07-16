@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
     "providing_system": "investments",
     "consuming_system": "marketing",
     "message_file_name": "eligible_customers_for_new_product.json",
@@ -81,20 +81,20 @@
           "name": "account_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Current account balance in USD; used to verify minimum eligibility threshold of $50,000",
+          "description": "Current account balance in the customer's investment account, used to verify eligibility threshold",
           "fmt": "currency"
         },
         {
           "name": "customer_tenure_months",
           "data_type": "integer",
           "nullable": false,
-          "description": "Number of months the customer has been with the bank; used to verify minimum 12-month tenure requirement"
+          "description": "Number of months the customer has been with the bank, used to verify minimum tenure eligibility requirement"
         },
         {
           "name": "investment_experience_level",
           "data_type": "string",
           "nullable": false,
-          "description": "Customer's self-assessed or profiled investment experience category",
+          "description": "Customer's self-assessed or assessed investment experience category",
           "enum_values": [
             "Beginner",
             "Intermediate",
@@ -105,7 +105,7 @@
           "name": "risk_profile",
           "data_type": "string",
           "nullable": false,
-          "description": "Customer's risk tolerance classification, used to tailor product recommendations",
+          "description": "Customer's risk tolerance classification used to tailor product recommendations",
           "enum_values": [
             "Conservative",
             "Moderate",
@@ -116,14 +116,14 @@
           "name": "last_investment_activity",
           "data_type": "date",
           "nullable": false,
-          "description": "Date of the customer's most recent investment transaction or account activity",
-          "fmt": "date"
+          "description": "The most recent date on which the customer engaged in an investment transaction",
+          "fmt": "iso8601"
         },
         {
           "name": "recommended_product_allocation",
           "data_type": "string",
           "nullable": false,
-          "description": "Suggested investment allocation strategy for the customer based on their profile and risk tolerance",
+          "description": "The suggested investment strategy or fund allocation tier for this customer based on their profile",
           "enum_values": [
             "Conservative Growth",
             "Balanced Growth",
@@ -142,20 +142,20 @@
           "name": "total_eligible_customers",
           "data_type": "integer",
           "nullable": false,
-          "description": "Count of customers who meet all eligibility criteria"
+          "description": "Count of customers who meet the eligibility criteria"
         },
         {
           "name": "total_eligible_assets",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Sum of account balances across all eligible customers in USD",
+          "description": "Sum of all account balances across eligible customers",
           "fmt": "currency"
         },
         {
           "name": "average_account_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Mean account balance of eligible customers in USD",
+          "description": "Mean account balance of eligible customers",
           "fmt": "currency"
         },
         {

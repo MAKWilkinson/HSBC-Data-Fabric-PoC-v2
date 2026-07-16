@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "hardship_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "5424ceabfa455be7"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "bcc0f6470ff14660"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file documents a hardship assistance request workflow (customer submitting financial hardship information), while the outbound file is a monthly repayment batch instruction for direct debit collection. These represent fundamentally different business processes: one is intake/assessment, the other is payment execution. While both involve customer and account data, the outbound file's structure (repayment batches with due dates, direct debit mandates, repayment status) does not plausibly derive from a hardship request. The hardship request may eventually influence repayment terms, but that transformation is not evident in field-level lineage.",
+  "relatedness_reasoning": "The inbound file documents a hardship assistance request workflow (customer submitting financial hardship information for credit review), while the outbound file is a batch instruction for collecting monthly loan repayments via direct debit. These represent fundamentally different business processes: one is intake/assessment, the other is payment collection. While both involve customers and credit accounts, there is no plausible data lineage where hardship request fields transform into repayment batch instructions. The outbound file's repayment amounts, due dates, and direct debit mandates have no corresponding sources in the inbound hardship request schema.",
   "mappings": []
 }

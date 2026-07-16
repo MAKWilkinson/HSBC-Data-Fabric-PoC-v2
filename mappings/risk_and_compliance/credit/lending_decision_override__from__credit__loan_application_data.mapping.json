@@ -1,29 +1,29 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/credit/lending_decision_override.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "credit",
       "message_file_name": "lending_decision_override.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "1ceb115af441643a"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
+    "fingerprint": "95d158cb56c0e451"
   },
   "related": true,
   "relatedness_confidence": 0.92,
-  "relatedness_reasoning": "Both files concern loan applications flowing between Credit and Risk & Compliance systems; inbound provides application data, outbound returns override decisions on those same applications. Field overlap includes application_id, customer_id, loan details, and credit/risk metrics. The systems and message flow form a clear pipeline.",
+  "relatedness_reasoning": "Both files concern loan applications flowing between Credit and Risk & Compliance systems; inbound provides application data for review, outbound returns override decisions with risk assessment details derived from that application data. Field concepts (application ID, customer ID, credit score, loan details, collateral ratios) clearly correspond.",
   "mappings": [
     {
       "outbound_field": "messageId",
@@ -37,7 +37,7 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Outbound message creation timestamp; distinct from inbound application submission timestamp."
+      "reasoning": "Message creation timestamp; likely system-generated at time of override decision, not sourced from inbound."
     },
     {
       "outbound_field": "source",
@@ -46,7 +46,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.9,
-      "reasoning": "Outbound source is 'risk_and_compliance', which matches inbound destination_department."
+      "reasoning": "Outbound source is 'risk_and_compliance', which is the inbound destination_department; represents the originating system of the override message."
     },
     {
       "outbound_field": "destination",
@@ -55,14 +55,14 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.9,
-      "reasoning": "Outbound destination is 'credit', which matches inbound source_department; message returns to originator."
+      "reasoning": "Outbound destination is 'credit', which is the inbound source_department; represents the target system receiving the override decision."
     },
     {
       "outbound_field": "messageType",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Outbound message type 'lending_decision_override' is a system classification not present in inbound."
+      "reasoning": "Fixed enum value 'lending_decision_override' describing message classification; not sourced from inbound data."
     },
     {
       "outbound_field": "payload.loanApplicationId",
@@ -70,8 +70,8 @@
         "loan_applications[].application_id"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Direct reference to the application being overridden; renamed from application_id to loanApplicationId."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound application_id becomes outbound loanApplicationId with camelCase naming convention."
     },
     {
       "outbound_field": "payload.customerId",
@@ -79,29 +79,29 @@
         "loan_applications[].applicant.customer_id"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Customer identifier from applicant object; renamed from customer_id to customerId."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound customer_id becomes outbound customerId with camelCase naming convention."
     },
     {
       "outbound_field": "payload.originalDecision",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "The original credit decision (REJECTED) is not present in inbound; it is generated by the credit system and returned by risk_and_compliance."
+      "reasoning": "The original credit decision (REJECTED) is not present in the inbound schema; it represents a prior decision state not captured in the application data."
     },
     {
       "outbound_field": "payload.overrideDecision",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "The override decision (APPROVED) is determined by risk_and_compliance during processing; not sourced from inbound data."
+      "confidence": 0.9,
+      "reasoning": "The override decision (APPROVED) is a new decision made by Risk & Compliance; not sourced from inbound application data."
     },
     {
       "outbound_field": "payload.overrideReason",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "Override reason classification is determined by risk_and_compliance during review; not present in inbound."
+      "confidence": 0.9,
+      "reasoning": "The override reason classification (EXCEPTION_APPROVED) is determined by Risk & Compliance policy; not present in inbound data."
     },
     {
       "outbound_field": "payload.riskAssessmentDetails.creditScore",
@@ -109,8 +109,8 @@
         "loan_applications[].financial_profile.credit_score"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Credit score from financial profile; renamed from credit_score to creditScore."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound credit_score becomes outbound creditScore with camelCase naming convention."
     },
     {
       "outbound_field": "payload.riskAssessmentDetails.debtToIncomeRatio",
@@ -120,7 +120,7 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.85,
-      "reasoning": "Calculated as total_liabilities divided by annual_income; derived metric not directly present in inbound."
+      "reasoning": "Calculated from total_liabilities divided by annual_income to produce a percentage ratio; not directly present in inbound."
     },
     {
       "outbound_field": "payload.riskAssessmentDetails.loanToValueRatio",
@@ -128,8 +128,8 @@
         "loan_applications[].collateral.loan_to_value"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Loan-to-value ratio from collateral object; renamed from loan_to_value to loanToValueRatio."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound loan_to_value becomes outbound loanToValueRatio with camelCase naming convention."
     },
     {
       "outbound_field": "payload.riskAssessmentDetails.yearsOfIncome",
@@ -138,42 +138,42 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.8,
-      "reasoning": "Calculated as years elapsed from employment_start_date to current date; derived from employment history."
+      "reasoning": "Calculated from employment_start_date to derive years of documented income history; not directly present in inbound."
     },
     {
       "outbound_field": "payload.riskAssessmentDetails.mitigatingFactors",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Array of mitigating factors is determined during risk assessment; not present in inbound application data."
+      "reasoning": "Array of mitigating factors supporting override approval is determined by Risk & Compliance analysis; not present in inbound application data."
     },
     {
       "outbound_field": "payload.overrideApprovalDetails.approvedBy",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Identifier of approving risk and compliance executive; generated during override approval process."
+      "reasoning": "Identifier of the Risk & Compliance executive approving the override; not present in inbound data."
     },
     {
       "outbound_field": "payload.overrideApprovalDetails.approvalLevel",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Hierarchical approval level is determined by risk_and_compliance authorization rules; not in inbound."
+      "reasoning": "Hierarchical approval level (SENIOR_MANAGER) is determined by Risk & Compliance authorization policy; not present in inbound."
     },
     {
       "outbound_field": "payload.overrideApprovalDetails.approvalDate",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Date of override approval is generated during the approval process; not present in inbound."
+      "reasoning": "Date of formal override approval is determined at time of decision; not present in inbound application data."
     },
     {
       "outbound_field": "payload.overrideApprovalDetails.conditions",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Conditions imposed on approved loan are determined by risk_and_compliance during override; not in inbound."
+      "reasoning": "Mandatory conditions imposed on the approved loan are determined by Risk & Compliance policy; not present in inbound data."
     },
     {
       "outbound_field": "payload.loanDetails.loanAmount",
@@ -181,8 +181,8 @@
         "loan_applications[].loan_details.requested_amount"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Principal loan amount; renamed from requested_amount to loanAmount."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound requested_amount becomes outbound loanAmount with camelCase naming convention."
     },
     {
       "outbound_field": "payload.loanDetails.currency",
@@ -190,8 +190,8 @@
         "loan_applications[].loan_details.currency"
       ],
       "transformation": "EXACT",
-      "confidence": 0.99,
-      "reasoning": "ISO 4217 currency code copied directly from loan_details."
+      "confidence": 0.95,
+      "reasoning": "Exact field match: currency code (GBP) copied directly from inbound to outbound."
     },
     {
       "outbound_field": "payload.loanDetails.loanTerm",
@@ -199,8 +199,8 @@
         "loan_applications[].loan_details.term_months"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.99,
-      "reasoning": "Loan term in months; renamed from term_months to loanTerm."
+      "confidence": 0.95,
+      "reasoning": "Direct correspondence: inbound term_months becomes outbound loanTerm with camelCase naming convention."
     },
     {
       "outbound_field": "payload.loanDetails.productType",
@@ -208,8 +208,8 @@
         "loan_applications[].loan_details.loan_type"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.95,
-      "reasoning": "Loan product classification; renamed from loan_type to productType; enum value 'Mortgage' maps to 'MORTGAGE'."
+      "confidence": 0.9,
+      "reasoning": "Inbound loan_type (Mortgage, Personal Loan) maps to outbound productType (MORTGAGE); enum values differ but concept is identical."
     },
     {
       "outbound_field": "payload.complianceFlags.amlCheckCompleted",
@@ -218,7 +218,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Boolean flag derived from presence of 'AML/KYC Verification' in required_compliance_checks array."
+      "reasoning": "Derived from presence of 'AML/KYC Verification' in required_compliance_checks array; indicates whether AML check was performed."
     },
     {
       "outbound_field": "payload.complianceFlags.sanctionsCheckCompleted",
@@ -227,21 +227,21 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Boolean flag derived from presence of 'Sanctions Screening' in required_compliance_checks array."
+      "reasoning": "Derived from presence of 'Sanctions Screening' in required_compliance_checks array; indicates whether sanctions check was performed."
     },
     {
       "outbound_field": "payload.complianceFlags.creditPolicyWaiverRequired",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Whether a credit policy waiver is required is determined during override assessment; not in inbound."
+      "reasoning": "Whether a credit policy waiver is required is a Risk & Compliance determination; not present in inbound application data."
     },
     {
       "outbound_field": "payload.complianceFlags.waiverDocumentReference",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Reference to waiver document is generated during override approval process; not present in inbound."
+      "reasoning": "Reference identifier for waiver document is generated by Risk & Compliance; not present in inbound data."
     }
   ]
 }

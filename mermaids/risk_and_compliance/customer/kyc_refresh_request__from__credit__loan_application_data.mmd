@@ -9,8 +9,6 @@ flowchart LR
     in_loan_applications___applicant_email["loan_applications[].applicant.email"]
     in_loan_applications___applicant_phone["loan_applications[].applicant.phone"]
     in_loan_applications___required_compliance_checks["loan_applications[].required_compliance_checks"]
-    in_loan_applications___financial_profile_default_history["loan_applications[].financial_profile.default_history"]
-    in_loan_applications___financial_profile_credit_inquiries_last_6m["loan_applications[].financial_profile.credit_inquiries_last_6m"]
     in_loan_applications___application_status["loan_applications[].application_status"]
   end
   subgraph OUT["risk_and_compliance: kyc_refresh_request"]
@@ -48,8 +46,6 @@ flowchart LR
   in_loan_applications___required_compliance_checks -->|SEMANTIC| out_kyc_refresh_details_refresh_reason
   in_loan_applications___risk_category -->|TRANSFORMED| out_kyc_refresh_details_risk_flag
   in_loan_applications___risk_category -->|SEMANTIC| out_kyc_refresh_details_risk_level
-  in_loan_applications___required_compliance_checks -->|MERGE| out_kyc_refresh_details_trigger_factors
-  in_loan_applications___financial_profile_default_history -->|MERGE| out_kyc_refresh_details_trigger_factors
-  in_loan_applications___financial_profile_credit_inquiries_last_6m -->|MERGE| out_kyc_refresh_details_trigger_factors
+  in_loan_applications___required_compliance_checks -->|TRANSFORMED| out_kyc_refresh_details_trigger_factors
   in_loan_applications___required_compliance_checks -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
-  in_loan_applications___application_status -->|TRANSFORMED| out_status
+  in_loan_applications___application_status -->|SEMANTIC| out_status

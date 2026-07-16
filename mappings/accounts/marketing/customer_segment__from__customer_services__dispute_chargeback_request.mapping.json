@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/customer_segment.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "customer_segment.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "4e695003fb30b516"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
+    "fingerprint": "050d22c1ac9a7dc0"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains dispute chargeback request details (transaction-level, dispute-specific data), while the outbound file contains aggregated customer segment analytics and reporting metrics. These serve fundamentally different purposes: one is operational dispute processing, the other is strategic customer segmentation reporting. No meaningful field overlap exists between transaction disputes and segment-level aggregations.",
+  "relatedness_reasoning": "The inbound file contains dispute chargeback request details (transaction-level, dispute-specific data), while the outbound file contains customer segment aggregations and summary statistics. No field concepts overlap; the inbound data describes individual disputes, while the outbound data describes segment-level metrics and product holdings. These represent fundamentally different data domains with no plausible transformation pathway.",
   "mappings": []
 }

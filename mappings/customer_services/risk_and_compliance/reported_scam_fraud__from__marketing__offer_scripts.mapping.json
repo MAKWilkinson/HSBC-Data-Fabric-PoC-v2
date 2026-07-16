@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "offer_scripts.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
-    "fingerprint": "db4cbe1108cb3518"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/offer_scripts.schema.json",
+    "fingerprint": "5539ef372c6fe4ac"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains marketing offer scripts for delivery by customer services; the outbound file contains fraud/scam incident reports. These represent fundamentally different business processes with no overlapping field concepts, purposes, or data flows. No plausible transformation chain connects promotional content to fraud detection.",
+  "relatedness_reasoning": "The inbound file contains marketing offer scripts for delivery by customer services; the outbound file contains fraud/scam incident reports. These represent fundamentally different business processes with no overlapping field concepts, purposes, or data flows. No plausible transformation chain connects offer script delivery to fraud reporting.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/salary_credits.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "salary_credits.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "e343a18ec9d213eb"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
+    "fingerprint": "b7021963156184c9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file (salary_credits.json) records salary payments FROM Accounts TO Credit department, while the outbound file (monthly_repayment_direct_debit.json) records loan repayments FROM Credit TO Accounts department. These represent opposite transaction flows with fundamentally different purposes: salary deposits vs. loan collections. While both involve bank accounts and amounts, the semantic direction and business logic are incompatible\u2014the outbound file does not plausibly derive from transforming the inbound file.",
+  "relatedness_reasoning": "The inbound file (salary_credits.json) describes salary credit transactions flowing from Accounts to Credit, while the outbound file (monthly_repayment_direct_debit.json) describes loan repayment instructions flowing from Credit back to Accounts. These represent opposite transaction flows with fundamentally different purposes: salary deposits vs. loan repayments. While both involve bank accounts and currency, the semantic domains are distinct\u2014salary credits are income deposits, repayments are debt collections. The outbound file contains loan-specific fields (loanId, directDebitMandateId, dueDate) with no corresponding concepts in the inbound schema, and the outbound repayments array structure does not logically derive from the inbound salary credit structure.",
   "mappings": []
 }

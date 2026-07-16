@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/payment_holiday_application.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "payment_holiday_application.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "27fbcc0d55a0c2b8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
+    "fingerprint": "59637fbc5a5a2e8c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file documents a payment holiday application (a suspension of loan payments), while the outbound file instructs disbursement of new loan principal funds. These represent fundamentally different business processes with no meaningful field overlap: payment holidays involve existing accounts and suspension periods, while loan disbursements involve new fund transfers with business purposes, loan terms, and interest rates. The inbound schema contains no disbursement amounts, loan terms, interest rates, destination accounts, or bank codes. Although both files involve loans and the credit system processes both, they serve opposite operational purposes and share no mappable data concepts.",
+  "relatedness_reasoning": "The inbound file documents a payment holiday application (a suspension of loan payments), while the outbound file instructs disbursement of new loan principal funds. These represent fundamentally different business processes with no meaningful field overlap: payment holidays involve existing accounts and suspension periods, while disbursements involve new loan origination and fund transfers. The two files serve opposite purposes within the credit lifecycle and share no common data concepts beyond generic identifiers and currency codes.",
   "mappings": []
 }

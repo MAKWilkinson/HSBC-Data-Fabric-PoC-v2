@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/customer_services/arrears_status.json",
       "providing_system": "credit",
       "consuming_system": "customer_services",
       "message_file_name": "arrears_status.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "b6c6d9868f60d986"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
+    "fingerprint": "6cfe8f733d3f650c"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains arrears status data (payment delinquency tracking), while the outbound file reports fraud and scam incidents. These represent fundamentally different risk domains with minimal field overlap. The inbound schema has no fraud detection, transaction blocking, or incident reporting concepts. While both systems are in the customer_services ecosystem, the message types serve unrelated purposes and the outbound schema cannot be reasonably derived from the inbound schema.",
+  "relatedness_reasoning": "The inbound file contains arrears status data (payment delinquency tracking), while the outbound file reports fraud and scam incidents. These represent fundamentally different risk domains with minimal field overlap. Although both files involve customers and accounts, the inbound schema provides no fraud detection, transaction details, or incident reporting fields that would logically feed into a fraud report. The message types serve distinct purposes and do not form a plausible data pipeline.",
   "mappings": []
 }

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "product_holding_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "8e70e5616cb49d16"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "6a02bd146c572c43"
   },
   "related": false,
   "relatedness_confidence": 0.12,
-  "relatedness_reasoning": "The inbound file contains dispute chargeback request data with transaction and dispute-specific fields, while the outbound file contains product holding and account portfolio data for marketing. These serve fundamentally different purposes: dispute processing vs. customer product inventory. Only two fields (customerId/customer_id and accountNumber/account_number) show semantic overlap, but the outbound file's structure (holdings array with product details, balances, fees, rewards) has no plausible source in dispute chargeback data. The files represent distinct business domains with no meaningful data lineage connection.",
+  "relatedness_reasoning": "The inbound file contains dispute chargeback request data with transaction and dispute-specific fields, while the outbound file contains product holding and account portfolio data for marketing. These serve fundamentally different business purposes with minimal field overlap; only customer_id and account_number are shared concepts, but the outbound file's structure (product holdings, balances, fees, rewards) has no plausible derivation from dispute chargeback request data.",
   "mappings": []
 }

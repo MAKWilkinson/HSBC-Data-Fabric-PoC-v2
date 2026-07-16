@@ -23,13 +23,8 @@ flowchart LR
     out_sanctionsListHit_sanctionListsMatched["sanctionsListHit.sanctionListsMatched"]
     out_sanctionsListHit_riskFactors["sanctionsListHit.riskFactors"]
     out_sanctionsListHit_associatedAccounts["sanctionsListHit.associatedAccounts"]
-    out_sanctionsListHit_reviewDetails_assignedTo["sanctionsListHit.reviewDetails.assignedTo"]
-    out_sanctionsListHit_reviewDetails_reviewDeadline["sanctionsListHit.reviewDetails.reviewDeadline"]
-    out_sanctionsListHit_reviewDetails_notes["sanctionsListHit.reviewDetails.notes"]
-    out_sanctionsListHit_reviewDetails_requiredActions["sanctionsListHit.reviewDetails.requiredActions"]
-    out_sanctionsListHit_auditTrail_detectionTimestamp["sanctionsListHit.auditTrail.detectionTimestamp"]
-    out_sanctionsListHit_auditTrail_detectionMethod["sanctionsListHit.auditTrail.detectionMethod"]
-    out_sanctionsListHit_auditTrail_screeningEngine["sanctionsListHit.auditTrail.screeningEngine"]
+    out_sanctionsListHit_reviewDetails["sanctionsListHit.reviewDetails"]
+    out_sanctionsListHit_auditTrail["sanctionsListHit.auditTrail"]
   end
   in_metadata_destination_department -->|SEMANTIC| out_source
   in_metadata_source_department -->|SEMANTIC| out_destination

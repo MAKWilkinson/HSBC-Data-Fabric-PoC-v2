@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "account_freeze_or_block.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "e1c9147687113059"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "2fc5bc1cd4af12f9"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "product_holding_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "8e70e5616cb49d16"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "6a02bd146c572c43"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains compliance/fraud freeze actions with restrictions and escalation workflows, while the outbound file contains product holding data with balances, fees, and investment details. These serve fundamentally different purposes: one is an action/event notification, the other is a data snapshot for marketing. Only two fields (account_number and currency) have any semantic overlap, and the outbound file's structure (holdings array with product details, balances, fees) cannot reasonably be derived from a freeze action message.",
+  "relatedness_reasoning": "The inbound file carries compliance/fraud freeze actions with restrictions and escalation workflows, while the outbound file contains product holding and balance data for marketing. These serve fundamentally different purposes: one is an action/restriction notification, the other is a data analytics/segmentation feed. No meaningful field overlap exists beyond account identifiers and currency codes, and the structural shapes are incompatible.",
   "mappings": []
 }

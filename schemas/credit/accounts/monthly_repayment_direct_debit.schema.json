@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
     "providing_system": "credit",
     "consuming_system": "accounts",
     "message_file_name": "monthly_repayment_direct_debit.json",
@@ -144,7 +144,7 @@
       "name": "timestamp",
       "data_type": "timestamp",
       "nullable": false,
-      "description": "The precise date and time when this batch message was generated",
+      "description": "The precise date and time when this batch was generated",
       "fmt": "iso8601"
     }
   ]

@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/overdraft_usage.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "overdraft_usage.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "d302878353e5eda9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
+    "fingerprint": "1d542763352b8603"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/loan_disbursement_instruction.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "loan_disbursement_instruction.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "c2084b7012d84581"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
+    "fingerprint": "b1cd220109b2749f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file reports overdraft usage metrics from Accounts to Credit for assessment purposes, while the outbound file contains loan disbursement instructions from Credit back to Accounts for fund transfer execution. These represent opposite data flows addressing fundamentally different business processes (overdraft monitoring vs. loan disbursement), with no overlapping field concepts beyond generic account identifiers. The outbound file contains loan contract details, borrower information, and disbursement logistics that have no source in the inbound overdraft usage schema.",
+  "relatedness_reasoning": "The inbound file reports overdraft usage from Accounts to Credit for assessment purposes, while the outbound file contains loan disbursement instructions from Credit back to Accounts for fund transfer execution. These represent opposite data flows addressing fundamentally different business processes (overdraft monitoring vs. loan disbursement), with no overlapping field concepts beyond generic account identifiers. The outbound file contains loan contract details, borrower information, and disbursement logistics that have no source in the inbound overdraft usage schema.",
   "mappings": []
 }

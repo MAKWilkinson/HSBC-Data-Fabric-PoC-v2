@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/risk_and_compliance/position_concentration.json",
+    "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/risk_and_compliance/position_concentration.json",
     "providing_system": "investments",
     "consuming_system": "risk_and_compliance",
     "message_file_name": "position_concentration.json",

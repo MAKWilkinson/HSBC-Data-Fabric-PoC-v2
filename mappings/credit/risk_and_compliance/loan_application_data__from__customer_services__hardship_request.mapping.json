@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/credit/hardship_request.json",
       "providing_system": "customer_services",
       "consuming_system": "credit",
       "message_file_name": "hardship_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "5424ceabfa455be7"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
+    "fingerprint": "bcc0f6470ff14660"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/risk_and_compliance/loan_application_data.json",
       "providing_system": "credit",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "loan_application_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "254d598c9fe307d8"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
+    "fingerprint": "d876d8c57fed701f"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains hardship assistance requests with financial hardship context, while the outbound file contains formal loan applications with employment, collateral, and credit scoring details. These represent fundamentally different business processes: hardship relief vs. new loan origination. While both involve customers and financial data, the outbound schema requires extensive fields (employment details, collateral, credit scores, loan terms) that are absent from the inbound hardship request schema, and the outbound file's structure (loan_applications array with detailed loan specifications) cannot be reasonably derived from a hardship request. The semantic purposes are incompatible.",
+  "relatedness_reasoning": "The inbound file represents hardship assistance requests (financial relief applications), while the outbound file represents standard loan applications for mortgages and personal loans. These are fundamentally different business processes with minimal field overlap. The inbound schema contains hardship-specific fields (hardship_reason, hardship_severity, relief_type) that have no counterpart in a loan application. The outbound schema requires extensive employment, collateral, and financial profile data that are not present in the hardship request schema. While both files involve customers and the credit department, they serve distinct purposes and the outbound file's comprehensive loan application structure cannot plausibly be derived from a hardship request.",
   "mappings": []
 }

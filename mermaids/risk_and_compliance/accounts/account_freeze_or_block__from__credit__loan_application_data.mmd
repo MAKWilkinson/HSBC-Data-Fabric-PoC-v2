@@ -2,12 +2,15 @@ flowchart LR
   subgraph IN["credit: loan_application_data"]
     in_loan_applications___timestamp["loan_applications[].timestamp"]
     in_metadata_destination_department["metadata.destination_department"]
+    in_loan_applications___risk_category["loan_applications[].risk_category"]
+    in_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
     in_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
     in_loan_applications___loan_details_currency["loan_applications[].loan_details.currency"]
     in_loan_applications___financial_profile_default_history["loan_applications[].financial_profile.default_history"]
-    in_loan_applications___risk_category["loan_applications[].risk_category"]
-    in_loan_applications___required_compliance_checks["loan_applications[].required_compliance_checks"]
+    in_loan_applications___required_compliance_checks___check_type["loan_applications[].required_compliance_checks[].check_type"]
+    in_loan_applications___application_status["loan_applications[].application_status"]
     in_loan_applications___submitted_by["loan_applications[].submitted_by"]
+    in_loan_applications___application_id["loan_applications[].application_id"]
     in_loan_applications___financial_profile_credit_score["loan_applications[].financial_profile.credit_score"]
   end
   subgraph OUT["risk_and_compliance: account_freeze_or_block"]
@@ -45,10 +48,17 @@ flowchart LR
   end
   in_loan_applications___timestamp -->|SEMANTIC| out_timestamp
   in_metadata_destination_department -->|SEMANTIC| out_source
+  in_loan_applications___risk_category -->|SEMANTIC| out_priority
+  in_loan_applications___applicant_customer_id -->|SEMANTIC| out_account_accountNumber
   in_loan_applications___applicant_full_name -->|RENAMED| out_account_accountHolder
-  in_loan_applications___loan_details_currency -->|SEMANTIC| out_account_currency
+  in_loan_applications___loan_details_currency -->|EXACT| out_account_currency
   in_loan_applications___financial_profile_default_history -->|SEMANTIC| out_freezeDetails_reason
-  in_loan_applications___risk_category -->|SEMANTIC| out_freezeDetails_reason
-  in_loan_applications___required_compliance_checks -->|SEMANTIC| out_freezeDetails_description
+  in_loan_applications___required_compliance_checks___check_type -->|SEMANTIC| out_freezeDetails_reason
+  in_loan_applications___application_status -->|SEMANTIC| out_freezeDetails_description
+  in_loan_applications___required_compliance_checks___check_type -->|SEMANTIC| out_freezeDetails_description
   in_loan_applications___submitted_by -->|SEMANTIC| out_freezeDetails_initiatedBy
+  in_loan_applications___timestamp -->|SEMANTIC| out_freezeDetails_effectiveFrom
+  in_loan_applications___application_id -->|SEMANTIC| out_additionalInfo_caseReference
   in_loan_applications___financial_profile_credit_score -->|SEMANTIC| out_additionalInfo_riskScore
+  in_loan_applications___risk_category -->|SEMANTIC| out_additionalInfo_riskScore
+  in_loan_applications___required_compliance_checks___check_type -->|SEMANTIC| out_additionalInfo_regulatoryReporting

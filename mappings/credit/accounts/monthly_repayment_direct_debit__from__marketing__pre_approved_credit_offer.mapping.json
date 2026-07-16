@@ -1,43 +1,43 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/credit/pre_approved_credit_offer.json",
       "providing_system": "marketing",
       "consuming_system": "credit",
       "message_file_name": "pre_approved_credit_offer.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "d166a0ff74f6665e"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
+    "fingerprint": "9bb78145829f26ef"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": true,
   "relatedness_confidence": 0.72,
-  "relatedness_reasoning": "The inbound file contains pre-approved credit offers with customer and loan terms; the outbound file processes monthly repayments from approved loans. Both share customer_id, account_number, currency, and loan financial concepts. The Credit system receives offers and later sends repayment instructions to Accounts, forming a plausible pipeline where approved offers become active loans with scheduled repayments.",
+  "relatedness_reasoning": "The inbound file contains pre-approved credit offers with customer and loan terms, and the outbound file contains monthly repayment instructions for those loans. The credit system acts as intermediary, transforming approved offers into repayment batches. Key overlaps: customer_id, account_number, monthly_payment amount, currency, and the logical workflow from offer approval to repayment collection.",
   "mappings": [
     {
       "outbound_field": "repaymentId",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent identifier exists in inbound; this is a system-generated batch identifier for repayment processing."
+      "reasoning": "System-generated unique identifier for the repayment batch; no source in inbound offer data."
     },
     {
       "outbound_field": "batchDate",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Batch processing date is generated at repayment execution time, not derived from the inbound offer."
+      "reasoning": "Batch processing date determined by credit system workflow; not present in inbound offer."
     },
     {
       "outbound_field": "department.from",
@@ -46,14 +46,14 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.85,
-      "reasoning": "Inbound department_to='credit' becomes outbound department.from='Credit', indicating Credit is now the originating department."
+      "reasoning": "Inbound department_to='credit' becomes outbound department.from='Credit' as credit system originates the repayment instruction."
     },
     {
       "outbound_field": "department.to",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Accounts department is the next system in the pipeline; not specified in the inbound offer data."
+      "reasoning": "Accounts department is the downstream consumer; not specified in inbound offer schema."
     },
     {
       "outbound_field": "repayments[].accountNumber",
@@ -62,7 +62,7 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Direct copy of customer's bank account number for direct debit collection."
+      "reasoning": "Direct copy of customer's bank account number used for direct debit collection."
     },
     {
       "outbound_field": "repayments[].customerId",
@@ -71,7 +71,7 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.95,
-      "reasoning": "Same customer identifier, renamed from customer_id to customerId in array context."
+      "reasoning": "Same customer identifier, renamed from customer_id to customerId in outbound array element."
     },
     {
       "outbound_field": "repayments[].customerName",
@@ -90,7 +90,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.75,
-      "reasoning": "Inbound offer_id becomes loanId in outbound after the offer is approved and converted to an active loan."
+      "reasoning": "Offer identifier becomes loan identifier once the offer is approved and converted to an active loan."
     },
     {
       "outbound_field": "repayments[].repaymentAmount",
@@ -115,28 +115,28 @@
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Due date is calculated based on loan activation and repayment schedule, not present in the inbound offer data."
+      "reasoning": "Specific monthly due date is calculated by credit system based on loan start date and payment schedule; not derivable from offer validity dates alone."
     },
     {
       "outbound_field": "repayments[].directDebitMandateId",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Direct debit mandate is established during loan approval process; not present in the inbound pre-approval offer."
+      "reasoning": "Direct debit mandate reference is created during loan origination process; not present in pre-approval offer."
     },
     {
       "outbound_field": "repayments[].repaymentStatus",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Repayment status is determined at execution time; inbound only contains offer status pending_credit_review."
+      "confidence": 0.85,
+      "reasoning": "Repayment status ('scheduled') is determined by credit system workflow state; not present in inbound offer."
     },
     {
       "outbound_field": "repayments[].repaymentType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "Repayment type 'monthly' is inferred from loan structure but not explicitly stated in inbound offer data."
+      "confidence": 0.8,
+      "reasoning": "Repayment frequency ('monthly') is implicit in the offer structure but not explicitly stated as a field in the inbound schema."
     },
     {
       "outbound_field": "totalAmount",
@@ -144,22 +144,24 @@
         "credit_offer.monthly_payment"
       ],
       "transformation": "TRANSFORMED",
-      "confidence": 0.8,
+      "confidence": 0.75,
       "reasoning": "Sum of all monthly_payment amounts across the repayment batch; aggregated from multiple offer records."
     },
     {
       "outbound_field": "recordCount",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "Count of repayment records in the batch is a metadata field generated during batch assembly."
+      "confidence": 0.9,
+      "reasoning": "Count of repayment records in the batch is a metadata field generated during batch assembly; not in inbound offer."
     },
     {
       "outbound_field": "timestamp",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Batch generation timestamp is created at repayment processing time, not derived from inbound offer timestamp."
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Both are ISO8601 timestamps, but inbound represents offer generation time while outbound represents batch generation time; likely regenerated rather than copied."
     }
   ]
 }

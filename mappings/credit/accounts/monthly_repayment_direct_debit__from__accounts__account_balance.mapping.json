@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/credit/account_balance.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/credit/account_balance.json",
       "providing_system": "accounts",
       "consuming_system": "credit",
       "message_file_name": "account_balance.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "1b4f133989c4dec9"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
+    "fingerprint": "c267ef7eb725be77"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains account balance snapshots sent from accounts to credit for review purposes, while the outbound file contains loan repayment instructions sent from credit back to accounts. These represent fundamentally different business processes with minimal field overlap: the inbound file provides balance data for credit assessment, while the outbound file instructs account debits for loan repayment. No meaningful data lineage exists between them.",
+  "relatedness_reasoning": "The inbound file contains account balance snapshots sent from accounts to credit for review purposes, while the outbound file contains loan repayment instructions sent from credit back to accounts. These represent fundamentally different data domains (account balances vs. loan repayments) with minimal field overlap. The outbound file requires loan-specific data (loanId, repaymentAmount, dueDate, directDebitMandateId) that does not exist in the inbound schema, and the inbound file's balance and transaction data are not used to construct repayment instructions. This appears to be a bidirectional communication pattern between systems rather than a data lineage pipeline.",
   "mappings": []
 }

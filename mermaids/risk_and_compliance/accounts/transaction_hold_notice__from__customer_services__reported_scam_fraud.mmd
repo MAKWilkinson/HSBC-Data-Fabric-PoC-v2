@@ -1,5 +1,6 @@
 flowchart LR
   subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportId["reportId"]
     in_reportDate["reportDate"]
     in_severity["severity"]
     in_customer_accountNumber["customer.accountNumber"]
@@ -46,8 +47,9 @@ flowchart LR
     out_issuedBy["issuedBy"]
     out_priority["priority"]
   end
+  in_reportId -->|RENAMED| out_noticeId
   in_reportDate -->|SEMANTIC| out_timestamp
-  in_severity -->|TRANSFORMED| out_severity
+  in_severity -->|EXACT| out_severity
   in_customer_accountNumber -->|RENAMED| out_accountNumber
   in_customer_customerId -->|EXACT| out_customerId
   in_customer_customerName -->|EXACT| out_customerName
@@ -58,9 +60,11 @@ flowchart LR
   in_fraudDetails_amountInvolved -->|EXACT| out_transactionsAffected___amount
   in_fraudDetails_currency -->|EXACT| out_transactionsAffected___currency
   in_fraudDetails_recipientCountry -->|RENAMED| out_transactionsAffected___destinationCountry
-  in_fraudDetails_transactionStatus -->|TRANSFORMED| out_transactionsAffected___status
+  in_fraudDetails_transactionStatus -->|SEMANTIC| out_transactionsAffected___status
+  in_riskIndicators -->|TRANSFORMED| out_riskScore
   in_riskIndicators -->|RENAMED| out_riskFlags
   in_actionsTaken -->|SEMANTIC| out_requiredActions
+  in_escalationRequired -->|TRANSFORMED| out_escalationLevel
   in_escalationRequired -->|SEMANTIC| out_approvalRequired
-  in_additionalNotes -->|RENAMED| out_notes
-  in_severity -->|TRANSFORMED| out_priority
+  in_additionalNotes -->|EXACT| out_notes
+  in_severity -->|SEMANTIC| out_priority

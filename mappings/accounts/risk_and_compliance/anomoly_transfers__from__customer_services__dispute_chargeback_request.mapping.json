@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/risk_and_compliance/anomoly_transfers.json",
       "providing_system": "accounts",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "anomoly_transfers.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "b410a9729961ef35"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
+    "fingerprint": "af6d1ff32f1fbca0"
   },
   "related": false,
   "relatedness_confidence": 0.05,
-  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any data lineage. Additionally, the semantic purposes differ: inbound handles dispute/chargeback requests while outbound (based on name) would track anomalous transfers\u2014distinct business domains with no obvious transformation relationship.",
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any data lineage. Additionally, the inbound file contains dispute/chargeback data while the outbound file name suggests anomalous transfer detection \u2014 conceptually distinct domains with no evident pipeline connection.",
   "mappings": []
 }

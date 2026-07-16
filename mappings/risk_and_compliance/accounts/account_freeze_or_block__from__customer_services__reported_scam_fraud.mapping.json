@@ -1,25 +1,25 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/risk_and_compliance/reported_scam_fraud.json",
       "providing_system": "customer_services",
       "consuming_system": "risk_and_compliance",
       "message_file_name": "reported_scam_fraud.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c9c4911c38b3c353"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
+    "fingerprint": "d5f8a967ba267aff"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/risk_and_compliance/accounts/account_freeze_or_block.json",
       "providing_system": "risk_and_compliance",
       "consuming_system": "accounts",
       "message_file_name": "account_freeze_or_block.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "e1c9147687113059"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
+    "fingerprint": "2fc5bc1cd4af12f9"
   },
   "related": true,
   "relatedness_confidence": 0.92,
@@ -27,19 +27,21 @@
   "mappings": [
     {
       "outbound_field": "messageId",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "System-generated unique identifier for the outbound message; no source in inbound schema."
+      "sources": [
+        "reportId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Both are unique identifiers for the message/report exchange; reportId is repurposed as messageId in the outbound system."
     },
     {
       "outbound_field": "timestamp",
       "sources": [
         "reportDate"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Outbound message timestamp likely derived from or close to the inbound report creation date."
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "reportDate (ISO8601 datetime) maps directly to timestamp; both represent message creation time."
     },
     {
       "outbound_field": "source",
@@ -47,15 +49,15 @@
         "targetDeployment"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Inbound targetDeployment is risk_and_compliance, which becomes the source of the outbound message."
+      "confidence": 0.95,
+      "reasoning": "targetDeployment='risk_and_compliance' in inbound becomes source='risk_and_compliance' in outbound as risk_and_compliance now originates the freeze message."
     },
     {
       "outbound_field": "destination",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Outbound destination (accounts) is not specified in inbound schema; determined by system routing logic."
+      "reasoning": "No inbound field specifies the destination system; 'accounts' is determined by risk_and_compliance workflow, not sourced from the fraud report."
     },
     {
       "outbound_field": "messageType",
@@ -64,7 +66,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Inbound reportType 'scam_fraud' triggers outbound messageType 'account_freeze_or_block' as a response action."
+      "reasoning": "reportType='scam_fraud' triggers messageType='account_freeze_or_block' as the compliance action type."
     },
     {
       "outbound_field": "priority",
@@ -73,7 +75,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.85,
-      "reasoning": "Inbound severity 'high' maps to outbound priority 'high' for urgent account action."
+      "reasoning": "severity='high' in inbound maps to priority='high' in outbound; both indicate urgency level."
     },
     {
       "outbound_field": "action",
@@ -82,7 +84,7 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.9,
-      "reasoning": "Inbound actionsTaken array includes 'account_frozen' which directly corresponds to outbound action 'freeze'."
+      "reasoning": "actionsTaken array contains 'account_frozen' which directly corresponds to action='freeze' in the outbound message."
     },
     {
       "outbound_field": "account.accountNumber",
@@ -91,7 +93,7 @@
       ],
       "transformation": "TRANSFORMED",
       "confidence": 0.85,
-      "reasoning": "Inbound accountNumber is masked format; outbound requires IBAN format, suggesting conversion/transformation."
+      "reasoning": "customer.accountNumber (masked format) is converted to IBAN format for the outbound accounts system."
     },
     {
       "outbound_field": "account.accountHolder",
@@ -100,7 +102,7 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.95,
-      "reasoning": "Inbound customerName directly maps to outbound accountHolder; same semantic meaning, different field name."
+      "reasoning": "customerName directly maps to accountHolder; both represent the account owner's name."
     },
     {
       "outbound_field": "account.accountType",
@@ -108,8 +110,8 @@
         "customer.accountType"
       ],
       "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Inbound accountType is 'current'; outbound is 'Current Account', a formatted/expanded version."
+      "confidence": 0.9,
+      "reasoning": "customer.accountType='current' is transformed to 'Current Account' format for outbound system."
     },
     {
       "outbound_field": "account.currency",
@@ -118,21 +120,21 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Both fields contain ISO 4217 currency code 'GBP' with identical meaning and format."
+      "reasoning": "fraudDetails.currency='GBP' directly specifies the account currency."
     },
     {
       "outbound_field": "account.branch",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "No branch location information exists in inbound schema; likely sourced from account master data."
+      "reasoning": "No inbound field specifies branch location; 'London City' is determined by risk_and_compliance system configuration or lookup."
     },
     {
       "outbound_field": "freezeDetails.freezeType",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Freeze scope ('full') is not specified in inbound; determined by compliance policy or system logic."
+      "reasoning": "freezeType='full' is a compliance decision not explicitly stated in inbound; derived from severity and incident type."
     },
     {
       "outbound_field": "freezeDetails.reason",
@@ -140,8 +142,8 @@
         "reportType"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Inbound reportType 'scam_fraud' justifies outbound reason 'suspected_fraud'."
+      "confidence": 0.95,
+      "reasoning": "reportType='scam_fraud' directly justifies freezeDetails.reason='suspected_fraud'."
     },
     {
       "outbound_field": "freezeDetails.description",
@@ -150,7 +152,7 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Inbound fraudDescription provides the narrative explanation used in outbound freeze description."
+      "reasoning": "fraudDescription provides the narrative explanation for the freeze rationale."
     },
     {
       "outbound_field": "freezeDetails.initiatedBy",
@@ -159,65 +161,75 @@
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.75,
-      "reasoning": "Inbound reportedByName (staff member) likely initiates the freeze action in outbound."
+      "reasoning": "reportedByName identifies the staff member who initiated the fraud investigation leading to the freeze."
     },
     {
       "outbound_field": "freezeDetails.department",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Department 'Fraud Investigation Unit' is not specified in inbound; determined by organizational structure."
+      "confidence": 0.95,
+      "reasoning": "department='Fraud Investigation Unit' is a system-determined organizational unit, not sourced from inbound."
     },
     {
       "outbound_field": "freezeDetails.effectiveFrom",
       "sources": [
-        "incident.detectionDate"
+        "reportDate"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Freeze effective date likely based on or near incident detection date, though may be adjusted by policy."
+      "confidence": 0.8,
+      "reasoning": "reportDate serves as the basis for when the freeze becomes effective in the outbound system."
     },
     {
       "outbound_field": "restrictions.allowIncomingTransfers",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Specific transaction restriction flags are not present in inbound; determined by freeze policy."
+      "sources": [
+        "fraudDetails.transactionStatus"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "transactionStatus='blocked' implies incoming transfers are restricted; derived from fraud incident context."
     },
     {
       "outbound_field": "restrictions.allowOutgoingTransfers",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Specific transaction restriction flags are not present in inbound; determined by freeze policy."
+      "sources": [
+        "fraudDetails.transactionStatus"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "transactionStatus='blocked' and wire_transfer_fraud type imply outgoing transfers are restricted."
     },
     {
       "outbound_field": "restrictions.allowWithdrawals",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Specific transaction restriction flags are not present in inbound; determined by freeze policy."
+      "sources": [
+        "actionsTaken"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "actionsTaken='account_frozen' implies cash withdrawals are restricted as part of full freeze."
     },
     {
       "outbound_field": "restrictions.allowCardTransactions",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Specific transaction restriction flags are not present in inbound; determined by freeze policy."
+      "sources": [
+        "actionsTaken"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "actionsTaken='account_frozen' implies card transactions are restricted as part of full freeze."
     },
     {
       "outbound_field": "restrictions.allowCheques",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "Specific transaction restriction flags are not present in inbound; determined by freeze policy."
+      "sources": [
+        "actionsTaken"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "actionsTaken='account_frozen' implies cheque issuance is restricted as part of full freeze."
     },
     {
       "outbound_field": "escalation.level",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Escalation level is not specified in inbound; determined by approval workflow logic."
+      "reasoning": "Escalation level is a compliance workflow decision not specified in the inbound fraud report."
     },
     {
       "outbound_field": "escalation.requiresApproval",
@@ -225,38 +237,38 @@
         "escalationRequired"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Inbound escalationRequired boolean directly maps to outbound requiresApproval with same semantic meaning."
+      "confidence": 0.95,
+      "reasoning": "escalationRequired boolean directly maps to requiresApproval; both indicate approval workflow necessity."
     },
     {
       "outbound_field": "escalation.approvalDeadline",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Approval deadline is not specified in inbound; calculated by system based on policy."
+      "reasoning": "Approval deadline is a compliance system-determined value, not sourced from inbound report."
     },
     {
       "outbound_field": "escalation.complianceOfficer",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Assigned compliance officer is not specified in inbound; determined by organizational assignment logic."
+      "reasoning": "Assigned compliance officer is determined by risk_and_compliance workflow, not specified in inbound."
     },
     {
       "outbound_field": "additionalInfo.caseReference",
       "sources": [
-        "reportId"
+        "documentationRef"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Inbound reportId serves as the case reference identifier for tracking the investigation."
+      "confidence": 0.9,
+      "reasoning": "documentationRef provides the case file reference for the investigation."
     },
     {
       "outbound_field": "additionalInfo.riskScore",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.85,
-      "reasoning": "Quantified risk score percentage is not present in inbound; calculated by risk assessment engine."
+      "reasoning": "Risk score is a quantified assessment computed by risk_and_compliance, not provided in inbound report."
     },
     {
       "outbound_field": "additionalInfo.customerNotificationSent",
@@ -264,15 +276,17 @@
         "actionsTaken"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.75,
-      "reasoning": "Inbound actionsTaken includes 'customer_contacted' which indicates whether notification was sent."
+      "confidence": 0.8,
+      "reasoning": "actionsTaken='customer_contacted' indicates whether customer notification has been sent."
     },
     {
       "outbound_field": "additionalInfo.regulatoryReporting",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.85,
-      "reasoning": "Regulatory reporting requirement is not specified in inbound; determined by compliance rules."
+      "sources": [
+        "severity"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "severity='high' and fraud incident type imply regulatory reporting requirement."
     }
   ]
 }

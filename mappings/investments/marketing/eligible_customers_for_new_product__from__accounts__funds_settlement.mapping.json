@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/investments/funds_settlement.json",
       "providing_system": "accounts",
       "consuming_system": "investments",
       "message_file_name": "funds_settlement.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "cfc8d72f9e643a69"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
+    "fingerprint": "dc0cb76dc64ae3e1"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
       "providing_system": "investments",
       "consuming_system": "marketing",
       "message_file_name": "eligible_customers_for_new_product.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "395d11e98c3c6d0c"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
+    "fingerprint": "5e8dc5894aecb5e4"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains fund settlement transaction data (transfers between Accounts and Investments departments), while the outbound file contains customer eligibility profiles for marketing a specific investment product. There is no field overlap, no shared identifiers, and the data structures serve fundamentally different purposes: one tracks fund movements, the other tracks customer attributes for marketing segmentation. The outbound file would require customer master data and behavioral history not present in the inbound settlement file.",
+  "relatedness_reasoning": "The inbound file contains fund settlement transaction data (transfers between Accounts and Investments departments), while the outbound file contains customer eligibility data for marketing a specific investment product. There is no field overlap, no shared identifiers, and no plausible transformation path from settlement transactions to customer eligibility lists. The outbound file requires customer-level data (customer_id, customer_name, email, account_balance, tenure, risk profile) that does not exist in the inbound schema, which only contains fund identifiers and transfer amounts.",
   "mappings": []
 }

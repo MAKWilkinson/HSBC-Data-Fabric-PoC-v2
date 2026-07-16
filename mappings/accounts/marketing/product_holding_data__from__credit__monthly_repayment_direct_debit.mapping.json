@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/credit/accounts/monthly_repayment_direct_debit.json",
       "providing_system": "credit",
       "consuming_system": "accounts",
       "message_file_name": "monthly_repayment_direct_debit.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "2907360c77e162de"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
+    "fingerprint": "6bf67bb387710627"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/accounts/marketing/product_holding_data.json",
       "providing_system": "accounts",
       "consuming_system": "marketing",
       "message_file_name": "product_holding_data.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "8e70e5616cb49d16"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
+    "fingerprint": "6a02bd146c572c43"
   },
   "related": false,
   "relatedness_confidence": 0.15,
-  "relatedness_reasoning": "The inbound file contains monthly loan repayment instructions (direct debit batches from Credit to Accounts), while the outbound file contains comprehensive product holding data (account balances, product details, investment portfolios). These represent fundamentally different data domains with minimal field overlap; repayment instructions do not naturally transform into product holding summaries. The inbound data is transactional/instructional, while the outbound is state/snapshot data.",
+  "relatedness_reasoning": "The inbound file contains monthly loan repayment instructions (direct debit batches from Credit to Accounts), while the outbound file contains comprehensive product holding data (account balances, product details, investment portfolios). These represent fundamentally different data domains with minimal field overlap; repayment instructions do not naturally transform into product holding summaries. The inbound data describes payment transactions, while the outbound data describes account states and product portfolios.",
   "mappings": []
 }

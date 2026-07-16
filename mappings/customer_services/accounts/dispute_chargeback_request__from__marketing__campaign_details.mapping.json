@@ -1,28 +1,28 @@
 {
   "inbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/marketing/customer_services/campaign_details.json",
       "providing_system": "marketing",
       "consuming_system": "customer_services",
       "message_file_name": "campaign_details.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "60092d15f7b3f417"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
+    "fingerprint": "b3ae882ac099ab57"
   },
   "outbound_schema": {
     "source": {
-      "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
+      "path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/data/customer_services/accounts/dispute_chargeback_request.json",
       "providing_system": "customer_services",
       "consuming_system": "accounts",
       "message_file_name": "dispute_chargeback_request.json",
       "file_format": "json"
     },
-    "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "2ec0c5cb11d63386"
+    "schema_path": "/Users/m.wilkinson/Documents/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
+    "fingerprint": "6ed834b515f34b16"
   },
   "related": false,
   "relatedness_confidence": 0.12,
-  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file is a financial dispute/chargeback request with transaction and customer account details. These represent fundamentally different business domains with no meaningful field overlap or logical data flow connection.",
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file contains dispute chargeback transaction data (customer details, transaction specifics, dispute reasons). These represent fundamentally different business domains with no meaningful field overlap or logical data flow connection.",
   "mappings": []
 }
