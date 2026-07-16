@@ -8,8 +8,12 @@
 # git commit -m "title change" -m "description of change"
 # git push
 
-# python3 ui/viewer.py mappings ui/viewer.html
-# open ui/viewer.html
+# python3 -m http.server 8000
+
+
+# docker build -t launchwebsite .
+# docker run -e AWS_BEARER_TOKEN_BEDROCK launchwebsite
+# docker run -p 8000:8000 launchwebsite python3 -m http.server 8000
 
 
 from pathlib import Path

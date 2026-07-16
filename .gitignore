@@ -1,3 +1,4 @@
 dev-env/
 responses/
 app.log
+.env
