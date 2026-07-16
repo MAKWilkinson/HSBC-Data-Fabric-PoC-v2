@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
   "outbound_schema": {
     "source": {
@@ -19,125 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/reported_scam_fraud.schema.json",
-    "fingerprint": "c99a436a39d11fa2"
+    "fingerprint": "c9c4911c38b3c353"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "reportId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from message ID to report ID."
-    },
-    {
-      "outbound_field": "reportDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of timestamp field."
-    },
-    {
-      "outbound_field": "sourceDeployment",
-      "sources": [
-        "sourceSystem"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from source system to deployment."
-    },
-    {
-      "outbound_field": "targetDeployment",
-      "sources": [
-        "destinationSystem"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from destination system to deployment."
-    },
-    {
-      "outbound_field": "reportType",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "severity",
-      "sources": [
-        "arrears_status[].riskLevel"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept of risk level as inbound field."
-    },
-    {
-      "outbound_field": "incident",
-      "sources": [
-        "arrears_status[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of arrears status records into a single incident object."
-    },
-    {
-      "outbound_field": "customer",
-      "sources": [
-        "arrears_status[].customerId",
-        "arrears_status[].accountNumber"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of customer ID and account number into a single customer object."
-    },
-    {
-      "outbound_field": "fraudDetails",
-      "sources": [
-        "arrears_status[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of arrears status records into a single fraud details object."
-    },
-    {
-      "outbound_field": "riskIndicators",
-      "sources": [
-        "arrears_status[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of arrears status records into a single risk indicators array."
-    },
-    {
-      "outbound_field": "actionsTaken",
-      "sources": [
-        "arrears_status[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of arrears status records into a single actions taken array."
-    },
-    {
-      "outbound_field": "additionalNotes",
-      "sources": [
-        "notes"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of notes field."
-    },
-    {
-      "outbound_field": "escalationRequired",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains arrears status data (payment delinquency tracking), while the outbound file reports fraud and scam incidents. These represent fundamentally different risk domains with minimal field overlap. The inbound schema has no fraud detection, transaction blocking, or incident reporting concepts. While both systems are in the customer_services ecosystem, the message types serve unrelated purposes and the outbound schema cannot be reasonably derived from the inbound schema.",
+  "mappings": []
 }

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "317394ffaaa6bd66"
+    "fingerprint": "395d11e98c3c6d0c"
   },
   "outbound_schema": {
     "source": {
@@ -19,59 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer_details.first_name",
-      "sources": [
-        "metadata.source_department",
-        "eligible_customers[].customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as inbound customer name, but different field name."
-    },
-    {
-      "outbound_field": "customer_details.last_name",
-      "sources": [
-        "metadata.source_department",
-        "eligible_customers[].customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as inbound customer name, but different field name."
-    },
-    {
-      "outbound_field": "customer_details.email",
-      "sources": [
-        "metadata.source_department",
-        "eligible_customers[].email"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact copy of inbound email field."
-    },
-    {
-      "outbound_field": "credit_offer.product_type",
-      "sources": [
-        "metadata.product_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as inbound product name, but different field name."
-    },
-    {
-      "outbound_field": "credit_offer.offer_amount",
-      "sources": [
-        "eligible_customers[].account_balance"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Derived from inbound account balance by computation."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains investment product eligibility data for marketing purposes, while the outbound file is a pre-approved credit offer (personal loan) for the credit department. These represent fundamentally different products (investment vs. credit) with minimal field overlap; the outbound file contains credit-specific fields (credit_score_required, interest_rate, loan terms) and financial terms absent from the inbound schema. While both files reference customers, the business purposes and data structures are incompatible.",
+  "mappings": []
 }

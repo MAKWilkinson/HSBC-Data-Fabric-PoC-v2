@@ -1,20 +1,18 @@
 flowchart LR
   subgraph IN["accounts: account_balance"]
-    in_account_id["account_id"]
-    in_last_updated["last_updated"]
-    in_branch_code["branch_code"]
-    in_pending_transactions["pending_transactions"]
-    in_customer_id["customer_id"]
-    in_balance["balance"]
-    in_currency["currency"]
-    in_account_status["account_status"]
+    in_message_id["message_id"]
+    in_sent_at["sent_at"]
+    in_account_balances___customer_id["account_balances[].customer_id"]
+    in_account_balances___account_id["account_balances[].account_id"]
+    in_account_balances___account_type["account_balances[].account_type"]
+    in_account_balances___balance["account_balances[].balance"]
+    in_account_balances___currency["account_balances[].currency"]
   end
   subgraph OUT["credit: arrears_status"]
     out_messageId["messageId"]
     out_timestamp["timestamp"]
     out_sourceSystem["sourceSystem"]
     out_destinationSystem["destinationSystem"]
-    out_arrears_status["arrears_status"]
     out_arrears_status___customerId["arrears_status[].customerId"]
     out_arrears_status___accountNumber["arrears_status[].accountNumber"]
     out_arrears_status___productType["arrears_status[].productType"]
@@ -29,12 +27,10 @@ flowchart LR
     out_arrears_status___actionRequired["arrears_status[].actionRequired"]
     out_arrears_status___notes["arrears_status[].notes"]
   end
-  in_account_id -->|EXACT| out_messageId
-  in_last_updated -->|SEMANTIC| out_timestamp
-  in_branch_code -->|RENAMED| out_sourceSystem
-  in_pending_transactions -->|SEMANTIC| out_arrears_status
-  in_customer_id -->|EXACT| out_arrears_status___customerId
-  in_account_id -->|EXACT| out_arrears_status___accountNumber
-  in_balance -->|SEMANTIC| out_arrears_status___arrearsAmount
-  in_currency -->|EXACT| out_arrears_status___currency
-  in_account_status -->|SEMANTIC| out_arrears_status___status
+  in_message_id -->|RENAMED| out_messageId
+  in_sent_at -->|RENAMED| out_timestamp
+  in_account_balances___customer_id -->|RENAMED| out_arrears_status___customerId
+  in_account_balances___account_id -->|RENAMED| out_arrears_status___accountNumber
+  in_account_balances___account_type -->|TRANSFORMED| out_arrears_status___productType
+  in_account_balances___balance -->|TRANSFORMED| out_arrears_status___arrearsAmount
+  in_account_balances___currency -->|EXACT| out_arrears_status___currency

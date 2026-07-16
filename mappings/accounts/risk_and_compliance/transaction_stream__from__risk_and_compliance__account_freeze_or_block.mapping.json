@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "outbound_schema": {
     "source": {
@@ -19,69 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's account details, freeze details, and restrictions seem to be the source of the outbound file's transaction information.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the message ID from the inbound file."
-    },
-    {
-      "outbound_field": "counterparty_system",
-      "sources": [
-        "source",
-        "destination"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Combination of source and destination systems to determine the counterparty system."
-    },
-    {
-      "outbound_field": "transaction_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the timestamp from the inbound file."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "account.accountNumber",
-        "account.currency"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Combination of account number and currency to determine the transaction amount."
-    },
-    {
-      "outbound_field": "transaction_type",
-      "sources": [
-        "messageType",
-        "action"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Combination of message type and action to determine the transaction type."
-    },
-    {
-      "outbound_field": "eligible_customers",
-      "sources": [
-        "account.accountHolder",
-        "account.accountType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Combination of account holder and account type to determine eligible customers."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.05,
+  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish data lineage. Additionally, the inbound file describes account freeze/block actions while the outbound file name suggests transaction streaming\u2014fundamentally different data domains with no apparent field correspondence.",
+  "mappings": []
 }

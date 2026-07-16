@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
   "outbound_schema": {
     "source": {
@@ -19,20 +19,77 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share some common concepts like customer information, product type, and arrears status, which could be used to generate account freeze or block actions.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files concern account risk and compliance actions; inbound arrears_flags triggers outbound account freeze/block decisions. Risk_and_compliance is both consumer of inbound and provider of outbound, forming a logical pipeline step where arrears severity and risk category drive freeze actions.",
   "mappings": [
+    {
+      "outbound_field": "messageId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for message exchange; no source in inbound schema."
+    },
+    {
+      "outbound_field": "timestamp",
+      "sources": [
+        "arrears_flags[].flag_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Both are ISO8601 timestamps; outbound timestamp likely derived from or correlated with inbound flag_date when freeze action is initiated."
+    },
+    {
+      "outbound_field": "source",
+      "sources": [
+        "metadata.destination_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound metadata.destination_department is 'Risk_and_Compliance', which matches outbound source enum value 'risk_and_compliance'."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound destination 'accounts' is a routing/system configuration value not present in inbound schema."
+    },
+    {
+      "outbound_field": "messageType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Message type 'account_freeze_or_block' is a classification of the outbound message itself, not derived from inbound data."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "arrears_flags[].flag_severity"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound flag_severity enum includes 'HIGH' and 'CRITICAL' which map to outbound priority 'high' for urgent freeze actions."
+    },
+    {
+      "outbound_field": "action",
+      "sources": [
+        "arrears_flags[].compliance_action_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "When compliance_action_required is true and risk_category indicates DEFAULT_RISK, freeze action is triggered; however mapping is indirect."
+    },
     {
       "outbound_field": "account.accountNumber",
       "sources": [
         "arrears_flags[].account_id"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The account ID from the inbound file is used as the account number in the outbound file."
+      "confidence": 0.85,
+      "reasoning": "Inbound account_id (format=account_number) maps to outbound accountNumber; format conversion to IBAN may occur downstream."
     },
     {
       "outbound_field": "account.accountHolder",
@@ -41,52 +98,178 @@
       ],
       "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "The customer name from the inbound file is used as the account holder in the outbound file."
+      "reasoning": "Inbound customer_name directly corresponds to outbound accountHolder name field."
     },
     {
-      "outbound_field": "account.product_type",
+      "outbound_field": "account.accountType",
       "sources": [
         "arrears_flags[].product_type"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The product type from the inbound file is used as-is in the outbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Inbound product_type (Mortgage, Personal Loan, Credit Card) differs from outbound accountType enum (Current Account); weak semantic connection."
     },
     {
-      "outbound_field": "account.arrears_status",
-      "sources": [
-        "arrears_flags[].arrears_status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The arrears status from the inbound file is used as-is in the outbound file."
+      "outbound_field": "account.currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound currency 'GBP' is a system/branch configuration value not present in inbound schema."
+    },
+    {
+      "outbound_field": "account.branch",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound branch 'London City' is a location configuration value not derivable from inbound arrears_flags data."
     },
     {
       "outbound_field": "freezeDetails.freezeType",
-      "sources": [
-        "arrears_flags[].flag_severity"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The flag severity from the inbound file is used to determine the freeze type in the outbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Freeze type 'full' is a policy/decision value not present in inbound schema; determined by compliance rules, not inbound data."
     },
     {
       "outbound_field": "freezeDetails.reason",
       "sources": [
+        "arrears_flags[].risk_category"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.55,
+      "reasoning": "Inbound risk_category (DEFAULT_RISK, WATCH_LIST, EARLY_WARNING) could trigger freeze, but outbound reason enum 'suspected_fraud' does not directly match arrears-based risk categories."
+    },
+    {
+      "outbound_field": "freezeDetails.description",
+      "sources": [
         "arrears_flags[].notes"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The notes from the inbound file are used to determine the reason for the freeze in the outbound file."
+      "confidence": 0.7,
+      "reasoning": "Inbound notes field provides free-text commentary that could populate outbound description narrative."
+    },
+    {
+      "outbound_field": "freezeDetails.initiatedBy",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Name of person initiating freeze is a runtime/operational value not present in inbound schema."
+    },
+    {
+      "outbound_field": "freezeDetails.department",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Outbound department 'Fraud Investigation Unit' is a specific organizational unit not derivable from inbound arrears_flags data."
+    },
+    {
+      "outbound_field": "freezeDetails.effectiveFrom",
+      "sources": [
+        "arrears_flags[].flag_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Freeze effective date likely correlates with or is derived from inbound flag_date timestamp."
+    },
+    {
+      "outbound_field": "restrictions.allowIncomingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction restriction policies are compliance/operational decisions not derivable from inbound arrears data."
+    },
+    {
+      "outbound_field": "restrictions.allowOutgoingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction restriction policies are compliance/operational decisions not derivable from inbound arrears data."
+    },
+    {
+      "outbound_field": "restrictions.allowWithdrawals",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction restriction policies are compliance/operational decisions not derivable from inbound arrears data."
+    },
+    {
+      "outbound_field": "restrictions.allowCardTransactions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction restriction policies are compliance/operational decisions not derivable from inbound arrears data."
+    },
+    {
+      "outbound_field": "restrictions.allowCheques",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction restriction policies are compliance/operational decisions not derivable from inbound arrears data."
     },
     {
       "outbound_field": "escalation.level",
       "sources": [
-        "arrears_flags[].risk_category"
+        "arrears_flags[].flag_severity"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The risk category from the inbound file is used to determine the escalation level in the outbound file."
+      "confidence": 0.65,
+      "reasoning": "Inbound flag_severity (MEDIUM, HIGH, CRITICAL) could map to escalation levels, but mapping is indirect and not explicit."
+    },
+    {
+      "outbound_field": "escalation.requiresApproval",
+      "sources": [
+        "arrears_flags[].compliance_action_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Inbound compliance_action_required boolean could indicate whether formal approval is needed for freeze action."
+    },
+    {
+      "outbound_field": "escalation.approvalDeadline",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Approval deadline is a policy/operational value not present in inbound schema."
+    },
+    {
+      "outbound_field": "escalation.complianceOfficer",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Assigned compliance officer is a runtime/organizational assignment not present in inbound schema."
+    },
+    {
+      "outbound_field": "additionalInfo.caseReference",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Case reference identifier is a system-generated or external reference not derivable from inbound arrears_flags."
+    },
+    {
+      "outbound_field": "additionalInfo.riskScore",
+      "sources": [
+        "arrears_flags[].arrears_days",
+        "arrears_flags[].outstanding_balance"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.6,
+      "reasoning": "Risk score could be computed from inbound arrears_days and outstanding_balance, but transformation logic is not explicit."
+    },
+    {
+      "outbound_field": "additionalInfo.customerNotificationSent",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Notification status is a runtime/operational state not present in inbound schema."
+    },
+    {
+      "outbound_field": "additionalInfo.regulatoryReporting",
+      "sources": [
+        "arrears_flags[].flag_severity"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound flag_severity 'CRITICAL' could trigger regulatory reporting requirement, but mapping is indirect."
     }
   ]
 }

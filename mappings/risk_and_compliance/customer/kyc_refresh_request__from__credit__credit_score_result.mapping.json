@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,195 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files share customer identity concepts and risk/compliance assessment data; risk_and_compliance consumes credit_score_result and produces kyc_refresh_request, forming a logical pipeline where credit assessment triggers KYC refresh workflows.",
   "mappings": [
+    {
+      "outbound_field": "request_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field in inbound; system-generated unique identifier for the outbound request."
+    },
+    {
+      "outbound_field": "request_timestamp",
+      "sources": [
+        "credit_score_result.timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound timestamp represents when credit assessment was generated; outbound timestamp likely derived from or set around the same time the KYC refresh is triggered."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "credit_score_result.destination_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound destination_department is 'risk_and_compliance', which becomes the source department for the outbound KYC refresh request."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "credit_score_result.source_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound source_department is 'credit', which becomes the destination for the outbound KYC refresh request sent back to credit."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Priority may be derived from risk level; high risk assessments could trigger HIGH priority KYC refresh requests."
+    },
     {
       "outbound_field": "customer.customer_id",
       "sources": [
-        "customer.customer_id"
+        "credit_score_result.customer.customer_id"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Exact field match; customer identifier carries through unchanged."
     },
     {
       "outbound_field": "customer.full_name",
       "sources": [
-        "customer.name"
+        "credit_score_result.customer.name"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "confidence": 0.9,
+      "reasoning": "Inbound 'name' field maps to outbound 'full_name'; same customer name concept with different field naming."
     },
     {
       "outbound_field": "customer.date_of_birth",
       "sources": [
-        "credit_score.customer.date_of_birth"
+        "credit_score_result.customer.date_of_birth"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Exact field match; date of birth carries through unchanged."
+    },
+    {
+      "outbound_field": "customer.national_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No national ID or passport field exists in inbound schema; likely sourced from external KYC system or customer master data."
+    },
+    {
+      "outbound_field": "customer.email",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No email field exists in inbound credit score result; likely sourced from customer master data or contact system."
+    },
+    {
+      "outbound_field": "customer.phone",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No phone field exists in inbound credit score result; likely sourced from customer master data or contact system."
     },
     {
       "outbound_field": "kyc_refresh_details.last_refresh_date",
-      "sources": [
-        "credit_assessment.assessment_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "No prior KYC refresh date exists in inbound; likely sourced from KYC history or customer master data."
     },
     {
       "outbound_field": "kyc_refresh_details.refresh_reason",
       "sources": [
-        "credit_assessment.recommended_action"
+        "credit_score_result.credit_score.assessment_date"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.5,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.55,
+      "reasoning": "Refresh may be triggered by periodic credit assessment; weak connection as inbound does not explicitly state refresh reason."
     },
     {
       "outbound_field": "kyc_refresh_details.risk_flag",
       "sources": [
-        "credit_assessment.default_risk_level"
+        "credit_score_result.risk_indicators.fraud_risk",
+        "credit_score_result.credit_assessment.default_risk_level"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Risk flag is derived from fraud risk assessment or default risk level; boolean flag set if either indicates elevated risk."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.risk_level",
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.4,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.75,
+      "reasoning": "Inbound default_risk_level ('Low') maps to outbound risk_level; same risk assessment concept with different enum values."
     },
     {
       "outbound_field": "kyc_refresh_details.trigger_factors",
       "sources": [
-        "risk_indicators.fraud_risk"
+        "credit_score_result.risk_indicators.compliance_flags"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.3,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.7,
+      "reasoning": "Compliance flags from inbound may populate trigger factors in outbound; both represent risk or compliance concerns."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.compliance_issues",
+      "sources": [
+        "credit_score_result.risk_indicators.compliance_flags",
+        "credit_score_result.risk_indicators.regulatory_concerns"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Compliance issues array is constructed from inbound compliance flags and regulatory concerns with added status and severity fields."
+    },
+    {
+      "outbound_field": "required_documents",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No document requirement list exists in inbound; likely determined by KYC policy engine or compliance rules."
+    },
+    {
+      "outbound_field": "required_actions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No required actions list exists in inbound; likely determined by KYC policy engine or compliance rules."
+    },
+    {
+      "outbound_field": "deadline",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "No deadline field exists in inbound; likely calculated by policy engine based on refresh reason and risk level."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [
+        "credit_score_result.review_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Inbound review_status ('Completed') may trigger outbound status ('PENDING_CUSTOMER_RESPONSE'); weak semantic connection as values differ."
+    },
+    {
+      "outbound_field": "internal_notes",
+      "sources": [
+        "credit_score_result.reviewed_by"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.5,
+      "reasoning": "Reviewer identifier from inbound may be included in internal notes; very weak connection as field purposes differ significantly."
     }
   ]
 }

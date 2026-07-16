@@ -11,20 +11,20 @@
       "name": "requestId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the dispute chargeback request"
+      "description": "Unique identifier for this dispute chargeback request, assigned by the originating system"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the request was submitted",
+      "description": "ISO 8601 timestamp when the request was created and submitted",
       "fmt": "iso8601"
     },
     {
       "name": "department",
       "data_type": "string",
-      "nullable": true,
-      "description": "Department that originated the data (customer_services)",
+      "nullable": false,
+      "description": "The originating department that submitted the dispute request",
       "enum_values": [
         "customer_services"
       ]
@@ -33,7 +33,7 @@
       "name": "targetDepartment",
       "data_type": "string",
       "nullable": false,
-      "description": "Target department for the request (accounts)",
+      "description": "The receiving department responsible for processing the dispute",
       "enum_values": [
         "accounts"
       ]
@@ -42,39 +42,39 @@
       "name": "customerDetails",
       "data_type": "object",
       "nullable": false,
-      "description": "Customer information",
+      "description": "Core identifying and contact information for the customer initiating the dispute",
       "children": [
         {
           "name": "customerId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the customer within the bank"
         },
         {
           "name": "customerName",
           "data_type": "string",
-          "nullable": true,
-          "description": "Customer name"
+          "nullable": false,
+          "description": "Full name of the customer as registered on the account"
         },
         {
           "name": "accountNumber",
           "data_type": "string",
           "nullable": false,
-          "description": "Account number for the customer",
+          "description": "IBAN of the customer's account from which the disputed transaction originated",
           "fmt": "iban"
         },
         {
           "name": "email",
           "data_type": "string",
           "nullable": true,
-          "description": "Customer email address",
+          "description": "Customer's email address for dispute correspondence",
           "fmt": "email"
         },
         {
           "name": "phone",
           "data_type": "string",
           "nullable": true,
-          "description": "Customer phone number",
+          "description": "Customer's phone number for dispute correspondence",
           "fmt": "phone"
         }
       ]
@@ -83,33 +83,33 @@
       "name": "transactionDetails",
       "data_type": "object",
       "nullable": false,
-      "description": "Transaction information",
+      "description": "Complete details of the transaction being disputed",
       "children": [
         {
           "name": "transactionId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the transaction"
+          "description": "Unique identifier for the disputed transaction"
         },
         {
           "name": "transactionDate",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp of when the transaction occurred",
+          "description": "ISO 8601 timestamp when the disputed transaction occurred",
           "fmt": "iso8601"
         },
         {
           "name": "amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Amount of the transaction",
+          "description": "Transaction amount in the specified currency",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency of the transaction (GBP)",
+          "description": "ISO 4217 currency code of the transaction",
           "fmt": "currency_code",
           "enum_values": [
             "GBP"
@@ -118,20 +118,20 @@
         {
           "name": "merchant",
           "data_type": "string",
-          "nullable": true,
-          "description": "Merchant name"
+          "nullable": false,
+          "description": "Name of the merchant or business that processed the transaction"
         },
         {
           "name": "merchantReference",
           "data_type": "string",
-          "nullable": false,
-          "description": "Merchant reference for the transaction"
+          "nullable": true,
+          "description": "Merchant's reference code or identifier for the transaction"
         },
         {
           "name": "description",
           "data_type": "string",
           "nullable": true,
-          "description": "Description of the transaction"
+          "description": "Narrative description of the goods or services purchased"
         }
       ]
     },
@@ -139,13 +139,13 @@
       "name": "disputeDetails",
       "data_type": "object",
       "nullable": false,
-      "description": "Dispute information",
+      "description": "Dispute classification, reason, and current processing status",
       "children": [
         {
           "name": "disputeType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of dispute (chargeback)",
+          "description": "Classification of the dispute type",
           "enum_values": [
             "chargeback"
           ]
@@ -153,8 +153,8 @@
         {
           "name": "reason",
           "data_type": "string",
-          "nullable": true,
-          "description": "Reason for the dispute (unauthorized_transaction)",
+          "nullable": false,
+          "description": "Standardized reason code for the dispute",
           "enum_values": [
             "unauthorized_transaction"
           ]
@@ -163,22 +163,22 @@
           "name": "reasonDescription",
           "data_type": "string",
           "nullable": true,
-          "description": "Detailed description of the reason for the dispute"
+          "description": "Free-text explanation of the dispute reason provided by the customer"
         },
         {
           "name": "disputeStatus",
           "data_type": "string",
           "nullable": false,
-          "description": "Current status of the dispute (pending_review)",
+          "description": "Current processing status of the dispute",
           "enum_values": [
             "pending_review"
           ]
         },
         {
           "name": "createdDate",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp when the dispute was created",
+          "description": "ISO 8601 timestamp when the dispute was initially created",
           "fmt": "iso8601"
         }
       ]
@@ -186,14 +186,14 @@
     {
       "name": "evidenceProvided",
       "data_type": "array",
-      "nullable": false,
-      "description": "Evidence provided for the dispute",
+      "nullable": true,
+      "description": "Collection of supporting documents or evidence submitted with the dispute",
       "children": [
         {
           "name": "type",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of evidence (customer_statement, communication_logs)",
+          "description": "Classification of the evidence document type",
           "enum_values": [
             "customer_statement",
             "communication_logs"
@@ -203,7 +203,7 @@
           "name": "description",
           "data_type": "string",
           "nullable": true,
-          "description": "Description of the evidence"
+          "description": "Narrative description of the evidence content"
         },
         {
           "name": "documentId",
@@ -217,7 +217,7 @@
       "name": "requestStatus",
       "data_type": "string",
       "nullable": false,
-      "description": "Current status of the request (submitted)",
+      "description": "Current status of the request submission to the accounts department",
       "enum_values": [
         "submitted"
       ]
@@ -226,30 +226,28 @@
       "name": "priority",
       "data_type": "string",
       "nullable": true,
-      "description": "Priority level for the request (high)",
+      "description": "Priority level assigned to the dispute request for processing urgency",
       "enum_values": [
-        "high",
-        "medium",
-        "low"
+        "high"
       ]
     },
     {
       "name": "notes",
       "data_type": "string",
       "nullable": true,
-      "description": "Additional notes about the request"
+      "description": "Free-text notes providing additional context or special handling instructions"
     },
     {
       "name": "requiredActions",
       "data_type": "array",
-      "nullable": false,
-      "description": "Required actions for resolving the dispute",
+      "nullable": true,
+      "description": "List of action items that must be completed to resolve the dispute",
       "children": [
         {
           "name": "action",
           "data_type": "string",
           "nullable": false,
-          "description": "Action required (credit_investigation, merchant_contact, cardholder_verification, charge_reversal_if_valid)",
+          "description": "Specific action required to process the dispute",
           "enum_values": [
             "credit_investigation",
             "merchant_contact",

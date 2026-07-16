@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/marketing/customer_services/offer_scripts.json",
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/marketing/customer_services/offer_scripts.json",
     "providing_system": "marketing",
     "consuming_system": "customer_services",
     "message_file_name": "offer_scripts.json",
@@ -8,111 +8,139 @@
   },
   "fields": [
     {
-      "name": "id",
-      "data_type": "string",
+      "name": "offer_scripts",
+      "data_type": "array",
       "nullable": false,
-      "description": "Unique identifier for the offer script"
-    },
-    {
-      "name": "name",
-      "data_type": "string",
-      "nullable": false,
-      "description": "Name of the offer script, e.g., 'Premium Credit Card Upgrade'"
-    },
-    {
-      "name": "department_from",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Department that originated the offer script, e.g., 'Marketing'",
-      "enum_values": [
-        "Marketing",
-        "Customer Services"
+      "description": "Collection of marketing offer scripts to be delivered by Customer Services, each representing a distinct product or service promotion",
+      "children": [
+        {
+          "name": "id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the offer script"
+        },
+        {
+          "name": "name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Human-readable title of the offer or promotion"
+        },
+        {
+          "name": "department_from",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Originating department that created the offer script",
+          "enum_values": [
+            "Marketing"
+          ]
+        },
+        {
+          "name": "department_to",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Receiving department responsible for delivering the offer to customers",
+          "enum_values": [
+            "Customer Services"
+          ]
+        },
+        {
+          "name": "created_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date when the offer script was created",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "effective_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date when the offer script becomes active and eligible for delivery",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current lifecycle status of the offer script",
+          "enum_values": [
+            "active",
+            "pending"
+          ]
+        },
+        {
+          "name": "target_segment",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Customer segment or cohort for which this offer is intended"
+        },
+        {
+          "name": "script_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Channel or medium through which the offer script will be delivered",
+          "enum_values": [
+            "inbound_call",
+            "outbound_call",
+            "email_template"
+          ]
+        },
+        {
+          "name": "duration_seconds",
+          "data_type": "integer",
+          "nullable": true,
+          "description": "Estimated duration in seconds for verbal delivery; null for non-voice channels such as email"
+        },
+        {
+          "name": "content",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Full text of the offer script to be delivered to the customer"
+        },
+        {
+          "name": "call_to_action",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Specific prompt or instruction directing the customer toward the desired response or next step"
+        },
+        {
+          "name": "success_metric",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Key performance indicator or business outcome that defines successful delivery of this offer",
+          "enum_values": [
+            "application_completion",
+            "appointment_booked",
+            "quote_requested",
+            "application_submitted"
+          ]
+        }
       ]
     },
     {
-      "name": "department_to",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Department that will receive the offer script, e.g., 'Customer Services'",
-      "enum_values": [
-        "Marketing",
-        "Customer Services"
-      ]
-    },
-    {
-      "name": "created_date",
-      "data_type": "datetime",
+      "name": "metadata",
+      "data_type": "object",
       "nullable": false,
-      "description": "Date when the offer script was created",
-      "fmt": "iso8601"
-    },
-    {
-      "name": "effective_date",
-      "data_type": "datetime",
-      "nullable": false,
-      "description": "Date when the offer script becomes effective",
-      "fmt": "iso8601"
-    },
-    {
-      "name": "status",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Current status of the offer script, e.g., 'active' or 'pending'",
-      "enum_values": [
-        "active",
-        "pending"
-      ]
-    },
-    {
-      "name": "target_segment",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Target audience for the offer script, e.g., 'Gold Account Holders'",
-      "enum_values": [
-        "Gold Account Holders",
-        "High Net Worth Individuals",
-        "Mortgage Account Holders",
-        "SME Business Customers"
-      ]
-    },
-    {
-      "name": "script_type",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Type of script, e.g., 'inbound_call' or 'email_template'",
-      "enum_values": [
-        "inbound_call",
-        "outbound_call",
-        "email_template"
-      ]
-    },
-    {
-      "name": "duration_seconds",
-      "data_type": "integer",
-      "nullable": true,
-      "description": "Length of the script in seconds"
-    },
-    {
-      "name": "content",
-      "data_type": "string",
-      "nullable": false,
-      "description": "Script content, e.g., a sales pitch or marketing message"
-    },
-    {
-      "name": "call_to_action",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Call to action for the script, e.g., 'Would you like me to proceed with the application?'"
-    },
-    {
-      "name": "success_metric",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Metric used to measure the success of the script, e.g., 'application_completion'",
-      "enum_values": [
-        "application_completion",
-        "appointment_booked",
-        "quote_requested"
+      "description": "Administrative metadata about the offer scripts collection",
+      "children": [
+        {
+          "name": "total_scripts",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Count of offer scripts contained in this payload"
+        },
+        {
+          "name": "last_updated",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date when the offer scripts collection was last modified",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "version",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Version identifier for the offer scripts schema or dataset"
+        }
       ]
     }
   ]

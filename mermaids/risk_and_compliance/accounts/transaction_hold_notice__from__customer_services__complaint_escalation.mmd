@@ -1,17 +1,19 @@
 flowchart LR
   subgraph IN["customer_services: complaint_escalation"]
-    in_escalation_id["escalation_id"]
-    in_timestamp["timestamp"]
-    in_source_department["source_department"]
     in_target_department["target_department"]
-    in_complaint_complaint_type["complaint.complaint_type"]
-    in_complaint_severity_level["complaint.severity_level"]
+    in_severity_level["severity_level"]
     in_complaint_account_number["complaint.account_number"]
     in_complaint_customer_id["complaint.customer_id"]
     in_complaint_customer_name["complaint.customer_name"]
     in_escalation_reason["escalation_reason"]
-    in_complaint_complaint_date["complaint.complaint_date"]
-    in_complaint_documents_attached["complaint.documents_attached"]
+    in_risk_assessment_fraud_indicator["risk_assessment.fraud_indicator"]
+    in_timestamp["timestamp"]
+    in_complaint_amount["complaint.amount"]
+    in_complaint_currency["complaint.currency"]
+    in_risk_assessment_regulatory_flag["risk_assessment.regulatory_flag"]
+    in_risk_assessment_customer_impact["risk_assessment.customer_impact"]
+    in_required_actions["required_actions"]
+    in_complaint_description["complaint.description"]
   end
   subgraph OUT["risk_and_compliance: transaction_hold_notice"]
     out_noticeId["noticeId"]
@@ -27,16 +29,41 @@ flowchart LR
     out_holdEffectiveDate["holdEffectiveDate"]
     out_estimatedHoldDuration["estimatedHoldDuration"]
     out_transactionsAffected["transactionsAffected"]
+    out_transactionsAffected___transactionId["transactionsAffected[].transactionId"]
+    out_transactionsAffected___amount["transactionsAffected[].amount"]
+    out_transactionsAffected___currency["transactionsAffected[].currency"]
+    out_transactionsAffected___destinationCountry["transactionsAffected[].destinationCountry"]
+    out_transactionsAffected___status["transactionsAffected[].status"]
+    out_riskScore["riskScore"]
+    out_riskFlags["riskFlags"]
+    out_requiredActions["requiredActions"]
+    out_escalationLevel["escalationLevel"]
+    out_approvalRequired["approvalRequired"]
+    out_approverRole["approverRole"]
+    out_notes["notes"]
+    out_expiryDate["expiryDate"]
+    out_issuedBy["issuedBy"]
+    out_priority["priority"]
   end
-  in_escalation_id -->|EXACT| out_noticeId
-  in_timestamp -->|EXACT| out_timestamp
-  in_source_department -->|RENAMED| out_department
-  in_target_department -->|RENAMED| out_recipientDepartment
-  in_complaint_complaint_type -->|SEMANTIC| out_noticeType
-  in_complaint_severity_level -->|SEMANTIC| out_severity
-  in_complaint_account_number -->|EXACT| out_accountNumber
+  in_target_department -->|SEMANTIC| out_department
+  in_severity_level -->|EXACT| out_severity
+  in_complaint_account_number -->|RENAMED| out_accountNumber
   in_complaint_customer_id -->|EXACT| out_customerId
   in_complaint_customer_name -->|EXACT| out_customerName
-  in_escalation_reason -->|SEMANTIC| out_holdReason
-  in_complaint_complaint_date -->|SEMANTIC| out_holdEffectiveDate
-  in_complaint_documents_attached -->|MERGE| out_transactionsAffected
+  in_escalation_reason -->|MERGE| out_holdReason
+  in_risk_assessment_fraud_indicator -->|MERGE| out_holdReason
+  in_timestamp -->|SEMANTIC| out_holdEffectiveDate
+  in_complaint_amount -->|TRANSFORMED| out_transactionsAffected
+  in_complaint_currency -->|TRANSFORMED| out_transactionsAffected
+  in_complaint_amount -->|EXACT| out_transactionsAffected___amount
+  in_complaint_currency -->|EXACT| out_transactionsAffected___currency
+  in_risk_assessment_fraud_indicator -->|TRANSFORMED| out_riskScore
+  in_risk_assessment_regulatory_flag -->|TRANSFORMED| out_riskScore
+  in_risk_assessment_customer_impact -->|TRANSFORMED| out_riskScore
+  in_risk_assessment_fraud_indicator -->|TRANSFORMED| out_riskFlags
+  in_risk_assessment_regulatory_flag -->|TRANSFORMED| out_riskFlags
+  in_required_actions -->|RENAMED| out_requiredActions
+  in_severity_level -->|TRANSFORMED| out_escalationLevel
+  in_severity_level -->|TRANSFORMED| out_approvalRequired
+  in_complaint_description -->|SEMANTIC| out_notes
+  in_severity_level -->|SEMANTIC| out_priority

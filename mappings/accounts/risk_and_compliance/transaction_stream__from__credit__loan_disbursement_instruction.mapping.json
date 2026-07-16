@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,65 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as loan disbursement, borrower information, and transaction details, making them plausibly connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "loan_disbursement_instructions[].instruction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the instruction ID from the inbound file."
-    },
-    {
-      "outbound_field": "counterparty_system",
-      "sources": [
-        "loan_disbursement_instructions[].destination_account"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed from destination account to counterparty system."
-    },
-    {
-      "outbound_field": "transaction_date",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the disbursement date from the inbound file."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the disbursement amount from the inbound file."
-    },
-    {
-      "outbound_field": "transaction_type",
-      "sources": [
-        "loan_disbursement_instructions[].purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as the purpose field from the inbound file."
-    },
-    {
-      "outbound_field": "eligible_customers",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_account_number"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of borrower account numbers from the inbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish data lineage. While the inbound file contains loan disbursement data and the system chain (credit \u2192 accounts \u2192 risk_and_compliance) is plausible, without outbound field definitions there is no basis for mapping.",
+  "mappings": []
 }

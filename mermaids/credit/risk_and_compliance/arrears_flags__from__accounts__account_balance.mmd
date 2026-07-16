@@ -1,30 +1,40 @@
 flowchart LR
   subgraph IN["accounts: account_balance"]
-    in_account_id["account_id"]
-    in_customer_id["customer_id"]
-    in_account_type["account_type"]
-    in_account_status["account_status"]
-    in_balance["balance"]
-    in_available_balance["available_balance"]
-    in_last_updated["last_updated"]
+    in_account_balances___account_id["account_balances[].account_id"]
+    in_account_balances___customer_id["account_balances[].customer_id"]
+    in_account_balances___account_type["account_balances[].account_type"]
+    in_account_balances___balance["account_balances[].balance"]
+    in_account_balances___last_updated["account_balances[].last_updated"]
+    in_sent_at["sent_at"]
+    in_sender["sender"]
   end
   subgraph OUT["credit: arrears_flags"]
     out_arrears_flags___account_id["arrears_flags[].account_id"]
     out_arrears_flags___customer_id["arrears_flags[].customer_id"]
-    out_arrears_flags___product_type["arrears_flags[].product_type"]
     out_arrears_flags___customer_name["arrears_flags[].customer_name"]
+    out_arrears_flags___product_type["arrears_flags[].product_type"]
     out_arrears_flags___arrears_status["arrears_flags[].arrears_status"]
+    out_arrears_flags___arrears_days["arrears_flags[].arrears_days"]
     out_arrears_flags___outstanding_balance["arrears_flags[].outstanding_balance"]
     out_arrears_flags___minimum_payment_due["arrears_flags[].minimum_payment_due"]
     out_arrears_flags___payment_due_date["arrears_flags[].payment_due_date"]
+    out_arrears_flags___last_payment_date["arrears_flags[].last_payment_date"]
+    out_arrears_flags___flag_severity["arrears_flags[].flag_severity"]
+    out_arrears_flags___risk_category["arrears_flags[].risk_category"]
+    out_arrears_flags___compliance_action_required["arrears_flags[].compliance_action_required"]
+    out_arrears_flags___action_type["arrears_flags[].action_type"]
     out_arrears_flags___flag_date["arrears_flags[].flag_date"]
+    out_arrears_flags___notes["arrears_flags[].notes"]
+    out_metadata_report_date["metadata.report_date"]
+    out_metadata_total_flagged_accounts["metadata.total_flagged_accounts"]
+    out_metadata_source_department["metadata.source_department"]
+    out_metadata_destination_department["metadata.destination_department"]
+    out_metadata_report_version["metadata.report_version"]
   end
-  in_account_id -->|EXACT| out_arrears_flags___account_id
-  in_customer_id -->|EXACT| out_arrears_flags___customer_id
-  in_account_type -->|SEMANTIC| out_arrears_flags___product_type
-  in_customer_id -->|SEMANTIC| out_arrears_flags___customer_name
-  in_account_status -->|SEMANTIC| out_arrears_flags___arrears_status
-  in_balance -->|TRANSFORMED| out_arrears_flags___outstanding_balance
-  in_available_balance -->|TRANSFORMED| out_arrears_flags___minimum_payment_due
-  in_last_updated -->|TRANSFORMED| out_arrears_flags___payment_due_date
-  in_last_updated -->|TRANSFORMED| out_arrears_flags___flag_date
+  in_account_balances___account_id -->|EXACT| out_arrears_flags___account_id
+  in_account_balances___customer_id -->|EXACT| out_arrears_flags___customer_id
+  in_account_balances___account_type -->|SEMANTIC| out_arrears_flags___product_type
+  in_account_balances___balance -->|SEMANTIC| out_arrears_flags___outstanding_balance
+  in_account_balances___last_updated -->|SEMANTIC| out_arrears_flags___flag_date
+  in_sent_at -->|SEMANTIC| out_metadata_report_date
+  in_sender -->|SEMANTIC| out_metadata_source_department

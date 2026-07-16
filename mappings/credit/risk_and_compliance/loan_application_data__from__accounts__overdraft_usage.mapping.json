@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "affa3aa27b3800ff"
+    "fingerprint": "d302878353e5eda9"
   },
   "outbound_schema": {
     "source": {
@@ -19,58 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "cc85053f05f356ed"
+    "fingerprint": "254d598c9fe307d8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like account number, overdraft limit, and usage percentage, which could be used to determine loan applications.",
-  "mappings": [
-    {
-      "outbound_field": "loan_applications[].application_id",
-      "sources": [
-        "accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of account number field."
-    },
-    {
-      "outbound_field": "loan_applications[].timestamp",
-      "sources": [
-        "sentDate"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same concept as sent date, but renamed to timestamp."
-    },
-    {
-      "outbound_field": "loan_applications[].applicant.customer_id",
-      "sources": [
-        "accountNumber"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Customer ID is related to account number, but not an exact copy."
-    },
-    {
-      "outbound_field": "loan_applications[].loan_details.requested_amount",
-      "sources": [
-        "overdraftLimit",
-        "overdraftUsed"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of overdraft limit and used amount to determine requested loan amount."
-    },
-    {
-      "outbound_field": "loan_applications[].financial_profile.total_assets",
-      "sources": [
-        "overdraftLimit",
-        "overdraftUsed"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Total assets is related to overdraft limit and used amount, but not an exact copy."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains overdraft usage metrics (overdraft limits, usage amounts, percentages) while the outbound file contains comprehensive loan application data (applicant demographics, employment, financial profile, collateral). These represent fundamentally different data domains with no meaningful field overlap; overdraft monitoring does not plausibly feed into loan application submission workflows.",
+  "mappings": []
 }

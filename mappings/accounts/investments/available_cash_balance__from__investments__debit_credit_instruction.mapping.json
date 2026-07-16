@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
   "outbound_schema": {
     "source": {
@@ -19,111 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "06b9a31daf92a921"
+    "fingerprint": "69117896ce7ad823"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers and currencies, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "debit_credit_instructions[].instruction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "debit_credit_instructions[].timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "fromDepartment",
-      "sources": [
-        "debit_credit_instructions[].source_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "toDepartment",
-      "sources": [
-        "debit_credit_instructions[].target_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "subject",
-      "sources": [
-        "debit_credit_instructions[].instructions[].description"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "debit_credit_instructions[].instructions[].account_number"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "debit_credit_instructions[].instructions[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "availableCashBalance",
-      "sources": [
-        "debit_credit_instructions[].total_debit_amount",
-        "debit_credit_instructions[].total_credit_amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "asOfDate",
-      "sources": [
-        "debit_credit_instructions[].effective_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "details",
-      "sources": [
-        "debit_credit_instructions[].instructions[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [
-        "debit_credit_instructions[].instructions[].description"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains debit/credit transaction instructions from investments to accounts, while the outbound file reports available cash balances back to investments. These represent opposite data flows (instructions in, balance reporting out) with minimal field overlap. The inbound file describes pending transactions to be executed; the outbound file describes post-execution account state. No fields directly correspond, and the message types serve fundamentally different purposes in the pipeline.",
+  "mappings": []
 }

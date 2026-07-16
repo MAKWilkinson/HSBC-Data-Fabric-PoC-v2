@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
-    "fingerprint": "5863e28d703e0fd3"
+    "fingerprint": "fa0581e0fb3586e7"
   },
   "outbound_schema": {
     "source": {
@@ -19,47 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "trade_records[].trader_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept, different name."
-    },
-    {
-      "outbound_field": "customer.full_name",
-      "sources": [
-        "trade_records[].trader_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept, different name and format."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.last_refresh_date",
-      "sources": [
-        "metadata.report_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.refresh_reason",
-      "sources": [
-        "metadata.total_trades"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept, different name and format."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains trade execution records (equities, fixed income, derivatives) while the outbound file is a KYC (Know Your Customer) refresh request targeting individual customers. These serve fundamentally different purposes: trade records are transactional/operational data, while KYC refresh is customer identity/compliance verification. No meaningful field overlap exists\u2014trade_records contain trader IDs, instruments, prices, and settlement details, whereas kyc_refresh_request contains customer personal data (DOB, national ID, email, phone) and KYC-specific compliance workflows. The systems are adjacent in a compliance pipeline, but the data domains are distinct and the outbound file's structure cannot be reasonably derived from the inbound file's structure.",
+  "mappings": []
 }

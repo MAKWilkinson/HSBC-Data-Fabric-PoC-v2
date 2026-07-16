@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "outbound_schema": {
     "source": {
@@ -19,111 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "06b9a31daf92a921"
+    "fingerprint": "69117896ce7ad823"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be used as input for the outbound file's available cash balance calculation.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "fromDepartment",
-      "sources": [
-        "destination"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as 'destination' field, but renamed in the outbound file."
-    },
-    {
-      "outbound_field": "toDepartment",
-      "sources": [
-        "source"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as 'source' field, but renamed in the outbound file."
-    },
-    {
-      "outbound_field": "subject",
-      "sources": [
-        "messageType",
-        "account.accountNumber"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept as 'messageType' and 'account.accountNumber' fields without an exact name match."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "account.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "availableCashBalance",
-      "sources": [
-        "account.accountNumber",
-        "freezeDetails"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "asOfDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "details",
-      "sources": [
-        "account.accountNumber",
-        "freezeDetails"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file communicates account freeze/block actions from risk_and_compliance to accounts; the outbound file reports available cash balances from accounts to investments. These serve fundamentally different purposes (compliance action vs. liquidity reporting) with minimal field overlap. The inbound file contains freeze restrictions and compliance metadata; the outbound file contains cash balance calculations and fund allocation data. No plausible transformation chain connects them.",
+  "mappings": []
 }

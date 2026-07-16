@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
   "outbound_schema": {
     "source": {
@@ -19,109 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file contains arrears flags for customers, while the outbound file reports sanctions list hits; both files share concepts like customer ID and name.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "arrears_flags[].account_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of account ID from inbound file."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "source",
-      "sources": [
-        "metadata.source_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed from 'Credit' to 'source' in outbound file."
-    },
-    {
-      "outbound_field": "destination",
-      "sources": [
-        "metadata.destination_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed from 'Risk_and_Compliance' to 'destination' in outbound file."
-    },
-    {
-      "outbound_field": "sanctionsListHit.hitId",
-      "sources": [
-        "arrears_flags[].account_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of account ID from inbound file."
-    },
-    {
-      "outbound_field": "sanctionsListHit.severity",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "sanctionsListHit.status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "matchedEntity.entityId",
-      "sources": [
-        "arrears_flags[].customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of customer ID from inbound file."
-    },
-    {
-      "outbound_field": "matchedEntity.name",
-      "sources": [
-        "arrears_flags[].customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as 'customer name' in inbound file."
-    },
-    {
-      "outbound_field": "associatedAccounts.accountNumber",
-      "sources": [
-        "arrears_flags[].account_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of account ID from inbound file."
-    },
-    {
-      "outbound_field": "reviewDetails.assignedTo",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "auditTrail.detectionTimestamp",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains arrears/credit risk flags, while the outbound file contains sanctions screening hits. These are distinct compliance domains with no overlapping field concepts, different entity types being tracked, and no plausible data transformation pathway between them.",
+  "mappings": []
 }

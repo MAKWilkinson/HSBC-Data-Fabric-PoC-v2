@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
   "outbound_schema": {
     "source": {
@@ -19,20 +19,18 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, account details, and escalation reasons, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.82,
+  "relatedness_reasoning": "Both files are part of a fraud/compliance workflow: inbound escalation from customer_services triggers a risk_and_compliance review, which then initiates an account freeze action sent to accounts. Core concepts overlap: customer identity, account details, fraud indicators, and compliance-driven actions form a logical pipeline.",
   "mappings": [
     {
       "outbound_field": "messageId",
-      "sources": [
-        "escalation_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the unique identifier for the complaint escalation."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for outbound message; no equivalent in inbound escalation."
     },
     {
       "outbound_field": "timestamp",
@@ -40,62 +38,58 @@
         "timestamp"
       ],
       "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact copy of the timestamp of when the complaint was escalated."
+      "confidence": 0.9,
+      "reasoning": "Both are ISO8601 timestamps; outbound timestamp likely derived from or close to inbound escalation timestamp."
     },
     {
       "outbound_field": "source",
       "sources": [
-        "source_department"
+        "target_department"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept, but renamed to 'source' in the outbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Outbound source is 'risk_and_compliance', which matches the inbound target_department value."
     },
     {
       "outbound_field": "destination",
-      "sources": [
-        "target_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Same target department concept, but renamed to 'destination' in the outbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Destination 'accounts' is the next system in the workflow; not present in inbound schema."
     },
     {
       "outbound_field": "messageType",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Same complaint type concept, but renamed to 'messageType' in the outbound file."
+      "reasoning": "Message type 'account_freeze_or_block' is determined by the compliance decision process, not directly sourced from inbound."
     },
     {
       "outbound_field": "priority",
       "sources": [
         "severity_level"
       ],
-      "transformation": "RENAMED",
+      "transformation": "SEMANTIC",
       "confidence": 0.85,
-      "reasoning": "Same severity level concept, but renamed to 'priority' in the outbound file."
+      "reasoning": "Inbound severity_level is 'HIGH', which maps to outbound priority 'high' indicating urgent processing."
     },
     {
       "outbound_field": "action",
       "sources": [
-        "escalation_reason"
+        "required_actions"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same escalation reason concept, but renamed to 'action' in the outbound file."
+      "confidence": 0.75,
+      "reasoning": "Outbound action 'freeze' is derived from required_actions list which contains mandatory compliance actions."
     },
     {
       "outbound_field": "account.accountNumber",
       "sources": [
         "complaint.account_number"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact copy of the account number associated with the complaint."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound account_number (masked) is transformed to IBAN format for outbound account identification."
     },
     {
       "outbound_field": "account.accountHolder",
@@ -103,17 +97,15 @@
         "complaint.customer_name"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Same customer name concept, but renamed to 'accountHolder' in the outbound file."
+      "confidence": 0.9,
+      "reasoning": "Customer name from complaint directly maps to account holder name."
     },
     {
       "outbound_field": "account.accountType",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same complaint type concept, but renamed to 'accountType' in the outbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Account type 'Current Account' is not specified in inbound schema; likely looked up from accounts system."
     },
     {
       "outbound_field": "account.currency",
@@ -122,61 +114,165 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Exact copy of the currency associated with the transaction."
+      "reasoning": "Both fields contain currency code 'GBP' with identical format and meaning."
+    },
+    {
+      "outbound_field": "account.branch",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Branch location 'London City' is not present in inbound schema; likely derived from account lookup."
     },
     {
       "outbound_field": "freezeDetails.freezeType",
-      "sources": [
-        "escalation_reason"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Same escalation reason concept, but renamed to 'freezeType' in the outbound file."
+      "reasoning": "Freeze type 'full' is a compliance decision not directly specified in inbound escalation data."
     },
     {
       "outbound_field": "freezeDetails.reason",
       "sources": [
-        "escalation_reason"
+        "risk_assessment.fraud_indicator"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same escalation reason concept, but renamed to 'reason' in the outbound file."
+      "confidence": 0.85,
+      "reasoning": "Outbound reason 'suspected_fraud' is triggered by inbound fraud_indicator flag being true."
     },
     {
       "outbound_field": "freezeDetails.description",
       "sources": [
         "complaint.description"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same complaint description concept, but renamed to 'description' in the outbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Inbound complaint description provides detailed narrative that becomes freeze rationale in outbound."
     },
     {
       "outbound_field": "freezeDetails.initiatedBy",
       "sources": [
         "assigned_to"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Same assigned-to concept, but renamed to 'initiatedBy' in the outbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Compliance analyst assigned to handle escalation likely initiates the freeze action."
     },
     {
       "outbound_field": "freezeDetails.department",
       "sources": [
-        "source_department"
+        "target_department"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source department concept, but renamed to 'department' in the outbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Outbound department 'Fraud Investigation Unit' is a specialized unit within inbound target_department 'risk_and_compliance'."
+    },
+    {
+      "outbound_field": "freezeDetails.effectiveFrom",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Freeze effective date likely set to or shortly after the escalation timestamp."
+    },
+    {
+      "outbound_field": "restrictions.allowIncomingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific transaction restriction rules are not defined in inbound schema; determined by freeze policy."
+    },
+    {
+      "outbound_field": "restrictions.allowOutgoingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific transaction restriction rules are not defined in inbound schema; determined by freeze policy."
+    },
+    {
+      "outbound_field": "restrictions.allowWithdrawals",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific transaction restriction rules are not defined in inbound schema; determined by freeze policy."
+    },
+    {
+      "outbound_field": "restrictions.allowCardTransactions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific transaction restriction rules are not defined in inbound schema; determined by freeze policy."
+    },
+    {
+      "outbound_field": "restrictions.allowCheques",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific transaction restriction rules are not defined in inbound schema; determined by freeze policy."
     },
     {
       "outbound_field": "escalation.level",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Escalation level within approval hierarchy is not specified in inbound schema."
+    },
+    {
+      "outbound_field": "escalation.requiresApproval",
       "sources": [
         "severity_level"
       ],
       "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "HIGH severity escalations likely require formal approval before freeze implementation."
+    },
+    {
+      "outbound_field": "escalation.approvalDeadline",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Same severity level concept, but renamed to 'level' in the outbound file."
+      "reasoning": "Approval deadline is a business process parameter not present in inbound schema."
+    },
+    {
+      "outbound_field": "escalation.complianceOfficer",
+      "sources": [
+        "assigned_to"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Compliance officer responsible for approval is likely the analyst assigned to the escalation."
+    },
+    {
+      "outbound_field": "additionalInfo.caseReference",
+      "sources": [
+        "escalation_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Escalation ID serves as the case reference identifier for tracking the compliance investigation."
+    },
+    {
+      "outbound_field": "additionalInfo.riskScore",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Quantified risk score percentage is not provided in inbound schema; likely computed by risk_and_compliance system."
+    },
+    {
+      "outbound_field": "additionalInfo.customerNotificationSent",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Notification status is a process state not present in inbound escalation data."
+    },
+    {
+      "outbound_field": "additionalInfo.regulatoryReporting",
+      "sources": [
+        "risk_assessment.regulatory_flag"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Inbound regulatory_flag indicates whether regulatory reporting is required, directly mapping to outbound field."
     }
   ]
 }

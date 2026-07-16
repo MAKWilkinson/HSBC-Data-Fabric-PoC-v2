@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,134 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "1f4d1b6218c95405"
+    "fingerprint": "cfc8d72f9e643a69"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share similar concepts, such as loan disbursement and settlement transactions, with compatible providing/consuming systems.",
-  "mappings": [
-    {
-      "outbound_field": "settlement_id",
-      "sources": [
-        "loan_disbursement_instructions[].instruction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "settlement_date",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "from_department",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "to_department",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "loan_disbursement_instructions[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "total_amount",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "settlement_status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "settlements",
-      "sources": [
-        "loan_disbursement_instructions[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "settlements[].fund_id",
-      "sources": [
-        "loan_disbursement_instructions[].loan_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "settlements[].fund_name",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "settlements[].transaction_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "settlements[].amount",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "settlements[].reference",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "settlements[].timestamp",
-      "sources": [
-        "loan_disbursement_instructions[].created_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "settlements[].verified",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions from credit to accounts (fund transfer execution), while the outbound file describes investment fund settlements from accounts to investments. These represent fundamentally different business processes: loan disbursement is a credit operation, while fund settlement to investments is an asset management operation. No meaningful field correspondence exists between loan-specific data (loan_id, borrower_name, loan_term_months, interest_rate) and investment fund settlement data (fund_id, fund_name, transaction_type). The files operate in different domains with incompatible structures.",
+  "mappings": []
 }

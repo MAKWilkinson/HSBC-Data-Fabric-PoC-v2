@@ -11,63 +11,69 @@
       "name": "escalation_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the complaint escalation"
+      "description": "Unique identifier for this escalation event from customer_services to risk_and_compliance"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the complaint was escalated",
+      "description": "Date and time when the escalation was created",
       "fmt": "iso8601"
     },
     {
       "name": "source_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that originated the data (customer services)"
+      "description": "Originating department that initiated the escalation",
+      "enum_values": [
+        "customer_services"
+      ]
     },
     {
       "name": "target_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that received the escalated complaint (risk and compliance)"
+      "description": "Receiving department responsible for handling the escalation",
+      "enum_values": [
+        "risk_and_compliance"
+      ]
     },
     {
       "name": "complaint",
       "data_type": "object",
       "nullable": false,
-      "description": "Details about the customer's complaint",
+      "description": "Core complaint details being escalated for compliance review",
       "children": [
         {
           "name": "complaint_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer's complaint"
+          "description": "Unique identifier for the complaint"
         },
         {
           "name": "customer_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the customer filing the complaint"
         },
         {
           "name": "customer_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "The name of the customer filing the complaint"
+          "nullable": false,
+          "description": "Full name of the customer"
         },
         {
           "name": "complaint_date",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp of when the customer filed the complaint",
+          "description": "Date and time when the complaint was originally filed",
           "fmt": "iso8601"
         },
         {
           "name": "complaint_type",
           "data_type": "string",
           "nullable": false,
-          "description": "The type of complaint (unauthorized transaction)",
+          "description": "Category of complaint; in this case unauthorized transaction activity",
           "enum_values": [
             "unauthorized_transaction"
           ]
@@ -75,28 +81,28 @@
         {
           "name": "description",
           "data_type": "string",
-          "nullable": true,
-          "description": "A detailed description of the customer's complaint"
+          "nullable": false,
+          "description": "Detailed narrative of the complaint including transaction details and observed suspicious patterns"
         },
         {
           "name": "account_number",
           "data_type": "string",
           "nullable": false,
-          "description": "The account number associated with the complaint",
+          "description": "Masked account number affected by the complaint",
           "fmt": "account_number"
         },
         {
           "name": "amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "The amount involved in the unauthorized transaction",
+          "description": "Transaction amount in dispute",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "The currency of the transaction (GBP)",
+          "description": "Currency code of the disputed transaction",
           "fmt": "currency_code",
           "enum_values": [
             "GBP"
@@ -108,16 +114,13 @@
       "name": "escalation_reason",
       "data_type": "string",
       "nullable": false,
-      "description": "The reason for escalating the complaint to risk and compliance",
-      "enum_values": [
-        "High-value unauthorized transaction requires compliance review and potential fraud investigation"
-      ]
+      "description": "Business justification for escalating this complaint to risk_and_compliance; indicates high-value and potential fraud requiring compliance and investigation review"
     },
     {
       "name": "severity_level",
       "data_type": "string",
       "nullable": false,
-      "description": "The severity level of the complaint (HIGH)",
+      "description": "Risk severity classification of the escalation",
       "enum_values": [
         "HIGH"
       ]
@@ -126,25 +129,25 @@
       "name": "risk_assessment",
       "data_type": "object",
       "nullable": false,
-      "description": "Assessment of the risk associated with the complaint",
+      "description": "Preliminary risk indicators and compliance flags associated with the complaint",
       "children": [
         {
           "name": "fraud_indicator",
           "data_type": "boolean",
           "nullable": false,
-          "description": "Indicates whether the transaction is suspected to be fraudulent"
+          "description": "Flag indicating whether fraud is suspected in this complaint"
         },
         {
           "name": "regulatory_flag",
           "data_type": "boolean",
           "nullable": false,
-          "description": "Indicates whether regulatory compliance is required"
+          "description": "Flag indicating whether regulatory reporting obligations may be triggered"
         },
         {
           "name": "customer_impact",
           "data_type": "string",
           "nullable": false,
-          "description": "The impact of the complaint on the customer (SIGNIFICANT)",
+          "description": "Assessment of the severity of impact on the customer",
           "enum_values": [
             "SIGNIFICANT"
           ]
@@ -154,14 +157,14 @@
     {
       "name": "documents_attached",
       "data_type": "array",
-      "nullable": false,
-      "description": "A list of documents attached to the complaint",
+      "nullable": true,
+      "description": "List of supporting document file names attached to the escalation for compliance review",
       "children": [
         {
           "name": "document_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "The name of the document"
+          "nullable": false,
+          "description": "File name of an attached supporting document"
         }
       ]
     },
@@ -169,13 +172,13 @@
       "name": "assigned_to",
       "data_type": "string",
       "nullable": false,
-      "description": "The person or team assigned to handle the complaint"
+      "description": "Identifier of the compliance analyst or resource assigned to handle this escalation"
     },
     {
       "name": "status",
       "data_type": "string",
       "nullable": false,
-      "description": "The current status of the complaint (PENDING_REVIEW)",
+      "description": "Current processing status of the escalation",
       "enum_values": [
         "PENDING_REVIEW"
       ]
@@ -183,14 +186,14 @@
     {
       "name": "required_actions",
       "data_type": "array",
-      "nullable": false,
-      "description": "A list of actions required to resolve the complaint",
+      "nullable": true,
+      "description": "List of mandatory actions to be performed by risk_and_compliance in response to this escalation",
       "children": [
         {
-          "name": "action_name",
+          "name": "action",
           "data_type": "string",
-          "nullable": true,
-          "description": "The name of the action"
+          "nullable": false,
+          "description": "Description of a required action"
         }
       ]
     }

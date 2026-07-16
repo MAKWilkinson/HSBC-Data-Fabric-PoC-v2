@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,66 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, complaint escalation, and transaction hold notice, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.82,
+  "relatedness_reasoning": "Both files concern unauthorized transaction complaints and fraud detection; risk_and_compliance receives escalations from customer_services and issues transaction holds to accounts. Core fields (customer_id, customer_name, account_number, amount, currency, fraud indicators, severity) align across the pipeline, and the outbound file's structure plausibly derives from processing the inbound escalation.",
   "mappings": [
     {
       "outbound_field": "noticeId",
-      "sources": [
-        "escalation_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for the hold notice; no source in inbound escalation."
     },
     {
       "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Generated at time of hold notice creation; distinct from inbound escalation timestamp."
     },
     {
       "outbound_field": "department",
       "sources": [
-        "source_department"
+        "target_department"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Outbound department is risk_and_compliance, which is the target_department receiving the inbound escalation."
     },
     {
       "outbound_field": "recipientDepartment",
-      "sources": [
-        "target_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardcoded as 'Accounts' in outbound schema; not derived from inbound data."
     },
     {
       "outbound_field": "noticeType",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardcoded as 'TRANSACTION_HOLD'; not present in inbound escalation schema."
     },
     {
       "outbound_field": "severity",
       "sources": [
-        "complaint.severity_level"
+        "severity_level"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Both fields use enum value 'HIGH' to indicate risk severity classification."
     },
     {
       "outbound_field": "accountNumber",
       "sources": [
         "complaint.account_number"
       ],
-      "transformation": "EXACT",
+      "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Same masked account number from inbound complaint, reformatted as IBAN in outbound."
     },
     {
       "outbound_field": "customerId",
@@ -94,8 +86,8 @@
         "complaint.customer_id"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Direct copy of customer identifier from inbound complaint."
     },
     {
       "outbound_field": "customerName",
@@ -103,42 +95,170 @@
         "complaint.customer_name"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Direct copy of customer full name from inbound complaint."
     },
     {
       "outbound_field": "holdReason",
       "sources": [
-        "escalation_reason"
+        "escalation_reason",
+        "risk_assessment.fraud_indicator"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "MERGE",
+      "confidence": 0.8,
+      "reasoning": "Combines escalation business justification and fraud indicator flag to form hold rationale."
     },
     {
       "outbound_field": "holdEffectiveDate",
       "sources": [
-        "complaint.complaint_date"
+        "timestamp"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.75,
+      "reasoning": "Likely set to escalation timestamp when hold is activated in response to the complaint."
     },
     {
       "outbound_field": "estimatedHoldDuration",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "No duration or hold period information present in inbound escalation schema."
     },
     {
       "outbound_field": "transactionsAffected",
       "sources": [
-        "complaint.documents_attached"
+        "complaint.amount",
+        "complaint.currency"
       ],
-      "transformation": "MERGE",
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Array structure created from single transaction amount and currency in inbound complaint; transactionId and destinationCountry not sourced from inbound."
+    },
+    {
+      "outbound_field": "transactionsAffected[].transactionId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No transaction ID present in inbound complaint; likely generated or looked up separately."
+    },
+    {
+      "outbound_field": "transactionsAffected[].amount",
+      "sources": [
+        "complaint.amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Direct copy of disputed transaction amount from inbound complaint."
+    },
+    {
+      "outbound_field": "transactionsAffected[].currency",
+      "sources": [
+        "complaint.currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Direct copy of currency code (GBP) from inbound complaint."
+    },
+    {
+      "outbound_field": "transactionsAffected[].destinationCountry",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No destination country information in inbound complaint description or structured fields."
+    },
+    {
+      "outbound_field": "transactionsAffected[].status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardcoded as 'HELD' in outbound schema; not derived from inbound data."
+    },
+    {
+      "outbound_field": "riskScore",
+      "sources": [
+        "risk_assessment.fraud_indicator",
+        "risk_assessment.regulatory_flag",
+        "risk_assessment.customer_impact"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Quantified risk score likely computed from boolean fraud/regulatory flags and customer impact severity assessment."
+    },
+    {
+      "outbound_field": "riskFlags",
+      "sources": [
+        "risk_assessment.fraud_indicator",
+        "risk_assessment.regulatory_flag"
+      ],
+      "transformation": "TRANSFORMED",
       "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
+      "reasoning": "Array of risk indicators derived from inbound boolean flags and compliance assessment."
+    },
+    {
+      "outbound_field": "requiredActions",
+      "sources": [
+        "required_actions"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Same concept as inbound required_actions array, repackaged for outbound Accounts department consumption."
+    },
+    {
+      "outbound_field": "escalationLevel",
+      "sources": [
+        "severity_level"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Numeric escalation tier derived from HIGH severity classification in inbound."
+    },
+    {
+      "outbound_field": "approvalRequired",
+      "sources": [
+        "severity_level"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.75,
+      "reasoning": "Boolean flag likely set to true based on HIGH severity level triggering approval requirement."
+    },
+    {
+      "outbound_field": "approverRole",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardcoded as 'Senior Compliance Officer'; not derived from inbound escalation data."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "complaint.description"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound complaint description may be included as contextual notes in hold decision."
+    },
+    {
+      "outbound_field": "expiryDate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No expiry or hold duration information in inbound; likely computed from hold policy."
+    },
+    {
+      "outbound_field": "issuedBy",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardcoded as 'automated_compliance_system_v2.1'; system identifier not in inbound data."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "severity_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "HIGH severity escalation maps to URGENT priority for hold notice handling."
     }
   ]
 }

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "06b9a31daf92a921"
+    "fingerprint": "69117896ce7ad823"
   },
   "outbound_schema": {
     "source": {
@@ -19,43 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
-    "fingerprint": "5863e28d703e0fd3"
+    "fingerprint": "fa0581e0fb3586e7"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts, such as timestamp and department, but the fields do not have an exact match.",
-  "mappings": [
-    {
-      "outbound_field": "trade_records[].timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "trade_records[].department",
-      "sources": [
-        "fromDepartment"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "trade_records[].asset_class",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.5,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "trade_records[].instrument",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.5,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains cash balance data from Accounts to Investments, while the outbound file contains detailed trade execution records from Investments to Risk & Compliance. These represent fundamentally different data domains: one is a cash position snapshot, the other is a collection of executed trade transactions. Only two fields (timestamp and department) have any semantic overlap, and the outbound file's rich trade-specific schema (trader_id, asset_class, instrument, ISIN, side, quantity, price, counterparty, etc.) has no corresponding sources in the inbound cash balance schema. The files do not form a plausible data lineage pipeline.",
+  "mappings": []
 }

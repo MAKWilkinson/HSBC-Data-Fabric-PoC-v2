@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
   "outbound_schema": {
     "source": {
@@ -19,64 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, address updates, and transaction types, making them plausibly connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "updateId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "counterparty_system",
-      "sources": [
-        "department",
-        "targetDepartment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "transaction_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "transaction_type",
-      "sources": [
-        "updateType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "eligible_customers",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.05,
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any data lineage mapping. Additionally, the inbound file contains address update records while the outbound file is named transaction_stream.json, suggesting fundamentally different purposes (administrative updates vs. financial transactions).",
+  "mappings": []
 }

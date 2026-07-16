@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
   "outbound_schema": {
     "source": {
@@ -19,100 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "f80fb76ffc71c552"
+    "fingerprint": "2ec0c5cb11d63386"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, transaction details, and dispute status, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "requestId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [
-        "sourceSystem",
-        "destinationSystem"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "targetDepartment",
-      "sources": [
-        "destinationSystem"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "customerDetails.customerId",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customerDetails.customerName",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "customerDetails.accountNumber",
-      "sources": [
-        "arrears_status[].accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionId",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "disputeDetails.disputeType",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains arrears status data from credit department, while the outbound file is a dispute/chargeback request to accounts department. These represent fundamentally different business processes with minimal field overlap: arrears tracking vs. transaction disputes. No shared transaction identifiers, merchant data, or dispute concepts exist in the inbound schema.",
+  "mappings": []
 }

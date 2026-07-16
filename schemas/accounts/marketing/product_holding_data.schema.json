@@ -11,85 +11,91 @@
       "name": "product_holding_data",
       "data_type": "object",
       "nullable": false,
-      "description": "Container for product holding data",
+      "description": "Root container for product holding data exchange from accounts to marketing",
       "children": [
         {
           "name": "timestamp",
-          "data_type": "datetime",
-          "nullable": true,
-          "description": "Timestamp of the data record",
+          "data_type": "timestamp",
+          "nullable": false,
+          "description": "ISO 8601 timestamp indicating when the data payload was generated",
           "fmt": "iso8601"
         },
         {
           "name": "source_department",
           "data_type": "string",
           "nullable": false,
-          "description": "Department that originated the data"
+          "description": "Originating department; identifies accounts as the source system",
+          "enum_values": [
+            "accounts"
+          ]
         },
         {
           "name": "target_department",
           "data_type": "string",
-          "nullable": true,
-          "description": "Department that received the data"
+          "nullable": false,
+          "description": "Destination department; identifies marketing as the counterparty system",
+          "enum_values": [
+            "marketing"
+          ]
         },
         {
           "name": "data_version",
           "data_type": "string",
           "nullable": false,
-          "description": "Version of the product holding data"
+          "description": "Schema version identifier for this payload structure"
         },
         {
           "name": "holdings",
           "data_type": "array",
           "nullable": false,
-          "description": "List of customer account holdings",
+          "description": "Array of customer product holdings; each element represents one account or product relationship",
           "children": [
             {
               "name": "customer_id",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the customer"
+              "description": "Unique identifier for the customer who holds the product"
             },
             {
               "name": "account_number",
               "data_type": "string",
               "nullable": false,
-              "description": "Account number of the holding"
+              "description": "IBAN account number uniquely identifying the account",
+              "fmt": "iban"
             },
             {
               "name": "product_id",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the product"
+              "description": "Internal product identifier code"
             },
             {
               "name": "product_name",
               "data_type": "string",
-              "nullable": true,
-              "description": "Name of the product holding"
+              "nullable": false,
+              "description": "Human-readable name of the product or account type"
             },
             {
               "name": "account_status",
               "data_type": "string",
               "nullable": false,
-              "description": "Status of the account (e.g., active, inactive)",
+              "description": "Current operational status of the account",
               "enum_values": [
-                "active",
-                "inactive"
+                "active"
               ]
             },
             {
               "name": "balance",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Current balance of the account",
+              "nullable": false,
+              "description": "Current account balance; negative for credit products indicating amount owed",
               "fmt": "currency"
             },
             {
               "name": "currency",
               "data_type": "string",
               "nullable": false,
-              "description": "Currency of the account balance",
+              "description": "ISO 4217 currency code for the account",
               "fmt": "currency_code",
               "enum_values": [
                 "GBP"
@@ -98,36 +104,79 @@
             {
               "name": "account_opened_date",
               "data_type": "date",
-              "nullable": true,
+              "nullable": false,
               "description": "Date when the account was opened",
               "fmt": "date"
             },
             {
               "name": "last_transaction_date",
               "data_type": "date",
-              "nullable": true,
-              "description": "Date of the last transaction on the account",
+              "nullable": false,
+              "description": "Date of the most recent transaction on the account",
               "fmt": "date"
             },
             {
               "name": "monthly_turnover",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Monthly turnover of the account",
+              "nullable": false,
+              "description": "Average or recent monthly transaction volume on the account",
               "fmt": "currency"
             },
             {
               "name": "credit_limit",
               "data_type": "decimal",
               "nullable": true,
-              "description": "Credit limit of the account",
+              "description": "Maximum credit available; present for current accounts and credit cards, absent for savings and investment products",
               "fmt": "currency"
+            },
+            {
+              "name": "interest_rate",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Annual interest rate applicable to the account; present for savings products",
+              "fmt": "percentage"
             },
             {
               "name": "is_primary_account",
               "data_type": "boolean",
               "nullable": false,
-              "description": "Indicator if the account is primary"
+              "description": "Flag indicating whether this is the customer's primary account for the product category"
+            },
+            {
+              "name": "portfolio_value",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Current market value of investment holdings; present for investment products",
+              "fmt": "currency"
+            },
+            {
+              "name": "risk_profile",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Investment risk classification; present for investment products",
+              "enum_values": [
+                "moderate"
+              ]
+            },
+            {
+              "name": "available_balance",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Remaining credit available after current balance; present for credit products",
+              "fmt": "currency"
+            },
+            {
+              "name": "annual_fee",
+              "data_type": "decimal",
+              "nullable": true,
+              "description": "Annual fee charged for the product; present for premium credit cards",
+              "fmt": "currency"
+            },
+            {
+              "name": "rewards_points",
+              "data_type": "integer",
+              "nullable": true,
+              "description": "Accumulated loyalty or rewards points balance; present for credit card products"
             }
           ]
         },
@@ -135,32 +184,32 @@
           "name": "summary",
           "data_type": "object",
           "nullable": false,
-          "description": "Summary statistics for the product holdings",
+          "description": "Aggregate statistics summarizing the entire holdings dataset",
           "children": [
             {
               "name": "total_customers",
               "data_type": "integer",
-              "nullable": true,
-              "description": "Total number of customers with accounts"
+              "nullable": false,
+              "description": "Count of unique customers represented in the holdings array"
             },
             {
               "name": "total_holdings",
               "data_type": "integer",
-              "nullable": true,
-              "description": "Total number of account holdings"
+              "nullable": false,
+              "description": "Total number of product holdings across all customers"
             },
             {
               "name": "total_balance",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Total balance across all accounts",
+              "nullable": false,
+              "description": "Aggregate sum of all account balances across all holdings",
               "fmt": "currency"
             },
             {
               "name": "currency",
               "data_type": "string",
               "nullable": false,
-              "description": "Currency of the total balance",
+              "description": "ISO 4217 currency code for all balances in the summary",
               "fmt": "currency_code",
               "enum_values": [
                 "GBP"

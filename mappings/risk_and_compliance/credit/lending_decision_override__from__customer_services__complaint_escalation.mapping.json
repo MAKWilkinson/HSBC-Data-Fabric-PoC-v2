@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
   "outbound_schema": {
     "source": {
@@ -19,116 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, complaint details, and risk assessment, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "escalation_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from escalation_id to messageId."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning."
-    },
-    {
-      "outbound_field": "source",
-      "sources": [
-        "source_department",
-        "target_department"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the concept of source department and target department."
-    },
-    {
-      "outbound_field": "destination",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "messageType",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from complaint_type to messageType."
-    },
-    {
-      "outbound_field": "payload.loanApplicationId",
-      "sources": [
-        "complaint.complaint_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from complaint_id to loanApplicationId."
-    },
-    {
-      "outbound_field": "payload.customerId",
-      "sources": [
-        "complaint.customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning."
-    },
-    {
-      "outbound_field": "payload.originalDecision",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "payload.overrideDecision",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the concept of complaint type and override decision."
-    },
-    {
-      "outbound_field": "payload.riskAssessmentDetails.creditScore",
-      "sources": [
-        "risk_assessment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the concept of risk assessment details and credit score."
-    },
-    {
-      "outbound_field": "payload.riskAssessmentDetails.mitigatingFactors",
-      "sources": [
-        "risk_assessment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the concept of risk assessment details and mitigating factors."
-    },
-    {
-      "outbound_field": "payload.overrideApprovalDetails.approvedBy",
-      "sources": [
-        "assigned_to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from assigned_to to approvedBy."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents a complaint escalation for fraud/unauthorized transaction review, while the outbound file represents a lending decision override approval with detailed credit metrics. These serve fundamentally different business purposes: one is a compliance escalation workflow, the other is a credit decisioning override. While both involve risk_and_compliance as a system, the data domains, message types, and field structures are incompatible. The outbound file requires loan application details, credit scores, debt-to-income ratios, and approval hierarchies that have no counterpart in a complaint escalation schema.",
+  "mappings": []
 }

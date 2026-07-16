@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "32af6a9a8b939815"
+    "fingerprint": "b410a9729961ef35"
   },
   "outbound_schema": {
     "source": {
@@ -19,135 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers, transfer types, and risk scores, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "noticeId",
-      "sources": [
-        "transfer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "transfer_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "recipientDepartment",
-      "sources": [
-        "from_account",
-        "to_account"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "noticeType",
-      "sources": [
-        "transfer_type"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "severity",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "from_account",
-        "to_account"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "customerId",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customerName",
-      "sources": [
-        "customer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "holdReason",
-      "sources": [
-        "transfer_type",
-        "risk_score"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "holdEffectiveDate",
-      "sources": [
-        "transfer_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "estimatedHoldDuration",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "transactionsAffected",
-      "sources": [
-        "transfer_id",
-        "amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "riskScore",
-      "sources": [
-        "risk_score"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound schema is empty (no fields provided), making it impossible to establish any field-level lineage between the two files. While the system names suggest a plausible pipeline (risk_and_compliance receiving anomaly data and sending hold notices back to accounts), without any inbound fields to map from, no data lineage can be demonstrated.",
+  "mappings": []
 }

@@ -11,32 +11,38 @@
       "name": "repaymentId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the repayment"
+      "description": "Unique identifier for this monthly repayment batch from Credit to Accounts"
     },
     {
       "name": "batchDate",
       "data_type": "date",
       "nullable": false,
-      "description": "Date of the batch containing repayments",
+      "description": "The date on which this repayment batch was created or processed",
       "fmt": "iso8601"
     },
     {
       "name": "department",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the department involved in the repayment",
+      "description": "Routing information identifying the originating and receiving departments",
       "children": [
         {
           "name": "from",
           "data_type": "string",
           "nullable": false,
-          "description": "Department that originated the data"
+          "description": "The department originating the repayment instruction",
+          "enum_values": [
+            "Credit"
+          ]
         },
         {
           "name": "to",
           "data_type": "string",
           "nullable": false,
-          "description": "Department that received the repayment"
+          "description": "The department receiving the repayment instruction",
+          "enum_values": [
+            "Accounts"
+          ]
         }
       ]
     },
@@ -44,25 +50,26 @@
       "name": "repayments",
       "data_type": "array",
       "nullable": false,
-      "description": "List of repayments in this batch",
+      "description": "Collection of individual loan repayment instructions to be processed via direct debit",
       "children": [
         {
           "name": "accountNumber",
           "data_type": "string",
           "nullable": false,
-          "description": "Account number for the repayment"
+          "description": "The customer's bank account number from which the direct debit will be drawn",
+          "fmt": "account_number"
         },
         {
           "name": "customerId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer making the repayment"
+          "description": "Unique identifier for the customer in the credit system"
         },
         {
           "name": "customerName",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the customer making the repayment"
+          "description": "Full name of the customer as recorded in the credit system"
         },
         {
           "name": "loanId",
@@ -74,40 +81,49 @@
           "name": "repaymentAmount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Amount of the repayment",
+          "description": "The amount to be collected via direct debit for this monthly repayment",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency of the repayment amount",
-          "fmt": "currency_code"
+          "description": "The currency code of the repayment amount",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
         },
         {
           "name": "dueDate",
           "data_type": "date",
           "nullable": false,
-          "description": "Date by which the repayment is due",
+          "description": "The date on which the repayment is due to be collected",
           "fmt": "iso8601"
         },
         {
           "name": "directDebitMandateId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the direct debit mandate"
+          "description": "Reference to the direct debit mandate authorizing this collection"
         },
         {
           "name": "repaymentStatus",
           "data_type": "string",
           "nullable": false,
-          "description": "Current status of the repayment (e.g. scheduled, paid)"
+          "description": "The current status of the repayment instruction",
+          "enum_values": [
+            "scheduled"
+          ]
         },
         {
           "name": "repaymentType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of repayment (e.g. monthly, one-time)"
+          "description": "The frequency classification of the repayment",
+          "enum_values": [
+            "monthly"
+          ]
         }
       ]
     },
@@ -115,20 +131,20 @@
       "name": "totalAmount",
       "data_type": "decimal",
       "nullable": false,
-      "description": "Total amount of all repayments in this batch",
+      "description": "The sum of all repayment amounts in this batch",
       "fmt": "currency"
     },
     {
       "name": "recordCount",
       "data_type": "integer",
-      "nullable": true,
-      "description": "Number of repayment records in this batch"
+      "nullable": false,
+      "description": "The number of individual repayment records included in this batch"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp when the batch was generated",
+      "description": "The precise date and time when this batch message was generated",
       "fmt": "iso8601"
     }
   ]

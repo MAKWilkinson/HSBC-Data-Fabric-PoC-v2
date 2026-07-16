@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
   "outbound_schema": {
     "source": {
@@ -19,88 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's transaction_id, counterparty_system, and eligible_customers fields seem to be connected to the outbound file's messageId, source, and matchedEntity fields.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "transaction_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "source",
-      "sources": [
-        "counterparty_system"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "destination",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "sanctionsListHit.hitId",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "matchedEntity.entityId",
-      "sources": [
-        "eligible_customers[].customer_id"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "matchedEntity.name",
-      "sources": [
-        "eligible_customers[].customer_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "matchedEntity.dateOfBirth",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "associatedAccounts[].accountNumber",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.05,
+  "relatedness_reasoning": "The inbound schema is empty (no fields provided), making it impossible to establish any data lineage between the inbound transaction_stream.json and outbound sanctions_list_hit.json files.",
+  "mappings": []
 }

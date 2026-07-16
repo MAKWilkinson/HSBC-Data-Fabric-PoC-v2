@@ -11,47 +11,51 @@
       "name": "messageId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the sanctions list hit message"
+      "description": "Unique identifier for this sanctions list hit notification message"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the sanctions list hit was detected",
+      "description": "ISO 8601 timestamp when the message was generated and sent",
       "fmt": "iso8601"
     },
     {
       "name": "source",
       "data_type": "string",
       "nullable": false,
-      "description": "System that originated the sanctions list hit message"
+      "description": "Originating system identifier",
+      "enum_values": [
+        "risk_and_compliance"
+      ]
     },
     {
       "name": "destination",
       "data_type": "string",
       "nullable": false,
-      "description": "System that received the sanctions list hit message"
+      "description": "Target system identifier for this message",
+      "enum_values": [
+        "credit"
+      ]
     },
     {
       "name": "sanctionsListHit",
       "data_type": "object",
       "nullable": false,
-      "description": "Details of the sanctions list hit",
+      "description": "Container for all sanctions screening match details and remediation information",
       "children": [
         {
           "name": "hitId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the sanctions list hit"
+          "description": "Unique identifier for this specific sanctions list match event"
         },
         {
           "name": "severity",
           "data_type": "string",
           "nullable": false,
-          "description": "Severity level of the sanctions list hit",
+          "description": "Risk severity level assigned to this sanctions hit",
           "enum_values": [
-            "LOW",
-            "MEDIUM",
             "HIGH"
           ]
         },
@@ -59,90 +63,79 @@
           "name": "status",
           "data_type": "string",
           "nullable": false,
-          "description": "Status of the sanctions list hit (e.g., PENDING_REVIEW)",
+          "description": "Current workflow status of the sanctions hit review",
           "enum_values": [
-            "PENDING_REVIEW",
-            "REVIEWED",
-            "CONFIRMED"
+            "PENDING_REVIEW"
           ]
         },
         {
           "name": "matchedEntity",
           "data_type": "object",
           "nullable": false,
-          "description": "Details of the entity matched by the sanctions list hit",
+          "description": "Details of the customer or entity that matched sanctions screening criteria",
           "children": [
             {
               "name": "entityId",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the matched entity"
+              "description": "Internal unique identifier for the matched entity within the bank"
             },
             {
               "name": "entityType",
               "data_type": "string",
               "nullable": false,
-              "description": "Type of the matched entity (e.g., INDIVIDUAL, ORGANIZATION)",
+              "description": "Classification of the entity type",
               "enum_values": [
-                "INDIVIDUAL",
-                "ORGANIZATION"
+                "INDIVIDUAL"
               ]
             },
             {
               "name": "name",
               "data_type": "string",
               "nullable": false,
-              "description": "Name of the matched entity"
+              "description": "Full legal name of the matched entity"
             },
             {
               "name": "dateOfBirth",
               "data_type": "date",
               "nullable": true,
-              "description": "Date of birth of the matched individual"
+              "description": "Date of birth of the individual entity, if available",
+              "fmt": "date"
             },
             {
               "name": "nationality",
               "data_type": "string",
-              "nullable": false,
-              "description": "Nationality of the matched entity",
-              "enum_values": [
-                "RU",
-                "US",
-                "EU"
-              ]
+              "nullable": true,
+              "description": "ISO 3166-1 alpha-2 country code representing the entity's nationality",
+              "fmt": "country_code"
             },
             {
               "name": "identificationDocuments",
               "data_type": "array",
               "nullable": true,
-              "description": "List of identification documents matching the entity",
+              "description": "Array of identification documents associated with the matched entity",
               "children": [
                 {
                   "name": "type",
                   "data_type": "string",
                   "nullable": false,
-                  "description": "Type of identification document (e.g., PASSPORT, ID_CARD)",
+                  "description": "Type of identification document",
                   "enum_values": [
-                    "PASSPORT",
-                    "ID_CARD"
+                    "PASSPORT"
                   ]
                 },
                 {
                   "name": "number",
                   "data_type": "string",
                   "nullable": false,
-                  "description": "Number of the identification document"
+                  "description": "Document reference number or serial"
                 },
                 {
                   "name": "issuingCountry",
                   "data_type": "string",
-                  "nullable": false,
-                  "description": "Country that issued the identification document",
-                  "enum_values": [
-                    "RU",
-                    "US",
-                    "EU"
-                  ]
+                  "nullable": true,
+                  "description": "ISO 3166-1 alpha-2 country code of the document issuing authority",
+                  "fmt": "country_code"
                 }
               ]
             }
@@ -151,14 +144,14 @@
         {
           "name": "sanctionListsMatched",
           "data_type": "array",
-          "nullable": true,
-          "description": "List of sanction lists that matched the entity",
+          "nullable": false,
+          "description": "Array of sanctions lists on which the entity was matched",
           "children": [
             {
               "name": "listName",
               "data_type": "string",
               "nullable": false,
-              "description": "Name of the sanction list",
+              "description": "Official name or identifier of the sanctions list",
               "enum_values": [
                 "OFAC_SDN",
                 "UN_CONSOLIDATED"
@@ -166,34 +159,23 @@
             },
             {
               "name": "listVersion",
-              "data_type": "string",
+              "data_type": "date",
               "nullable": false,
-              "description": "Version of the sanction list",
-              "enum_values": [
-                "2024-01-14",
-                "2024-01-13"
-              ]
+              "description": "Version or publication date of the sanctions list used for screening",
+              "fmt": "date"
             },
             {
               "name": "matchScore",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Confidence score of the match",
-              "enum_values": [
-                "0.98",
-                "0.95"
-              ]
+              "description": "Confidence score (0.0 to 1.0) indicating the strength of the match",
+              "fmt": "percentage"
             },
             {
               "name": "matchFields",
               "data_type": "array",
               "nullable": true,
-              "description": "List of fields that matched the entity",
-              "enum_values": [
-                "name",
-                "dateOfBirth",
-                "nationality"
-              ]
+              "description": "Array of entity field names that contributed to the match (e.g., name, dateOfBirth, nationality)"
             }
           ]
         },
@@ -201,55 +183,44 @@
           "name": "riskFactors",
           "data_type": "array",
           "nullable": true,
-          "description": "List of risk factors associated with the sanctions list hit",
-          "enum_values": [
-            "HIGH_MATCH_SCORE",
-            "MULTIPLE_LIST_HITS",
-            "INDIVIDUAL_DESIGNATION",
-            "ACTIVE_SANCTIONS_REGIME"
-          ]
+          "description": "Array of risk indicators or aggravating factors identified during screening"
         },
         {
           "name": "associatedAccounts",
           "data_type": "array",
           "nullable": true,
-          "description": "List of accounts associated with the sanctions list hit",
+          "description": "Array of bank accounts linked to the matched entity that require action",
           "children": [
             {
               "name": "accountNumber",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the account"
+              "description": "Account identifier or IBAN",
+              "fmt": "account_number"
             },
             {
               "name": "accountType",
               "data_type": "string",
-              "nullable": false,
-              "description": "Type of the associated account (e.g., SAVINGS, CURRENT)",
+              "nullable": true,
+              "description": "Classification of the account product type",
               "enum_values": [
-                "SAVINGS",
-                "CURRENT"
+                "SAVINGS"
               ]
             },
             {
               "name": "currency",
               "data_type": "string",
-              "nullable": false,
-              "description": "Currency of the associated account",
-              "enum_values": [
-                "GBP",
-                "USD",
-                "EUR"
-              ]
+              "nullable": true,
+              "description": "ISO 4217 currency code of the account",
+              "fmt": "currency_code"
             },
             {
               "name": "status",
               "data_type": "string",
-              "nullable": false,
-              "description": "Status of the associated account (e.g., FROZEN, ACTIVE)",
+              "nullable": true,
+              "description": "Current operational status of the account",
               "enum_values": [
-                "FROZEN",
-                "ACTIVE"
+                "FROZEN"
               ]
             }
           ]
@@ -257,74 +228,63 @@
         {
           "name": "reviewDetails",
           "data_type": "object",
-          "nullable": false,
-          "description": "Details of the review process for the sanctions list hit",
+          "nullable": true,
+          "description": "Compliance review workflow and assignment information",
           "children": [
             {
               "name": "assignedTo",
               "data_type": "string",
-              "nullable": false,
-              "description": "Name of the person assigned to review the sanctions list hit"
+              "nullable": true,
+              "description": "User identifier or role of the compliance officer assigned to review this hit"
             },
             {
               "name": "reviewDeadline",
-              "data_type": "datetime",
-              "nullable": false,
-              "description": "Deadline for reviewing the sanctions list hit",
+              "data_type": "timestamp",
+              "nullable": true,
+              "description": "ISO 8601 deadline by which the compliance review must be completed",
               "fmt": "iso8601"
             },
             {
               "name": "notes",
               "data_type": "string",
               "nullable": true,
-              "description": "Notes about the review process"
+              "description": "Free-text notes or context provided by the screening system or compliance team"
             },
             {
               "name": "requiredActions",
               "data_type": "array",
               "nullable": true,
-              "description": "List of required actions for reviewing the sanctions list hit",
-              "enum_values": [
-                "VERIFY_MATCH_ACCURACY",
-                "FREEZE_ACCOUNTS",
-                "NOTIFY_BUSINESS_UNIT",
-                "ESCALATE_IF_CONFIRMED"
-              ]
+              "description": "Array of mandatory actions to be taken in response to this sanctions hit"
             }
           ]
         },
         {
           "name": "auditTrail",
           "data_type": "object",
-          "nullable": false,
-          "description": "Details of the audit trail for the sanctions list hit",
+          "nullable": true,
+          "description": "Audit and provenance information for the sanctions screening detection",
           "children": [
             {
               "name": "detectionTimestamp",
-              "data_type": "datetime",
-              "nullable": false,
-              "description": "Timestamp when the sanctions list hit was detected",
+              "data_type": "timestamp",
+              "nullable": true,
+              "description": "ISO 8601 timestamp when the sanctions match was first detected by the screening engine",
               "fmt": "iso8601"
             },
             {
               "name": "detectionMethod",
               "data_type": "string",
-              "nullable": false,
-              "description": "Method used to detect the sanctions list hit",
+              "nullable": true,
+              "description": "Method or trigger used to perform the sanctions screening",
               "enum_values": [
-                "AUTOMATED_SCREENING",
-                "MANUAL_REVIEW"
+                "AUTOMATED_SCREENING"
               ]
             },
             {
-              "name": "screeningMethod",
+              "name": "screeningEngine",
               "data_type": "string",
-              "nullable": false,
-              "description": "Method used to screen the sanctions list hit",
-              "enum_values": [
-                "RULE_BASED",
-                "MACHINE_LEARNING"
-              ]
+              "nullable": true,
+              "description": "Name and version of the sanctions screening software or service used"
             }
           ]
         }

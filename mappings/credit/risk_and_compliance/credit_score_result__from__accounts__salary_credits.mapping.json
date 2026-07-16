@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
   "outbound_schema": {
     "source": {
@@ -19,70 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, credit score, and assessment details, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "employee.employee_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The customer ID is renamed from the employee's unique identifier."
-    },
-    {
-      "outbound_field": "credit_score.score",
-      "sources": [
-        "settlement_details.initiated_at",
-        "settlement_details.settled_at"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "The credit score is derived from the settlement timestamps."
-    },
-    {
-      "outbound_field": "credit_assessment.total_credit_limit",
-      "sources": [
-        "settlement_details.initiated_at",
-        "settlement_details.settled_at"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "The total credit limit is derived from the settlement timestamps."
-    },
-    {
-      "outbound_field": "credit_assessment.outstanding_balance",
-      "sources": [
-        "settlement_details.initiated_at",
-        "settlement_details.settled_at"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "The outstanding balance is derived from the settlement timestamps."
-    },
-    {
-      "outbound_field": "credit_assessment.utilization_rate",
-      "sources": [
-        "settlement_details.initiated_at",
-        "settlement_details.settled_at"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "The utilization rate is derived from the settlement timestamps."
-    },
-    {
-      "outbound_field": "risk_indicators.fraud_risk",
-      "sources": [
-        "settlement_details.initiated_at",
-        "settlement_details.settled_at"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "The fraud risk is derived from the settlement timestamps."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains salary credit transaction data with employee and account details, while the outbound file contains credit score assessments with customer credit metrics, risk indicators, and compliance flags. These represent fundamentally different business processes (payroll vs. credit risk assessment) with minimal field overlap and no clear data transformation pathway.",
+  "mappings": []
 }

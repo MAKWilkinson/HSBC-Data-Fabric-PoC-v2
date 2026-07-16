@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
   "outbound_schema": {
     "source": {
@@ -19,70 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types don't form a clear pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "updateId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the update ID from the inbound file."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the timestamp from the inbound file."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely calculated or derived."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "newAddress.country"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The currency is implied by the country of the new address."
-    },
-    {
-      "outbound_field": "employee.employee_id",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from customer ID to employee ID."
-    },
-    {
-      "outbound_field": "department_from.name",
-      "sources": [
-        "department"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the department name from the inbound file."
-    },
-    {
-      "outbound_field": "authorizer.name",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated or unknown."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.08,
+  "relatedness_reasoning": "The inbound file contains address update records from customer_services to accounts; the outbound file contains salary credit transactions from accounts to credit. These represent entirely different business domains (address management vs. payroll/salary processing) with no overlapping field concepts, data types, or semantic meaning. The only shared system (accounts) acts as a pass-through but does not establish data lineage between these unrelated message types.",
+  "mappings": []
 }

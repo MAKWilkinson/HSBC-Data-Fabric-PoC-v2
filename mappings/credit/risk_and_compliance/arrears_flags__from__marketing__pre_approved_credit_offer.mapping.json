@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
   "outbound_schema": {
     "source": {
@@ -19,84 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "arrears_flags[].customer_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "arrears_flags[].account_id",
-      "sources": [
-        "customer_details.account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "arrears_flags[].product_type",
-      "sources": [
-        "credit_offer.product_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "arrears_flags[].arrears_status",
-      "sources": [
-        "offer_validity.start_date",
-        "offer_validity.end_date"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.6,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "arrears_flags[].outstanding_balance",
-      "sources": [
-        "credit_offer.total_repayable"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.5,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "arrears_flags[].minimum_payment_due",
-      "sources": [
-        "credit_offer.monthly_payment"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.4,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "arrears_flags[].payment_due_date",
-      "sources": [
-        "offer_validity.start_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.3,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "arrears_flags[].last_payment_date",
-      "sources": [
-        "customer_details"
-      ],
-      "transformation": "UNMAPPED",
-      "confidence": 0.2,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains pre-approved credit offers from marketing to credit department, while the outbound file reports accounts in arrears status to risk and compliance. These represent fundamentally different business processes: offer origination vs. delinquency monitoring. Only two fields (customer_id and product_type) have any semantic overlap, but the outbound file's core content (arrears status, payment history, delinquency flags) has no source in an inbound offer file. The outbound data would require transaction and payment history records not present in the inbound schema.",
+  "mappings": []
 }

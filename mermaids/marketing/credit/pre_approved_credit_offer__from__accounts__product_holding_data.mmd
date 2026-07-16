@@ -1,35 +1,56 @@
 flowchart LR
   subgraph IN["accounts: product_holding_data"]
     in_product_holding_data_holdings___customer_id["product_holding_data.holdings[].customer_id"]
-    in_product_holding_data_source_department["product_holding_data.source_department"]
-    in_product_holding_data_target_department["product_holding_data.target_department"]
     in_product_holding_data_timestamp["product_holding_data.timestamp"]
-    in_product_holding_data_summary_total_customers["product_holding_data.summary.total_customers"]
-    in_product_holding_data_holdings___product_id["product_holding_data.holdings[].product_id"]
+    in_product_holding_data_holdings___account_number["product_holding_data.holdings[].account_number"]
+    in_product_holding_data_holdings___available_balance["product_holding_data.holdings[].available_balance"]
     in_product_holding_data_holdings___balance["product_holding_data.holdings[].balance"]
+    in_product_holding_data_holdings___credit_limit["product_holding_data.holdings[].credit_limit"]
     in_product_holding_data_holdings___currency["product_holding_data.holdings[].currency"]
+    in_product_holding_data_holdings___monthly_turnover["product_holding_data.holdings[].monthly_turnover"]
+    in_product_holding_data_holdings___is_primary_account["product_holding_data.holdings[].is_primary_account"]
   end
   subgraph OUT["marketing: pre_approved_credit_offer"]
     out_offer_id["offer_id"]
     out_customer_id["customer_id"]
+    out_offer_type["offer_type"]
     out_department_from["department_from"]
     out_department_to["department_to"]
     out_timestamp["timestamp"]
     out_customer_details_first_name["customer_details.first_name"]
     out_customer_details_last_name["customer_details.last_name"]
+    out_customer_details_email["customer_details.email"]
+    out_customer_details_phone["customer_details.phone"]
+    out_customer_details_account_number["customer_details.account_number"]
     out_credit_offer_product_type["credit_offer.product_type"]
     out_credit_offer_offer_amount["credit_offer.offer_amount"]
     out_credit_offer_currency["credit_offer.currency"]
+    out_credit_offer_interest_rate["credit_offer.interest_rate"]
+    out_credit_offer_term_months["credit_offer.term_months"]
+    out_credit_offer_monthly_payment["credit_offer.monthly_payment"]
+    out_credit_offer_total_repayable["credit_offer.total_repayable"]
+    out_offer_validity_start_date["offer_validity.start_date"]
+    out_offer_validity_end_date["offer_validity.end_date"]
+    out_offer_validity_days_valid["offer_validity.days_valid"]
+    out_eligibility_criteria_credit_score_required["eligibility_criteria.credit_score_required"]
+    out_eligibility_criteria_annual_income_required["eligibility_criteria.annual_income_required"]
+    out_eligibility_criteria_employment_status["eligibility_criteria.employment_status"]
+    out_eligibility_criteria_existing_customer["eligibility_criteria.existing_customer"]
+    out_marketing_campaign_campaign_id["marketing_campaign.campaign_id"]
+    out_marketing_campaign_campaign_name["marketing_campaign.campaign_name"]
+    out_marketing_campaign_channel["marketing_campaign.channel"]
+    out_marketing_campaign_segment["marketing_campaign.segment"]
+    out_status["status"]
+    out_approval_required["approval_required"]
   end
-  in_product_holding_data_holdings___customer_id -->|EXACT| out_offer_id
   in_product_holding_data_holdings___customer_id -->|EXACT| out_customer_id
-  in_product_holding_data_source_department -->|RENAMED| out_department_from
-  in_product_holding_data_target_department -->|RENAMED| out_department_to
-  in_product_holding_data_timestamp -->|EXACT| out_timestamp
-  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_customer_details_first_name
-  in_product_holding_data_summary_total_customers -->|SEMANTIC| out_customer_details_first_name
-  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_customer_details_last_name
-  in_product_holding_data_summary_total_customers -->|SEMANTIC| out_customer_details_last_name
-  in_product_holding_data_holdings___product_id -->|SEMANTIC| out_credit_offer_product_type
-  in_product_holding_data_holdings___balance -->|SEMANTIC| out_credit_offer_offer_amount
-  in_product_holding_data_holdings___currency -->|EXACT| out_credit_offer_currency
+  in_product_holding_data_timestamp -->|SEMANTIC| out_timestamp
+  in_product_holding_data_holdings___account_number -->|EXACT| out_customer_details_account_number
+  in_product_holding_data_holdings___available_balance -->|TRANSFORMED| out_credit_offer_offer_amount
+  in_product_holding_data_holdings___balance -->|TRANSFORMED| out_credit_offer_offer_amount
+  in_product_holding_data_holdings___credit_limit -->|TRANSFORMED| out_credit_offer_offer_amount
+  in_product_holding_data_holdings___currency -->|SEMANTIC| out_credit_offer_currency
+  in_product_holding_data_holdings___customer_id -->|SEMANTIC| out_eligibility_criteria_existing_customer
+  in_product_holding_data_holdings___balance -->|TRANSFORMED| out_marketing_campaign_segment
+  in_product_holding_data_holdings___monthly_turnover -->|TRANSFORMED| out_marketing_campaign_segment
+  in_product_holding_data_holdings___is_primary_account -->|TRANSFORMED| out_marketing_campaign_segment

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers and currencies, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "borrower_account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as borrower account number, but renamed."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_name",
-        "loan_disbursement_instructions[].borrower_account_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Combines borrower name and account number to identify the customer."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [
-        "loan_disbursement_instructions[].purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Maps loan purpose to account type (e.g., Working Capital to credit_card)."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "loan_disbursement_instructions[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the currency field from the inbound file."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount",
-        "loan_disbursement_instructions[].currency"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Derived from disbursement amount and currency."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "balance"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Available balance is a subset of the overall balance."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (outgoing fund transfers initiated by credit), while the outbound file contains account balance snapshots (account status data returned by accounts). These represent opposite data flows with no overlapping field concepts\u2014the outbound file does not plausibly derive from transforming the inbound file.",
+  "mappings": []
 }

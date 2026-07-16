@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
   "outbound_schema": {
     "source": {
@@ -19,146 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's 'sanctionsListHit' object and the outbound file's 'arrears_flags' array share similar concepts, such as customer information and risk factors.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "matchedEntity.entityId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "matchedEntity.entityId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer_name",
-      "sources": [
-        "sanctionsListHit.matchedEntity.name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "product_type",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].listName"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "arrears_status",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "arrears_days",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "outstanding_balance",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].matchScore"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "minimum_payment_due",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].matchScore"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "payment_due_date",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].matchScore"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "last_payment_date",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].matchScore"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "flag_severity",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "risk_category",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "compliance_action_required",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "action_type",
-      "sources": [
-        "sanctionsListHit.riskFactors[]"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "flag_date",
-      "sources": [
-        "sanctionsListHit.auditTrail.detectionTimestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file reports sanctions list hits (compliance screening matches), while the outbound file reports credit arrears flags (payment delinquency). These represent fundamentally different risk domains with no overlapping field concepts, entity types, or business purposes. The inbound file contains sanctions screening details (matched entities, sanctions lists, compliance review workflow), while the outbound file contains credit product delinquency metrics (payment dates, outstanding balances, arrears duration). No fields correspond between them.",
+  "mappings": []
 }

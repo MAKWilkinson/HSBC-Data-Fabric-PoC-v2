@@ -11,44 +11,45 @@
       "name": "loan_disbursement_instructions",
       "data_type": "array",
       "nullable": false,
-      "description": "Instructions for loan disbursements, one entry per instruction",
+      "description": "Collection of loan disbursement instructions from the credit system to accounts for fund transfer execution",
       "children": [
         {
           "name": "instruction_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the loan disbursement instruction"
+          "description": "Unique identifier for this disbursement instruction, assigned by the credit system"
         },
         {
           "name": "loan_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the loan"
+          "description": "Unique identifier for the underlying loan contract in the credit system"
         },
         {
           "name": "borrower_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "Name of the borrower"
+          "nullable": false,
+          "description": "Legal name of the borrower (individual or entity) as recorded in the credit system"
         },
         {
           "name": "borrower_account_number",
           "data_type": "string",
           "nullable": false,
-          "description": "Account number of the borrower"
+          "description": "Account number of the borrower at the bank, used for reconciliation and audit purposes",
+          "fmt": "account_number"
         },
         {
           "name": "disbursement_amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Amount to be disbursed for the loan",
+          "description": "Principal amount to be disbursed to the borrower in the specified currency",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency of the disbursement amount",
+          "description": "ISO 4217 currency code for the disbursement amount",
           "fmt": "currency_code",
           "enum_values": [
             "GBP"
@@ -58,14 +59,14 @@
           "name": "disbursement_date",
           "data_type": "date",
           "nullable": false,
-          "description": "Date of the loan disbursement",
+          "description": "Scheduled date on which funds are to be transferred to the destination account",
           "fmt": "iso8601"
         },
         {
           "name": "disbursement_method",
           "data_type": "string",
-          "nullable": true,
-          "description": "Method of loan disbursement (e.g. Bank Transfer)",
+          "nullable": false,
+          "description": "Method by which funds will be transferred to the borrower",
           "enum_values": [
             "Bank Transfer"
           ]
@@ -74,22 +75,21 @@
           "name": "destination_account",
           "data_type": "string",
           "nullable": false,
-          "description": "Account number where the loan will be disbursed"
+          "description": "Account number at the destination bank where funds are to be credited",
+          "fmt": "account_number"
         },
         {
           "name": "destination_bank_code",
           "data_type": "string",
           "nullable": false,
-          "description": "Bank code of the destination account",
-          "enum_values": [
-            "HSBCGB2L"
-          ]
+          "description": "BIC (Bank Identifier Code) of the destination bank for international fund routing",
+          "fmt": "bic"
         },
         {
           "name": "purpose",
           "data_type": "string",
-          "nullable": true,
-          "description": "Purpose of the loan disbursement (e.g. Working Capital)",
+          "nullable": false,
+          "description": "Business purpose or use of funds as stated in the loan agreement",
           "enum_values": [
             "Working Capital",
             "Equipment Purchase"
@@ -99,20 +99,20 @@
           "name": "loan_term_months",
           "data_type": "integer",
           "nullable": false,
-          "description": "Number of months the loan will be outstanding"
+          "description": "Duration of the loan in months"
         },
         {
           "name": "interest_rate",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Interest rate for the loan",
+          "description": "Annual interest rate applicable to the loan, expressed as a percentage",
           "fmt": "percentage"
         },
         {
           "name": "status",
           "data_type": "string",
           "nullable": false,
-          "description": "Current status of the loan disbursement (e.g. APPROVED)",
+          "description": "Current approval and processing status of the disbursement instruction",
           "enum_values": [
             "APPROVED",
             "PENDING"
@@ -122,33 +122,33 @@
           "name": "created_by",
           "data_type": "string",
           "nullable": false,
-          "description": "User who created the loan disbursement instruction"
+          "description": "User identifier of the credit officer who created the disbursement instruction"
         },
         {
           "name": "created_date",
-          "data_type": "datetime",
+          "data_type": "date",
           "nullable": false,
-          "description": "Date and time when the loan disbursement instruction was created",
+          "description": "Date on which the disbursement instruction was created in the credit system",
           "fmt": "iso8601"
         },
         {
           "name": "approved_by",
           "data_type": "string",
           "nullable": true,
-          "description": "User who approved the loan disbursement instruction (if applicable)"
+          "description": "User identifier of the credit manager who approved the disbursement instruction; null if not yet approved"
         },
         {
           "name": "approved_date",
-          "data_type": "datetime",
+          "data_type": "date",
           "nullable": true,
-          "description": "Date and time when the loan disbursement instruction was approved (if applicable)",
+          "description": "Date on which the disbursement instruction was approved; null if not yet approved",
           "fmt": "iso8601"
         },
         {
           "name": "remarks",
           "data_type": "string",
           "nullable": true,
-          "description": "Additional comments or remarks about the loan disbursement instruction"
+          "description": "Free-text notes or comments regarding the disbursement instruction, such as approval status or special conditions"
         }
       ]
     }

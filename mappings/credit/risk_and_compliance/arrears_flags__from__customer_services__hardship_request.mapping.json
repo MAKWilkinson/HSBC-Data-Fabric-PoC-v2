@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "adeb1bfab0ab8d0e"
+    "fingerprint": "5424ceabfa455be7"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share some common fields like customer_id, account_number, and product_type, which suggests a connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "arrears_flags[].account_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer_id field."
-    },
-    {
-      "outbound_field": "arrears_flags[].customer_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer_id field."
-    },
-    {
-      "outbound_field": "arrears_flags[].product_type",
-      "sources": [
-        "request_type"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same concept as request_type, but renamed to product_type."
-    },
-    {
-      "outbound_field": "arrears_flags[].arrears_status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept as status, but not an exact copy."
-    },
-    {
-      "outbound_field": "arrears_flags[].outstanding_balance",
-      "sources": [
-        "outstanding_balance"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the outstanding_balance field."
-    },
-    {
-      "outbound_field": "arrears_flags[].minimum_payment_due",
-      "sources": [
-        "monthly_payment_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept as monthly_payment_amount, but not an exact copy."
-    },
-    {
-      "outbound_field": "arrears_flags[].payment_due_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept as timestamp, but not an exact copy."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.25,
+  "relatedness_reasoning": "While both files involve customer and account data, the inbound file documents hardship assistance requests (a forward-looking intervention), whereas the outbound file reports arrears flags (a backward-looking compliance alert). The inbound schema contains no arrears, payment history, or risk classification data needed to populate the outbound schema. The outbound file's core fields (arrears_status, arrears_days, last_payment_date, risk_category, compliance_action_required) have no corresponding sources in the inbound schema, suggesting these files represent separate business processes rather than a data lineage pipeline.",
+  "mappings": []
 }

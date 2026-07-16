@@ -15,28 +15,34 @@
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the application was submitted",
+      "description": "Date and time when the application was submitted",
       "fmt": "iso8601"
     },
     {
       "name": "department",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the department that originated the data",
+      "description": "Routing information identifying the originating and destination departments",
       "children": [
         {
           "name": "source",
           "data_type": "string",
           "nullable": false,
-          "description": "Source of the application (customer services)"
+          "description": "Department that originated the payment holiday application",
+          "enum_values": [
+            "customer_services"
+          ]
         },
         {
           "name": "destination",
           "data_type": "string",
           "nullable": false,
-          "description": "Destination of the application (credit department)"
+          "description": "Department responsible for reviewing and processing the application",
+          "enum_values": [
+            "credit"
+          ]
         }
       ]
     },
@@ -44,7 +50,7 @@
       "name": "customer",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the customer making the request",
+      "description": "Customer details associated with the payment holiday application",
       "children": [
         {
           "name": "customerId",
@@ -55,7 +61,7 @@
         {
           "name": "name",
           "data_type": "string",
-          "nullable": true,
+          "nullable": false,
           "description": "Full name of the customer"
         },
         {
@@ -69,7 +75,7 @@
           "name": "phone",
           "data_type": "string",
           "nullable": true,
-          "description": "Phone number of the customer",
+          "description": "Telephone number of the customer",
           "fmt": "phone"
         }
       ]
@@ -78,39 +84,46 @@
       "name": "account",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the account being requested for payment holiday",
+      "description": "Details of the account for which the payment holiday is requested",
       "children": [
         {
           "name": "accountNumber",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the account"
+          "description": "Unique identifier for the account",
+          "fmt": "account_number"
         },
         {
           "name": "accountType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of account being requested (Mortgage)"
+          "description": "Classification of the account product",
+          "enum_values": [
+            "Mortgage"
+          ]
         },
         {
           "name": "loanAmount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Original loan amount for the mortgage",
+          "description": "Original or total loan amount for the account",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency of the account (GBP)",
-          "fmt": "currency_code"
+          "description": "Currency code for all monetary amounts on the account",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
         },
         {
           "name": "currentBalance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Current balance of the account",
+          "description": "Outstanding balance remaining on the account",
           "fmt": "currency"
         }
       ]
@@ -119,39 +132,39 @@
       "name": "paymentHolidayRequest",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the payment holiday request",
+      "description": "Details of the requested payment holiday period and terms",
       "children": [
         {
           "name": "requestedMonths",
           "data_type": "integer",
           "nullable": false,
-          "description": "Number of months requested for payment holiday"
+          "description": "Number of months for which payment holiday is requested"
         },
         {
           "name": "startDate",
           "data_type": "date",
           "nullable": false,
-          "description": "Start date of the payment holiday period",
-          "fmt": "date"
+          "description": "First date of the requested payment holiday period",
+          "fmt": "iso8601"
         },
         {
           "name": "endDate",
           "data_type": "date",
           "nullable": false,
-          "description": "End date of the payment holiday period",
-          "fmt": "date"
+          "description": "Last date of the requested payment holiday period",
+          "fmt": "iso8601"
         },
         {
           "name": "reason",
           "data_type": "string",
-          "nullable": true,
-          "description": "Reason for requesting a payment holiday (Temporary financial hardship due to job loss)"
+          "nullable": false,
+          "description": "Customer-provided reason for requesting the payment holiday"
         },
         {
           "name": "monthlyPayment",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Monthly payment amount during the payment holiday period",
+          "description": "Regular monthly payment amount that would be suspended during the holiday",
           "fmt": "currency"
         }
       ]
@@ -160,31 +173,37 @@
       "name": "applicationStatus",
       "data_type": "string",
       "nullable": false,
-      "description": "Current status of the application (PENDING_REVIEW)"
+      "description": "Current processing status of the payment holiday application",
+      "enum_values": [
+        "PENDING_REVIEW"
+      ]
     },
     {
       "name": "requestedBy",
       "data_type": "object",
       "nullable": false,
-      "description": "Information about the person requesting the payment holiday",
+      "description": "Details of the employee who submitted the application on behalf of the customer",
       "children": [
         {
           "name": "employeeId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the employee"
+          "description": "Unique identifier for the employee who submitted the application"
         },
         {
           "name": "name",
           "data_type": "string",
-          "nullable": true,
-          "description": "Full name of the person requesting the payment holiday"
+          "nullable": false,
+          "description": "Full name of the employee who submitted the application"
         },
         {
           "name": "role",
           "data_type": "string",
           "nullable": false,
-          "description": "Role of the person requesting the payment holiday (Customer Service Representative)"
+          "description": "Job title or role of the employee who submitted the application",
+          "enum_values": [
+            "Customer Service Representative"
+          ]
         }
       ]
     },
@@ -192,16 +211,24 @@
       "name": "additionalNotes",
       "data_type": "string",
       "nullable": true,
-      "description": "Additional notes or comments about the application"
+      "description": "Free-text notes providing context or assessment of the application, such as customer history or payment record"
     },
     {
       "name": "supportingDocuments",
       "data_type": "array",
-      "nullable": false,
-      "description": "List of supporting documents for the application",
-      "enum_values": [
-        "employment_termination_letter",
-        "financial_hardship_declaration"
+      "nullable": true,
+      "description": "List of document types or identifiers submitted in support of the payment holiday application",
+      "children": [
+        {
+          "name": "document",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type or identifier of a supporting document",
+          "enum_values": [
+            "employment_termination_letter",
+            "financial_hardship_declaration"
+          ]
+        }
       ]
     }
   ]

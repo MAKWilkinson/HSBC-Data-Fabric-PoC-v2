@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "f80fb76ffc71c552"
+    "fingerprint": "2ec0c5cb11d63386"
   },
   "outbound_schema": {
     "source": {
@@ -19,100 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, transaction details, and dispute status, which could be transformed into a customer segment report.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source",
-      "sources": [
-        "department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The department field was renamed to metadata.source."
-    },
-    {
-      "outbound_field": "metadata.destination",
-      "sources": [
-        "targetDepartment"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The targetDepartment field was renamed to metadata.destination."
-    },
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The timestamp field was copied exactly."
-    },
-    {
-      "outbound_field": "metadata.message_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "customerDetails.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The customer ID was used to generate a unique segment ID."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "customerDetails.customerName"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The customer name was used to generate the segment name."
-    },
-    {
-      "outbound_field": "segments[].description",
-      "sources": [
-        "notes"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The notes field was used to generate a brief description of the customer segment."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "customerDetails.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The total number of customers was calculated based on the customer ID."
-    },
-    {
-      "outbound_field": "summary.total_assets_under_management",
-      "sources": [
-        "transactionDetails.amount",
-        "transactionDetails.currency"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The total assets under management were calculated based on the transaction amount and currency."
-    },
-    {
-      "outbound_field": "summary.report_period",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The timestamp field was copied exactly to generate the report period."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains dispute chargeback request details (transaction-level, dispute-specific data), while the outbound file contains aggregated customer segment analytics and reporting metrics. These serve fundamentally different purposes: one is operational dispute processing, the other is strategic customer segmentation reporting. No meaningful field overlap exists between transaction disputes and segment-level aggregations.",
+  "mappings": []
 }

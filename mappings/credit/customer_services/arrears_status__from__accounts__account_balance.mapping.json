@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
   "outbound_schema": {
     "source": {
@@ -19,155 +19,144 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account information and customer details, which suggests a plausible connection between them.",
+  "relatedness_confidence": 0.75,
+  "relatedness_reasoning": "Both files concern customer account financial status; inbound provides account balance data from accounts department to credit department, and outbound delivers arrears assessment from credit department to customer services. The credit department consumes account balances and produces arrears status, forming a logical pipeline. However, outbound fields like arrearsMonths, riskLevel, and actionRequired require computation/assessment not directly present in inbound, indicating transformation rather than simple pass-through.",
   "mappings": [
     {
       "outbound_field": "messageId",
       "sources": [
-        "account_id"
+        "message_id"
       ],
-      "transformation": "EXACT",
+      "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Exact copy of the account ID from the inbound file."
+      "reasoning": "Direct correspondence between message identifiers; naming convention differs (camelCase vs snake_case)."
     },
     {
       "outbound_field": "timestamp",
       "sources": [
-        "last_updated"
+        "sent_at"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The timestamp in the outbound file captures the same concept as the last updated time in the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Both are ISO8601 timestamps marking message generation; inbound sent_at repurposed as outbound timestamp."
     },
     {
       "outbound_field": "sourceSystem",
-      "sources": [
-        "branch_code"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.7,
-      "reasoning": "The source system name is renamed from branch code in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound sourceSystem is a constant enum value (CREDIT_DEPARTMENT); not derived from inbound data."
     },
     {
       "outbound_field": "destinationSystem",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "arrears_status",
-      "sources": [
-        "pending_transactions"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The arrears status in the outbound file captures the same concept as pending transactions in the inbound file."
+      "reasoning": "Outbound destinationSystem is a constant enum value (CUSTOMER_SERVICES); not derived from inbound data."
     },
     {
       "outbound_field": "arrears_status[].customerId",
       "sources": [
-        "customer_id"
+        "account_balances[].customer_id"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer ID from the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Direct field correspondence; naming convention differs (camelCase vs snake_case)."
     },
     {
       "outbound_field": "arrears_status[].accountNumber",
       "sources": [
-        "account_id"
+        "account_balances[].account_id"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the account ID from the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound account_id maps to outbound accountNumber; both uniquely identify accounts."
     },
     {
       "outbound_field": "arrears_status[].productType",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "sources": [
+        "account_balances[].account_type"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Inbound account_type enum (checking, savings, credit_card) must be mapped to outbound productType enum (MORTGAGE, CREDIT_CARD, PERSONAL_LOAN); only credit_card overlaps directly, others require business logic."
     },
     {
       "outbound_field": "arrears_status[].arrearsAmount",
       "sources": [
-        "balance"
+        "account_balances[].balance"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The arrears amount in the outbound file captures the same concept as the account balance in the inbound file."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Inbound balance (which can be negative for credit cards indicating amount owed) is transformed to arrears amount; requires filtering/calculation to isolate only arrears portion."
     },
     {
       "outbound_field": "arrears_status[].currency",
       "sources": [
-        "currency"
+        "account_balances[].currency"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the currency from the inbound file."
+      "confidence": 0.95,
+      "reasoning": "Direct field copy; both are ISO 4217 currency codes with identical enum constraint (GBP)."
     },
     {
       "outbound_field": "arrears_status[].arrearsMonths",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "No inbound field provides month count; requires external calculation or lookup based on arrears history not present in inbound schema."
     },
     {
       "outbound_field": "arrears_status[].status",
-      "sources": [
-        "account_status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The status in the outbound file captures the same concept as the account status in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Arrears status classification (ACTIVE_ARREARS, EARLY_ARREARS, NO_ARREARS) requires business logic and historical data not available in inbound account balance snapshot."
     },
     {
       "outbound_field": "arrears_status[].startDate",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "Arrears start date requires historical tracking; inbound only provides current balance and last_updated timestamp, not arrears commencement date."
     },
     {
       "outbound_field": "arrears_status[].lastPaymentDate",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "Last payment date is not present in inbound account balance data; requires transaction history not provided."
     },
     {
       "outbound_field": "arrears_status[].nextPaymentDueDate",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "Next payment due date requires account terms/schedule data not present in inbound balance snapshot."
     },
     {
       "outbound_field": "arrears_status[].riskLevel",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.85,
+      "reasoning": "Risk assessment (HIGH, MEDIUM, LOW) requires credit scoring logic and external data not derivable from inbound balance alone."
     },
     {
       "outbound_field": "arrears_status[].actionRequired",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.85,
+      "reasoning": "Action flag requires business rule evaluation and policy decisions not present in inbound data."
     },
     {
       "outbound_field": "arrears_status[].notes",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "Free-text notes are contextual and not derivable from structured inbound balance data."
     }
   ]
 }

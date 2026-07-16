@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "outbound_schema": {
     "source": {
@@ -19,79 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "1f4d1b6218c95405"
+    "fingerprint": "cfc8d72f9e643a69"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as account number, customer name, and transaction details, making them plausibly connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "settlement_id",
-      "sources": [
-        "noticeId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "settlement_date",
-      "sources": [
-        "holdEffectiveDate"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "from_department",
-      "sources": [
-        "department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "to_department",
-      "sources": [
-        "recipientDepartment"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "total_amount",
-      "sources": [
-        "transactionsAffected[].amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "settlement_status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "settlements",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents transaction holds issued by Risk & Compliance to Accounts due to detected risks; the outbound file documents routine fund settlements from Accounts to Investments. These represent fundamentally different business processes with no meaningful field overlap. Transaction holds are compliance actions that block activity, while fund settlements are normal investment transfers. No fields correspond semantically or structurally.",
+  "mappings": []
 }

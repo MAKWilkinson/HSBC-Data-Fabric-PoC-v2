@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
   "outbound_schema": {
     "source": {
@@ -19,68 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "32af6a9a8b939815"
+    "fingerprint": "b410a9729961ef35"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types don't form a clear pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "transfer_id",
-      "sources": [
-        "updateId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the update ID from the inbound file."
-    },
-    {
-      "outbound_field": "transfer_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed timestamp field from the inbound file."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely calculated or derived."
-    },
-    {
-      "outbound_field": "from_account",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Captures the same concept as customer ID from the inbound file without an exact name match."
-    },
-    {
-      "outbound_field": "to_account",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely calculated or derived."
-    },
-    {
-      "outbound_field": "transfer_type",
-      "sources": [
-        "updateType"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed update type field from the inbound file."
-    },
-    {
-      "outbound_field": "risk_score",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely calculated or derived."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.05,
+  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish any field-level lineage. Additionally, the semantic purposes are fundamentally misaligned: inbound file contains address update requests for approval processing, while outbound file name suggests anomalous transfer detection for compliance \u2014 these are distinct business domains with no obvious data flow connection.",
+  "mappings": []
 }

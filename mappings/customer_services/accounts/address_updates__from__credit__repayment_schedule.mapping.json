@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
   "outbound_schema": {
     "source": {
@@ -19,103 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer-related concepts, such as loan information and address updates, which could be connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "updateId",
-      "sources": [
-        "repayment_schedule.loan_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from loan ID to update ID."
-    },
-    {
-      "outbound_field": "customerId",
-      "sources": [
-        "repayment_schedule.customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of customer ID field."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "repayment_schedule.generated_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from generated date to timestamp."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [
-        "repayment_schedule.metadata.source_system"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as source system, but with different name."
-    },
-    {
-      "outbound_field": "targetDepartment",
-      "sources": [
-        "repayment_schedule.metadata.destination_system"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as destination system, but with different name."
-    },
-    {
-      "outbound_field": "updateType",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as repayment status, but with different name."
-    },
-    {
-      "outbound_field": "previousAddress",
-      "sources": [
-        "repayment_schedule.repayments[].addressLine1",
-        "repayment_schedule.repayments[].city",
-        "repayment_schedule.repayments[].postalCode"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of address line, city, and postal code fields."
-    },
-    {
-      "outbound_field": "newAddress",
-      "sources": [
-        "repayment_schedule.repayments[].addressLine1",
-        "repayment_schedule.repayments[].city",
-        "repayment_schedule.repayments[].postalCode"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of address line, city, and postal code fields."
-    },
-    {
-      "outbound_field": "status",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of repayment status field."
-    },
-    {
-      "outbound_field": "priority",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.08,
+  "relatedness_reasoning": "The inbound file contains loan repayment schedule data with financial details (principal, interest, payment dates), while the outbound file contains address update records. These files serve entirely different purposes\u2014one is financial/loan-focused, the other is address management\u2014with no overlapping field concepts or data domains. The only shared field is customer_id, which is insufficient to establish meaningful data lineage.",
+  "mappings": []
 }

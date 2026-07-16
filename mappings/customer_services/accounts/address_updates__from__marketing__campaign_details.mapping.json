@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "89dedbcc42df434e"
+    "fingerprint": "60092d15f7b3f417"
   },
   "outbound_schema": {
     "source": {
@@ -19,102 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's campaign details seem to be connected to the outbound file's address updates, as both files involve customer information and marketing campaigns.",
-  "mappings": [
-    {
-      "outbound_field": "updateId",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The unique identifier for the campaign is renamed as updateId in the outbound file."
-    },
-    {
-      "outbound_field": "customerId",
-      "sources": [
-        "target_segment.account_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The account type of the target segment is used to identify the customer in the outbound file."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "created_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The creation date of the campaign is renamed as timestamp in the outbound file."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [
-        "department_from",
-        "department_to"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "The department that originated the campaign and the target department are merged to form the department field in the outbound file."
-    },
-    {
-      "outbound_field": "targetDepartment",
-      "sources": [
-        "department_to"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The target department is copied exactly from the inbound file to the outbound file."
-    },
-    {
-      "outbound_field": "updateType",
-      "sources": [
-        "campaign_objectives"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The objectives of the campaign are used to determine the type of address update in the outbound file."
-    },
-    {
-      "outbound_field": "previousAddress",
-      "sources": [
-        "target_segment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The demographic characteristics of the target segment are used to determine the previous address in the outbound file."
-    },
-    {
-      "outbound_field": "newAddress",
-      "sources": [
-        "target_segment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The demographic characteristics of the target segment are used to determine the new address in the outbound file."
-    },
-    {
-      "outbound_field": "status",
-      "sources": [
-        "success_metrics"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The key performance indicators for campaign success are used to determine the status of the address update in the outbound file."
-    },
-    {
-      "outbound_field": "priority",
-      "sources": [
-        "customer_service_requirements"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The requirements for customer service during the campaign are used to determine the priority of the address update in the outbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.08,
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata with no customer address data, budget allocations, or customer identifiers. The outbound file contains customer address change records. These files serve entirely different purposes (campaign planning vs. address management) with no overlapping field concepts or data structures.",
+  "mappings": []
 }

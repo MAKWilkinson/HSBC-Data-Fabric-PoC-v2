@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,104 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "06b9a31daf92a921"
+    "fingerprint": "69117896ce7ad823"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like account numbers, currencies, and dates, but the systems don't obviously connect.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "instruction_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed from instruction_id to messageId."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "disbursement_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as disbursement_date, but with a different name."
-    },
-    {
-      "outbound_field": "fromDepartment",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "toDepartment",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "subject",
-      "sources": [
-        "purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as purpose, but with a different name."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "borrower_account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from borrower_account_number to accountNumber."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "availableCashBalance",
-      "sources": [
-        "disbursement_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as disbursement_amount, but with a different name."
-    },
-    {
-      "outbound_field": "asOfDate",
-      "sources": [
-        "disbursement_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as disbursement_date, but with a different name."
-    },
-    {
-      "outbound_field": "details",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [
-        "remarks"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from remarks to notes."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (fund outflows from accounts), while the outbound file reports available cash balances (fund positions). These represent different business processes with minimal field overlap; the outbound file's structure and purpose (cash balance reporting to investments) do not plausibly derive from loan disbursement data.",
+  "mappings": []
 }

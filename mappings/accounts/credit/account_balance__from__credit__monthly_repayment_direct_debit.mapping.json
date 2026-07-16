@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
   "outbound_schema": {
     "source": {
@@ -19,88 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as account numbers, customer IDs, and repayment amounts, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "repayments[].accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "repayments[].customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "repayments[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "totalAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation (sum of repayment amounts)."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "balance"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept as inbound balance, but with a different name."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [
-        "repayments[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of multiple inbound repayment records."
-    },
-    {
-      "outbound_field": "last_updated",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "account_status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains direct debit repayment instructions from Credit to Accounts, while the outbound file contains account balance snapshots from Accounts back to Credit. These represent fundamentally different data domains (repayment instructions vs. account balances) with minimal field overlap. The only shared concepts are customer_id and currency, which are insufficient to establish meaningful data lineage. The outbound file's structure (account balances, pending transactions, account status) cannot be reasonably derived from the inbound file's repayment instruction data.",
+  "mappings": []
 }

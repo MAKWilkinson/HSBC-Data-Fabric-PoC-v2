@@ -1,28 +1,76 @@
 flowchart LR
   subgraph IN["marketing: pre_approved_credit_offer"]
+    in_offer_id["offer_id"]
+    in_timestamp["timestamp"]
+    in_customer_id["customer_id"]
     in_customer_details_first_name["customer_details.first_name"]
     in_customer_details_last_name["customer_details.last_name"]
-    in_timestamp["timestamp"]
     in_customer_details_email["customer_details.email"]
+    in_customer_details_phone["customer_details.phone"]
+    in_credit_offer_product_type["credit_offer.product_type"]
     in_credit_offer_offer_amount["credit_offer.offer_amount"]
+    in_credit_offer_currency["credit_offer.currency"]
     in_credit_offer_term_months["credit_offer.term_months"]
-    in_customer_details_account_number["customer_details.account_number"]
+    in_eligibility_criteria_employment_status["eligibility_criteria.employment_status"]
+    in_eligibility_criteria_annual_income_required["eligibility_criteria.annual_income_required"]
+    in_eligibility_criteria_credit_score_required["eligibility_criteria.credit_score_required"]
+    in_status["status"]
+    in_department_from["department_from"]
+    in_department_to["department_to"]
   end
   subgraph OUT["credit: loan_application_data"]
-    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___application_id["loan_applications[].application_id"]
     out_loan_applications___timestamp["loan_applications[].timestamp"]
+    out_loan_applications___applicant_customer_id["loan_applications[].applicant.customer_id"]
+    out_loan_applications___applicant_full_name["loan_applications[].applicant.full_name"]
+    out_loan_applications___applicant_date_of_birth["loan_applications[].applicant.date_of_birth"]
     out_loan_applications___applicant_email["loan_applications[].applicant.email"]
+    out_loan_applications___applicant_phone["loan_applications[].applicant.phone"]
+    out_loan_applications___loan_details_loan_type["loan_applications[].loan_details.loan_type"]
     out_loan_applications___loan_details_requested_amount["loan_applications[].loan_details.requested_amount"]
+    out_loan_applications___loan_details_currency["loan_applications[].loan_details.currency"]
     out_loan_applications___loan_details_term_months["loan_applications[].loan_details.term_months"]
+    out_loan_applications___loan_details_interest_rate_type["loan_applications[].loan_details.interest_rate_type"]
+    out_loan_applications___loan_details_purpose["loan_applications[].loan_details.purpose"]
+    out_loan_applications___employment_employment_status["loan_applications[].employment.employment_status"]
+    out_loan_applications___employment_employer_name["loan_applications[].employment.employer_name"]
+    out_loan_applications___employment_job_title["loan_applications[].employment.job_title"]
+    out_loan_applications___employment_annual_income["loan_applications[].employment.annual_income"]
+    out_loan_applications___employment_employment_start_date["loan_applications[].employment.employment_start_date"]
     out_loan_applications___financial_profile_total_assets["loan_applications[].financial_profile.total_assets"]
+    out_loan_applications___financial_profile_total_liabilities["loan_applications[].financial_profile.total_liabilities"]
+    out_loan_applications___financial_profile_credit_score["loan_applications[].financial_profile.credit_score"]
+    out_loan_applications___financial_profile_existing_loans["loan_applications[].financial_profile.existing_loans"]
+    out_loan_applications___financial_profile_default_history["loan_applications[].financial_profile.default_history"]
+    out_loan_applications___financial_profile_credit_inquiries_last_6m["loan_applications[].financial_profile.credit_inquiries_last_6m"]
     out_loan_applications___collateral_property_value["loan_applications[].collateral.property_value"]
+    out_loan_applications___collateral_property_location["loan_applications[].collateral.property_location"]
+    out_loan_applications___collateral_loan_to_value["loan_applications[].collateral.loan_to_value"]
     out_loan_applications___application_status["loan_applications[].application_status"]
+    out_loan_applications___submitted_by["loan_applications[].submitted_by"]
+    out_loan_applications___risk_category["loan_applications[].risk_category"]
+    out_loan_applications___required_compliance_checks["loan_applications[].required_compliance_checks"]
+    out_metadata_source_department["metadata.source_department"]
+    out_metadata_destination_department["metadata.destination_department"]
+    out_metadata_batch_date["metadata.batch_date"]
+    out_metadata_batch_id["metadata.batch_id"]
+    out_metadata_total_applications["metadata.total_applications"]
+    out_metadata_data_classification["metadata.data_classification"]
   end
+  in_offer_id -->|RENAMED| out_loan_applications___application_id
+  in_timestamp -->|EXACT| out_loan_applications___timestamp
+  in_customer_id -->|EXACT| out_loan_applications___applicant_customer_id
   in_customer_details_first_name -->|MERGE| out_loan_applications___applicant_full_name
   in_customer_details_last_name -->|MERGE| out_loan_applications___applicant_full_name
-  in_timestamp -->|EXACT| out_loan_applications___timestamp
-  in_customer_details_email -->|RENAMED| out_loan_applications___applicant_email
-  in_credit_offer_offer_amount -->|EXACT| out_loan_applications___loan_details_requested_amount
+  in_customer_details_email -->|EXACT| out_loan_applications___applicant_email
+  in_customer_details_phone -->|EXACT| out_loan_applications___applicant_phone
+  in_credit_offer_product_type -->|SEMANTIC| out_loan_applications___loan_details_loan_type
+  in_credit_offer_offer_amount -->|RENAMED| out_loan_applications___loan_details_requested_amount
+  in_credit_offer_currency -->|EXACT| out_loan_applications___loan_details_currency
   in_credit_offer_term_months -->|EXACT| out_loan_applications___loan_details_term_months
-  in_customer_details_account_number -->|SEMANTIC| out_loan_applications___financial_profile_total_assets
-  in_credit_offer_offer_amount -->|SEMANTIC| out_loan_applications___collateral_property_value
+  in_eligibility_criteria_employment_status -->|SEMANTIC| out_loan_applications___employment_employment_status
+  in_eligibility_criteria_annual_income_required -->|SEMANTIC| out_loan_applications___employment_annual_income
+  in_eligibility_criteria_credit_score_required -->|SEMANTIC| out_loan_applications___financial_profile_credit_score
+  in_status -->|SEMANTIC| out_loan_applications___application_status
+  in_department_from -->|SEMANTIC| out_metadata_source_department
+  in_department_to -->|SEMANTIC| out_metadata_destination_department

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/trade_records.schema.json",
-    "fingerprint": "5863e28d703e0fd3"
+    "fingerprint": "fa0581e0fb3586e7"
   },
   "outbound_schema": {
     "source": {
@@ -19,100 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like timestamp, source, and destination, but the fields themselves do not have a clear direct correspondence.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "trade_records[].trade_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The message ID is renamed from trade ID."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "trade_records[].timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning."
-    },
-    {
-      "outbound_field": "source",
-      "sources": [
-        "metadata.source_system"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The source system is renamed from metadata source system."
-    },
-    {
-      "outbound_field": "destination",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "sanctionsListHit.hitId",
-      "sources": [
-        "trade_records[].isin"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The hit ID captures the same concept as ISIN but with a different name."
-    },
-    {
-      "outbound_field": "sanctionsListHit.severity",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "sanctionsListHit.status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "matchedEntity.entityId",
-      "sources": [
-        "trade_records[].counterparty_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The entity ID is renamed from counterparty ID."
-    },
-    {
-      "outbound_field": "matchedEntity.name",
-      "sources": [
-        "trade_records[].trader_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The name captures the same concept as trader name but with a different name."
-    },
-    {
-      "outbound_field": "associatedAccounts.accountNumber",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "reviewDetails.assignedTo",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains trade execution records from the investments system, while the outbound file contains sanctions screening hits with entity/individual details. There is no meaningful field overlap\u2014trades have counterparties and instruments, but sanctions hits require matched individuals with passports, DOB, and nationality. The outbound schema describes a sanctions compliance workflow unrelated to trade data transformation.",
+  "mappings": []
 }

@@ -1,15 +1,13 @@
 flowchart LR
   subgraph IN["credit: credit_score_result"]
-    in_result_id["result_id"]
-    in_timestamp["timestamp"]
-    in_destination_department["destination_department"]
-    in_source_department["source_department"]
-    in_customer_customer_id["customer.customer_id"]
-    in_credit_assessment_recommended_action["credit_assessment.recommended_action"]
-    in_credit_score_score["credit_score.score"]
-    in_risk_indicators_fraud_risk["risk_indicators.fraud_risk"]
-    in_reviewed_by["reviewed_by"]
-    in_credit_assessment_assessment_date["credit_assessment.assessment_date"]
+    in_credit_score_result_timestamp["credit_score_result.timestamp"]
+    in_credit_score_result_destination_department["credit_score_result.destination_department"]
+    in_credit_score_result_source_department["credit_score_result.source_department"]
+    in_credit_score_result_customer_customer_id["credit_score_result.customer.customer_id"]
+    in_credit_score_result_credit_assessment_recommended_action["credit_score_result.credit_assessment.recommended_action"]
+    in_credit_score_result_credit_score_score["credit_score_result.credit_score.score"]
+    in_credit_score_result_reviewed_by["credit_score_result.reviewed_by"]
+    in_credit_score_result_credit_score_assessment_date["credit_score_result.credit_score.assessment_date"]
   end
   subgraph OUT["risk_and_compliance: lending_decision_override"]
     out_messageId["messageId"]
@@ -31,18 +29,20 @@ flowchart LR
     out_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
     out_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
     out_payload_overrideApprovalDetails_conditions["payload.overrideApprovalDetails.conditions"]
+    out_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
+    out_payload_loanDetails_currency["payload.loanDetails.currency"]
+    out_payload_loanDetails_loanTerm["payload.loanDetails.loanTerm"]
+    out_payload_loanDetails_productType["payload.loanDetails.productType"]
     out_payload_complianceFlags_amlCheckCompleted["payload.complianceFlags.amlCheckCompleted"]
     out_payload_complianceFlags_sanctionsCheckCompleted["payload.complianceFlags.sanctionsCheckCompleted"]
     out_payload_complianceFlags_creditPolicyWaiverRequired["payload.complianceFlags.creditPolicyWaiverRequired"]
+    out_payload_complianceFlags_waiverDocumentReference["payload.complianceFlags.waiverDocumentReference"]
   end
-  in_result_id -->|EXACT| out_messageId
-  in_timestamp -->|EXACT| out_timestamp
-  in_destination_department -->|RENAMED| out_source
-  in_source_department -->|RENAMED| out_destination
-  in_customer_customer_id -->|SEMANTIC| out_payload_loanApplicationId
-  in_customer_customer_id -->|EXACT| out_payload_customerId
-  in_credit_assessment_recommended_action -->|SEMANTIC| out_payload_overrideDecision
-  in_credit_score_score -->|EXACT| out_payload_riskAssessmentDetails_creditScore
-  in_risk_indicators_fraud_risk -->|SEMANTIC| out_payload_riskAssessmentDetails_mitigatingFactors
-  in_reviewed_by -->|EXACT| out_payload_overrideApprovalDetails_approvedBy
-  in_credit_assessment_assessment_date -->|SEMANTIC| out_payload_overrideApprovalDetails_approvalDate
+  in_credit_score_result_timestamp -->|SEMANTIC| out_timestamp
+  in_credit_score_result_destination_department -->|SEMANTIC| out_source
+  in_credit_score_result_source_department -->|SEMANTIC| out_destination
+  in_credit_score_result_customer_customer_id -->|RENAMED| out_payload_customerId
+  in_credit_score_result_credit_assessment_recommended_action -->|SEMANTIC| out_payload_overrideDecision
+  in_credit_score_result_credit_score_score -->|RENAMED| out_payload_riskAssessmentDetails_creditScore
+  in_credit_score_result_reviewed_by -->|SEMANTIC| out_payload_overrideApprovalDetails_approvedBy
+  in_credit_score_result_credit_score_assessment_date -->|SEMANTIC| out_payload_overrideApprovalDetails_approvalDate

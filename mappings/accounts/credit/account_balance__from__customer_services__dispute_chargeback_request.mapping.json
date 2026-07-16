@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "f80fb76ffc71c552"
+    "fingerprint": "2ec0c5cb11d63386"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as customer information and transaction details, which could be transformed into the account balance and pending transactions.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "customerDetails.customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of customer ID from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "customerDetails.customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [
-        "transactionDetails.transactionType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "transactionDetails.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of currency from inbound to outbound."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "transactionDetails.amount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "transactionDetails.amount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [
-        "transactionDetails.transactionId"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file is a dispute chargeback request from customer_services to accounts; the outbound file is an account balance snapshot from accounts to credit. These serve fundamentally different purposes: one is event-driven dispute processing, the other is a state snapshot for credit review. While both systems touch the accounts department, there is no plausible data lineage connecting dispute request fields to account balance fields. The outbound schema requires real-time balance, account type, and pending transaction data that are not present in the inbound dispute schema.",
+  "mappings": []
 }

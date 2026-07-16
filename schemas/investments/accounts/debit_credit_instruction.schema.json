@@ -11,57 +11,63 @@
       "name": "debit_credit_instructions",
       "data_type": "array",
       "nullable": false,
-      "description": "A collection of debit and credit instructions",
+      "description": "Collection of debit/credit instruction batches from investments department to accounts department",
       "children": [
         {
           "name": "instruction_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the instruction"
+          "description": "Unique identifier for this batch of debit/credit instructions"
         },
         {
           "name": "timestamp",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp of when the instruction was created",
+          "description": "When this instruction batch was created",
           "fmt": "iso8601"
         },
         {
           "name": "source_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The department that originated the instruction"
+          "description": "Originating department; always 'investments' for this message type",
+          "enum_values": [
+            "investments"
+          ]
         },
         {
           "name": "target_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The department that will receive the instruction"
+          "description": "Receiving department responsible for executing the instructions; always 'accounts' for this message type",
+          "enum_values": [
+            "accounts"
+          ]
         },
         {
           "name": "instructions",
           "data_type": "array",
           "nullable": false,
-          "description": "A collection of individual debit and credit instructions",
+          "description": "Individual debit or credit transaction instructions within this batch",
           "children": [
             {
               "name": "transaction_id",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the transaction"
+              "description": "Unique identifier for this individual transaction instruction"
             },
             {
               "name": "account_number",
               "data_type": "string",
               "nullable": false,
-              "description": "The account number associated with the instruction",
+              "description": "IBAN of the account to be debited or credited",
               "fmt": "iban"
             },
             {
               "name": "instruction_type",
               "data_type": "string",
               "nullable": false,
-              "description": "Type of instruction (debit or credit)",
+              "description": "Direction of the transaction: debit (money out) or credit (money in)",
               "enum_values": [
                 "debit",
                 "credit"
@@ -71,14 +77,14 @@
               "name": "amount",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The amount associated with the instruction",
+              "description": "Transaction amount in the specified currency",
               "fmt": "currency"
             },
             {
               "name": "currency",
               "data_type": "string",
               "nullable": false,
-              "description": "Currency of the transaction",
+              "description": "ISO 4217 currency code for the transaction",
               "fmt": "currency_code",
               "enum_values": [
                 "GBP"
@@ -87,36 +93,35 @@
             {
               "name": "description",
               "data_type": "string",
-              "nullable": true,
-              "description": "Description of the instruction"
+              "nullable": false,
+              "description": "Business narrative explaining the purpose of the transaction (e.g. fund redemption, dividend distribution, portfolio rebalancing)"
             },
             {
               "name": "fund_id",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the fund"
+              "description": "Unique identifier of the investment fund associated with this transaction"
             },
             {
               "name": "fund_name",
               "data_type": "string",
               "nullable": false,
-              "description": "Name of the fund"
+              "description": "Human-readable name of the investment fund"
             },
             {
               "name": "effective_date",
               "data_type": "date",
               "nullable": false,
-              "description": "Date when the instruction will be effective",
-              "fmt": "iso8601"
+              "description": "Date on which the transaction should be executed in the accounts system",
+              "fmt": "date"
             },
             {
               "name": "status",
               "data_type": "string",
               "nullable": false,
-              "description": "Status of the instruction (pending, approved, etc.)",
+              "description": "Current processing status of this individual instruction",
               "enum_values": [
-                "pending",
-                "approved"
+                "pending"
               ]
             }
           ]
@@ -125,44 +130,43 @@
           "name": "total_debit_amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Total debit amount for the instructions",
+          "description": "Sum of all debit amounts in this batch",
           "fmt": "currency"
         },
         {
           "name": "total_credit_amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Total credit amount for the instructions",
+          "description": "Sum of all credit amounts in this batch",
           "fmt": "currency"
         },
         {
           "name": "batch_reference",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the batch of instructions"
+          "description": "Unique reference identifier for this batch, used for reconciliation and audit trails"
         },
         {
           "name": "approval_status",
           "data_type": "string",
           "nullable": false,
-          "description": "Status of the approval process",
+          "description": "Authorization status of the entire batch",
           "enum_values": [
-            "approved",
-            "rejected"
+            "approved"
           ]
         },
         {
           "name": "approver",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the person who approved the instructions",
+          "description": "Email address of the person who approved this batch",
           "fmt": "email"
         },
         {
           "name": "approval_timestamp",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp when the approval was made",
+          "description": "When the batch was approved",
           "fmt": "iso8601"
         }
       ]

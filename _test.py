@@ -277,8 +277,8 @@ if __name__ == "__main__":
     
     #     # MAP
 
-    # _testing_message("TESTING_F2F_MAPPING")
-    # test_map_f2f()
+    _testing_message("TESTING_F2F_MAPPING")
+    test_map_f2f()
 
     # GRAPH
 

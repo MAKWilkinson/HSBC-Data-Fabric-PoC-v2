@@ -11,32 +11,38 @@
       "name": "messageId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the message"
+      "description": "Unique identifier for this arrears status message"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the arrears status was recorded",
+      "description": "Date and time when the message was generated",
       "fmt": "iso8601"
     },
     {
       "name": "sourceSystem",
       "data_type": "string",
       "nullable": false,
-      "description": "The system that originated the data"
+      "description": "Originating system identifier; always CREDIT_DEPARTMENT for this message type",
+      "enum_values": [
+        "CREDIT_DEPARTMENT"
+      ]
     },
     {
       "name": "destinationSystem",
       "data_type": "string",
       "nullable": false,
-      "description": "The system that received the message"
+      "description": "Target system identifier; always CUSTOMER_SERVICES for this message type",
+      "enum_values": [
+        "CUSTOMER_SERVICES"
+      ]
     },
     {
       "name": "arrears_status",
       "data_type": "array",
       "nullable": false,
-      "description": "Array of arrears status records for each customer",
+      "description": "Collection of arrears status records for customer accounts",
       "children": [
         {
           "name": "customerId",
@@ -48,26 +54,32 @@
           "name": "accountNumber",
           "data_type": "string",
           "nullable": false,
-          "description": "Account number associated with the customer"
+          "description": "The account number associated with the arrears status",
+          "fmt": "account_number"
         },
         {
           "name": "productType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of product or service for which arrears exist"
+          "description": "The type of financial product held by the customer",
+          "enum_values": [
+            "MORTGAGE",
+            "CREDIT_CARD",
+            "PERSONAL_LOAN"
+          ]
         },
         {
           "name": "arrearsAmount",
           "data_type": "decimal",
-          "nullable": true,
-          "description": "Total amount of arrears owed by the customer",
+          "nullable": false,
+          "description": "The outstanding amount in arrears, expressed in the stated currency",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency in which the arrears amount is denominated",
+          "description": "ISO 4217 currency code for the arrears amount",
           "fmt": "currency_code",
           "enum_values": [
             "GBP"
@@ -76,14 +88,14 @@
         {
           "name": "arrearsMonths",
           "data_type": "integer",
-          "nullable": true,
-          "description": "Number of months the customer has been in arrears"
+          "nullable": false,
+          "description": "Number of months the account has been in arrears"
         },
         {
           "name": "status",
           "data_type": "string",
           "nullable": false,
-          "description": "Current status of the arrears (e.g. active, early, no arrears)",
+          "description": "Current arrears status classification of the account",
           "enum_values": [
             "ACTIVE_ARREARS",
             "EARLY_ARREARS",
@@ -94,28 +106,28 @@
           "name": "startDate",
           "data_type": "date",
           "nullable": true,
-          "description": "Date when the arrears started",
+          "description": "Date when the arrears period commenced; null if account is not in arrears",
           "fmt": "date"
         },
         {
           "name": "lastPaymentDate",
           "data_type": "date",
-          "nullable": true,
-          "description": "Date of the last payment made by the customer",
+          "nullable": false,
+          "description": "Date of the most recent payment made on the account",
           "fmt": "date"
         },
         {
           "name": "nextPaymentDueDate",
           "data_type": "date",
-          "nullable": true,
-          "description": "Date when the next payment is due from the customer",
+          "nullable": false,
+          "description": "Date when the next payment is due on the account",
           "fmt": "date"
         },
         {
           "name": "riskLevel",
           "data_type": "string",
           "nullable": false,
-          "description": "Risk level associated with the arrears (e.g. high, medium, low)",
+          "description": "Assessment of credit risk associated with the arrears status",
           "enum_values": [
             "HIGH",
             "MEDIUM",
@@ -126,13 +138,13 @@
           "name": "actionRequired",
           "data_type": "boolean",
           "nullable": false,
-          "description": "Indicates whether action is required to resolve the arrears"
+          "description": "Flag indicating whether customer services action is required on this account"
         },
         {
           "name": "notes",
           "data_type": "string",
           "nullable": true,
-          "description": "Additional notes or comments about the arrears status"
+          "description": "Free-text notes providing context or status updates on the arrears case"
         }
       ]
     }

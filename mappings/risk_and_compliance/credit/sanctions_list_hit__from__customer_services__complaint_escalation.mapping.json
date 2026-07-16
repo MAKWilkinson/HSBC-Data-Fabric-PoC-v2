@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
   "outbound_schema": {
     "source": {
@@ -19,110 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's escalation_id and timestamp fields seem to match the outbound file's messageId and timestamp fields, respectively. The risk_and_compliance system is a plausible pipeline step between customer_services and credit.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "escalation_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "source",
-      "sources": [
-        "customer_services"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "destination",
-      "sources": [
-        "risk_and_compliance"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.85,
-      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "sanctionsListHit.hitId",
-      "sources": [
-        "complaint.complaint_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "sanctionsListHit.severity",
-      "sources": [
-        "complaint.complaint_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "sanctionsListHit.status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "matchedEntity.entityId",
-      "sources": [
-        "complaint.customer_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "matchedEntity.name",
-      "sources": [
-        "customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.85,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "reviewDetails.assignedTo",
-      "sources": [
-        "assigned_to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "reviewDetails.reviewDeadline",
-      "sources": [
-        "complaint.complaint_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents customer complaints and escalations for compliance review, while the outbound file reports sanctions list screening matches. Although both involve compliance and risk assessment, they address fundamentally different use cases: complaint handling vs. sanctions screening. The inbound data contains complaint details (unauthorized transactions, customer grievances) with no customer identity verification or sanctions screening information. The outbound file requires detailed entity identification (passport, nationality, DOB) and sanctions list matching data that are not present or derivable from the inbound complaint escalation schema. The data domains are distinct and the outbound sanctions hit message cannot plausibly be constructed from complaint escalation data.",
+  "mappings": []
 }

@@ -1,14 +1,57 @@
 flowchart LR
   subgraph IN["accounts: funds_settlement"]
+    in_settlement_id["settlement_id"]
+    in_approval_timestamp["approval_timestamp"]
+    in_to_department["to_department"]
+    in_from_department["from_department"]
+    in_settlements___reference["settlements[].reference"]
+    in_settlements___transaction_type["settlements[].transaction_type"]
+    in_settlements___amount["settlements[].amount"]
+    in_currency["currency"]
+    in_notes["notes"]
     in_settlements___fund_id["settlements[].fund_id"]
     in_settlements___fund_name["settlements[].fund_name"]
-    in_settlements___amount["settlements[].amount"]
+    in_settlement_date["settlement_date"]
+    in_total_amount["total_amount"]
+    in_settlement_status["settlement_status"]
+    in_approved_by["approved_by"]
   end
   subgraph OUT["investments: debit_credit_instruction"]
+    out_debit_credit_instructions___instruction_id["debit_credit_instructions[].instruction_id"]
+    out_debit_credit_instructions___timestamp["debit_credit_instructions[].timestamp"]
+    out_debit_credit_instructions___source_department["debit_credit_instructions[].source_department"]
+    out_debit_credit_instructions___target_department["debit_credit_instructions[].target_department"]
     out_debit_credit_instructions___instructions___transaction_id["debit_credit_instructions[].instructions[].transaction_id"]
     out_debit_credit_instructions___instructions___account_number["debit_credit_instructions[].instructions[].account_number"]
+    out_debit_credit_instructions___instructions___instruction_type["debit_credit_instructions[].instructions[].instruction_type"]
     out_debit_credit_instructions___instructions___amount["debit_credit_instructions[].instructions[].amount"]
+    out_debit_credit_instructions___instructions___currency["debit_credit_instructions[].instructions[].currency"]
+    out_debit_credit_instructions___instructions___description["debit_credit_instructions[].instructions[].description"]
+    out_debit_credit_instructions___instructions___fund_id["debit_credit_instructions[].instructions[].fund_id"]
+    out_debit_credit_instructions___instructions___fund_name["debit_credit_instructions[].instructions[].fund_name"]
+    out_debit_credit_instructions___instructions___effective_date["debit_credit_instructions[].instructions[].effective_date"]
+    out_debit_credit_instructions___instructions___status["debit_credit_instructions[].instructions[].status"]
+    out_debit_credit_instructions___total_debit_amount["debit_credit_instructions[].total_debit_amount"]
+    out_debit_credit_instructions___total_credit_amount["debit_credit_instructions[].total_credit_amount"]
+    out_debit_credit_instructions___batch_reference["debit_credit_instructions[].batch_reference"]
+    out_debit_credit_instructions___approval_status["debit_credit_instructions[].approval_status"]
+    out_debit_credit_instructions___approver["debit_credit_instructions[].approver"]
+    out_debit_credit_instructions___approval_timestamp["debit_credit_instructions[].approval_timestamp"]
   end
-  in_settlements___fund_id -->|RENAMED| out_debit_credit_instructions___instructions___transaction_id
-  in_settlements___fund_name -->|SEMANTIC| out_debit_credit_instructions___instructions___account_number
+  in_settlement_id -->|RENAMED| out_debit_credit_instructions___instruction_id
+  in_approval_timestamp -->|RENAMED| out_debit_credit_instructions___timestamp
+  in_to_department -->|SEMANTIC| out_debit_credit_instructions___source_department
+  in_from_department -->|SEMANTIC| out_debit_credit_instructions___target_department
+  in_settlements___reference -->|RENAMED| out_debit_credit_instructions___instructions___transaction_id
+  in_settlements___transaction_type -->|SEMANTIC| out_debit_credit_instructions___instructions___instruction_type
   in_settlements___amount -->|EXACT| out_debit_credit_instructions___instructions___amount
+  in_currency -->|EXACT| out_debit_credit_instructions___instructions___currency
+  in_notes -->|RENAMED| out_debit_credit_instructions___instructions___description
+  in_settlements___fund_id -->|EXACT| out_debit_credit_instructions___instructions___fund_id
+  in_settlements___fund_name -->|EXACT| out_debit_credit_instructions___instructions___fund_name
+  in_settlement_date -->|RENAMED| out_debit_credit_instructions___instructions___effective_date
+  in_total_amount -->|SEMANTIC| out_debit_credit_instructions___total_credit_amount
+  in_settlement_id -->|RENAMED| out_debit_credit_instructions___batch_reference
+  in_settlement_status -->|SEMANTIC| out_debit_credit_instructions___approval_status
+  in_approved_by -->|EXACT| out_debit_credit_instructions___approver
+  in_approval_timestamp -->|EXACT| out_debit_credit_instructions___approval_timestamp

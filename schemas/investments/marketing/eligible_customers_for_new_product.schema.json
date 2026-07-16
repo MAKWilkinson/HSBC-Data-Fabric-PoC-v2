@@ -1,6 +1,6 @@
 {
   "source": {
-    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/AppV2/data/investments/marketing/eligible_customers_for_new_product.json",
+    "path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/data/investments/marketing/eligible_customers_for_new_product.json",
     "providing_system": "investments",
     "consuming_system": "marketing",
     "message_file_name": "eligible_customers_for_new_product.json",
@@ -11,38 +11,44 @@
       "name": "metadata",
       "data_type": "object",
       "nullable": false,
-      "description": "Contextual information about the message",
+      "description": "Contextual information about the eligibility message, including source, target, product details, and criteria",
       "children": [
         {
           "name": "source_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The department that originated the data"
+          "description": "The originating department that compiled the eligible customer list",
+          "enum_values": [
+            "Investments"
+          ]
         },
         {
           "name": "target_department",
           "data_type": "string",
           "nullable": false,
-          "description": "The department that will receive the message"
+          "description": "The receiving department responsible for marketing the product",
+          "enum_values": [
+            "Marketing"
+          ]
         },
         {
           "name": "product_name",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the investment product being offered"
+          "description": "The name of the investment product for which customers are being evaluated"
         },
         {
           "name": "generated_date",
           "data_type": "datetime",
           "nullable": false,
-          "description": "When the message was generated",
+          "description": "The timestamp when the eligibility list was generated",
           "fmt": "iso8601"
         },
         {
           "name": "eligibility_criteria",
           "data_type": "string",
-          "nullable": true,
-          "description": "Conditions that make a customer eligible for the product"
+          "nullable": false,
+          "description": "The business rules applied to determine customer eligibility for the product"
         }
       ]
     },
@@ -50,45 +56,45 @@
       "name": "eligible_customers",
       "data_type": "array",
       "nullable": false,
-      "description": "One entry per customer eligible for the product",
+      "description": "List of customers who meet the eligibility criteria for the Premium Growth Investment Fund",
       "children": [
         {
           "name": "customer_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier assigned to the customer within the bank"
         },
         {
           "name": "customer_name",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the eligible customer"
+          "description": "Full name of the customer"
         },
         {
           "name": "email",
           "data_type": "string",
-          "nullable": true,
-          "description": "Email address of the eligible customer",
+          "nullable": false,
+          "description": "Primary email address for the customer, used for marketing communications",
           "fmt": "email"
         },
         {
           "name": "account_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Current balance in the customer's account",
+          "description": "Current account balance in USD; used to verify minimum eligibility threshold of $50,000",
           "fmt": "currency"
         },
         {
           "name": "customer_tenure_months",
           "data_type": "integer",
           "nullable": false,
-          "description": "Number of months the customer has been with the investment company"
+          "description": "Number of months the customer has been with the bank; used to verify minimum 12-month tenure requirement"
         },
         {
           "name": "investment_experience_level",
           "data_type": "string",
-          "nullable": true,
-          "description": "Level of experience the customer has in investments",
+          "nullable": false,
+          "description": "Customer's self-assessed or profiled investment experience category",
           "enum_values": [
             "Beginner",
             "Intermediate",
@@ -98,8 +104,8 @@
         {
           "name": "risk_profile",
           "data_type": "string",
-          "nullable": true,
-          "description": "Risk tolerance of the eligible customer",
+          "nullable": false,
+          "description": "Customer's risk tolerance classification, used to tailor product recommendations",
           "enum_values": [
             "Conservative",
             "Moderate",
@@ -108,16 +114,16 @@
         },
         {
           "name": "last_investment_activity",
-          "data_type": "datetime",
+          "data_type": "date",
           "nullable": false,
-          "description": "Date of the customer's last investment activity",
-          "fmt": "iso8601"
+          "description": "Date of the customer's most recent investment transaction or account activity",
+          "fmt": "date"
         },
         {
           "name": "recommended_product_allocation",
           "data_type": "string",
-          "nullable": true,
-          "description": "Recommended allocation for the eligible customer in the product",
+          "nullable": false,
+          "description": "Suggested investment allocation strategy for the customer based on their profile and risk tolerance",
           "enum_values": [
             "Conservative Growth",
             "Balanced Growth",
@@ -130,36 +136,34 @@
       "name": "summary",
       "data_type": "object",
       "nullable": false,
-      "description": "Summary information about the eligible customers",
+      "description": "Aggregate statistics and campaign metadata for the eligible customer cohort",
       "children": [
         {
           "name": "total_eligible_customers",
           "data_type": "integer",
           "nullable": false,
-          "description": "Total number of eligible customers"
+          "description": "Count of customers who meet all eligibility criteria"
         },
         {
           "name": "total_eligible_assets",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Total value of assets eligible for the product",
+          "description": "Sum of account balances across all eligible customers in USD",
           "fmt": "currency"
         },
         {
           "name": "average_account_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Average account balance of eligible customers",
+          "description": "Mean account balance of eligible customers in USD",
           "fmt": "currency"
         },
         {
           "name": "campaign_priority",
           "data_type": "string",
-          "nullable": true,
-          "description": "Priority level for the marketing campaign",
+          "nullable": false,
+          "description": "Priority level assigned to the marketing campaign for this product cohort",
           "enum_values": [
-            "Low",
-            "Medium",
             "High"
           ]
         }

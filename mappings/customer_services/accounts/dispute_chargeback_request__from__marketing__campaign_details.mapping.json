@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "89dedbcc42df434e"
+    "fingerprint": "60092d15f7b3f417"
   },
   "outbound_schema": {
     "source": {
@@ -19,112 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "f80fb76ffc71c552"
+    "fingerprint": "2ec0c5cb11d63386"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, transaction details, and dispute resolution, which form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "requestId",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed campaign ID to request ID."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "created_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Timestamp field captures the same concept as created date, but with a different name."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [
-        "department_from",
-        "department_to"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of department from and to fields."
-    },
-    {
-      "outbound_field": "targetDepartment",
-      "sources": [
-        "department_to"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of department to field."
-    },
-    {
-      "outbound_field": "customerDetails.customerId",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Customer ID captures the same concept as campaign ID, but with a different name."
-    },
-    {
-      "outbound_field": "customerDetails.customerName",
-      "sources": [
-        "campaign_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Customer name captures the same concept as campaign name, but with a different name."
-    },
-    {
-      "outbound_field": "customerDetails.accountNumber",
-      "sources": [
-        "target_segment.account_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Account number captures the same concept as target segment account type, but with a different name."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionId",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Transaction ID captures the same concept as campaign ID, but with a different name."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionDate",
-      "sources": [
-        "start_date",
-        "end_date"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of start and end dates fields."
-    },
-    {
-      "outbound_field": "disputeDetails.disputeType",
-      "sources": [
-        "campaign_objectives"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Dispute type captures the same concept as campaign objectives, but with a different name."
-    },
-    {
-      "outbound_field": "evidenceProvided[].type",
-      "sources": [
-        "target_segment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Evidence type captures the same concept as target segment, but with a different name."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.12,
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file is a financial dispute/chargeback request with transaction and customer account details. These represent fundamentally different business domains with no meaningful field overlap or logical data flow connection.",
+  "mappings": []
 }

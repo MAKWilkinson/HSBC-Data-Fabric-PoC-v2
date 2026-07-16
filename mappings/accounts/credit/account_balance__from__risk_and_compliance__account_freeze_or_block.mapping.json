@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "outbound_schema": {
     "source": {
@@ -19,106 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be transformed into the outbound file's account balance, pending transactions, and last updated timestamp.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the account number from the inbound file."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "account.accountHolder"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same concept as the account holder in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [
-        "account.accountType"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the account type from the inbound file."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "account.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the currency from the inbound file."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "freezeDetails.reason",
-        "escalation.level"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The balance is derived from the freeze reason and escalation level in the inbound file."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "balance",
-        "pending_transactions"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The available balance is derived from the balance and pending transactions in the inbound file."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [
-        "freezeDetails.freezeType",
-        "escalation.requiresApproval"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The pending transactions are derived from the freeze type and requires approval in the inbound file."
-    },
-    {
-      "outbound_field": "last_updated",
-      "sources": [
-        "timestamp",
-        "escalation.approvalDeadline"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The last updated timestamp is derived from the message timestamp and approval deadline in the inbound file."
-    },
-    {
-      "outbound_field": "account_status",
-      "sources": [
-        "escalation.level",
-        "freezeDetails.reason"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The account status is derived from the escalation level and freeze reason in the inbound file."
-    },
-    {
-      "outbound_field": "branch_code",
-      "sources": [
-        "account.branch"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the branch code from the inbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file carries freeze/block compliance actions with restrictions and escalation workflows, while the outbound file provides account balance snapshots for credit review. These serve fundamentally different purposes with minimal field overlap; the inbound message is action-oriented (freeze directives) whereas the outbound is data-reporting (balance reporting). No plausible transformation chain connects them.",
+  "mappings": []
 }

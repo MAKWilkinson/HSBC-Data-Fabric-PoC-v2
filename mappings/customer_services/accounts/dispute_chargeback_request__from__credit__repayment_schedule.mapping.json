@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
   "outbound_schema": {
     "source": {
@@ -19,92 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/dispute_chargeback_request.schema.json",
-    "fingerprint": "f80fb76ffc71c552"
+    "fingerprint": "2ec0c5cb11d63386"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, transaction details, and dispute status, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "requestId",
-      "sources": [
-        "repayment_schedule.loan_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from loan ID to request ID."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "repayment_schedule.generated_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as generated date, but with a different name."
-    },
-    {
-      "outbound_field": "department",
-      "sources": [
-        "repayment_schedule.metadata.destination_system"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as destination system, but with a different name."
-    },
-    {
-      "outbound_field": "customerDetails.customerId",
-      "sources": [
-        "repayment_schedule.customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy from customer ID to customer ID."
-    },
-    {
-      "outbound_field": "customerDetails.customerName",
-      "sources": [
-        "repayment_schedule.customer_name"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy from customer name to customer name."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionId",
-      "sources": [
-        "repayment_schedule.repayments.payment_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as payment number, but with a different name."
-    },
-    {
-      "outbound_field": "transactionDetails.transactionDate",
-      "sources": [
-        "repayment_schedule.repayments.due_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as due date, but with a different name."
-    },
-    {
-      "outbound_field": "disputeDetails.disputeType",
-      "sources": [
-        "repayment_schedule.repayments.status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as repayment status, but with a different name."
-    },
-    {
-      "outbound_field": "evidenceProvided[].type",
-      "sources": [
-        "repayment_schedule.repayments.repayment_frequency"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as repayment frequency, but with a different name."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan repayment schedule data (principal, interest, installments, maturity dates), while the outbound file is a dispute/chargeback request with transaction details and evidence. These represent fundamentally different business processes with no meaningful field overlap; a repayment schedule does not naturally transform into a chargeback dispute request.",
+  "mappings": []
 }

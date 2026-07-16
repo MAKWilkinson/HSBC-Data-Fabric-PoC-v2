@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "adeb1bfab0ab8d0e"
+    "fingerprint": "5424ceabfa455be7"
   },
   "outbound_schema": {
     "source": {
@@ -19,74 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer information, account numbers, and credit score concepts, forming a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer.name",
-      "sources": [
-        "customer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "credit_score.score",
-      "sources": [
-        "credit_score"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.total_credit_limit",
-      "sources": [
-        "total_credit_limit"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "credit_assessment.outstanding_balance",
-      "sources": [
-        "outstanding_balance"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "credit_assessment.utilization_rate",
-      "sources": [
-        "utilization_rate"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "risk_indicators.fraud_risk",
-      "sources": [
-        "fraud_risk"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "While both files involve the credit department and share customer_id and account_number fields, the inbound file is a hardship assistance request (input to credit processing) and the outbound file is a credit score assessment result (output to risk/compliance). These represent fundamentally different business processes: one is a customer request for relief, the other is a credit risk assessment. The outbound file contains credit scoring, payment history, fraud risk, and compliance data that are not derivable from a hardship request form. No plausible transformation chain connects these two message types.",
+  "mappings": []
 }

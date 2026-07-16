@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
   "outbound_schema": {
     "source": {
@@ -19,56 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "cc85053f05f356ed"
+    "fingerprint": "254d598c9fe307d8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "loan_applications[].applicant.full_name",
-      "sources": [
-        "customer.name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as customer name, but renamed to applicant full name."
-    },
-    {
-      "outbound_field": "loan_applications[].applicant.email",
-      "sources": [
-        "customer.email"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_applications[].loan_details.requested_amount",
-      "sources": [
-        "account.loanAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_applications[].employment.employer_name",
-      "sources": [
-        "requestedBy.employeeId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as employee ID, but renamed to employer name."
-    },
-    {
-      "outbound_field": "loan_applications[].financial_profile.total_assets",
-      "sources": [
-        "account.currentBalance"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as account current balance, but renamed to total assets."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file represents a payment holiday application (a request to suspend loan payments), while the outbound file represents new loan applications. These are fundamentally different transaction types with minimal field overlap. The inbound file contains payment holiday-specific fields (requestedMonths, startDate, endDate, monthlyPayment) that have no counterpart in a loan application schema. The outbound file requires extensive financial and employment data (credit_score, annual_income, employment_start_date, total_assets, total_liabilities) that are not present in the inbound payment holiday application. While both involve customer and account data, the semantic purpose and required fields are too divergent to constitute a plausible data lineage relationship.",
+  "mappings": []
 }

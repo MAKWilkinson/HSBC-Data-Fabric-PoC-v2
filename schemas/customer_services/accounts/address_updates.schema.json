@@ -8,149 +8,189 @@
   },
   "fields": [
     {
-      "name": "updateId",
-      "data_type": "string",
+      "name": "addressUpdates",
+      "data_type": "array",
       "nullable": false,
-      "description": "Unique identifier for the address update request"
-    },
-    {
-      "name": "customerId",
-      "data_type": "string",
-      "nullable": false,
-      "description": "Unique identifier for the customer associated with the address update"
-    },
-    {
-      "name": "timestamp",
-      "data_type": "datetime",
-      "nullable": false,
-      "description": "Timestamp of when the address update was requested",
-      "fmt": "iso8601"
-    },
-    {
-      "name": "department",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Department that originated the address update request"
-    },
-    {
-      "name": "targetDepartment",
-      "data_type": "string",
-      "nullable": false,
-      "description": "Target department for the address update request"
-    },
-    {
-      "name": "updateType",
-      "data_type": "string",
-      "nullable": false,
-      "description": "Type of address update (e.g., change, correction)",
-      "enum_values": [
-        "address_change",
-        "other"
-      ]
-    },
-    {
-      "name": "previousAddress",
-      "data_type": "object",
-      "nullable": false,
-      "description": "Previous address information for the customer",
+      "description": "Collection of address change records submitted by customer_services for processing by the accounts department",
       "children": [
         {
-          "name": "addressLine1",
-          "data_type": "string",
-          "nullable": true,
-          "description": "First line of the previous address"
-        },
-        {
-          "name": "addressLine2",
-          "data_type": "string",
-          "nullable": true,
-          "description": "Second line of the previous address (if applicable)"
-        },
-        {
-          "name": "city",
+          "name": "updateId",
           "data_type": "string",
           "nullable": false,
-          "description": "City of the previous address"
+          "description": "Unique identifier for this address update record"
         },
         {
-          "name": "postalCode",
-          "data_type": "string",
-          "nullable": true,
-          "description": "Postal code of the previous address"
-        },
-        {
-          "name": "country",
+          "name": "customerId",
           "data_type": "string",
           "nullable": false,
-          "description": "Country of the previous address",
+          "description": "Unique identifier of the customer whose address is being updated"
+        },
+        {
+          "name": "timestamp",
+          "data_type": "timestamp",
+          "nullable": false,
+          "description": "Date and time when the address update was initiated in customer_services",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "department",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Originating department that submitted the address update",
           "enum_values": [
-            "United Kingdom",
-            "other"
+            "customer_services"
+          ]
+        },
+        {
+          "name": "targetDepartment",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Destination department responsible for processing and approving the address update",
+          "enum_values": [
+            "accounts"
+          ]
+        },
+        {
+          "name": "updateType",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Classification of the address modification being requested",
+          "enum_values": [
+            "address_change"
+          ]
+        },
+        {
+          "name": "previousAddress",
+          "data_type": "object",
+          "nullable": false,
+          "description": "The customer's address prior to this update",
+          "children": [
+            {
+              "name": "addressLine1",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Primary street address or building identifier"
+            },
+            {
+              "name": "addressLine2",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Secondary address detail such as suite, floor, or apartment number"
+            },
+            {
+              "name": "city",
+              "data_type": "string",
+              "nullable": false,
+              "description": "City or town name"
+            },
+            {
+              "name": "postalCode",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Postal or ZIP code"
+            },
+            {
+              "name": "country",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Country name"
+            }
+          ]
+        },
+        {
+          "name": "newAddress",
+          "data_type": "object",
+          "nullable": false,
+          "description": "The customer's address after this update",
+          "children": [
+            {
+              "name": "addressLine1",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Primary street address or building identifier"
+            },
+            {
+              "name": "addressLine2",
+              "data_type": "string",
+              "nullable": true,
+              "description": "Secondary address detail such as suite, floor, or apartment number"
+            },
+            {
+              "name": "city",
+              "data_type": "string",
+              "nullable": false,
+              "description": "City or town name"
+            },
+            {
+              "name": "postalCode",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Postal or ZIP code"
+            },
+            {
+              "name": "country",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Country name"
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current approval and processing state of the address update within the accounts department",
+          "enum_values": [
+            "pending_approval",
+            "approved"
+          ]
+        },
+        {
+          "name": "priority",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Processing priority level assigned to this address update",
+          "enum_values": [
+            "normal",
+            "high"
           ]
         }
       ]
     },
     {
-      "name": "newAddress",
+      "name": "metadata",
       "data_type": "object",
       "nullable": false,
-      "description": "New address information for the customer",
+      "description": "Batch-level contextual information about the address updates message",
       "children": [
         {
-          "name": "addressLine1",
-          "data_type": "string",
-          "nullable": true,
-          "description": "First line of the new address"
-        },
-        {
-          "name": "addressLine2",
-          "data_type": "string",
-          "nullable": true,
-          "description": "Second line of the new address (if applicable)"
-        },
-        {
-          "name": "city",
+          "name": "batchId",
           "data_type": "string",
           "nullable": false,
-          "description": "City of the new address"
+          "description": "Unique identifier for this batch of address updates"
         },
         {
-          "name": "postalCode",
-          "data_type": "string",
-          "nullable": true,
-          "description": "Postal code of the new address"
+          "name": "totalRecords",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Count of address update records contained in this batch"
         },
         {
-          "name": "country",
+          "name": "generatedAt",
+          "data_type": "timestamp",
+          "nullable": false,
+          "description": "Date and time when the batch message was generated",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "source",
           "data_type": "string",
           "nullable": false,
-          "description": "Country of the new address",
+          "description": "System or department that generated this batch",
           "enum_values": [
-            "United Kingdom",
-            "other"
+            "customer_services"
           ]
         }
-      ]
-    },
-    {
-      "name": "status",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Current status of the address update request (e.g., pending, approved)",
-      "enum_values": [
-        "pending",
-        "approved",
-        "rejected"
-      ]
-    },
-    {
-      "name": "priority",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Priority level of the address update request (e.g., normal, high)",
-      "enum_values": [
-        "normal",
-        "high"
       ]
     }
   ]

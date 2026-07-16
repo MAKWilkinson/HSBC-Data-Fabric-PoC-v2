@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
   "outbound_schema": {
     "source": {
@@ -19,91 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "affa3aa27b3800ff"
+    "fingerprint": "d302878353e5eda9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as account numbers, customer information, and repayment details, making them plausibly connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "fileId",
-      "sources": [
-        "repaymentId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "sentDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "fromDepartment",
-      "sources": [
-        "department.from"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "toDepartment",
-      "sources": [
-        "department.to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "repayments[].accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "overdraftLimit",
-      "sources": [
-        "totalAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "overdraftUsed",
-      "sources": [
-        "repayments[].repaymentAmount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "usagePercent",
-      "sources": [
-        "repayments[].repaymentAmount",
-        "totalAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains monthly repayment instructions (direct debit collections from customers), while the outbound file reports overdraft facility usage and limits. These represent fundamentally different business concepts with no meaningful field overlap. The inbound file has no fields describing overdraft limits, overdraft usage, or usage percentages. While both files involve bank accounts and flow between Credit and Accounts systems, the data domains are distinct and unrelated.",
+  "mappings": []
 }

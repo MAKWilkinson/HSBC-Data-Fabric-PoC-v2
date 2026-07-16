@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/sanctions_list_hit.schema.json",
-    "fingerprint": "af91b511895fb246"
+    "fingerprint": "a400be36b720540e"
   },
   "outbound_schema": {
     "source": {
@@ -19,164 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's 'sanctionsListHit' object and the outbound file's 'repayments' array share similar concepts of entity matching and account information.",
-  "mappings": [
-    {
-      "outbound_field": "repaymentId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the inbound file's 'messageId'."
-    },
-    {
-      "outbound_field": "batchDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of date as the inbound file's 'timestamp'."
-    },
-    {
-      "outbound_field": "department.from",
-      "sources": [
-        "source"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the inbound file's 'source'."
-    },
-    {
-      "outbound_field": "department.to",
-      "sources": [
-        "destination"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the inbound file's 'destination'."
-    },
-    {
-      "outbound_field": "repayments.accountNumber",
-      "sources": [
-        "sanctionsListHit.matchedEntity.entityId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of account number as the inbound file's 'entityId'."
-    },
-    {
-      "outbound_field": "repayments.customerId",
-      "sources": [
-        "sanctionsListHit.matchedEntity.entityType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of customer ID as the inbound file's 'entityType'."
-    },
-    {
-      "outbound_field": "repayments.customerName",
-      "sources": [
-        "sanctionsListHit.matchedEntity.name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of customer name as the inbound file's 'name'."
-    },
-    {
-      "outbound_field": "repayments.loanId",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].listName"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of loan ID as the inbound file's 'listName'."
-    },
-    {
-      "outbound_field": "repayments.repaymentAmount",
-      "sources": [
-        "sanctionsListHit.riskFactors"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of repayment amount as the inbound file's 'riskFactors'."
-    },
-    {
-      "outbound_field": "repayments.currency",
-      "sources": [
-        "sanctionsListHit.matchedEntity.nationality"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of currency as the inbound file's 'nationality'."
-    },
-    {
-      "outbound_field": "repayments.dueDate",
-      "sources": [
-        "sanctionsListHit.reviewDetails.reviewDeadline"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of due date as the inbound file's 'reviewDeadline'."
-    },
-    {
-      "outbound_field": "repayments.directDebitMandateId",
-      "sources": [
-        "sanctionsListHit.auditTrail.detectionTimestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of direct debit mandate ID as the inbound file's 'detectionTimestamp'."
-    },
-    {
-      "outbound_field": "repayments.repaymentStatus",
-      "sources": [
-        "sanctionsListHit.status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of repayment status as the inbound file's 'status'."
-    },
-    {
-      "outbound_field": "repayments.repaymentType",
-      "sources": [
-        "sanctionsListHit.riskFactors"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of repayment type as the inbound file's 'riskFactors'."
-    },
-    {
-      "outbound_field": "totalAmount",
-      "sources": [
-        "sanctionsListHit.sanctionListsMatched[].matchScore"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of total amount as the inbound file's 'matchScore'."
-    },
-    {
-      "outbound_field": "recordCount",
-      "sources": [
-        "sanctionsListHit.matchedEntity.identificationDocuments"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of record count as the inbound file's 'identificationDocuments'."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "sanctionsListHit.auditTrail.detectionTimestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept of timestamp as the inbound file's 'detectionTimestamp'."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.08,
+  "relatedness_reasoning": "The inbound file contains sanctions screening hit notifications with compliance review and entity matching data; the outbound file contains monthly loan repayment direct debit instructions. These serve fundamentally different business purposes (compliance/risk vs. collections/payments) with no meaningful field overlap beyond generic identifiers and timestamps. The account numbers present in both files serve entirely different contexts (frozen sanctioned accounts vs. active repayment accounts), and there is no logical data flow from sanctions detection to repayment processing.",
+  "mappings": []
 }

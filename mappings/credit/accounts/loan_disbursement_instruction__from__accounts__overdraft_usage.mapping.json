@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "affa3aa27b3800ff"
+    "fingerprint": "d302878353e5eda9"
   },
   "outbound_schema": {
     "source": {
@@ -19,45 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like account numbers, but the systems and message types don't form a clear pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
-      "sources": [
-        "accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
-      "sources": [
-        "overdraftUsed"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].disbursement_date",
-      "sources": [
-        "sentDate"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].destination_account",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file reports overdraft usage metrics from Accounts to Credit for assessment purposes, while the outbound file contains loan disbursement instructions from Credit back to Accounts for fund transfer execution. These represent opposite data flows addressing fundamentally different business processes (overdraft monitoring vs. loan disbursement), with no overlapping field concepts beyond generic account identifiers. The outbound file contains loan contract details, borrower information, and disbursement logistics that have no source in the inbound overdraft usage schema.",
+  "mappings": []
 }

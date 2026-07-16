@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "1f4d1b6218c95405"
+    "fingerprint": "cfc8d72f9e643a69"
   },
   "outbound_schema": {
     "source": {
@@ -19,29 +19,72 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
   "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share similar concepts, such as settlement transactions and debit/credit instructions, which could be connected by data lineage.",
+  "relatedness_confidence": 0.82,
+  "relatedness_reasoning": "Inbound funds_settlement.json from Accounts to Investments describes fund transfers; outbound debit_credit_instruction.json from Investments back to Accounts logically represents the reverse flow of instructions to settle those transfers. Both share fund identifiers, amounts, currencies, timestamps, and approval metadata, forming a coherent bidirectional pipeline.",
   "mappings": [
+    {
+      "outbound_field": "debit_credit_instructions[].instruction_id",
+      "sources": [
+        "settlement_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.75,
+      "reasoning": "Both are batch-level unique identifiers; instruction_id is the outbound equivalent of settlement_id."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].timestamp",
+      "sources": [
+        "approval_timestamp"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Batch creation timestamp most likely corresponds to the settlement approval_timestamp."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].source_department",
+      "sources": [
+        "to_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound to_department is 'Investments'; outbound source_department is 'investments' (the originator of the return instruction)."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].target_department",
+      "sources": [
+        "from_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound from_department is 'Accounts'; outbound target_department is 'accounts' (the receiver of the instruction)."
+    },
     {
       "outbound_field": "debit_credit_instructions[].instructions[].transaction_id",
       "sources": [
-        "settlements[].fund_id"
+        "settlements[].reference"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The transaction ID is renamed from fund ID."
+      "confidence": 0.75,
+      "reasoning": "Individual transaction reference from inbound settlement becomes transaction_id in outbound instruction."
     },
     {
       "outbound_field": "debit_credit_instructions[].instructions[].account_number",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No account_number or IBAN field exists in inbound schema; likely sourced from external account master data."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].instruction_type",
       "sources": [
-        "settlements[].fund_name"
+        "settlements[].transaction_type"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The account number is derived from the fund name."
+      "confidence": 0.7,
+      "reasoning": "Inbound transaction_type is 'transfer_in'; outbound instruction_type would be 'credit' (money in to accounts system)."
     },
     {
       "outbound_field": "debit_credit_instructions[].instructions[].amount",
@@ -49,8 +92,112 @@
         "settlements[].amount"
       ],
       "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The amount is copied exactly from the settlement transaction."
+      "confidence": 0.95,
+      "reasoning": "Individual fund transfer amount maps directly to instruction amount."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].currency",
+      "sources": [
+        "currency"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Settlement currency (GBP) applies to all instructions in the batch."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].description",
+      "sources": [
+        "notes"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.65,
+      "reasoning": "Inbound notes field provides optional context; outbound description field contains business narrative for the transaction."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].fund_id",
+      "sources": [
+        "settlements[].fund_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Fund identifier is preserved from inbound settlement to outbound instruction."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].fund_name",
+      "sources": [
+        "settlements[].fund_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Fund name is preserved from inbound settlement to outbound instruction."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].effective_date",
+      "sources": [
+        "settlement_date"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.75,
+      "reasoning": "Settlement business date becomes the effective execution date for the instruction."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].instructions[].status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Outbound status is 'pending' (instruction state); inbound settlement_status is 'completed' (different lifecycle stage)."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].total_debit_amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.8,
+      "reasoning": "No debit/credit split exists in inbound; total_amount is undifferentiated and cannot be decomposed."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].total_credit_amount",
+      "sources": [
+        "total_amount"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Inbound total_amount represents credits (transfers in to Investments); outbound total_credit_amount is the sum of credit instructions."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].batch_reference",
+      "sources": [
+        "settlement_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.75,
+      "reasoning": "Settlement ID serves as the batch reference for reconciliation and audit."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].approval_status",
+      "sources": [
+        "settlement_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Inbound settlement_status 'completed' implies approval; outbound approval_status is 'approved'."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].approver",
+      "sources": [
+        "approved_by"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Email address of the approver is preserved from inbound to outbound."
+    },
+    {
+      "outbound_field": "debit_credit_instructions[].approval_timestamp",
+      "sources": [
+        "approval_timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Approval timestamp is preserved from inbound settlement to outbound instruction batch."
     }
   ]
 }

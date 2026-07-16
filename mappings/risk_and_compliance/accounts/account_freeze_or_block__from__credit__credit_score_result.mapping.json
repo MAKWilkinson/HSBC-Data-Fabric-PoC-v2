@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
   "outbound_schema": {
     "source": {
@@ -19,88 +19,256 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.78,
+  "relatedness_reasoning": "The inbound credit_score_result contains risk indicators, fraud assessment, and compliance flags that directly inform account freeze/block decisions in the outbound file. The system pipeline (credit \u2192 risk_and_compliance \u2192 accounts) is logical, and multiple fields map semantically (customer identity, risk/fraud assessment, compliance concerns).",
   "mappings": [
-    {
-      "outbound_field": "account.accountNumber",
-      "sources": [
-        "customer.account_number"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "account.accountHolder",
-      "sources": [
-        "customer.name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
     {
       "outbound_field": "messageId",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "reasoning": "System-generated message identifier with no source in inbound schema."
     },
     {
       "outbound_field": "timestamp",
       "sources": [
-        "timestamp"
+        "credit_score_result.timestamp"
       ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Outbound timestamp likely derived from or set relative to the inbound assessment timestamp."
     },
     {
       "outbound_field": "source",
       "sources": [
-        "destination_department"
+        "credit_score_result.destination_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Inbound destination_department is 'risk_and_compliance', which becomes the source of the outbound message."
+    },
+    {
+      "outbound_field": "destination",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound destination 'accounts' is not present in inbound schema; determined by routing logic."
+    },
+    {
+      "outbound_field": "messageType",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Message type 'account_freeze_or_block' is determined by outbound system logic, not sourced from inbound."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "credit_score_result.risk_indicators.fraud_risk"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "High priority likely triggered by fraud risk assessment in inbound data."
+    },
+    {
+      "outbound_field": "action",
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level",
+        "credit_score_result.risk_indicators.fraud_risk"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Freeze action is triggered by high-risk indicators (fraud or default risk) in the inbound assessment."
+    },
+    {
+      "outbound_field": "account.accountNumber",
+      "sources": [
+        "credit_score_result.customer.account_number"
       ],
       "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "confidence": 0.95,
+      "reasoning": "Direct mapping from inbound IBAN account number to outbound accountNumber field."
+    },
+    {
+      "outbound_field": "account.accountHolder",
+      "sources": [
+        "credit_score_result.customer.name"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Customer name from inbound becomes accountHolder in outbound."
     },
     {
       "outbound_field": "account.accountType",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.8,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.95,
+      "reasoning": "Account type 'Current Account' is not present in inbound schema; determined by accounts system."
+    },
+    {
+      "outbound_field": "account.currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Currency code is not present in inbound schema; determined by accounts system."
+    },
+    {
+      "outbound_field": "account.branch",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Branch location is not present in inbound schema; determined by accounts system."
     },
     {
       "outbound_field": "freezeDetails.freezeType",
-      "sources": [
-        "credit_assessment.recommended_action"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Freeze type 'full' is determined by risk_and_compliance policy, not sourced from inbound."
     },
     {
-      "outbound_field": "escalation.level",
+      "outbound_field": "freezeDetails.reason",
       "sources": [
-        "credit_assessment.payment_history_score"
+        "credit_score_result.risk_indicators.fraud_risk"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Freeze reason 'suspected_fraud' is derived from inbound fraud_risk assessment."
+    },
+    {
+      "outbound_field": "freezeDetails.description",
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level",
+        "credit_score_result.risk_indicators.compliance_flags",
+        "credit_score_result.risk_indicators.regulatory_concerns"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.75,
+      "reasoning": "Description narrative combines risk level, compliance flags, and regulatory concerns from inbound."
+    },
+    {
+      "outbound_field": "freezeDetails.initiatedBy",
+      "sources": [
+        "credit_score_result.reviewed_by"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Initiator may be the analyst or system that reviewed the credit assessment."
+    },
+    {
+      "outbound_field": "freezeDetails.department",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Department 'Fraud Investigation Unit' is determined by risk_and_compliance internal organization, not in inbound."
+    },
+    {
+      "outbound_field": "freezeDetails.effectiveFrom",
+      "sources": [
+        "credit_score_result.timestamp"
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "reasoning": "Effective date likely set to or derived from the inbound assessment timestamp."
+    },
+    {
+      "outbound_field": "restrictions.allowIncomingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Restriction policy is determined by risk_and_compliance rules, not sourced from inbound."
+    },
+    {
+      "outbound_field": "restrictions.allowOutgoingTransfers",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Restriction policy is determined by risk_and_compliance rules, not sourced from inbound."
+    },
+    {
+      "outbound_field": "restrictions.allowWithdrawals",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Restriction policy is determined by risk_and_compliance rules, not sourced from inbound."
+    },
+    {
+      "outbound_field": "restrictions.allowCardTransactions",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Restriction policy is determined by risk_and_compliance rules, not sourced from inbound."
+    },
+    {
+      "outbound_field": "restrictions.allowCheques",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Restriction policy is determined by risk_and_compliance rules, not sourced from inbound."
+    },
+    {
+      "outbound_field": "escalation.level",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Escalation level is determined by risk_and_compliance approval workflow, not in inbound."
+    },
+    {
+      "outbound_field": "escalation.requiresApproval",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Approval requirement is determined by risk_and_compliance policy, not sourced from inbound."
+    },
+    {
+      "outbound_field": "escalation.approvalDeadline",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Approval deadline is determined by risk_and_compliance workflow, not in inbound."
+    },
+    {
+      "outbound_field": "escalation.complianceOfficer",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Assigned compliance officer is determined by risk_and_compliance routing, not in inbound."
     },
     {
       "outbound_field": "additionalInfo.caseReference",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Case reference is generated by risk_and_compliance case management system, not in inbound."
+    },
+    {
+      "outbound_field": "additionalInfo.riskScore",
       "sources": [
-        "result_id"
+        "credit_score_result.credit_score.score",
+        "credit_score_result.credit_assessment.utilization_rate"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Risk score is computed from credit score and utilization metrics, normalized to percentage format."
+    },
+    {
+      "outbound_field": "additionalInfo.customerNotificationSent",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Notification status is determined by outbound system execution, not sourced from inbound."
+    },
+    {
+      "outbound_field": "additionalInfo.regulatoryReporting",
+      "sources": [
+        "credit_score_result.risk_indicators.regulatory_concerns"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Regulatory reporting flag is set based on presence of regulatory concerns in inbound assessment."
     }
   ]
 }

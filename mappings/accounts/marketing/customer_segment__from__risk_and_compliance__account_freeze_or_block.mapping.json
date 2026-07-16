@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/account_freeze_or_block.schema.json",
-    "fingerprint": "7e5b29ca2090b35d"
+    "fingerprint": "e1c9147687113059"
   },
   "outbound_schema": {
     "source": {
@@ -19,47 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's account details, freeze details, and escalation information seem to be used as input for the outbound file's customer segments and summary statistics.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Timestamp field copied exactly from inbound to outbound."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Account number renamed as segment ID in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "account.accountType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Account type used to determine customer segment name."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "account.accountHolder"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Total customers calculated by counting account holders in the inbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains account freeze/block compliance actions with detailed restrictions and escalation workflows, while the outbound file contains customer segmentation metrics and product holdings for marketing purposes. These represent fundamentally different business domains (compliance/risk vs. marketing analytics) with no overlapping field concepts, incompatible data structures, and no plausible transformation pathway between them.",
+  "mappings": []
 }

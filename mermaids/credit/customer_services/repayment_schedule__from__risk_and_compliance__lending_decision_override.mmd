@@ -1,20 +1,19 @@
 flowchart LR
   subgraph IN["risk_and_compliance: lending_decision_override"]
-    in_payload_customerId["payload.customerId"]
     in_payload_loanApplicationId["payload.loanApplicationId"]
+    in_payload_customerId["payload.customerId"]
+    in_payload_loanDetails_productType["payload.loanDetails.productType"]
     in_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
-    in_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
     in_payload_loanDetails_loanTerm["payload.loanDetails.loanTerm"]
-    in_timestamp["timestamp"]
-    in_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
     in_payload_loanDetails_currency["payload.loanDetails.currency"]
-    in_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
-    in_payload_riskAssessmentDetails_yearsOfIncome["payload.riskAssessmentDetails.yearsOfIncome"]
+    in_timestamp["timestamp"]
+    in_destination["destination"]
   end
   subgraph OUT["credit: repayment_schedule"]
-    out_repayment_schedule_customer_id["repayment_schedule.customer_id"]
     out_repayment_schedule_loan_id["repayment_schedule.loan_id"]
+    out_repayment_schedule_customer_id["repayment_schedule.customer_id"]
     out_repayment_schedule_customer_name["repayment_schedule.customer_name"]
+    out_repayment_schedule_loan_type["repayment_schedule.loan_type"]
     out_repayment_schedule_principal_amount["repayment_schedule.principal_amount"]
     out_repayment_schedule_interest_rate["repayment_schedule.interest_rate"]
     out_repayment_schedule_loan_term_months["repayment_schedule.loan_term_months"]
@@ -26,17 +25,31 @@ flowchart LR
     out_repayment_schedule_repayment_frequency["repayment_schedule.repayment_frequency"]
     out_repayment_schedule_total_repayments["repayment_schedule.total_repayments"]
     out_repayment_schedule_repayments["repayment_schedule.repayments"]
+    out_repayment_schedule_repayments___payment_number["repayment_schedule.repayments[].payment_number"]
+    out_repayment_schedule_repayments___due_date["repayment_schedule.repayments[].due_date"]
+    out_repayment_schedule_repayments___principal_payment["repayment_schedule.repayments[].principal_payment"]
+    out_repayment_schedule_repayments___interest_payment["repayment_schedule.repayments[].interest_payment"]
+    out_repayment_schedule_repayments___total_payment["repayment_schedule.repayments[].total_payment"]
+    out_repayment_schedule_repayments___outstanding_balance["repayment_schedule.repayments[].outstanding_balance"]
+    out_repayment_schedule_repayments___status["repayment_schedule.repayments[].status"]
+    out_repayment_schedule_summary_total_amount_payable["repayment_schedule.summary.total_amount_payable"]
+    out_repayment_schedule_summary_total_interest["repayment_schedule.summary.total_interest"]
+    out_repayment_schedule_summary_amount_paid_to_date["repayment_schedule.summary.amount_paid_to_date"]
+    out_repayment_schedule_summary_next_payment_due["repayment_schedule.summary.next_payment_due"]
+    out_repayment_schedule_summary_next_payment_amount["repayment_schedule.summary.next_payment_amount"]
+    out_repayment_schedule_metadata_source_system["repayment_schedule.metadata.source_system"]
+    out_repayment_schedule_metadata_destination_system["repayment_schedule.metadata.destination_system"]
+    out_repayment_schedule_metadata_message_id["repayment_schedule.metadata.message_id"]
+    out_repayment_schedule_metadata_timestamp["repayment_schedule.metadata.timestamp"]
   end
+  in_payload_loanApplicationId -->|RENAMED| out_repayment_schedule_loan_id
   in_payload_customerId -->|EXACT| out_repayment_schedule_customer_id
-  in_payload_loanApplicationId -->|EXACT| out_repayment_schedule_loan_id
-  in_payload_customerId -->|SEMANTIC| out_repayment_schedule_customer_name
-  in_payload_loanDetails_loanAmount -->|TRANSFORMED| out_repayment_schedule_principal_amount
-  in_payload_riskAssessmentDetails_creditScore -->|SEMANTIC| out_repayment_schedule_interest_rate
-  in_payload_loanDetails_loanTerm -->|EXACT| out_repayment_schedule_loan_term_months
-  in_timestamp -->|SEMANTIC| out_repayment_schedule_start_date
-  in_payload_overrideApprovalDetails_approvalDate -->|SEMANTIC| out_repayment_schedule_maturity_date
+  in_payload_loanDetails_productType -->|SEMANTIC| out_repayment_schedule_loan_type
+  in_payload_loanDetails_loanAmount -->|RENAMED| out_repayment_schedule_principal_amount
+  in_payload_loanDetails_loanTerm -->|RENAMED| out_repayment_schedule_loan_term_months
   in_payload_loanDetails_currency -->|EXACT| out_repayment_schedule_currency
   in_timestamp -->|SEMANTIC| out_repayment_schedule_generated_date
-  in_payload_riskAssessmentDetails_mitigatingFactors -->|SEMANTIC| out_repayment_schedule_repayment_frequency
-  in_payload_riskAssessmentDetails_yearsOfIncome -->|SEMANTIC| out_repayment_schedule_total_repayments
-  in_payload_riskAssessmentDetails_mitigatingFactors -->|MERGE| out_repayment_schedule_repayments
+  in_payload_loanDetails_loanTerm -->|TRANSFORMED| out_repayment_schedule_total_repayments
+  in_payload_loanDetails_loanAmount -->|TRANSFORMED| out_repayment_schedule_repayments
+  in_payload_loanDetails_loanTerm -->|TRANSFORMED| out_repayment_schedule_repayments
+  in_destination -->|SEMANTIC| out_repayment_schedule_metadata_source_system

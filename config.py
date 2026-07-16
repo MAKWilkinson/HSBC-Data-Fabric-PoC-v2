@@ -225,7 +225,6 @@ class AnthropicLLMClient(LLMClient):
     ...
 
 
-import boto3
 
 
 class BedrockLLMClient(LLMClient):
@@ -238,15 +237,12 @@ class BedrockLLMClient(LLMClient):
 
     _DEFAULTS: dict[str, Any] = {
         # Client Params
-        "aws_region": "us-east-1",
+        "aws_region": "eu-west-2",
         "request_timeout": 600,
 
-        # Message Response Params
-        # NOTE: must be an inference profile ID, not the base model ID.
-        # "us." for US regional routing, "global." for cross-region.
-        "model": "global.anthropic.claude-fable-5",
+        "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
         "temperature": 0.0,
-        "max_tokens": 4096,
+        "max_tokens": 8192,
 
         # Pipeline threshold for schema validation
         "confidence_threshold": 0.7,
@@ -295,25 +291,44 @@ class BedrockLLMClient(LLMClient):
         self._config = config
 
     def chat(self, prompt: str) -> str:
-        """Single prompt in, response text out — same contract as Ollama's chat."""
-        response = self._client.converse(
-            modelId=self._config["model"],
-            messages=[{"role": "user", "content": [{"text": prompt}]}],
-            inferenceConfig={
-                "temperature": self._config["temperature"],
-                "maxTokens": self._config["max_tokens"],
-            },
-        )
+            """Single prompt in, response text out — same contract as Ollama's chat."""
+            logger.info(
+                "Bedrock request: model=%s region=%s prompt_chars=%d",
+                self._config["model"], self._config["aws_region"], len(prompt),
+            )
 
-        # Fable 5 can decline requests: the API returns HTTP 200 with a
-        # refusal stop reason rather than an error. Raise so call_llm's
-        # retry/error path handles it instead of extract_json choking.
-        stop_reason = response.get("stopReason", "")
-        if stop_reason == "refusal":
-            raise RuntimeError(f"Model refused the request (stopReason={stop_reason})")
+            response = self._client.converse(
+                modelId=self._config["model"],
+                messages=[{"role": "user", "content": [{"text": prompt}]}],
+                inferenceConfig={
+                    "temperature": self._config["temperature"],
+                    "maxTokens": self._config["max_tokens"],
+                },
+            )
 
-        blocks = response["output"]["message"]["content"]
-        return "".join(b["text"] for b in blocks if "text" in b)
+            stop_reason = response.get("stopReason", "")
+            usage = response.get("usage", {})
+            logger.info(
+                "Bedrock response: stopReason=%s inputTokens=%s outputTokens=%s",
+                stop_reason, usage.get("inputTokens"), usage.get("outputTokens"),
+            )
+
+            # Fable 5 can decline requests: the API returns HTTP 200 with a
+            # refusal stop reason rather than an error. Raise so call_llm's
+            # retry/error path handles it instead of extract_json choking.
+            if stop_reason == "refusal":
+                raise RuntimeError(f"Model refused the request (stopReason={stop_reason})")
+
+            blocks = response["output"]["message"]["content"]
+            text = "".join(b["text"] for b in blocks if "text" in b)
+
+            if not text:
+                raise RuntimeError(
+                    f"Bedrock returned no text content "
+                    f"(stopReason={stop_reason!r}, blocks={[list(b.keys()) for b in blocks]})"
+                )
+
+            return text
 
     
 class HSBCLLMClient(LLMClient):
@@ -355,7 +370,7 @@ def get_llm_client(provider: str = "bedrock", config_path: Path | None = None) -
         return AnthropicLLMClient(config)
     elif provider == "bedrock":
         config = BedrockLLMClient.load_config(config_path)
-        return AnthropicLLMClient(config)
+        return BedrockLLMClient(config)
     elif provider == "hsbc":
         config = HSBCLLMClient.load_config(config_path)
         return HSBCLLMClient(config)

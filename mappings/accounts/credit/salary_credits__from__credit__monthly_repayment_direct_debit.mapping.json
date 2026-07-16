@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
   "outbound_schema": {
     "source": {
@@ -19,90 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like department, repayment, and customer information, which could be transformed into salary credits.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "repaymentId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from repaymentId to transaction_id."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "repaymentAmount"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from repaymentAmount to amount."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning."
-    },
-    {
-      "outbound_field": "employee.employee_id",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from customerId to employee.employee_id."
-    },
-    {
-      "outbound_field": "employee.name",
-      "sources": [
-        "customerName"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from customerName to employee.name."
-    },
-    {
-      "outbound_field": "department_from.name",
-      "sources": [
-        "department.from"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from department.from to department_from.name."
-    },
-    {
-      "outbound_field": "department_to.name",
-      "sources": [
-        "department.to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from department.to to department_to.name."
-    },
-    {
-      "outbound_field": "authorizer.name",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "Inbound file contains loan repayment instructions from Credit to Accounts; outbound file contains salary credit transactions from Accounts to Credit. These are opposite transaction types (debt collection vs. income credit) with fundamentally different purposes, no overlapping field semantics, and no plausible data transformation pathway between them.",
+  "mappings": []
 }

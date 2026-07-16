@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "outbound_schema": {
     "source": {
@@ -19,133 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's transaction hold notice fields, such as account number and customer name, could be used to generate a customer segment in the outbound file.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source",
-      "sources": [
-        "department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The department field from the inbound file is renamed to metadata.source in the outbound file."
-    },
-    {
-      "outbound_field": "metadata.destination",
-      "sources": [
-        "recipientDepartment"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The recipientDepartment field from the inbound file is renamed to metadata.destination in the outbound file."
-    },
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The timestamp field from the inbound file is copied exactly into the outbound file."
-    },
-    {
-      "outbound_field": "metadata.message_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists in the inbound file; likely system-generated."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "noticeId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The noticeId field from the inbound file is renamed to segments[].segment_id in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "noticeType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The noticeType field from the inbound file captures a similar concept to the segment name in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].description",
-      "sources": [
-        "notes"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The notes field from the inbound file captures a similar concept to the description in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].customer_count",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the customer count in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_account_balance",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the average account balance in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_monthly_transactions",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the average monthly transactions in the outbound file."
-    },
-    {
-      "outbound_field": "segments[].product_holding",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the product holding in the outbound file."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the total customers in the outbound file."
-    },
-    {
-      "outbound_field": "summary.total_assets_under_management",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The transactionsAffected field from the inbound file captures a similar concept to the total assets under management in the outbound file."
-    },
-    {
-      "outbound_field": "summary.report_period",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists in the inbound file; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains transaction hold notices with risk/compliance data, while the outbound file contains customer segmentation and marketing metrics. These serve fundamentally different purposes: one is operational/compliance-focused (blocking transactions), the other is analytical/marketing-focused (customer classification). No meaningful field overlap exists between transaction holds and customer segments.",
+  "mappings": []
 }

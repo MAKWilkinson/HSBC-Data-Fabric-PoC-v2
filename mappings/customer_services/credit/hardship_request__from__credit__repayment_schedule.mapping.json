@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
   "outbound_schema": {
     "source": {
@@ -19,29 +19,43 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "adeb1bfab0ab8d0e"
+    "fingerprint": "5424ceabfa455be7"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, loan details, and repayment schedules, which suggests a plausible connection between them.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files involve the same customer and loan context; the inbound repayment_schedule provides loan and customer details that a hardship request would naturally reference. The outbound file requests relief based on loan obligations visible in the inbound schedule. Systems form a logical pipeline: credit \u2192 customer_services \u2192 credit.",
   "mappings": [
     {
       "outbound_field": "request_id",
-      "sources": [
-        "repayment_schedule.loan_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The request ID is likely derived from the loan ID."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent field in inbound; system-generated unique identifier for the hardship request."
     },
     {
       "outbound_field": "timestamp",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Represents submission time of hardship request, not present in inbound repayment schedule."
+    },
+    {
+      "outbound_field": "source_department",
       "sources": [
-        "repayment_schedule.generated_date"
+        "repayment_schedule.metadata.destination_system"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The timestamp in the outbound file captures a similar concept to the generated date in the inbound file."
+      "confidence": 0.75,
+      "reasoning": "Inbound destination_system is 'Customer Services', which maps to source_department enum value 'customer_services'."
+    },
+    {
+      "outbound_field": "target_department",
+      "sources": [
+        "repayment_schedule.metadata.source_system"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound source_system is 'Credit Department', which maps to target_department enum value 'credit'."
     },
     {
       "outbound_field": "customer_id",
@@ -49,8 +63,8 @@
         "repayment_schedule.customer_id"
       ],
       "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "The customer ID is copied exactly from the inbound file."
+      "confidence": 0.99,
+      "reasoning": "Identical field name and meaning; customer identifier carried forward from inbound schedule."
     },
     {
       "outbound_field": "customer_name",
@@ -58,134 +72,117 @@
         "repayment_schedule.customer_name"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The customer name is copied exactly from the inbound file."
+      "confidence": 0.99,
+      "reasoning": "Identical field name and meaning; customer full name carried forward from inbound schedule."
     },
     {
       "outbound_field": "account_number",
-      "sources": [
-        "repayment_schedule.repayments[].payment_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The account number in the outbound file captures a similar concept to the payment numbers in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "IBAN account number not present in inbound repayment schedule; would be sourced from a separate customer account system."
     },
     {
       "outbound_field": "request_type",
-      "sources": [
-        "repayment_schedule.repayment_frequency"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The request type in the outbound file captures a similar concept to the repayment frequency in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Fixed enum value 'hardship_assistance' is a classification of the outbound message type, not derived from inbound data."
     },
     {
       "outbound_field": "hardship_reason",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The hardship reason in the outbound file captures a similar concept to the repayment status in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Customer's stated reason for hardship is not present in the inbound repayment schedule; provided by customer in the request."
+    },
+    {
+      "outbound_field": "hardship_severity",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Severity assessment is not present in inbound schedule; would be determined by customer_services system based on customer input."
     },
     {
       "outbound_field": "monthly_income",
-      "sources": [
-        "repayment_schedule.repayments[].principal_payment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The monthly income in the outbound file captures a similar concept to the principal payments in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Customer's declared monthly income is not present in the inbound repayment schedule; provided by customer in the hardship request."
     },
     {
       "outbound_field": "monthly_expenses",
-      "sources": [
-        "repayment_schedule.repayments[].interest_payment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The monthly expenses in the outbound file captures a similar concept to the interest payments in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Customer's declared monthly expenses are not present in the inbound repayment schedule; provided by customer in the hardship request."
     },
     {
       "outbound_field": "outstanding_balance",
       "sources": [
         "repayment_schedule.repayments[].outstanding_balance"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The outstanding balance is copied exactly from the inbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound array contains outstanding_balance for each repayment; outbound field likely derives from the most recent or current outstanding balance in the schedule."
     },
     {
       "outbound_field": "monthly_payment_amount",
       "sources": [
-        "repayment_schedule.repayments[].total_payment"
+        "repayment_schedule.summary.next_payment_amount"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The monthly payment amount in the outbound file captures a similar concept to the total payments in the inbound file."
+      "confidence": 0.75,
+      "reasoning": "Inbound next_payment_amount represents the current contractual monthly payment obligation."
     },
     {
       "outbound_field": "requested_relief_type",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The requested relief type in the outbound file captures a similar concept to the repayment status in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Array of relief options requested by customer is not present in inbound repayment schedule; provided by customer in the hardship request."
     },
     {
       "outbound_field": "requested_duration_months",
-      "sources": [
-        "repayment_schedule.repayments[].payment_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The requested duration months in the outbound file captures a similar concept to the payment numbers in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Duration of requested relief is not present in inbound repayment schedule; specified by customer in the hardship request."
     },
     {
       "outbound_field": "supporting_documents",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The supporting documents in the outbound file captures a similar concept to the repayment status in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Supporting document filenames are not present in inbound repayment schedule; provided by customer with the hardship request."
     },
     {
       "outbound_field": "contact_number",
-      "sources": [
-        "repayment_schedule.repayments[].customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The contact number in the outbound file captures a similar concept to the customer name in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Customer contact phone number is not present in inbound repayment schedule; would be sourced from customer profile system."
     },
     {
       "outbound_field": "contact_email",
-      "sources": [
-        "repayment_schedule.repayments[].customer_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The contact email in the outbound file captures a similar concept to the customer name in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Customer contact email is not present in inbound repayment schedule; would be sourced from customer profile system."
     },
     {
       "outbound_field": "priority",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The priority in the outbound file captures a similar concept to the repayment status in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Processing priority is assigned by customer_services system based on hardship assessment, not present in inbound schedule."
     },
     {
       "outbound_field": "status",
-      "sources": [
-        "repayment_schedule.repayments[].status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The status is copied exactly from the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Workflow status 'pending_credit_review' is assigned by customer_services system upon request creation, not derived from inbound data."
     }
   ]
 }

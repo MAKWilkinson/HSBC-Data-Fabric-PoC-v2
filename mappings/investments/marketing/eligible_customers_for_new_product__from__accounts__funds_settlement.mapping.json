@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "1f4d1b6218c95405"
+    "fingerprint": "cfc8d72f9e643a69"
   },
   "outbound_schema": {
     "source": {
@@ -19,97 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/marketing/eligible_customers_for_new_product.schema.json",
-    "fingerprint": "317394ffaaa6bd66"
+    "fingerprint": "395d11e98c3c6d0c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, product names, and dates, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source_department",
-      "sources": [
-        "from_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as from_department in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "metadata.target_department",
-      "sources": [
-        "to_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same concept as to_department in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "metadata.product_name",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely product-specific information."
-    },
-    {
-      "outbound_field": "metadata.generated_date",
-      "sources": [
-        "settlement_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as settlement_date in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "metadata.eligibility_criteria",
-      "sources": [
-        "settlement_status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as settlement_status in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "eligible_customers[].customer_id",
-      "sources": [
-        "settlements[].fund_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as fund_id in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "eligible_customers[].customer_name",
-      "sources": [
-        "settlements[].fund_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same concept as fund_name in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "eligible_customers[].email",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely email information not present in the settlement data."
-    },
-    {
-      "outbound_field": "summary.total_eligible_customers",
-      "sources": [
-        "settlements.length"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as settlements length in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "summary.total_eligible_assets",
-      "sources": [
-        "total_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as total_amount in the inbound file, but with a different name."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains fund settlement transaction data (transfers between Accounts and Investments departments), while the outbound file contains customer eligibility profiles for marketing a specific investment product. There is no field overlap, no shared identifiers, and the data structures serve fundamentally different purposes: one tracks fund movements, the other tracks customer attributes for marketing segmentation. The outbound file would require customer master data and behavioral history not present in the inbound settlement file.",
+  "mappings": []
 }

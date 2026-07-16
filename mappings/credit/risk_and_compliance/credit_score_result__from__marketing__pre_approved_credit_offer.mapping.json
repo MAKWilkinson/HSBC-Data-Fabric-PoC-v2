@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
   "outbound_schema": {
     "source": {
@@ -19,64 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.name",
-      "sources": [
-        "customer_details.first_name",
-        "customer_details.last_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as inbound fields, but renamed."
-    },
-    {
-      "outbound_field": "customer.date_of_birth",
-      "sources": [
-        "customer_details.date_of_birth"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "credit_score.score",
-      "sources": [
-        "credit_offer.credit_score_required"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Same concept as inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.total_credit_limit",
-      "sources": [
-        "credit_offer.offer_amount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is derived from inbound data by computation or formatting."
-    },
-    {
-      "outbound_field": "risk_indicators.fraud_risk",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "review_status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as inbound field, but renamed."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.25,
+  "relatedness_reasoning": "While both files involve the credit department and share customer_id as a common identifier, the inbound file is a pre-approved credit offer from marketing, and the outbound file is a credit score assessment result sent to risk_and_compliance. The outbound file contains credit scoring, payment history, delinquencies, fraud risk, and compliance data that are not present in the inbound offer schema. The inbound file provides offer terms and eligibility criteria, not credit assessment results. These represent fundamentally different data domains and purposes within the credit workflow, not a direct data lineage transformation.",
+  "mappings": []
 }

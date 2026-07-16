@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
   "outbound_schema": {
     "source": {
@@ -19,72 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "32af6a9a8b939815"
+    "fingerprint": "b410a9729961ef35"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers and transaction amounts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "transfer_id",
-      "sources": [
-        "debit_credit_instructions[].instructions[].transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "transfer_date",
-      "sources": [
-        "debit_credit_instructions[].timestamp"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "debit_credit_instructions[].instructions[].amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "from_account",
-      "sources": [
-        "debit_credit_instructions[].instructions[].account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "to_account",
-      "sources": [
-        "debit_credit_instructions[].instructions[].account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "transfer_type",
-      "sources": [
-        "debit_credit_instructions[].instructions[].instruction_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "risk_score",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.5,
-      "reasoning": "No likely source in the inbound schema; possibly system-generated or derived from other data."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.05,
+  "relatedness_reasoning": "The outbound schema is empty (no fields defined), making it impossible to establish any data lineage mapping. Without outbound field definitions, no comparison can be made between the inbound debit/credit instruction data and any target structure.",
+  "mappings": []
 }

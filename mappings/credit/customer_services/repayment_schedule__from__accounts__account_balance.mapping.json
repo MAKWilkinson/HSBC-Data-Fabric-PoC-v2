@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
   "outbound_schema": {
     "source": {
@@ -19,56 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer_id, account_type, and currency, which suggests a plausible connection between the two systems.",
-  "mappings": [
-    {
-      "outbound_field": "repayment_schedule.customer_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.loan_type",
-      "sources": [
-        "account_type"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.principal_amount",
-      "sources": [
-        "balance"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "repayment_schedule.total_repayments",
-      "sources": [
-        "pending_transactions"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "repayment_schedule.repayments",
-      "sources": [
-        "pending_transactions"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains account balance snapshots for credit review, while the outbound file is a fully-formed loan repayment schedule with loan terms, interest rates, and amortization details. The outbound file's loan-specific fields (loan_id, principal_amount, interest_rate, loan_term_months, maturity_date, repayment schedule array) have no corresponding sources in the inbound schema, which only provides account balance and status information. While both files involve the credit department and share customer_id and currency fields, the outbound file represents a different business entity (a loan product with its complete repayment plan) that cannot be derived from account balance data alone.",
+  "mappings": []
 }

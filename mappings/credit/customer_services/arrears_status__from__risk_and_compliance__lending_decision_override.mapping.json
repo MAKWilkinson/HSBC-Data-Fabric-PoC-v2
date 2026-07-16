@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,173 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer ID, product type, and arrears status, which suggests a plausible connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "sourceSystem",
-      "sources": [
-        "source"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "destinationSystem",
-      "sources": [
-        "destination"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source concept as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "arrears_status",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "customerId",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "payload.loanDetails.productType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "productType",
-      "sources": [
-        "payload.loanDetails.productType"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "arrearsAmount",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "arrearsMonths",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "status",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "startDate",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "lastPaymentDate",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "nextPaymentDueDate",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "riskLevel",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "actionRequired",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents lending decision overrides (approval/rejection decisions), while the outbound file reports arrears status on existing accounts. These represent fundamentally different business processes: one is about loan origination decisions, the other about post-origination account delinquency tracking. Only customerId and currency show semantic overlap, but the files serve unrelated purposes with incompatible shapes and no plausible transformation pathway.",
+  "mappings": []
 }

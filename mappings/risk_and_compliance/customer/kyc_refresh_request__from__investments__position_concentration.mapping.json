@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/risk_and_compliance/position_concentration.schema.json",
-    "fingerprint": "c0f14a3468af458a"
+    "fingerprint": "3bbffdc9e6cd71c9"
   },
   "outbound_schema": {
     "source": {
@@ -19,99 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "data.portfolio_summary.total_positions"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Unique identifier for customer"
-    },
-    {
-      "outbound_field": "customer.full_name",
-      "sources": [
-        "data.concentration_by_single_name[].issuer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Concatenation of issuer name fields."
-    },
-    {
-      "outbound_field": "customer.date_of_birth",
-      "sources": [
-        "data.portfolio_summary.reporting_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Date of birth for customer"
-    },
-    {
-      "outbound_field": "customer.national_id",
-      "sources": [
-        "data.concentration_by_geography[].country"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "National ID or equivalent for the country."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.last_refresh_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.refresh_reason",
-      "sources": [
-        "report_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Reason for the KYC refresh request"
-    },
-    {
-      "outbound_field": "kyc_refresh_details.risk_flag",
-      "sources": [
-        "data.portfolio_summary.concentration_threshold_alert"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Risk flag indicating potential issues with the customer."
-    },
-    {
-      "outbound_field": "required_documents[].document",
-      "sources": [
-        "data.concentration_by_sector[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of sector and document types."
-    },
-    {
-      "outbound_field": "deadline",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "status",
-      "sources": [
-        "data.portfolio_summary.regulatory_threshold_alert"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Status of the KYC refresh request"
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains portfolio concentration and investment risk data, while the outbound file requests Know Your Customer (KYC) refresh for individual customers. These serve fundamentally different purposes: one analyzes investment positions, the other manages customer identity and compliance verification. No meaningful field overlap exists between portfolio metrics and customer KYC data.",
+  "mappings": []
 }

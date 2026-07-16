@@ -4,7 +4,7 @@
 # logging_config.py
 import logging
 
-def setup_logging(level=logging.INFO, log_file="app.log"):
+def setup_logging(level=logging.DEBUG, log_file="app.log"):
     logging.basicConfig(
         level=level,
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
   "outbound_schema": {
     "source": {
@@ -19,101 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share some common fields like customer_id, account_number, and product_type, which suggests a plausible connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "messageId",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of the timestamp field from the inbound file."
-    },
-    {
-      "outbound_field": "sourceSystem",
-      "sources": [
-        "department_from",
-        "department_to"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as department_from and department_to fields from the inbound file."
-    },
-    {
-      "outbound_field": "destinationSystem",
-      "sources": [
-        "department_to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 1.0,
-      "reasoning": "Same source meaning as the department_to field from the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "arrears_status",
-      "sources": [
-        "credit_offer",
-        "eligibility_criteria"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as credit_offer and eligibility_criteria fields from the inbound file."
-    },
-    {
-      "outbound_field": "arrears_status[].customerId",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of the customer_id field from the inbound file."
-    },
-    {
-      "outbound_field": "arrears_status[].accountNumber",
-      "sources": [
-        "customer_details.account_number"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of the account_number field from the inbound file."
-    },
-    {
-      "outbound_field": "arrears_status[].productType",
-      "sources": [
-        "credit_offer.product_type"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of the product_type field from the inbound file."
-    },
-    {
-      "outbound_field": "arrears_status[].arrearsAmount",
-      "sources": [
-        "credit_offer.offer_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as offer_amount field from the inbound file."
-    },
-    {
-      "outbound_field": "arrears_status[].currency",
-      "sources": [
-        "credit_offer.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of the currency field from the inbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains pre-approved credit offer data (marketing \u2192 credit), while the outbound file contains arrears status data (credit \u2192 customer_services). These represent fundamentally different business processes: offer generation vs. payment delinquency tracking. Only customer_id and account_number overlap as identifiers, but the outbound file's core payload (arrears amounts, payment dates, delinquency status) has no corresponding source fields in the inbound schema, which focuses on offer terms and eligibility criteria rather than account performance or payment history.",
+  "mappings": []
 }

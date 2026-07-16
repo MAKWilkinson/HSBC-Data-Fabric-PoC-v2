@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/anomoly_transfers.schema.json",
-    "fingerprint": "32af6a9a8b939815"
+    "fingerprint": "b410a9729961ef35"
   },
   "outbound_schema": {
     "source": {
@@ -19,71 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's transfer_id and to_account fields seem to match the customer.customer_id and customer.national_id fields, respectively, in the outbound file.",
-  "mappings": [
-    {
-      "outbound_field": "request_id",
-      "sources": [
-        "transfer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "from_account",
-        "to_account"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Combination of from_account and to_account fields."
-    },
-    {
-      "outbound_field": "customer.full_name",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "department_from",
-      "sources": [
-        "transfer_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "department_to",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "priority",
-      "sources": [
-        "risk_score"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "deadline",
-      "sources": [
-        "transfer_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound schema is empty (no fields provided), making it impossible to establish any field-level lineage between the two files. While the system names suggest a plausible pipeline (accounts \u2192 risk_and_compliance \u2192 customer), without inbound field definitions, no mappings can be established.",
+  "mappings": []
 }

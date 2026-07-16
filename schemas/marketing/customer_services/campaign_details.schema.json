@@ -11,19 +11,19 @@
       "name": "campaign_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the campaign"
+      "description": "Unique identifier for the marketing campaign"
     },
     {
       "name": "campaign_name",
       "data_type": "string",
       "nullable": false,
-      "description": "Name of the marketing campaign"
+      "description": "Human-readable name of the campaign"
     },
     {
       "name": "department_from",
       "data_type": "string",
-      "nullable": true,
-      "description": "Department that originated the campaign data",
+      "nullable": false,
+      "description": "Originating department that created the campaign",
       "enum_values": [
         "Marketing"
       ]
@@ -32,7 +32,7 @@
       "name": "department_to",
       "data_type": "string",
       "nullable": false,
-      "description": "Target department for the campaign",
+      "description": "Receiving department responsible for campaign execution and customer support",
       "enum_values": [
         "Customer Services"
       ]
@@ -41,67 +41,52 @@
       "name": "start_date",
       "data_type": "date",
       "nullable": false,
-      "description": "Start date of the campaign",
+      "description": "Campaign launch date",
       "fmt": "iso8601"
     },
     {
       "name": "end_date",
       "data_type": "date",
       "nullable": false,
-      "description": "End date of the campaign",
+      "description": "Campaign conclusion date",
       "fmt": "iso8601"
     },
     {
       "name": "campaign_type",
       "data_type": "string",
       "nullable": false,
-      "description": "Type of marketing campaign (e.g. Digital Savings Account)",
-      "enum_values": [
-        "Digital Savings Account"
-      ]
+      "description": "Product or service category being promoted"
     },
     {
       "name": "target_segment",
       "data_type": "object",
       "nullable": false,
-      "description": "Demographic characteristics of the target audience",
+      "description": "Demographic and behavioural criteria defining the campaign's target audience",
       "children": [
         {
           "name": "age_range",
           "data_type": "string",
-          "nullable": true,
-          "description": "Age range of the target segment (e.g. 25-50)",
-          "enum_values": [
-            "25-50"
-          ]
+          "nullable": false,
+          "description": "Age bracket of target customers"
         },
         {
           "name": "account_type",
           "data_type": "string",
-          "nullable": true,
-          "description": "Type of account targeted (e.g. Retail Banking)",
-          "enum_values": [
-            "Retail Banking"
-          ]
+          "nullable": false,
+          "description": "Banking segment classification of target customers"
         },
         {
           "name": "income_level",
           "data_type": "string",
-          "nullable": true,
-          "description": "Income level of the target segment (e.g. Medium to High)",
-          "enum_values": [
-            "Medium to High"
-          ]
+          "nullable": false,
+          "description": "Income bracket classification of target customers"
         },
         {
           "name": "geographical_region",
           "data_type": "array",
           "nullable": false,
-          "description": "Geographic regions targeted (e.g. UK, EU)",
-          "enum_values": [
-            "UK",
-            "EU"
-          ]
+          "description": "Array of country or regional codes where the campaign will be promoted",
+          "fmt": "country_code"
         }
       ]
     },
@@ -109,24 +94,19 @@
       "name": "campaign_objectives",
       "data_type": "array",
       "nullable": false,
-      "description": "Key objectives of the campaign (e.g. Increase digital account adoption)",
-      "enum_values": [
-        "Increase digital account adoption",
-        "Reduce branch visits by 20%",
-        "Improve customer engagement"
-      ]
+      "description": "Array of business goals the campaign aims to achieve"
     },
     {
       "name": "budget",
       "data_type": "object",
       "nullable": false,
-      "description": "Budget allocated for the campaign",
+      "description": "Campaign financial allocation and channel distribution",
       "children": [
         {
           "name": "currency",
           "data_type": "string",
-          "nullable": true,
-          "description": "Currency used for budgeting (e.g. GBP)",
+          "nullable": false,
+          "description": "ISO 4217 currency code for all budget amounts",
           "fmt": "currency_code",
           "enum_values": [
             "GBP"
@@ -136,49 +116,42 @@
           "name": "total_amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Total budget allocated"
+          "description": "Total campaign budget in the specified currency",
+          "fmt": "currency"
         },
         {
           "name": "allocated_channels",
           "data_type": "object",
           "nullable": false,
-          "description": "Budget allocation by marketing channel",
+          "description": "Budget allocation across marketing channels",
           "children": [
             {
               "name": "email",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Budget allocated for email campaigns",
-              "enum_values": [
-                "45000"
-              ]
+              "nullable": false,
+              "description": "Budget allocated to email marketing channel",
+              "fmt": "currency"
             },
             {
               "name": "social_media",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Budget allocated for social media campaigns",
-              "enum_values": [
-                "60000"
-              ]
+              "nullable": false,
+              "description": "Budget allocated to social media marketing channel",
+              "fmt": "currency"
             },
             {
               "name": "digital_ads",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Budget allocated for digital ads",
-              "enum_values": [
-                "35000"
-              ]
+              "nullable": false,
+              "description": "Budget allocated to digital advertising channel",
+              "fmt": "currency"
             },
             {
               "name": "in_app_notifications",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Budget allocated for in-app notifications",
-              "enum_values": [
-                "10000"
-              ]
+              "nullable": false,
+              "description": "Budget allocated to in-app notification channel",
+              "fmt": "currency"
             }
           ]
         }
@@ -188,69 +161,44 @@
       "name": "key_messages",
       "data_type": "array",
       "nullable": false,
-      "description": "Key messages to be communicated during the campaign",
-      "enum_values": [
-        "Open a Digital Savings Account with 4.5% interest",
-        "Zero maintenance fees for the first year",
-        "Instant approval process"
-      ]
+      "description": "Array of core marketing messages to communicate to customers"
     },
     {
       "name": "customer_service_requirements",
       "data_type": "object",
       "nullable": false,
-      "description": "Requirements for customer service during the campaign",
+      "description": "Operational requirements for Customer Services to support the campaign",
       "children": [
         {
           "name": "expected_inquiry_volume",
           "data_type": "integer",
-          "nullable": true,
-          "description": "Expected volume of inquiries from customers",
-          "enum_values": [
-            "5000"
-          ]
+          "nullable": false,
+          "description": "Projected number of customer inquiries during the campaign period"
         },
         {
           "name": "support_languages",
           "data_type": "array",
           "nullable": false,
-          "description": "Languages supported for customer service",
-          "enum_values": [
-            "English",
-            "Welsh"
-          ]
+          "description": "Array of languages in which customer support must be provided"
         },
         {
           "name": "priority_topics",
           "data_type": "array",
           "nullable": false,
-          "description": "Priority topics for customer inquiries",
-          "enum_values": [
-            "Account Opening",
-            "Interest Rates",
-            "Fees"
-          ]
+          "description": "Array of primary customer inquiry topics expected during the campaign"
         },
         {
           "name": "escalation_threshold",
           "data_type": "string",
-          "nullable": true,
-          "description": "Threshold for escalating customer inquiries",
-          "enum_values": [
-            "Complex Account Issues"
-          ]
+          "nullable": false,
+          "description": "Category of issues requiring escalation beyond standard support"
         },
         {
           "name": "training_deadline",
           "data_type": "date",
           "nullable": false,
-          "description": "Deadline for training customer service representatives",
-          "fmt": "iso8601",
-          "enum_values": [
-            "2024",
-            "1",
-            "12"
-          ]
+          "description": "Deadline by which Customer Services staff must complete campaign training",
+          "fmt": "iso8601"
         }
       ]
     },
@@ -258,61 +206,49 @@
       "name": "success_metrics",
       "data_type": "object",
       "nullable": false,
-      "description": "Key performance indicators for campaign success",
+      "description": "Key performance indicators and targets for campaign success measurement",
       "children": [
         {
           "name": "target_conversions",
           "data_type": "integer",
-          "nullable": true,
-          "description": "Target number of conversions (e.g. account openings)",
-          "enum_values": [
-            "2500"
-          ]
+          "nullable": false,
+          "description": "Target number of customers to convert to the promoted product"
         },
         {
           "name": "target_engagement_rate",
           "data_type": "decimal",
-          "nullable": true,
-          "description": "Target engagement rate for the campaign",
-          "enum_values": [
-            "0.15"
-          ]
+          "nullable": false,
+          "description": "Target proportion of reached customers who engage with the campaign (0\u20131 scale)",
+          "fmt": "percentage"
         },
         {
           "name": "target_customer_satisfaction",
           "data_type": "decimal",
-          "nullable": true,
-          "description": "Target customer satisfaction rate for the campaign",
-          "enum_values": [
-            "0.85"
-          ]
+          "nullable": false,
+          "description": "Target customer satisfaction score (0\u20131 scale)",
+          "fmt": "percentage"
         }
       ]
     },
     {
       "name": "created_date",
-      "data_type": "datetime",
+      "data_type": "date",
       "nullable": false,
-      "description": "Date and time when the campaign was created",
+      "description": "Date on which the campaign details were created",
       "fmt": "iso8601"
     },
     {
       "name": "created_by",
       "data_type": "string",
-      "nullable": true,
-      "description": "Person or team responsible for creating the campaign",
-      "enum_values": [
-        "marketing_team@hsbc.com"
-      ]
+      "nullable": false,
+      "description": "Email address of the user who created the campaign",
+      "fmt": "email"
     },
     {
       "name": "version",
       "data_type": "string",
       "nullable": false,
-      "description": "Version number of the campaign data",
-      "enum_values": [
-        "1.0"
-      ]
+      "description": "Version identifier for the campaign details document"
     }
   ]
 }

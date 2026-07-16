@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
   "outbound_schema": {
     "source": {
@@ -19,67 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like repayments, account numbers, and customer information, which could be transformed into transaction data.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "repaymentId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the repayment ID."
-    },
-    {
-      "outbound_field": "counterparty_system",
-      "sources": [
-        "department.from",
-        "department.to"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as department information, but with different names."
-    },
-    {
-      "outbound_field": "transaction_date",
-      "sources": [
-        "batchDate",
-        "dueDate"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Captures the same concept as batch and due dates, but with different names."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "repaymentAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact copy of the repayment amount."
-    },
-    {
-      "outbound_field": "transaction_type",
-      "sources": [
-        "repaymentType"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as repayment type, but with different names."
-    },
-    {
-      "outbound_field": "eligible_customers",
-      "sources": [
-        "repayments[].customerId"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Combination of customer IDs from repayments array."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish any field-level data lineage. While the inbound file contains transaction data and the systems form a logical pipeline (accounts \u2192 risk_and_compliance), without outbound field definitions there is no basis for mapping.",
+  "mappings": []
 }

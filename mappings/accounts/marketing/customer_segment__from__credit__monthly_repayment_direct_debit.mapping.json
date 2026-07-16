@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
   "outbound_schema": {
     "source": {
@@ -19,131 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, repayment details, and timestamp, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source",
-      "sources": [
-        "department.from"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The same concept of 'source' is renamed from 'from' in the inbound file."
-    },
-    {
-      "outbound_field": "metadata.destination",
-      "sources": [
-        "department.to"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The same concept of 'destination' is renamed from 'to' in the inbound file."
-    },
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The timestamp field is copied exactly from the inbound file."
-    },
-    {
-      "outbound_field": "metadata.message_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "repayments[].loanId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of a unique identifier for the segment is similar to the loan ID in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "department.from"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of a segment name is similar to the department information in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].description",
-      "sources": [
-        "department.to"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of a segment description is similar to the department information in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].customer_count",
-      "sources": [
-        "recordCount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of a customer count is similar to the record count in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_account_balance",
-      "sources": [
-        "totalAmount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of an average account balance is similar to the total amount in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_monthly_transactions",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "product_holding",
-      "sources": [
-        "repayments[].loanId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of product holding is similar to the loan ID in the inbound file."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "recordCount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of total customers is similar to the record count in the inbound file."
-    },
-    {
-      "outbound_field": "summary.total_assets_under_management",
-      "sources": [
-        "totalAmount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The concept of total assets under management is similar to the total amount in the inbound file."
-    },
-    {
-      "outbound_field": "summary.report_period",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains individual loan repayment transactions with payment details, while the outbound file contains aggregated customer segmentation metrics and product holdings. There is no field overlap, no shared concepts, and the data structures serve fundamentally different purposes (transaction processing vs. customer analytics). The files do not form a plausible pipeline step.",
+  "mappings": []
 }

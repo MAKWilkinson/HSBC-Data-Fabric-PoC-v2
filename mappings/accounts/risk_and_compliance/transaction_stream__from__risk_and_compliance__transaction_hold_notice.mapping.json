@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "outbound_schema": {
     "source": {
@@ -19,63 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The transaction hold notice fields like accountNumber, customerId, and customerName seem to be used as a source for the transactions in the outbound file.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "noticeId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "counterparty_system",
-      "sources": [
-        "recipientDepartment"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "transaction_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "transactionsAffected[].amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    },
-    {
-      "outbound_field": "transaction_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "eligible_customers",
-      "sources": [
-        "transactionsAffected"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The outbound file schema is empty (no fields defined), making it impossible to establish data lineage. While the inbound and outbound files involve the same two systems in reverse direction (risk_and_compliance \u2194 accounts), without any outbound fields to map, no meaningful lineage can be determined.",
+  "mappings": []
 }

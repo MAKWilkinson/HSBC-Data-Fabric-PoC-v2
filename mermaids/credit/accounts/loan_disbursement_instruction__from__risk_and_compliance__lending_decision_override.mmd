@@ -1,16 +1,15 @@
 flowchart LR
   subgraph IN["risk_and_compliance: lending_decision_override"]
-    in_messageId["messageId"]
     in_payload_loanApplicationId["payload.loanApplicationId"]
-    in_payload_customerId["payload.customerId"]
     in_payload_loanDetails_loanAmount["payload.loanDetails.loanAmount"]
     in_payload_loanDetails_currency["payload.loanDetails.currency"]
-    in_payload_timestamp["payload.timestamp"]
-    in_payload_overrideApprovalDetails_approvalLevel["payload.overrideApprovalDetails.approvalLevel"]
     in_payload_loanDetails_loanTerm["payload.loanDetails.loanTerm"]
-    in_payload_riskAssessmentDetails_creditScore["payload.riskAssessmentDetails.creditScore"]
+    in_payload_overrideDecision["payload.overrideDecision"]
+    in_timestamp["timestamp"]
     in_payload_overrideApprovalDetails_approvedBy["payload.overrideApprovalDetails.approvedBy"]
     in_payload_overrideApprovalDetails_approvalDate["payload.overrideApprovalDetails.approvalDate"]
+    in_payload_overrideReason["payload.overrideReason"]
+    in_payload_riskAssessmentDetails_mitigatingFactors["payload.riskAssessmentDetails.mitigatingFactors"]
     in_payload_overrideApprovalDetails_conditions["payload.overrideApprovalDetails.conditions"]
   end
   subgraph OUT["credit: loan_disbursement_instruction"]
@@ -34,22 +33,14 @@ flowchart LR
     out_loan_disbursement_instructions___approved_date["loan_disbursement_instructions[].approved_date"]
     out_loan_disbursement_instructions___remarks["loan_disbursement_instructions[].remarks"]
   end
-  in_messageId -->|EXACT| out_loan_disbursement_instructions___instruction_id
-  in_payload_loanApplicationId -->|EXACT| out_loan_disbursement_instructions___loan_id
-  in_payload_customerId -->|SEMANTIC| out_loan_disbursement_instructions___borrower_name
-  in_payload_customerId -->|SEMANTIC| out_loan_disbursement_instructions___borrower_account_number
-  in_payload_loanDetails_loanAmount -->|EXACT| out_loan_disbursement_instructions___disbursement_amount
+  in_payload_loanApplicationId -->|RENAMED| out_loan_disbursement_instructions___loan_id
+  in_payload_loanDetails_loanAmount -->|RENAMED| out_loan_disbursement_instructions___disbursement_amount
   in_payload_loanDetails_currency -->|EXACT| out_loan_disbursement_instructions___currency
-  in_payload_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_date
-  in_payload_overrideApprovalDetails_approvalLevel -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_method
-  in_payload_customerId -->|SEMANTIC| out_loan_disbursement_instructions___destination_account
-  in_payload_customerId -->|SEMANTIC| out_loan_disbursement_instructions___destination_bank_code
-  in_payload_overrideApprovalDetails_approvalLevel -->|SEMANTIC| out_loan_disbursement_instructions___purpose
-  in_payload_loanDetails_loanTerm -->|EXACT| out_loan_disbursement_instructions___loan_term_months
-  in_payload_riskAssessmentDetails_creditScore -->|SEMANTIC| out_loan_disbursement_instructions___interest_rate
-  in_payload_overrideApprovalDetails_approvalLevel -->|SEMANTIC| out_loan_disbursement_instructions___status
-  in_payload_overrideApprovalDetails_approvedBy -->|SEMANTIC| out_loan_disbursement_instructions___created_by
-  in_payload_overrideApprovalDetails_approvalDate -->|SEMANTIC| out_loan_disbursement_instructions___created_date
-  in_payload_overrideApprovalDetails_approvedBy -->|EXACT| out_loan_disbursement_instructions___approved_by
-  in_payload_overrideApprovalDetails_approvalDate -->|EXACT| out_loan_disbursement_instructions___approved_date
-  in_payload_overrideApprovalDetails_conditions -->|SEMANTIC| out_loan_disbursement_instructions___remarks
+  in_payload_loanDetails_loanTerm -->|RENAMED| out_loan_disbursement_instructions___loan_term_months
+  in_payload_overrideDecision -->|SEMANTIC| out_loan_disbursement_instructions___status
+  in_timestamp -->|RENAMED| out_loan_disbursement_instructions___created_date
+  in_payload_overrideApprovalDetails_approvedBy -->|RENAMED| out_loan_disbursement_instructions___approved_by
+  in_payload_overrideApprovalDetails_approvalDate -->|RENAMED| out_loan_disbursement_instructions___approved_date
+  in_payload_overrideReason -->|MERGE| out_loan_disbursement_instructions___remarks
+  in_payload_riskAssessmentDetails_mitigatingFactors -->|MERGE| out_loan_disbursement_instructions___remarks
+  in_payload_overrideApprovalDetails_conditions -->|MERGE| out_loan_disbursement_instructions___remarks

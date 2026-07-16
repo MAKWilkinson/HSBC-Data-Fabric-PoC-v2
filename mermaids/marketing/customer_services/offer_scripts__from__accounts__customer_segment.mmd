@@ -1,36 +1,23 @@
 flowchart LR
   subgraph IN["accounts: customer_segment"]
-    in_metadata_segment_id["metadata.segment_id"]
     in_segments___segment_name["segments[].segment_name"]
-    in_metadata_source["metadata.source"]
-    in_metadata_destination["metadata.destination"]
-    in_metadata_timestamp["metadata.timestamp"]
-    in_segments___avg_monthly_transactions["segments[].avg_monthly_transactions"]
-    in_segments___description["segments[].description"]
-    in_summary_report_period["summary.report_period"]
   end
   subgraph OUT["marketing: offer_scripts"]
-    out_id["id"]
-    out_name["name"]
-    out_department_from["department_from"]
-    out_department_to["department_to"]
-    out_created_date["created_date"]
-    out_effective_date["effective_date"]
-    out_status["status"]
-    out_target_segment["target_segment"]
-    out_script_type["script_type"]
-    out_duration_seconds["duration_seconds"]
-    out_content["content"]
-    out_call_to_action["call_to_action"]
-    out_success_metric["success_metric"]
+    out_offer_scripts___id["offer_scripts[].id"]
+    out_offer_scripts___name["offer_scripts[].name"]
+    out_offer_scripts___department_from["offer_scripts[].department_from"]
+    out_offer_scripts___department_to["offer_scripts[].department_to"]
+    out_offer_scripts___created_date["offer_scripts[].created_date"]
+    out_offer_scripts___effective_date["offer_scripts[].effective_date"]
+    out_offer_scripts___status["offer_scripts[].status"]
+    out_offer_scripts___target_segment["offer_scripts[].target_segment"]
+    out_offer_scripts___script_type["offer_scripts[].script_type"]
+    out_offer_scripts___duration_seconds["offer_scripts[].duration_seconds"]
+    out_offer_scripts___content["offer_scripts[].content"]
+    out_offer_scripts___call_to_action["offer_scripts[].call_to_action"]
+    out_offer_scripts___success_metric["offer_scripts[].success_metric"]
+    out_metadata_total_scripts["metadata.total_scripts"]
+    out_metadata_last_updated["metadata.last_updated"]
+    out_metadata_version["metadata.version"]
   end
-  in_metadata_segment_id -->|RENAMED| out_id
-  in_segments___segment_name -->|SEMANTIC| out_name
-  in_metadata_source -->|EXACT| out_department_from
-  in_metadata_destination -->|EXACT| out_department_to
-  in_metadata_timestamp -->|SEMANTIC| out_created_date
-  in_metadata_timestamp -->|SEMANTIC| out_effective_date
-  in_segments___segment_name -->|SEMANTIC| out_target_segment
-  in_segments___avg_monthly_transactions -->|SEMANTIC| out_duration_seconds
-  in_segments___description -->|SEMANTIC| out_content
-  in_summary_report_period -->|SEMANTIC| out_success_metric
+  in_segments___segment_name -->|SEMANTIC| out_offer_scripts___target_segment

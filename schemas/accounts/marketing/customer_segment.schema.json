@@ -11,40 +11,38 @@
       "name": "metadata",
       "data_type": "object",
       "nullable": false,
-      "description": "Contextual information about the message",
+      "description": "Contextual information about the message exchange between accounts and marketing systems",
       "children": [
         {
           "name": "source",
           "data_type": "string",
-          "nullable": true,
-          "description": "The department that originated the data",
+          "nullable": false,
+          "description": "Originating system that produced this message",
           "enum_values": [
-            "accounts",
-            "marketing"
+            "accounts"
           ]
         },
         {
           "name": "destination",
           "data_type": "string",
-          "nullable": true,
-          "description": "The system receiving the message",
+          "nullable": false,
+          "description": "Target system receiving this message",
           "enum_values": [
-            "accounts",
             "marketing"
           ]
         },
         {
           "name": "timestamp",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "When the message was generated",
+          "description": "Date and time when the message was generated",
           "fmt": "iso8601"
         },
         {
           "name": "message_type",
           "data_type": "string",
           "nullable": false,
-          "description": "The type of message being sent",
+          "description": "Classification of the message content",
           "enum_values": [
             "customer_segment"
           ]
@@ -55,25 +53,19 @@
       "name": "segments",
       "data_type": "array",
       "nullable": false,
-      "description": "A list of customer segments",
+      "description": "Array of customer segments with aggregated metrics and product holdings",
       "children": [
         {
           "name": "segment_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the segment",
-          "enum_values": [
-            "SEG001",
-            "SEG002",
-            "SEG003",
-            "SEG004"
-          ]
+          "description": "Unique identifier for the customer segment"
         },
         {
           "name": "segment_name",
           "data_type": "string",
           "nullable": false,
-          "description": "The name of the customer segment",
+          "description": "Human-readable name of the customer segment",
           "enum_values": [
             "Premium",
             "Standard",
@@ -85,38 +77,32 @@
           "name": "description",
           "data_type": "string",
           "nullable": false,
-          "description": "A brief description of the customer segment"
+          "description": "Business definition of the segment, typically based on income or activity criteria"
         },
         {
           "name": "customer_count",
           "data_type": "integer",
           "nullable": false,
-          "description": "The number of customers in this segment"
+          "description": "Total number of customers in this segment"
         },
         {
           "name": "avg_account_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "The average account balance for this segment",
+          "description": "Average account balance in GBP for customers in this segment",
           "fmt": "currency"
         },
         {
           "name": "avg_monthly_transactions",
-          "data_type": "integer",
+          "data_type": "decimal",
           "nullable": false,
-          "description": "The average number of transactions per month for this segment"
+          "description": "Average number of transactions per month for customers in this segment"
         },
         {
           "name": "product_holding",
           "data_type": "array",
           "nullable": false,
-          "description": "A list of products held by customers in this segment",
-          "enum_values": [
-            "savings",
-            "investments",
-            "mortgage",
-            "credit_card"
-          ]
+          "description": "List of product types typically held by customers in this segment (array of strings)"
         }
       ]
     },
@@ -124,29 +110,26 @@
       "name": "summary",
       "data_type": "object",
       "nullable": false,
-      "description": "Summary statistics for the customer segments",
+      "description": "Aggregate summary statistics across all customer segments",
       "children": [
         {
           "name": "total_customers",
           "data_type": "integer",
           "nullable": false,
-          "description": "The total number of customers across all segments"
+          "description": "Total number of customers across all segments"
         },
         {
           "name": "total_assets_under_management",
           "data_type": "string",
           "nullable": false,
-          "description": "The total assets under management for all customer segments",
-          "fmt": "currency",
-          "enum_values": [
-            "\u00a32.8B"
-          ]
+          "description": "Total assets under management across all customer segments, expressed in GBP with currency symbol",
+          "fmt": "currency"
         },
         {
           "name": "report_period",
           "data_type": "string",
           "nullable": false,
-          "description": "The period covered by this report",
+          "description": "The fiscal or calendar period covered by this report",
           "enum_values": [
             "2024-Q1"
           ]

@@ -8,102 +8,150 @@
   },
   "fields": [
     {
-      "name": "account_id",
+      "name": "message_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the account"
+      "description": "Unique identifier for this message exchange between accounts and credit departments"
     },
     {
-      "name": "customer_id",
+      "name": "sender",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the customer associated with the account"
-    },
-    {
-      "name": "account_type",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Type of account (credit_card, savings, checking)",
+      "description": "Originating department that sent the message",
       "enum_values": [
-        "credit_card",
-        "savings",
-        "checking"
+        "accounts_department"
       ]
     },
     {
-      "name": "currency",
+      "name": "recipient",
       "data_type": "string",
       "nullable": false,
-      "description": "Currency associated with the account balance",
-      "fmt": "currency_code",
+      "description": "Destination department receiving the message",
       "enum_values": [
-        "GBP"
+        "credit_department"
       ]
     },
     {
-      "name": "balance",
-      "data_type": "decimal",
-      "nullable": true,
-      "description": "Current balance of the account"
-    },
-    {
-      "name": "available_balance",
-      "data_type": "decimal",
-      "nullable": true,
-      "description": "Available balance of the account (after pending transactions)"
-    },
-    {
-      "name": "pending_transactions",
-      "data_type": "array",
-      "nullable": true,
-      "description": "List of pending transactions for the account",
-      "children": [
-        {
-          "name": "txn_id",
-          "data_type": "string",
-          "nullable": false,
-          "description": "Unique identifier for the transaction"
-        },
-        {
-          "name": "amount",
-          "data_type": "decimal",
-          "nullable": true,
-          "description": "Amount of the transaction"
-        },
-        {
-          "name": "type",
-          "data_type": "string",
-          "nullable": false,
-          "description": "Type of transaction (debit, credit)",
-          "enum_values": [
-            "debit",
-            "credit"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "last_updated",
-      "data_type": "datetime",
+      "name": "sent_at",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of the last update to the account",
+      "description": "Timestamp when the message was sent",
       "fmt": "iso8601"
     },
     {
-      "name": "account_status",
-      "data_type": "string",
-      "nullable": true,
-      "description": "Current status of the account (active, inactive)",
-      "enum_values": [
-        "active",
-        "inactive"
-      ]
-    },
-    {
-      "name": "branch_code",
+      "name": "summary",
       "data_type": "string",
       "nullable": false,
-      "description": "Code for the branch associated with the account"
+      "description": "High-level description of the message content and purpose"
+    },
+    {
+      "name": "account_balances",
+      "data_type": "array",
+      "nullable": false,
+      "description": "Collection of account balance snapshots for credit review purposes",
+      "children": [
+        {
+          "name": "account_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the account"
+        },
+        {
+          "name": "customer_id",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Unique identifier for the customer who owns the account"
+        },
+        {
+          "name": "account_type",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Classification of the account product",
+          "enum_values": [
+            "checking",
+            "savings",
+            "credit_card"
+          ]
+        },
+        {
+          "name": "currency",
+          "data_type": "string",
+          "nullable": false,
+          "description": "ISO 4217 currency code for all monetary amounts in this account",
+          "fmt": "currency_code",
+          "enum_values": [
+            "GBP"
+          ]
+        },
+        {
+          "name": "balance",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Current account balance; negative for credit card accounts indicates amount owed",
+          "fmt": "currency"
+        },
+        {
+          "name": "available_balance",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Balance available for withdrawal or spending after accounting for pending transactions and holds",
+          "fmt": "currency"
+        },
+        {
+          "name": "pending_transactions",
+          "data_type": "array",
+          "nullable": false,
+          "description": "List of transactions awaiting settlement that affect available balance",
+          "children": [
+            {
+              "name": "txn_id",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Unique identifier for the pending transaction"
+            },
+            {
+              "name": "amount",
+              "data_type": "decimal",
+              "nullable": false,
+              "description": "Monetary amount of the pending transaction",
+              "fmt": "currency"
+            },
+            {
+              "name": "type",
+              "data_type": "string",
+              "nullable": false,
+              "description": "Direction of the pending transaction relative to the account",
+              "enum_values": [
+                "debit",
+                "credit"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "last_updated",
+          "data_type": "timestamp",
+          "nullable": false,
+          "description": "Timestamp when the account balance was last updated in the accounts system",
+          "fmt": "iso8601"
+        },
+        {
+          "name": "account_status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current operational status of the account",
+          "enum_values": [
+            "active",
+            "dormant"
+          ]
+        },
+        {
+          "name": "branch_code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Code identifying the branch where the account is held"
+        }
+      ]
     }
   ]
 }

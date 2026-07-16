@@ -1,28 +1,63 @@
 flowchart LR
   subgraph IN["credit: credit_score_result"]
-    in_customer_account_number["customer.account_number"]
-    in_customer_name["customer.name"]
-    in_timestamp["timestamp"]
-    in_destination_department["destination_department"]
-    in_credit_assessment_recommended_action["credit_assessment.recommended_action"]
-    in_credit_assessment_payment_history_score["credit_assessment.payment_history_score"]
-    in_result_id["result_id"]
+    in_credit_score_result_timestamp["credit_score_result.timestamp"]
+    in_credit_score_result_destination_department["credit_score_result.destination_department"]
+    in_credit_score_result_risk_indicators_fraud_risk["credit_score_result.risk_indicators.fraud_risk"]
+    in_credit_score_result_credit_assessment_default_risk_level["credit_score_result.credit_assessment.default_risk_level"]
+    in_credit_score_result_customer_account_number["credit_score_result.customer.account_number"]
+    in_credit_score_result_customer_name["credit_score_result.customer.name"]
+    in_credit_score_result_risk_indicators_compliance_flags["credit_score_result.risk_indicators.compliance_flags"]
+    in_credit_score_result_risk_indicators_regulatory_concerns["credit_score_result.risk_indicators.regulatory_concerns"]
+    in_credit_score_result_reviewed_by["credit_score_result.reviewed_by"]
+    in_credit_score_result_credit_score_score["credit_score_result.credit_score.score"]
+    in_credit_score_result_credit_assessment_utilization_rate["credit_score_result.credit_assessment.utilization_rate"]
   end
   subgraph OUT["risk_and_compliance: account_freeze_or_block"]
-    out_account_accountNumber["account.accountNumber"]
-    out_account_accountHolder["account.accountHolder"]
     out_messageId["messageId"]
     out_timestamp["timestamp"]
     out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_priority["priority"]
+    out_action["action"]
+    out_account_accountNumber["account.accountNumber"]
+    out_account_accountHolder["account.accountHolder"]
     out_account_accountType["account.accountType"]
+    out_account_currency["account.currency"]
+    out_account_branch["account.branch"]
     out_freezeDetails_freezeType["freezeDetails.freezeType"]
+    out_freezeDetails_reason["freezeDetails.reason"]
+    out_freezeDetails_description["freezeDetails.description"]
+    out_freezeDetails_initiatedBy["freezeDetails.initiatedBy"]
+    out_freezeDetails_department["freezeDetails.department"]
+    out_freezeDetails_effectiveFrom["freezeDetails.effectiveFrom"]
+    out_restrictions_allowIncomingTransfers["restrictions.allowIncomingTransfers"]
+    out_restrictions_allowOutgoingTransfers["restrictions.allowOutgoingTransfers"]
+    out_restrictions_allowWithdrawals["restrictions.allowWithdrawals"]
+    out_restrictions_allowCardTransactions["restrictions.allowCardTransactions"]
+    out_restrictions_allowCheques["restrictions.allowCheques"]
     out_escalation_level["escalation.level"]
+    out_escalation_requiresApproval["escalation.requiresApproval"]
+    out_escalation_approvalDeadline["escalation.approvalDeadline"]
+    out_escalation_complianceOfficer["escalation.complianceOfficer"]
     out_additionalInfo_caseReference["additionalInfo.caseReference"]
+    out_additionalInfo_riskScore["additionalInfo.riskScore"]
+    out_additionalInfo_customerNotificationSent["additionalInfo.customerNotificationSent"]
+    out_additionalInfo_regulatoryReporting["additionalInfo.regulatoryReporting"]
   end
-  in_customer_account_number -->|EXACT| out_account_accountNumber
-  in_customer_name -->|RENAMED| out_account_accountHolder
-  in_timestamp -->|EXACT| out_timestamp
-  in_destination_department -->|RENAMED| out_source
-  in_credit_assessment_recommended_action -->|SEMANTIC| out_freezeDetails_freezeType
-  in_credit_assessment_payment_history_score -->|SEMANTIC| out_escalation_level
-  in_result_id -->|EXACT| out_additionalInfo_caseReference
+  in_credit_score_result_timestamp -->|SEMANTIC| out_timestamp
+  in_credit_score_result_destination_department -->|SEMANTIC| out_source
+  in_credit_score_result_risk_indicators_fraud_risk -->|SEMANTIC| out_priority
+  in_credit_score_result_credit_assessment_default_risk_level -->|SEMANTIC| out_action
+  in_credit_score_result_risk_indicators_fraud_risk -->|SEMANTIC| out_action
+  in_credit_score_result_customer_account_number -->|RENAMED| out_account_accountNumber
+  in_credit_score_result_customer_name -->|RENAMED| out_account_accountHolder
+  in_credit_score_result_risk_indicators_fraud_risk -->|SEMANTIC| out_freezeDetails_reason
+  in_credit_score_result_credit_assessment_default_risk_level -->|MERGE| out_freezeDetails_description
+  in_credit_score_result_risk_indicators_compliance_flags -->|MERGE| out_freezeDetails_description
+  in_credit_score_result_risk_indicators_regulatory_concerns -->|MERGE| out_freezeDetails_description
+  in_credit_score_result_reviewed_by -->|SEMANTIC| out_freezeDetails_initiatedBy
+  in_credit_score_result_timestamp -->|SEMANTIC| out_freezeDetails_effectiveFrom
+  in_credit_score_result_credit_score_score -->|TRANSFORMED| out_additionalInfo_riskScore
+  in_credit_score_result_credit_assessment_utilization_rate -->|TRANSFORMED| out_additionalInfo_riskScore
+  in_credit_score_result_risk_indicators_regulatory_concerns -->|SEMANTIC| out_additionalInfo_regulatoryReporting

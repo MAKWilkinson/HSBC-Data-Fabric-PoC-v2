@@ -1,16 +1,28 @@
 flowchart LR
   subgraph IN["customer_services: reported_scam_fraud"]
+    in_reportDate["reportDate"]
+    in_targetDeployment["targetDeployment"]
+    in_reportType["reportType"]
+    in_severity["severity"]
+    in_actionsTaken["actionsTaken"]
     in_customer_accountNumber["customer.accountNumber"]
     in_customer_customerName["customer.customerName"]
     in_customer_accountType["customer.accountType"]
-    in_customer_customerTier["customer.customerTier"]
-    in_fraudDetails_amountInvolved["fraudDetails.amountInvolved"]
-    in_fraudDetails_fraudulentRecipient["fraudDetails.fraudulentRecipient"]
-    in_riskIndicators["riskIndicators"]
+    in_fraudDetails_currency["fraudDetails.currency"]
     in_fraudDetails_fraudDescription["fraudDetails.fraudDescription"]
-    in_actionsTaken["actionsTaken"]
+    in_incident_reportedByName["incident.reportedByName"]
+    in_incident_detectionDate["incident.detectionDate"]
+    in_escalationRequired["escalationRequired"]
+    in_reportId["reportId"]
   end
   subgraph OUT["risk_and_compliance: account_freeze_or_block"]
+    out_messageId["messageId"]
+    out_timestamp["timestamp"]
+    out_source["source"]
+    out_destination["destination"]
+    out_messageType["messageType"]
+    out_priority["priority"]
+    out_action["action"]
     out_account_accountNumber["account.accountNumber"]
     out_account_accountHolder["account.accountHolder"]
     out_account_accountType["account.accountType"]
@@ -18,16 +30,37 @@ flowchart LR
     out_account_branch["account.branch"]
     out_freezeDetails_freezeType["freezeDetails.freezeType"]
     out_freezeDetails_reason["freezeDetails.reason"]
+    out_freezeDetails_description["freezeDetails.description"]
+    out_freezeDetails_initiatedBy["freezeDetails.initiatedBy"]
+    out_freezeDetails_department["freezeDetails.department"]
+    out_freezeDetails_effectiveFrom["freezeDetails.effectiveFrom"]
+    out_restrictions_allowIncomingTransfers["restrictions.allowIncomingTransfers"]
+    out_restrictions_allowOutgoingTransfers["restrictions.allowOutgoingTransfers"]
+    out_restrictions_allowWithdrawals["restrictions.allowWithdrawals"]
+    out_restrictions_allowCardTransactions["restrictions.allowCardTransactions"]
+    out_restrictions_allowCheques["restrictions.allowCheques"]
     out_escalation_level["escalation.level"]
+    out_escalation_requiresApproval["escalation.requiresApproval"]
+    out_escalation_approvalDeadline["escalation.approvalDeadline"]
+    out_escalation_complianceOfficer["escalation.complianceOfficer"]
+    out_additionalInfo_caseReference["additionalInfo.caseReference"]
+    out_additionalInfo_riskScore["additionalInfo.riskScore"]
+    out_additionalInfo_customerNotificationSent["additionalInfo.customerNotificationSent"]
+    out_additionalInfo_regulatoryReporting["additionalInfo.regulatoryReporting"]
   end
-  in_customer_accountNumber -->|RENAMED| out_account_accountNumber
-  in_customer_customerName -->|SEMANTIC| out_account_accountHolder
-  in_customer_accountType -->|EXACT| out_account_accountType
-  in_customer_customerTier -->|MERGE| out_account_currency
-  in_fraudDetails_amountInvolved -->|MERGE| out_account_currency
-  in_customer_customerTier -->|SEMANTIC| out_account_branch
-  in_fraudDetails_fraudulentRecipient -->|SEMANTIC| out_account_branch
-  in_riskIndicators -->|SEMANTIC| out_freezeDetails_freezeType
-  in_fraudDetails_fraudDescription -->|SEMANTIC| out_freezeDetails_reason
-  in_riskIndicators -->|MERGE| out_escalation_level
-  in_actionsTaken -->|MERGE| out_escalation_level
+  in_reportDate -->|SEMANTIC| out_timestamp
+  in_targetDeployment -->|SEMANTIC| out_source
+  in_reportType -->|SEMANTIC| out_messageType
+  in_severity -->|SEMANTIC| out_priority
+  in_actionsTaken -->|SEMANTIC| out_action
+  in_customer_accountNumber -->|TRANSFORMED| out_account_accountNumber
+  in_customer_customerName -->|RENAMED| out_account_accountHolder
+  in_customer_accountType -->|TRANSFORMED| out_account_accountType
+  in_fraudDetails_currency -->|EXACT| out_account_currency
+  in_reportType -->|SEMANTIC| out_freezeDetails_reason
+  in_fraudDetails_fraudDescription -->|RENAMED| out_freezeDetails_description
+  in_incident_reportedByName -->|SEMANTIC| out_freezeDetails_initiatedBy
+  in_incident_detectionDate -->|SEMANTIC| out_freezeDetails_effectiveFrom
+  in_escalationRequired -->|RENAMED| out_escalation_requiresApproval
+  in_reportId -->|RENAMED| out_additionalInfo_caseReference
+  in_actionsTaken -->|SEMANTIC| out_additionalInfo_customerNotificationSent

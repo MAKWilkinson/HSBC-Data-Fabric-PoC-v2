@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
   "outbound_schema": {
     "source": {
@@ -19,65 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and payment holiday requests.",
-  "mappings": [
-    {
-      "outbound_field": "repayment_schedule.customer_id",
-      "sources": [
-        "customer.customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.customer_name",
-      "sources": [
-        "customer.name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.loan_id",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.principal_amount",
-      "sources": [
-        "account.loanAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.repayment_frequency",
-      "sources": [
-        "paymentHolidayRequest.requestedMonths"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "repayment_schedule.repayments",
-      "sources": [
-        "paymentHolidayRequest.requestedMonths"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains a payment holiday application (a request to suspend payments), while the outbound file is a complete repayment schedule with detailed amortization. These represent fundamentally different business processes: one is an application/request, the other is a loan product artifact. The inbound file has no fields describing loan terms, interest rates, amortization schedules, or repayment installments. While both mention customer and account identifiers, the outbound schema describes loan product details (principal_amount, interest_rate, loan_term_months, maturity_date) that do not exist in the inbound schema and cannot be derived from a payment holiday application alone. The outbound file's structure and content are incompatible with the inbound file's purpose and data model.",
+  "mappings": []
 }

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
   "outbound_schema": {
     "source": {
@@ -19,20 +19,18 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "adeb1bfab0ab8d0e"
+    "fingerprint": "5424ceabfa455be7"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer-related concepts, such as account numbers and product types, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files involve customer arrears/financial difficulty data flowing between credit and customer_services systems; inbound arrears_status triggers outbound hardship_request. Key fields (customerId, accountNumber, arrearsAmount) map clearly, and the message flow (credit\u2192customer_services\u2192credit) suggests a plausible two-step process where arrears data informs hardship assistance requests.",
   "mappings": [
     {
       "outbound_field": "request_id",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent identifier in inbound; likely system-generated for the outbound request."
     },
     {
       "outbound_field": "timestamp",
@@ -41,151 +39,156 @@
       ],
       "transformation": "EXACT",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Both are ISO8601 timestamps; outbound timestamp likely derived from or close to inbound message timestamp."
+    },
+    {
+      "outbound_field": "source_department",
+      "sources": [
+        "destinationSystem"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Inbound destinationSystem is CUSTOMER_SERVICES, which becomes the source_department in outbound; represents the system that generates the hardship request."
+    },
+    {
+      "outbound_field": "target_department",
+      "sources": [
+        "sourceSystem"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Inbound sourceSystem is CREDIT_DEPARTMENT, which becomes the target_department in outbound; represents the system receiving the hardship request."
     },
     {
       "outbound_field": "customer_id",
       "sources": [
         "arrears_status[].customerId"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Direct match: customerId from inbound arrears_status array maps to customer_id in outbound."
     },
     {
       "outbound_field": "customer_name",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No customer name field exists in inbound schema; likely populated from external customer master data or user input."
     },
     {
       "outbound_field": "account_number",
       "sources": [
         "arrears_status[].accountNumber"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Same semantic meaning (account identifier) but outbound format is IBAN while inbound is generic account_number; likely a transformation or validation step."
     },
     {
       "outbound_field": "request_type",
-      "sources": [
-        "arrears_status[].productType"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Hardship request type is not present in inbound arrears_status; this is a constant or system-determined value for the outbound message."
     },
     {
       "outbound_field": "hardship_reason",
       "sources": [
-        "arrears_status[].status"
+        "arrears_status[].notes"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound notes field may contain context about arrears; outbound hardship_reason likely extracted or inferred from notes, though not a perfect match."
+    },
+    {
+      "outbound_field": "hardship_severity",
+      "sources": [
+        "arrears_status[].riskLevel"
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "reasoning": "Inbound riskLevel (HIGH/MEDIUM/LOW) correlates with hardship severity assessment; HIGH risk likely maps to high severity hardship."
     },
     {
       "outbound_field": "monthly_income",
-      "sources": [
-        "arrears_status[].arrearsAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.6,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No income data in inbound arrears_status; must come from customer-provided hardship application data or external source."
     },
     {
       "outbound_field": "monthly_expenses",
-      "sources": [
-        "arrears_status[].arrearsAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.6,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No expense data in inbound arrears_status; must come from customer-provided hardship application data or external source."
     },
     {
       "outbound_field": "outstanding_balance",
       "sources": [
         "arrears_status[].arrearsAmount"
       ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.6,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound arrearsAmount represents outstanding arrears; outbound outstanding_balance likely derived from or equivalent to this field."
     },
     {
       "outbound_field": "monthly_payment_amount",
-      "sources": [
-        "arrears_status[].arrearsAmount"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.6,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No contractual payment amount in inbound arrears_status; likely sourced from account/product master data or hardship application."
     },
     {
       "outbound_field": "requested_relief_type",
-      "sources": [
-        "arrears_status[].status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Relief type options (payment_reduction, payment_deferral) are not present in inbound; must come from customer hardship request form."
     },
     {
       "outbound_field": "requested_duration_months",
-      "sources": [
-        "arrears_status[].arrearsMonths"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Duration of relief requested is not in inbound arrears_status; must come from customer hardship application."
     },
     {
       "outbound_field": "supporting_documents",
-      "sources": [
-        "arrears_status[].notes"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Supporting document filenames are not present in inbound arrears_status; must come from hardship application submission."
     },
     {
       "outbound_field": "contact_number",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No phone contact in inbound arrears_status; likely from customer master data or hardship application."
     },
     {
       "outbound_field": "contact_email",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No email contact in inbound arrears_status; likely from customer master data or hardship application."
     },
     {
       "outbound_field": "priority",
       "sources": [
-        "arrears_status[].status"
+        "arrears_status[].actionRequired"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.6,
+      "reasoning": "Inbound actionRequired flag may influence priority assignment; if true, could trigger normal or higher priority, though mapping is speculative."
     },
     {
       "outbound_field": "status",
-      "sources": [
-        "arrears_status[].status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound status 'pending_credit_review' is a workflow state for the hardship request, not derivable from inbound arrears_status."
     }
   ]
 }

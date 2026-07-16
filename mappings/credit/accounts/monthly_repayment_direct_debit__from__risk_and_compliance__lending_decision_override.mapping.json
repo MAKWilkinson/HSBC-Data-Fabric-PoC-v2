@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,108 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/monthly_repayment_direct_debit.schema.json",
-    "fingerprint": "154cd31096fbc5c5"
+    "fingerprint": "2907360c77e162de"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, loan details, and repayment data, which suggests a plausible connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "repaymentId",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the message ID from the inbound file."
-    },
-    {
-      "outbound_field": "batchDate",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed timestamp field from the inbound file to batch date in the outbound file."
-    },
-    {
-      "outbound_field": "department.from",
-      "sources": [
-        "source"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the source system name from the inbound file."
-    },
-    {
-      "outbound_field": "department.to",
-      "sources": [
-        "destination"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed destination system name from the inbound file to department.to in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.accountNumber",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Customer ID from the inbound file is used to generate account number in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.customerName",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Customer ID from the inbound file is used to generate customer name in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.loanId",
-      "sources": [
-        "payload.loanApplicationId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Loan application ID from the inbound file is used to generate loan ID in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.repaymentAmount",
-      "sources": [
-        "payload.loanDetails.loanAmount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Loan amount from the inbound file is used to generate repayment amount in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.currency",
-      "sources": [
-        "payload.loanDetails.currency"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Currency from the inbound file is used to generate currency in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.dueDate",
-      "sources": [
-        "payload.loanDetails.loanTerm"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Loan term from the inbound file is used to generate due date in the outbound file."
-    },
-    {
-      "outbound_field": "repayments.directDebitMandateId",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents a lending decision override event (a point-in-time approval decision), while the outbound file contains monthly repayment batch instructions (recurring operational transactions). These represent fundamentally different business processes with minimal field overlap. Only customerId and currency appear in both schemas, but they serve entirely different purposes in their respective contexts. The inbound file captures approval metadata and risk assessment; the outbound file captures repayment execution details. No plausible data transformation pipeline connects a lending override decision to a monthly repayment batch.",
+  "mappings": []
 }

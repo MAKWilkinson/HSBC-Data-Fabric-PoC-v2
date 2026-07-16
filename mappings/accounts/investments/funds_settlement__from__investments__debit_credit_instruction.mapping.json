@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
   "outbound_schema": {
     "source": {
@@ -19,56 +19,56 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/funds_settlement.schema.json",
-    "fingerprint": "1f4d1b6218c95405"
+    "fingerprint": "cfc8d72f9e643a69"
   },
   "related": true,
   "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers and fund IDs, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_reasoning": "Both files represent a bidirectional transaction flow between investments and accounts departments: inbound carries debit/credit instructions from investments to accounts, outbound carries settlement confirmations back from accounts to investments. Field concepts (fund_id, fund_name, amount, currency, timestamps, approval tracking) directly correspond, and the message types form a logical pipeline step.",
   "mappings": [
     {
       "outbound_field": "settlement_id",
       "sources": [
-        "debit_credit_instructions[].instruction_id"
+        "debit_credit_instructions[].batch_reference"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.8,
+      "reasoning": "Both uniquely identify a batch/settlement; settlement_id is the accounts system's reference for the same logical batch."
     },
     {
       "outbound_field": "settlement_date",
       "sources": [
-        "debit_credit_instructions[].timestamp"
+        "debit_credit_instructions[].instructions[].effective_date"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Effective_date specifies when the transaction should execute; settlement_date reflects when it was actually executed in accounts."
     },
     {
       "outbound_field": "from_department",
       "sources": [
-        "debit_credit_instructions[].source_department"
+        "debit_credit_instructions[].target_department"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Inbound target_department (accounts) becomes the outbound from_department as accounts now sends the settlement back."
     },
     {
       "outbound_field": "to_department",
       "sources": [
-        "debit_credit_instructions[].target_department"
+        "debit_credit_instructions[].source_department"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "SEMANTIC",
+      "confidence": 0.9,
+      "reasoning": "Inbound source_department (investments) becomes the outbound to_department as the settlement returns to investments."
     },
     {
       "outbound_field": "currency",
       "sources": [
         "debit_credit_instructions[].instructions[].currency"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Currency code is directly copied; both constrained to GBP enum."
     },
     {
       "outbound_field": "total_amount",
@@ -77,26 +77,112 @@
         "debit_credit_instructions[].total_credit_amount"
       ],
       "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
+      "confidence": 0.7,
+      "reasoning": "Settlement total likely combines or derives from both debit and credit totals from the instruction batch."
     },
     {
       "outbound_field": "settlement_status",
       "sources": [
         "debit_credit_instructions[].approval_status"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Approval_status (approved) transitions to settlement_status (completed) as the instruction batch is executed and settled."
     },
     {
-      "outbound_field": "settlements",
+      "outbound_field": "settlements[].fund_id",
       "sources": [
-        "debit_credit_instructions[].instructions"
+        "debit_credit_instructions[].instructions[].fund_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Fund identifier is directly copied from individual instruction to settlement transaction."
+    },
+    {
+      "outbound_field": "settlements[].fund_name",
+      "sources": [
+        "debit_credit_instructions[].instructions[].fund_name"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Fund name is directly copied from individual instruction to settlement transaction."
+    },
+    {
+      "outbound_field": "settlements[].transaction_type",
+      "sources": [
+        "debit_credit_instructions[].instructions[].instruction_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Instruction_type (debit/credit) maps to transaction_type (transfer_in), though the outbound enum is narrower and may represent only credit/inbound transfers."
+    },
+    {
+      "outbound_field": "settlements[].amount",
+      "sources": [
+        "debit_credit_instructions[].instructions[].amount"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Transaction amount is directly copied from instruction to settlement."
+    },
+    {
+      "outbound_field": "settlements[].reference",
+      "sources": [
+        "debit_credit_instructions[].instructions[].transaction_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Transaction_id from inbound becomes the reference field linking back to the originating instruction."
+    },
+    {
+      "outbound_field": "settlements[].timestamp",
+      "sources": [
+        "debit_credit_instructions[].approval_timestamp"
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "reasoning": "Approval_timestamp marks when the batch was authorized; settlement timestamp reflects when the transfer was processed."
+    },
+    {
+      "outbound_field": "settlements[].verified",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "No validation or verification flag exists in inbound schema; likely added by accounts system during settlement processing."
+    },
+    {
+      "outbound_field": "created_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "System identifier is generated by accounts system itself, not sourced from inbound data."
+    },
+    {
+      "outbound_field": "approved_by",
+      "sources": [
+        "debit_credit_instructions[].approver"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "Approver email address is directly copied to approved_by field."
+    },
+    {
+      "outbound_field": "approval_timestamp",
+      "sources": [
+        "debit_credit_instructions[].approval_timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Approval timestamp is directly copied from inbound batch approval time."
+    },
+    {
+      "outbound_field": "notes",
+      "sources": [
+        "debit_credit_instructions[].instructions[].description"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Instruction description (business narrative) may be aggregated or summarized into settlement notes field."
     }
   ]
 }

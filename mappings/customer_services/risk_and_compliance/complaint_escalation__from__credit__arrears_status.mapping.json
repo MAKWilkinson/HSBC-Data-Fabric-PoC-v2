@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/arrears_status.schema.json",
-    "fingerprint": "1714538579997464"
+    "fingerprint": "b6c6d9868f60d986"
   },
   "outbound_schema": {
     "source": {
@@ -19,83 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, account numbers, and arrears status, which could be transformed into a complaint escalation.",
-  "mappings": [
-    {
-      "outbound_field": "complaint.complaint_id",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer ID from arrears status."
-    },
-    {
-      "outbound_field": "complaint.customer_id",
-      "sources": [
-        "arrears_status[].customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer ID from arrears status."
-    },
-    {
-      "outbound_field": "complaint.customer_name",
-      "sources": [
-        "arrears_status[].customerName"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as customer name from arrears status."
-    },
-    {
-      "outbound_field": "complaint.complaint_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the timestamp from arrears status."
-    },
-    {
-      "outbound_field": "complaint.description",
-      "sources": [
-        "arrears_status[].notes"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as notes from arrears status."
-    },
-    {
-      "outbound_field": "complaint.account_number",
-      "sources": [
-        "arrears_status[].accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the account number from arrears status."
-    },
-    {
-      "outbound_field": "complaint.amount",
-      "sources": [
-        "arrears_status[].arrearsAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the arrears amount from arrears status."
-    },
-    {
-      "outbound_field": "complaint.currency",
-      "sources": [
-        "arrears_status[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the currency from arrears status."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains arrears status data (payment delinquency information), while the outbound file contains complaint escalation data focused on unauthorized transactions and fraud. These represent fundamentally different business domains with minimal field overlap. The inbound file has no complaint, fraud, or unauthorized transaction concepts, and the outbound file has no arrears or payment status concepts. While both files flow through customer_services, they address unrelated compliance concerns.",
+  "mappings": []
 }

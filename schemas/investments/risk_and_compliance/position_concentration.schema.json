@@ -11,70 +11,79 @@
       "name": "message_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the message"
+      "description": "Unique identifier for this position concentration report message"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the data was generated",
+      "description": "When the message was generated and sent",
       "fmt": "iso8601"
     },
     {
       "name": "source_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that originated the data"
+      "description": "The originating department sending the report",
+      "enum_values": [
+        "Investments"
+      ]
     },
     {
       "name": "destination_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that received the message"
+      "description": "The receiving department for risk and compliance review",
+      "enum_values": [
+        "Risk and Compliance"
+      ]
     },
     {
       "name": "report_type",
       "data_type": "string",
       "nullable": false,
-      "description": "Type of report being generated"
+      "description": "Classification of the report as a position concentration analysis",
+      "enum_values": [
+        "position_concentration"
+      ]
     },
     {
       "name": "reporting_date",
       "data_type": "date",
       "nullable": false,
-      "description": "Date for which the report is being generated",
-      "fmt": "iso8601"
+      "description": "The date as of which the portfolio concentration is measured",
+      "fmt": "date"
     },
     {
       "name": "data",
       "data_type": "object",
       "nullable": false,
-      "description": "Main data payload of the message",
+      "description": "Container for all portfolio concentration analysis data",
       "children": [
         {
           "name": "portfolio_summary",
           "data_type": "object",
           "nullable": false,
-          "description": "Summary statistics for the portfolio",
+          "description": "High-level summary metrics of the entire portfolio",
           "children": [
             {
               "name": "total_positions",
               "data_type": "integer",
-              "nullable": true,
-              "description": "Total number of positions in the portfolio"
+              "nullable": false,
+              "description": "Total number of individual positions held in the portfolio"
             },
             {
               "name": "total_market_value",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Total market value of the portfolio",
+              "nullable": false,
+              "description": "Aggregate market value of all positions in the portfolio",
               "fmt": "currency"
             },
             {
               "name": "currency",
               "data_type": "string",
               "nullable": false,
-              "description": "Currency in which the portfolio is valued",
+              "description": "Currency denomination of all monetary values in the report",
               "fmt": "currency_code",
               "enum_values": [
                 "USD"
@@ -83,8 +92,8 @@
             {
               "name": "concentration_threshold_alert",
               "data_type": "boolean",
-              "nullable": true,
-              "description": "Whether a concentration threshold has been exceeded"
+              "nullable": false,
+              "description": "Flag indicating whether portfolio concentration exceeds defined thresholds"
             }
           ]
         },
@@ -92,46 +101,47 @@
           "name": "concentration_by_sector",
           "data_type": "array",
           "nullable": false,
-          "description": "Breakdown of portfolio concentration by sector",
+          "description": "Breakdown of portfolio concentration by industry sector",
           "children": [
             {
               "name": "sector",
               "data_type": "string",
               "nullable": false,
-              "description": "Sector in which the positions are concentrated",
+              "description": "Name of the industry sector",
               "enum_values": [
                 "Technology",
                 "Financial Services",
                 "Healthcare",
                 "Consumer Discretionary",
-                "Industrials"
+                "Industrials",
+                "Other"
               ]
             },
             {
               "name": "percentage_of_portfolio",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Percentage of the portfolio concentrated in this sector",
+              "nullable": false,
+              "description": "Sector's share of total portfolio market value as a percentage",
               "fmt": "percentage"
             },
             {
               "name": "number_of_positions",
               "data_type": "integer",
-              "nullable": true,
-              "description": "Number of positions in this sector"
+              "nullable": false,
+              "description": "Count of individual positions within this sector"
             },
             {
               "name": "market_value",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Market value of the positions in this sector",
+              "nullable": false,
+              "description": "Total market value of all positions in this sector",
               "fmt": "currency"
             },
             {
               "name": "risk_level",
               "data_type": "string",
               "nullable": false,
-              "description": "Risk level associated with this sector",
+              "description": "Qualitative risk assessment for the sector concentration",
               "enum_values": [
                 "HIGH",
                 "MEDIUM",
@@ -144,57 +154,45 @@
           "name": "concentration_by_single_name",
           "data_type": "array",
           "nullable": false,
-          "description": "Breakdown of portfolio concentration by single name (issuer)",
+          "description": "Breakdown of portfolio concentration by individual security issuer",
           "children": [
             {
               "name": "issuer_name",
               "data_type": "string",
               "nullable": false,
-              "description": "Name of the issuer (company) in which positions are concentrated",
-              "enum_values": [
-                "Microsoft Corp",
-                "Apple Inc",
-                "JPMorgan Chase",
-                "Johnson & Johnson"
-              ]
+              "description": "Legal name of the security issuer"
             },
             {
               "name": "ticker",
               "data_type": "string",
               "nullable": false,
-              "description": "Ticker symbol of the issuer (company)",
-              "enum_values": [
-                "MSFT",
-                "AAPL",
-                "JPM",
-                "JNJ"
-              ]
+              "description": "Stock exchange ticker symbol for the security"
             },
             {
               "name": "percentage_of_portfolio",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Percentage of the portfolio concentrated in this issuer",
+              "nullable": false,
+              "description": "Issuer's position as a percentage of total portfolio market value",
               "fmt": "percentage"
             },
             {
               "name": "market_value",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Market value of the positions in this issuer",
+              "nullable": false,
+              "description": "Current market value of all holdings in this issuer",
               "fmt": "currency"
             },
             {
               "name": "number_of_shares",
               "data_type": "integer",
-              "nullable": true,
-              "description": "Number of shares held in this issuer"
+              "nullable": false,
+              "description": "Total quantity of shares held in this issuer"
             },
             {
               "name": "compliance_status",
               "data_type": "string",
               "nullable": false,
-              "description": "Compliance status of the positions in this issuer",
+              "description": "Whether the single-name position complies with regulatory concentration limits",
               "enum_values": [
                 "COMPLIANT"
               ]
@@ -202,8 +200,8 @@
             {
               "name": "regulatory_limit",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Regulatory limit for the positions in this issuer",
+              "nullable": false,
+              "description": "Maximum permitted percentage of portfolio for a single issuer under regulation",
               "fmt": "percentage"
             }
           ]
@@ -212,13 +210,13 @@
           "name": "concentration_by_geography",
           "data_type": "array",
           "nullable": false,
-          "description": "Breakdown of portfolio concentration by geography (country)",
+          "description": "Breakdown of portfolio concentration by geographic region or country",
           "children": [
             {
               "name": "country",
               "data_type": "string",
               "nullable": false,
-              "description": "Country in which the positions are concentrated",
+              "description": "Geographic region or country of security issuance or listing",
               "enum_values": [
                 "United States",
                 "United Kingdom",
@@ -230,30 +228,125 @@
             {
               "name": "percentage_of_portfolio",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Percentage of the portfolio concentrated in this country",
+              "nullable": false,
+              "description": "Region's share of total portfolio market value as a percentage",
               "fmt": "percentage"
-            },
-            {
-              "name": "number_of_positions",
-              "data_type": "integer",
-              "nullable": true,
-              "description": "Number of positions in this country"
             },
             {
               "name": "market_value",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "Market value of the positions in this country",
+              "nullable": false,
+              "description": "Total market value of all positions in this geographic region",
               "fmt": "currency"
+            },
+            {
+              "name": "number_of_positions",
+              "data_type": "integer",
+              "nullable": false,
+              "description": "Count of individual positions in this geographic region"
             }
           ]
         },
         {
-          "name": "regulatory_threshold_alert",
-          "data_type": "boolean",
-          "nullable": true,
-          "description": "Whether a regulatory threshold has been exceeded"
+          "name": "regulatory_compliance",
+          "data_type": "object",
+          "nullable": false,
+          "description": "Summary of regulatory compliance status and breaches for concentration limits",
+          "children": [
+            {
+              "name": "single_name_limit_exceeded",
+              "data_type": "boolean",
+              "nullable": false,
+              "description": "Whether any single issuer position exceeds regulatory concentration limits"
+            },
+            {
+              "name": "sector_limit_exceeded",
+              "data_type": "boolean",
+              "nullable": false,
+              "description": "Whether any sector concentration exceeds regulatory limits"
+            },
+            {
+              "name": "breaching_limits",
+              "data_type": "array",
+              "nullable": false,
+              "description": "List of specific concentration limits that are currently breached",
+              "children": [
+                {
+                  "name": "category",
+                  "data_type": "string",
+                  "nullable": false,
+                  "description": "The concentration category (sector, single-name, or geography) that is breaching limits"
+                },
+                {
+                  "name": "limit",
+                  "data_type": "decimal",
+                  "nullable": false,
+                  "description": "The regulatory maximum threshold for this concentration category",
+                  "fmt": "percentage"
+                },
+                {
+                  "name": "current_value",
+                  "data_type": "decimal",
+                  "nullable": false,
+                  "description": "The current concentration level exceeding the regulatory limit",
+                  "fmt": "percentage"
+                },
+                {
+                  "name": "action_required",
+                  "data_type": "string",
+                  "nullable": false,
+                  "description": "The remedial action needed to bring the portfolio into compliance",
+                  "enum_values": [
+                    "REDUCE"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "last_compliance_check",
+              "data_type": "timestamp",
+              "nullable": false,
+              "description": "When the most recent regulatory compliance check was performed",
+              "fmt": "iso8601"
+            },
+            {
+              "name": "next_compliance_check",
+              "data_type": "timestamp",
+              "nullable": false,
+              "description": "When the next scheduled regulatory compliance check is due",
+              "fmt": "iso8601"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metadata",
+      "data_type": "object",
+      "nullable": false,
+      "description": "Administrative metadata about the report preparation and quality",
+      "children": [
+        {
+          "name": "prepared_by",
+          "data_type": "string",
+          "nullable": false,
+          "description": "The team or system that prepared the position concentration report"
+        },
+        {
+          "name": "approval_status",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Current approval workflow status of the report",
+          "enum_values": [
+            "PENDING_REVIEW"
+          ]
+        },
+        {
+          "name": "data_quality_score",
+          "data_type": "decimal",
+          "nullable": false,
+          "description": "Quantitative measure of data completeness and accuracy as a percentage",
+          "fmt": "percentage"
         }
       ]
     }

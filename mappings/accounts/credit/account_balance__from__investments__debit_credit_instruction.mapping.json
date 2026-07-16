@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
   "outbound_schema": {
     "source": {
@@ -19,103 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file provides investment instructions, which could be processed and transformed into account balances, as seen in the outbound file.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "debit_credit_instructions[].instructions[].fund_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Fund ID from inbound instructions is renamed as account ID in the outbound file."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "debit_credit_instructions[].instructions[].fund_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Fund name from inbound instructions is renamed as customer ID in the outbound file."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [
-        "debit_credit_instructions[].instructions[].instruction_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Instruction type from inbound instructions captures the same concept as account type in the outbound file."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "debit_credit_instructions[].instructions[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Currency field is copied exactly from inbound instructions to outbound file."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "debit_credit_instructions[].total_debit_amount",
-        "debit_credit_instructions[].total_credit_amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Total debit and credit amounts from inbound instructions are merged to calculate the account balance."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "debit_credit_instructions[].total_debit_amount",
-        "debit_credit_instructions[].total_credit_amount"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Total debit and credit amounts from inbound instructions are merged to calculate the available balance."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [
-        "debit_credit_instructions[].instructions[]"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Individual debit and credit instructions from inbound file are merged to form pending transactions in the outbound file."
-    },
-    {
-      "outbound_field": "last_updated",
-      "sources": [
-        "debit_credit_instructions[].approval_timestamp"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Approval timestamp from inbound instructions is renamed as last updated in the outbound file."
-    },
-    {
-      "outbound_field": "account_status",
-      "sources": [
-        "debit_credit_instructions[].approval_status"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Approval status from inbound instructions is renamed as account status in the outbound file."
-    },
-    {
-      "outbound_field": "branch_code",
-      "sources": [
-        "debit_credit_instructions[].target_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Target department from inbound instructions is renamed as branch code in the outbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains debit/credit transaction instructions from investments to accounts, while the outbound file contains account balance snapshots from accounts to credit. These represent fundamentally different data domains: the inbound is transactional instruction data, the outbound is account state data. There is minimal field overlap (only currency and timestamp concepts), and the outbound schema requires customer_id, account_type, and balance information that are not present in the inbound schema. The outbound file's structure and purpose cannot be reasonably explained as a transformation of the inbound file.",
+  "mappings": []
 }

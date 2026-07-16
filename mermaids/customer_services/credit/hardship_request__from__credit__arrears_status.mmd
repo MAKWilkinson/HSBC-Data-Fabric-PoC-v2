@@ -1,23 +1,26 @@
 flowchart LR
   subgraph IN["credit: arrears_status"]
-    in_messageId["messageId"]
     in_timestamp["timestamp"]
+    in_destinationSystem["destinationSystem"]
+    in_sourceSystem["sourceSystem"]
     in_arrears_status___customerId["arrears_status[].customerId"]
     in_arrears_status___accountNumber["arrears_status[].accountNumber"]
-    in_arrears_status___productType["arrears_status[].productType"]
-    in_arrears_status___status["arrears_status[].status"]
-    in_arrears_status___arrearsAmount["arrears_status[].arrearsAmount"]
-    in_arrears_status___arrearsMonths["arrears_status[].arrearsMonths"]
     in_arrears_status___notes["arrears_status[].notes"]
+    in_arrears_status___riskLevel["arrears_status[].riskLevel"]
+    in_arrears_status___arrearsAmount["arrears_status[].arrearsAmount"]
+    in_arrears_status___actionRequired["arrears_status[].actionRequired"]
   end
   subgraph OUT["customer_services: hardship_request"]
     out_request_id["request_id"]
     out_timestamp["timestamp"]
+    out_source_department["source_department"]
+    out_target_department["target_department"]
     out_customer_id["customer_id"]
     out_customer_name["customer_name"]
     out_account_number["account_number"]
     out_request_type["request_type"]
     out_hardship_reason["hardship_reason"]
+    out_hardship_severity["hardship_severity"]
     out_monthly_income["monthly_income"]
     out_monthly_expenses["monthly_expenses"]
     out_outstanding_balance["outstanding_balance"]
@@ -30,21 +33,12 @@ flowchart LR
     out_priority["priority"]
     out_status["status"]
   end
-  in_messageId -->|EXACT| out_request_id
   in_timestamp -->|EXACT| out_timestamp
-  in_arrears_status___customerId -->|RENAMED| out_customer_id
-  in_arrears_status___customerId -->|SEMANTIC| out_customer_name
-  in_arrears_status___accountNumber -->|EXACT| out_account_number
-  in_arrears_status___productType -->|RENAMED| out_request_type
-  in_arrears_status___status -->|SEMANTIC| out_hardship_reason
-  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_income
-  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_expenses
-  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_outstanding_balance
-  in_arrears_status___arrearsAmount -->|TRANSFORMED| out_monthly_payment_amount
-  in_arrears_status___status -->|SEMANTIC| out_requested_relief_type
-  in_arrears_status___arrearsMonths -->|EXACT| out_requested_duration_months
-  in_arrears_status___notes -->|SEMANTIC| out_supporting_documents
-  in_arrears_status___customerId -->|SEMANTIC| out_contact_number
-  in_arrears_status___customerId -->|SEMANTIC| out_contact_email
-  in_arrears_status___status -->|SEMANTIC| out_priority
-  in_arrears_status___status -->|EXACT| out_status
+  in_destinationSystem -->|SEMANTIC| out_source_department
+  in_sourceSystem -->|SEMANTIC| out_target_department
+  in_arrears_status___customerId -->|EXACT| out_customer_id
+  in_arrears_status___accountNumber -->|RENAMED| out_account_number
+  in_arrears_status___notes -->|SEMANTIC| out_hardship_reason
+  in_arrears_status___riskLevel -->|SEMANTIC| out_hardship_severity
+  in_arrears_status___arrearsAmount -->|RENAMED| out_outstanding_balance
+  in_arrears_status___actionRequired -->|SEMANTIC| out_priority

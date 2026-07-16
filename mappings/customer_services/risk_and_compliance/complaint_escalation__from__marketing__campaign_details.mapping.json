@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "89dedbcc42df434e"
+    "fingerprint": "60092d15f7b3f417"
   },
   "outbound_schema": {
     "source": {
@@ -19,46 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file's campaign details seem to be connected to the outbound file's complaint escalation, as both files share concepts like customer name and address.",
-  "mappings": [
-    {
-      "outbound_field": "complaint.customer_id",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "complaint.complaint_date",
-      "sources": [
-        "start_date",
-        "end_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "complaint.description",
-      "sources": [
-        "key_messages"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "escalation_id",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, objectives, target segments, success metrics) while the outbound file contains complaint escalation data (fraud indicators, unauthorized transactions, regulatory flags). These represent fundamentally different business domains with no meaningful field overlap; campaign details do not plausibly generate complaint escalations.",
+  "mappings": []
 }

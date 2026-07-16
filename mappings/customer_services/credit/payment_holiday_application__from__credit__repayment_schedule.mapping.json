@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
   "outbound_schema": {
     "source": {
@@ -19,92 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, loan details, and repayment schedules, which makes them plausibly connected by data lineage.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customerId",
-      "sources": [
-        "repayment_schedule.customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer.name",
-      "sources": [
-        "repayment_schedule.customer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "account.accountNumber",
-      "sources": [
-        "repayment_schedule.loan_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "account.accountType",
-      "sources": [
-        "repayment_schedule.loan_type"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "account.loanAmount",
-      "sources": [
-        "repayment_schedule.principal_amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "account.currency",
-      "sources": [
-        "repayment_schedule.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "paymentHolidayRequest.requestedMonths",
-      "sources": [
-        "repayment_schedule.repayments[].total_repayments"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "paymentHolidayRequest.startDate",
-      "sources": [
-        "repayment_schedule.start_date"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "paymentHolidayRequest.endDate",
-      "sources": [
-        "repayment_schedule.maturity_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains a repayment schedule for an existing loan (Personal Loan), while the outbound file is a payment holiday application request. Although both involve loans and customer data, they represent fundamentally different business processes: one is a read-only schedule artifact, the other is a new application submission. The account type mismatch (Personal Loan vs. Mortgage), the absence of application-specific fields in the inbound schema (applicationId, requestedBy, applicationStatus, paymentHolidayRequest details), and the directional flow (credit\u2192customer_services inbound, customer_services\u2192credit outbound) suggest these are independent workflows rather than a data lineage chain.",
+  "mappings": []
 }

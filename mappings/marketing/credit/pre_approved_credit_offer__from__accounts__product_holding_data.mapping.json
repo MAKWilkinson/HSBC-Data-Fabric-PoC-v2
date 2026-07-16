@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "e070c85cd104c5ba"
+    "fingerprint": "8e70e5616cb49d16"
   },
   "outbound_schema": {
     "source": {
@@ -19,20 +19,18 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, product holdings, and credit offers, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.75,
+  "relatedness_reasoning": "Inbound file contains customer product holdings and financial data; outbound file generates pre-approved credit offers targeting those customers. Marketing system consumes holdings data and produces credit offers for the credit department, forming a logical pipeline step. Multiple fields correspond (customer_id, account details, balance/credit metrics).",
   "mappings": [
     {
       "outbound_field": "offer_id",
-      "sources": [
-        "product_holding_data.holdings[].customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer ID from the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for the offer; no source in inbound data."
     },
     {
       "outbound_field": "customer_id",
@@ -40,82 +38,227 @@
         "product_holding_data.holdings[].customer_id"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the customer ID from the inbound file."
+      "confidence": 0.95,
+      "reasoning": "Direct match: customer identifier from holdings array used to target offer."
+    },
+    {
+      "outbound_field": "offer_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Fixed enum value 'pre_approved_credit' determined by marketing business logic, not derived from inbound data."
     },
     {
       "outbound_field": "department_from",
-      "sources": [
-        "product_holding_data.source_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed version of the source department field."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Fixed enum value 'marketing' representing the sending department; not derived from inbound schema."
     },
     {
       "outbound_field": "department_to",
-      "sources": [
-        "product_holding_data.target_department"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Renamed version of the target department field."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Fixed enum value 'credit' representing the destination department; not derived from inbound schema."
     },
     {
       "outbound_field": "timestamp",
       "sources": [
         "product_holding_data.timestamp"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the timestamp from the inbound file."
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Both are ISO 8601 timestamps; outbound timestamp likely generated at offer creation time, possibly derived from or aligned with inbound processing timestamp."
     },
     {
       "outbound_field": "customer_details.first_name",
-      "sources": [
-        "product_holding_data.holdings[].customer_id",
-        "product_holding_data.summary.total_customers"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The first name is likely derived from the customer ID and total customers."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Customer personal name data not present in inbound holdings schema; must come from external customer master data."
     },
     {
       "outbound_field": "customer_details.last_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Customer personal name data not present in inbound holdings schema; must come from external customer master data."
+    },
+    {
+      "outbound_field": "customer_details.email",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Email address not present in inbound holdings schema; must come from external customer contact data."
+    },
+    {
+      "outbound_field": "customer_details.phone",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Phone number not present in inbound holdings schema; must come from external customer contact data."
+    },
+    {
+      "outbound_field": "customer_details.account_number",
       "sources": [
-        "product_holding_data.holdings[].customer_id",
-        "product_holding_data.summary.total_customers"
+        "product_holding_data.holdings[].account_number"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The last name is likely derived from the customer ID and total customers."
+      "transformation": "EXACT",
+      "confidence": 0.9,
+      "reasoning": "IBAN account number directly copied from holdings to identify customer's existing account."
     },
     {
       "outbound_field": "credit_offer.product_type",
-      "sources": [
-        "product_holding_data.holdings[].product_id"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The product type is likely derived from the product ID."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Fixed enum value 'personal_loan' determined by marketing campaign strategy; not derived from inbound product data."
     },
     {
       "outbound_field": "credit_offer.offer_amount",
       "sources": [
-        "product_holding_data.holdings[].balance"
+        "product_holding_data.holdings[].available_balance",
+        "product_holding_data.holdings[].balance",
+        "product_holding_data.holdings[].credit_limit"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The offer amount is likely derived from the account balance."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Offer amount likely calculated from customer's existing credit metrics (available balance, current balance, or credit limit) using marketing eligibility rules."
     },
     {
       "outbound_field": "credit_offer.currency",
       "sources": [
         "product_holding_data.holdings[].currency"
       ],
-      "transformation": "EXACT",
+      "transformation": "SEMANTIC",
       "confidence": 0.9,
-      "reasoning": "Exact copy of the currency from the inbound file."
+      "reasoning": "Currency code matches inbound holdings currency (GBP); offer issued in same currency as customer's existing accounts."
+    },
+    {
+      "outbound_field": "credit_offer.interest_rate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.8,
+      "reasoning": "Interest rate for the new loan offer determined by marketing/credit policy, not derived from inbound holdings interest rates."
+    },
+    {
+      "outbound_field": "credit_offer.term_months",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Loan term determined by marketing campaign parameters; no corresponding field in inbound holdings data."
+    },
+    {
+      "outbound_field": "credit_offer.monthly_payment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Monthly payment calculated by credit system based on offer terms; not present in inbound data."
+    },
+    {
+      "outbound_field": "credit_offer.total_repayable",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Total repayable amount calculated by credit system; not present in inbound data."
+    },
+    {
+      "outbound_field": "offer_validity.start_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Offer validity dates determined by marketing campaign schedule; not derived from inbound holdings data."
+    },
+    {
+      "outbound_field": "offer_validity.end_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Offer expiration date determined by marketing campaign schedule; not derived from inbound holdings data."
+    },
+    {
+      "outbound_field": "offer_validity.days_valid",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Validity period determined by marketing campaign parameters; not derived from inbound holdings data."
+    },
+    {
+      "outbound_field": "eligibility_criteria.credit_score_required",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Credit score threshold set by marketing campaign policy; not present in inbound holdings schema."
+    },
+    {
+      "outbound_field": "eligibility_criteria.annual_income_required",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Income threshold set by marketing campaign policy; not present in inbound holdings schema."
+    },
+    {
+      "outbound_field": "eligibility_criteria.employment_status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Employment requirement set by marketing campaign policy; not present in inbound holdings schema."
+    },
+    {
+      "outbound_field": "eligibility_criteria.existing_customer",
+      "sources": [
+        "product_holding_data.holdings[].customer_id"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Presence of customer in holdings array indicates existing customer status; this flag likely set to true based on inbound data."
+    },
+    {
+      "outbound_field": "marketing_campaign.campaign_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Campaign identifier determined by marketing system; not present in inbound holdings data."
+    },
+    {
+      "outbound_field": "marketing_campaign.campaign_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Campaign name determined by marketing system; not present in inbound holdings data."
+    },
+    {
+      "outbound_field": "marketing_campaign.channel",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Communication channel determined by marketing campaign configuration; not present in inbound holdings data."
+    },
+    {
+      "outbound_field": "marketing_campaign.segment",
+      "sources": [
+        "product_holding_data.holdings[].balance",
+        "product_holding_data.holdings[].monthly_turnover",
+        "product_holding_data.holdings[].is_primary_account"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.6,
+      "reasoning": "Customer segment 'high_value_customers' likely determined by analyzing balance, turnover, and account status from holdings data."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Fixed enum value 'pending_credit_review' representing workflow state; determined by system logic, not inbound data."
+    },
+    {
+      "outbound_field": "approval_required",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Boolean flag set by business rules; not derived from inbound holdings data."
     }
   ]
 }

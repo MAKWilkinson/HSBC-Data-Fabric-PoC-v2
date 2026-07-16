@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
   "outbound_schema": {
     "source": {
@@ -19,20 +19,18 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files concern flagged/at-risk accounts with overlapping customer and account identifiers; Risk and Compliance consumes arrears flags and produces transaction hold notices as a downstream compliance action, forming a logical pipeline.",
   "mappings": [
     {
       "outbound_field": "noticeId",
-      "sources": [
-        "metadata.report_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from report ID to notice ID."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for the hold notice; no source in inbound schema."
     },
     {
       "outbound_field": "timestamp",
@@ -40,35 +38,31 @@
         "arrears_flags[].flag_date"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as flag date, but with a different name."
+      "confidence": 0.75,
+      "reasoning": "Both are ISO8601 timestamps; outbound timestamp likely derived from or correlated with the inbound flag_date."
     },
     {
       "outbound_field": "department",
       "sources": [
-        "metadata.source_department"
+        "metadata.destination_department"
       ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from source department to department."
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound metadata shows Risk_and_Compliance as destination; outbound department is 'Risk and Compliance', the originating department of the hold notice."
     },
     {
       "outbound_field": "recipientDepartment",
-      "sources": [
-        "metadata.destination_department"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from destination department to recipient department."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Outbound recipient is 'Accounts' department; no inbound field specifies this downstream consumer."
     },
     {
       "outbound_field": "noticeType",
-      "sources": [
-        "arrears_flags[].flag_severity"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Captures the same concept as flag severity, but with a different name."
+      "reasoning": "Fixed enum value 'TRANSACTION_HOLD' with no corresponding inbound field; represents the action type being issued."
     },
     {
       "outbound_field": "severity",
@@ -76,17 +70,17 @@
         "arrears_flags[].flag_severity"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as flag severity, but with a different name."
+      "confidence": 0.85,
+      "reasoning": "Both represent risk severity; inbound enum includes 'HIGH' which maps to outbound 'HIGH' severity."
     },
     {
       "outbound_field": "accountNumber",
       "sources": [
         "arrears_flags[].account_id"
       ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from account ID to account number."
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Inbound account_id (format=account_number) directly corresponds to outbound accountNumber (format=iban)."
     },
     {
       "outbound_field": "customerId",
@@ -94,26 +88,28 @@
         "arrears_flags[].customer_id"
       ],
       "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from customer ID to customer ID."
+      "confidence": 0.95,
+      "reasoning": "Identical field name and meaning; unique customer identifier."
     },
     {
       "outbound_field": "customerName",
       "sources": [
         "arrears_flags[].customer_name"
       ],
-      "transformation": "SEMANTIC",
+      "transformation": "RENAMED",
       "confidence": 0.95,
-      "reasoning": "Captures the same concept as customer name, but with a different name."
+      "reasoning": "Inbound customer_name maps to outbound customerName; same semantic meaning, different casing convention."
     },
     {
       "outbound_field": "holdReason",
       "sources": [
-        "arrears_flags[].hold_reason"
+        "arrears_flags[].risk_category",
+        "arrears_flags[].action_type",
+        "arrears_flags[].notes"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as hold reason, but with a different name."
+      "transformation": "MERGE",
+      "confidence": 0.7,
+      "reasoning": "Hold reason likely synthesized from risk_category (e.g., 'DEFAULT_RISK'), action_type, and notes to explain the business rationale."
     },
     {
       "outbound_field": "holdEffectiveDate",
@@ -121,107 +117,145 @@
         "arrears_flags[].flag_date"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as flag date, but with a different name."
+      "confidence": 0.75,
+      "reasoning": "Hold becomes effective around the time the arrears flag is created/updated; both are ISO8601 timestamps."
     },
     {
       "outbound_field": "estimatedHoldDuration",
-      "sources": [
-        "arrears_flags[].hold_duration"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as hold duration, but with a different name."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "No inbound field specifies expected hold duration; likely determined by compliance policy or arrears_status category."
     },
     {
       "outbound_field": "transactionsAffected",
-      "sources": [
-        "arrears_flags[].transactions"
-      ],
-      "transformation": "MERGE",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Combination of transactions from arrears flags."
+      "reasoning": "Inbound schema contains no transaction-level data; this array is generated downstream by Accounts system."
+    },
+    {
+      "outbound_field": "transactionsAffected[].transactionId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction-level identifiers not present in inbound arrears flags schema."
+    },
+    {
+      "outbound_field": "transactionsAffected[].amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Individual transaction amounts not in inbound schema; only account-level outstanding_balance and minimum_payment_due exist."
+    },
+    {
+      "outbound_field": "transactionsAffected[].currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Currency code not specified in inbound schema; transaction-level detail not available."
+    },
+    {
+      "outbound_field": "transactionsAffected[].destinationCountry",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction destination country not present in inbound arrears flags data."
+    },
+    {
+      "outbound_field": "transactionsAffected[].status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction status is outbound-specific; not derived from inbound arrears flags."
     },
     {
       "outbound_field": "riskScore",
       "sources": [
-        "arrears_flags[].risk_score"
+        "arrears_flags[].flag_severity",
+        "arrears_flags[].risk_category"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as risk score, but with a different name."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Quantified risk score likely computed from severity level and risk category classification."
+    },
+    {
+      "outbound_field": "riskFlags",
+      "sources": [
+        "arrears_flags[].risk_category",
+        "arrears_flags[].compliance_action_required"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Risk flags array populated from inbound risk_category and compliance indicators."
     },
     {
       "outbound_field": "requiredActions",
       "sources": [
-        "arrears_flags[].actions"
+        "arrears_flags[].action_type",
+        "arrears_flags[].compliance_action_required"
       ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of actions from arrears flags."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.75,
+      "reasoning": "Required actions derived from inbound action_type and compliance_action_required flag."
     },
     {
       "outbound_field": "escalationLevel",
       "sources": [
-        "arrears_flags[].escalation_level"
+        "arrears_flags[].flag_severity"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as escalation level, but with a different name."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Escalation level computed from severity enum (MEDIUM/HIGH/CRITICAL) mapped to numeric tier."
     },
     {
       "outbound_field": "approvalRequired",
       "sources": [
-        "arrears_flags[].approval_required"
+        "arrears_flags[].flag_severity",
+        "arrears_flags[].compliance_action_required"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as approval required, but with a different name."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.75,
+      "reasoning": "Approval requirement determined by severity level and compliance action flag."
     },
     {
       "outbound_field": "approverRole",
-      "sources": [
-        "arrears_flags[].approver_role"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as approver role, but with a different name."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Specific approver role is a policy/configuration value not present in inbound schema."
     },
     {
       "outbound_field": "notes",
       "sources": [
         "arrears_flags[].notes"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as notes, but with a different name."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound notes field (nullable string) directly maps to outbound notes with same semantic meaning."
     },
     {
       "outbound_field": "expiryDate",
-      "sources": [
-        "arrears_flags[].expiry_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as expiry date, but with a different name."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Hold expiry date not derivable from inbound arrears flags; determined by compliance policy."
     },
     {
       "outbound_field": "issuedBy",
-      "sources": [
-        "arrears_flags[].issued_by"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "Captures the same concept as issued by, but with a different name."
+      "reasoning": "System identifier 'automated_compliance_system_v2.1' is a fixed value, not sourced from inbound data."
     },
     {
       "outbound_field": "priority",
       "sources": [
-        "arrears_flags[].priority"
+        "arrears_flags[].flag_severity"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.95,
-      "reasoning": "Captures the same concept as priority, but with a different name."
+      "confidence": 0.8,
+      "reasoning": "Priority 'URGENT' likely assigned when inbound flag_severity is 'CRITICAL' or 'HIGH'."
     }
   ]
 }

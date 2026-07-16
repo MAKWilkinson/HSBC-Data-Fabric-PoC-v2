@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/risk_and_compliance/transaction_stream.schema.json",
-    "fingerprint": "ea72bfbe5aab17bb"
+    "fingerprint": "1f287415832ad3fe"
   },
   "outbound_schema": {
     "source": {
@@ -19,47 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The transaction_id, counterparty_system, transaction_date, and amount fields from the inbound file could plausibly be used to generate the noticeId, timestamp, accountNumber, and transactionsAffected[].transactionId fields in the outbound file.",
-  "mappings": [
-    {
-      "outbound_field": "noticeId",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "transaction_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "eligible_customers[].customer_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.7,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "transactionsAffected[].transactionId",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound schema is empty (no fields provided), making it impossible to establish any field-level lineage between the inbound transaction_stream.json and the outbound transaction_hold_notice.json. While the system names suggest a plausible pipeline (accounts \u2192 risk_and_compliance \u2192 accounts), without inbound field definitions, no mappings can be validated.",
+  "mappings": []
 }

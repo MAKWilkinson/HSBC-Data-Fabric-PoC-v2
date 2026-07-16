@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,70 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "cc85053f05f356ed"
+    "fingerprint": "254d598c9fe307d8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share concepts like customer information, loan details, and employment status, which form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "loan_applications[].applicant.customer_id",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_applications[].loan_details.requested_amount",
-      "sources": [
-        "payload.loanDetails.loanAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_applications[].employment.employment_status",
-      "sources": [
-        "payload.employmentStatus"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "loan_applications[].financial_profile.total_assets",
-      "sources": [
-        "payload.financialProfile.totalAssets"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_applications[].collateral.property_value",
-      "sources": [
-        "payload.collateralPropertyValue"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "loan_applications[].application_status",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "loan_applications[].submitted_by",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file represents a lending decision override notification from risk_and_compliance to credit (a decision flowing into the credit system), while the outbound file represents loan applications flowing from credit to risk_and_compliance (applications flowing out for review). These are opposite directions in the workflow with fundamentally different purposes: one is a compliance override decision, the other is a loan application submission. The inbound file contains override approval details, compliance flags, and risk assessment results, while the outbound file requests comprehensive applicant personal data, employment history, and compliance checks. There is minimal field overlap (only customer_id, loan amount, currency, and credit score appear in both), and the structural shapes are incompatible\u2014the inbound is a single override event, the outbound is a batch collection of applications. These files represent different stages of a lending workflow, not a data lineage transformation.",
+  "mappings": []
 }

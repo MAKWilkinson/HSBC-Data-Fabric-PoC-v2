@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
   "outbound_schema": {
     "source": {
@@ -19,81 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, account details, and payment holiday requests, which form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "loan_disbursement_instructions[].borrower_name",
-      "sources": [
-        "customer.name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept as customer name, but renamed."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
-      "sources": [
-        "account.loanAmount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].currency",
-      "sources": [
-        "account.currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].disbursement_date",
-      "sources": [
-        "paymentHolidayRequest.startDate"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as start date of payment holiday period, but renamed."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].disbursement_method",
-      "sources": [
-        "paymentHolidayRequest.reason"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Same concept as reason for requesting a payment holiday, but renamed."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].destination_account",
-      "sources": [
-        "account.accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.95,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.9,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file documents a payment holiday application (a suspension of loan payments), while the outbound file instructs disbursement of new loan principal funds. These represent fundamentally different business processes with no meaningful field overlap: payment holidays involve existing accounts and suspension periods, while loan disbursements involve new fund transfers with business purposes, loan terms, and interest rates. The inbound schema contains no disbursement amounts, loan terms, interest rates, destination accounts, or bank codes. Although both files involve loans and the credit system processes both, they serve opposite operational purposes and share no mappable data concepts.",
+  "mappings": []
 }

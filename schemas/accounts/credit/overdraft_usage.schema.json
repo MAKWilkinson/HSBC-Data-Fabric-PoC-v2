@@ -11,63 +11,72 @@
       "name": "fileId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the file"
+      "description": "Unique identifier for the overdraft usage report file, formatted as ODU-YYYYMMDD-NNN"
     },
     {
       "name": "fileName",
       "data_type": "string",
-      "nullable": true,
-      "description": "Name of the file, including path and extension"
+      "nullable": false,
+      "description": "Human-readable name of the source CSV file containing overdraft usage data"
     },
     {
       "name": "sentDate",
       "data_type": "datetime",
       "nullable": false,
-      "description": "Timestamp when the file was sent",
+      "description": "Timestamp when the overdraft usage record was transmitted from Accounts to Credit department",
       "fmt": "iso8601"
     },
     {
       "name": "fromDepartment",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that originated the data"
+      "description": "Originating department sending the overdraft usage data",
+      "enum_values": [
+        "Accounts"
+      ]
     },
     {
       "name": "toDepartment",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that received the data"
+      "description": "Receiving department consuming the overdraft usage data for credit assessment and monitoring",
+      "enum_values": [
+        "Credit"
+      ]
     },
     {
       "name": "accountNumber",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the account"
+      "description": "Unique account identifier for which overdraft usage is being reported",
+      "fmt": "account_number"
     },
     {
       "name": "overdraftLimit",
-      "data_type": "integer",
-      "nullable": true,
-      "description": "The maximum amount of overdraft allowed for the account"
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Maximum overdraft facility amount authorized for the account, expressed in the account's base currency",
+      "fmt": "currency"
     },
     {
       "name": "overdraftUsed",
-      "data_type": "integer",
-      "nullable": true,
-      "description": "The actual amount of overdraft used by the account"
+      "data_type": "decimal",
+      "nullable": false,
+      "description": "Current amount of overdraft facility drawn or utilized by the account holder",
+      "fmt": "currency"
     },
     {
       "name": "usagePercent",
       "data_type": "decimal",
-      "nullable": true,
-      "description": "Percentage of the overdraft limit actually used",
+      "nullable": false,
+      "description": "Percentage of authorized overdraft limit currently in use, calculated as (overdraftUsed / overdraftLimit) \u00d7 100",
       "fmt": "percentage"
     },
     {
       "name": "notes",
       "data_type": "string",
       "nullable": true,
-      "description": "Additional comments or notes about the account's overdraft usage"
+      "description": "Free-text commentary from Accounts department providing context, risk assessment, or recommended actions for the Credit department"
     }
   ]
 }

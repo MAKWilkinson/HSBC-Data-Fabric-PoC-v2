@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,56 +19,50 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as loan application, customer information, and risk assessment details, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.75,
+  "relatedness_reasoning": "The inbound file represents a lending decision override approval from risk_and_compliance to credit; the outbound file represents loan disbursement instructions from credit to accounts. This forms a logical pipeline: an override approval triggers disbursement preparation. Both files share loan identifiers, customer/borrower concepts, loan amounts, currency, and loan terms. The outbound file's structure and content are plausibly derived from processing an approved override.",
   "mappings": [
     {
       "outbound_field": "loan_disbursement_instructions[].instruction_id",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the message ID from the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for the disbursement instruction; no source in inbound."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].loan_id",
       "sources": [
         "payload.loanApplicationId"
       ],
-      "transformation": "EXACT",
+      "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Exact copy of the loan application ID from the inbound file."
+      "reasoning": "Inbound loanApplicationId becomes the loan_id in the outbound disbursement instruction."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].borrower_name",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The borrower name is derived from the customer ID in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.7,
+      "reasoning": "Inbound contains customerId but not borrower name; name likely retrieved from customer master data in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].borrower_account_number",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "The borrower account number is derived from the customer ID in the inbound file."
+      "reasoning": "Account number not present in inbound; likely sourced from customer account records in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_amount",
       "sources": [
         "payload.loanDetails.loanAmount"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the loan amount from the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Inbound loanAmount directly maps to outbound disbursement_amount."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].currency",
@@ -76,125 +70,113 @@
         "payload.loanDetails.currency"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the currency from the inbound file."
+      "confidence": 0.95,
+      "reasoning": "Currency field name and ISO 4217 code format match exactly between inbound and outbound."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_date",
-      "sources": [
-        "payload.timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The disbursement date is derived from the timestamp in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.6,
+      "reasoning": "Inbound contains approvalDate but not a scheduled disbursement date; likely calculated or set by credit system workflow."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].disbursement_method",
-      "sources": [
-        "payload.overrideApprovalDetails.approvalLevel"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "The disbursement method is derived from the approval level in the inbound file."
+      "reasoning": "Disbursement method not specified in inbound; likely a default or system-determined value."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_account",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "The destination account is derived from the customer ID in the inbound file."
+      "reasoning": "Destination account not present in inbound; sourced from borrower account records in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].destination_bank_code",
-      "sources": [
-        "payload.customerId"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The destination bank code is derived from the customer ID in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Bank identifier code not present in inbound; sourced from account routing information in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].purpose",
-      "sources": [
-        "payload.overrideApprovalDetails.approvalLevel"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The purpose is derived from the approval level in the inbound file."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.75,
+      "reasoning": "Loan purpose not captured in inbound override message; likely stored separately in loan agreement or product details."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].loan_term_months",
       "sources": [
         "payload.loanDetails.loanTerm"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the loan term from the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Inbound loanTerm (in months) maps directly to outbound loan_term_months."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].interest_rate",
-      "sources": [
-        "payload.riskAssessmentDetails.creditScore"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "The interest rate is derived from the credit score in the inbound file."
+      "reasoning": "Interest rate not present in inbound override message; sourced from loan product or pricing details in credit system."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].status",
       "sources": [
-        "payload.overrideApprovalDetails.approvalLevel"
+        "payload.overrideDecision"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The status is derived from the approval level in the inbound file."
+      "confidence": 0.75,
+      "reasoning": "Inbound overrideDecision of 'APPROVED' maps to outbound status 'APPROVED'; represents approval state."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_by",
-      "sources": [
-        "payload.overrideApprovalDetails.approvedBy"
-      ],
-      "transformation": "SEMANTIC",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.8,
-      "reasoning": "The created by is derived from the approved by in the inbound file."
+      "reasoning": "Credit officer who created the disbursement instruction not specified in inbound; determined by credit system workflow."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].created_date",
       "sources": [
-        "payload.overrideApprovalDetails.approvalDate"
+        "timestamp"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The created date is derived from the approval date in the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.7,
+      "reasoning": "Inbound message timestamp could represent when the override was processed and disbursement instruction created."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].approved_by",
       "sources": [
         "payload.overrideApprovalDetails.approvedBy"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the approved by from the inbound file."
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound approvedBy (risk and compliance executive) maps to outbound approved_by for the disbursement instruction."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].approved_date",
       "sources": [
         "payload.overrideApprovalDetails.approvalDate"
       ],
-      "transformation": "EXACT",
+      "transformation": "RENAMED",
       "confidence": 0.9,
-      "reasoning": "Exact copy of the approval date from the inbound file."
+      "reasoning": "Inbound approvalDate maps to outbound approved_date for the disbursement instruction."
     },
     {
       "outbound_field": "loan_disbursement_instructions[].remarks",
       "sources": [
+        "payload.overrideReason",
+        "payload.riskAssessmentDetails.mitigatingFactors",
         "payload.overrideApprovalDetails.conditions"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The remarks are derived from the conditions in the inbound file."
+      "transformation": "MERGE",
+      "confidence": 0.65,
+      "reasoning": "Remarks could be populated from override reason, mitigating factors, and approval conditions as free-text notes."
     }
   ]
 }

@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/risk_and_compliance/complaint_escalation.schema.json",
-    "fingerprint": "f79c6ac2c91f2e36"
+    "fingerprint": "e6ae61a0631213e9"
   },
   "outbound_schema": {
     "source": {
@@ -19,65 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.customer_id",
-      "sources": [
-        "complaint.customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "customer.full_name",
-      "sources": [
-        "complaint.customer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.last_refresh_date",
-      "sources": [
-        "complaint.complaint_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.refresh_reason",
-      "sources": [
-        "escalation_reason"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.risk_flag",
-      "sources": [
-        "risk_assessment.fraud_indicator"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "kyc_refresh_details.trigger_factors",
-      "sources": [
-        "documents_attached"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.25,
+  "relatedness_reasoning": "While both files involve customer data and originate from risk_and_compliance, the inbound file is a complaint escalation for fraud/compliance review, whereas the outbound file is a KYC refresh request sent to a credit department. The outbound file requires customer PII (date_of_birth, national_id) and KYC-specific fields (last_refresh_date, PEP_STATUS_VERIFICATION) that are not present in the inbound complaint escalation schema. The business purposes are fundamentally different: one is incident-driven compliance escalation, the other is routine identity verification. No clear data transformation pipeline connects these two message types.",
+  "mappings": []
 }

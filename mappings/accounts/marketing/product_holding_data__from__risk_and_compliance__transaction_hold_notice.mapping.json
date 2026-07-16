@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "outbound_schema": {
     "source": {
@@ -19,81 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/product_holding_data.schema.json",
-    "fingerprint": "e070c85cd104c5ba"
+    "fingerprint": "8e70e5616cb49d16"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and transaction data, which suggests a plausible connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "product_holding_data.holdings[].customer_id",
-      "sources": [
-        "noticeId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The customer ID field in the outbound file is an exact copy of the notice ID field in the inbound file."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].account_number",
-      "sources": [
-        "accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The account number field in the outbound file is an exact copy of the account number field in the inbound file."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].product_id",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].account_status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The account status field in the outbound file is a renamed version of the transaction status field in the inbound file."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].balance",
-      "sources": [
-        "transactionsAffected[].amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The balance field in the outbound file captures the same concept as the transaction amount field in the inbound file, but with a different name."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].currency",
-      "sources": [
-        "transactionsAffected[].currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "The currency field in the outbound file is an exact copy of the transaction currency field in the inbound file."
-    },
-    {
-      "outbound_field": "product_holding_data.holdings[].account_opened_date",
-      "sources": [
-        "holdEffectiveDate"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The account opened date field in the outbound file is a renamed version of the hold effective date field in the inbound file."
-    },
-    {
-      "outbound_field": "product_hholding_data.summary.total_customers",
-      "sources": [
-        "transactionsAffected[].customerName"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The total customers field in the outbound file captures the same concept as the customer name field in the inbound file, but with a different name."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains transaction hold notices from risk_and_compliance to accounts, focused on compliance holds and risk assessment. The outbound file contains product holding data from accounts to marketing, focused on customer account balances and product portfolios. While both mention accounts and share a few field names (customer_id, account_number, currency), they serve fundamentally different purposes: one is a compliance action notice, the other is a marketing-oriented product inventory. The outbound file's rich product and balance data (balance, credit_limit, interest_rate, portfolio_value, rewards_points, etc.) has no corresponding source in the inbound hold notice schema, and the outbound file makes no reference to holds, risk scores, or compliance actions. The data shapes and business domains are incompatible.",
+  "mappings": []
 }

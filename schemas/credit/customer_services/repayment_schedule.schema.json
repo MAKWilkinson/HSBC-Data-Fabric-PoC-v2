@@ -11,168 +11,161 @@
       "name": "repayment_schedule",
       "data_type": "object",
       "nullable": false,
-      "description": "The repayment schedule for a loan",
+      "description": "Root container for the complete repayment schedule and loan details",
       "children": [
         {
           "name": "loan_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the loan"
+          "description": "Unique identifier for the loan issued by the credit department"
         },
         {
           "name": "customer_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the customer who holds the loan"
         },
         {
           "name": "customer_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "The name of the customer"
+          "nullable": false,
+          "description": "Full name of the customer"
         },
         {
           "name": "loan_type",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of loan (e.g. Personal Loan)",
+          "description": "Classification of the loan product",
           "enum_values": [
-            "Personal Loan",
-            "Business Loan"
+            "Personal Loan"
           ]
         },
         {
           "name": "principal_amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "The initial amount borrowed",
+          "description": "Original loan amount disbursed to the customer",
           "fmt": "currency"
         },
         {
           "name": "interest_rate",
           "data_type": "decimal",
           "nullable": false,
-          "description": "The interest rate applied to the loan",
+          "description": "Annual interest rate applied to the loan",
           "fmt": "percentage"
         },
         {
           "name": "loan_term_months",
           "data_type": "integer",
           "nullable": false,
-          "description": "The number of months the loan is taken out for"
+          "description": "Total duration of the loan in months"
         },
         {
           "name": "start_date",
           "data_type": "date",
           "nullable": false,
-          "description": "The date the loan was started",
+          "description": "Date when the loan commenced",
           "fmt": "iso8601"
         },
         {
           "name": "maturity_date",
           "data_type": "date",
           "nullable": false,
-          "description": "The date the loan is due to mature",
+          "description": "Date when the loan is scheduled to be fully repaid",
           "fmt": "iso8601"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "The currency in which the loan is denominated",
+          "description": "ISO 4217 currency code for all monetary amounts in the schedule",
           "fmt": "currency_code",
           "enum_values": [
-            "GBP",
-            "USD",
-            "EUR"
+            "GBP"
           ]
         },
         {
           "name": "schedule_version",
           "data_type": "string",
           "nullable": false,
-          "description": "The version number of the repayment schedule"
+          "description": "Version identifier for the repayment schedule document"
         },
         {
           "name": "generated_date",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "When the repayment schedule was generated",
+          "description": "Date and time when the repayment schedule was generated",
           "fmt": "iso8601"
         },
         {
           "name": "repayment_frequency",
           "data_type": "string",
           "nullable": false,
-          "description": "The frequency at which repayments are made (e.g. Monthly)",
+          "description": "Frequency at which repayments are scheduled",
           "enum_values": [
-            "Monthly",
-            "Quarterly",
-            "Annually"
+            "Monthly"
           ]
         },
         {
           "name": "total_repayments",
           "data_type": "integer",
           "nullable": false,
-          "description": "The total number of repayments required"
+          "description": "Total number of scheduled repayment installments"
         },
         {
           "name": "repayments",
           "data_type": "array",
           "nullable": false,
-          "description": "A list of individual repayment schedules",
+          "description": "Ordered list of individual repayment installments with payment breakdown",
           "children": [
             {
               "name": "payment_number",
               "data_type": "integer",
               "nullable": false,
-              "description": "The number of the payment"
+              "description": "Sequential number of the repayment installment"
             },
             {
               "name": "due_date",
               "data_type": "date",
               "nullable": false,
-              "description": "The date the payment is due",
+              "description": "Date on which the repayment installment is due",
               "fmt": "iso8601"
             },
             {
               "name": "principal_payment",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The amount of principal paid in this repayment",
+              "description": "Portion of the installment that reduces the loan principal",
               "fmt": "currency"
             },
             {
               "name": "interest_payment",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The amount of interest paid in this repayment",
+              "description": "Portion of the installment that covers accrued interest",
               "fmt": "currency"
             },
             {
               "name": "total_payment",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The total amount paid in this repayment",
+              "description": "Total amount due for this installment (principal plus interest)",
               "fmt": "currency"
             },
             {
               "name": "outstanding_balance",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The remaining balance after this repayment",
+              "description": "Remaining loan principal balance after this payment is made",
               "fmt": "currency"
             },
             {
               "name": "status",
               "data_type": "string",
               "nullable": false,
-              "description": "The status of the payment (e.g. Pending)",
+              "description": "Current status of the repayment installment",
               "enum_values": [
-                "Pending",
-                "Paid",
-                "Overdue"
+                "Pending"
               ]
             }
           ]
@@ -181,41 +174,41 @@
           "name": "summary",
           "data_type": "object",
           "nullable": false,
-          "description": "Summary information about the repayment schedule",
+          "description": "Aggregate financial summary of the entire loan repayment schedule",
           "children": [
             {
               "name": "total_amount_payable",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The total amount payable over the life of the loan",
+              "description": "Total sum of all repayment installments over the life of the loan",
               "fmt": "currency"
             },
             {
               "name": "total_interest",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The total interest paid over the life of the loan",
+              "description": "Total interest charges across all repayment installments",
               "fmt": "currency"
             },
             {
               "name": "amount_paid_to_date",
               "data_type": "decimal",
-              "nullable": true,
-              "description": "The amount paid to date",
+              "nullable": false,
+              "description": "Cumulative principal and interest paid by the customer to date",
               "fmt": "currency"
             },
             {
               "name": "next_payment_due",
               "data_type": "date",
               "nullable": false,
-              "description": "The date the next payment is due",
+              "description": "Due date of the next scheduled repayment installment",
               "fmt": "iso8601"
             },
             {
               "name": "next_payment_amount",
               "data_type": "decimal",
               "nullable": false,
-              "description": "The amount of the next payment",
+              "description": "Total amount due for the next scheduled repayment installment",
               "fmt": "currency"
             }
           ]
@@ -224,35 +217,37 @@
           "name": "metadata",
           "data_type": "object",
           "nullable": false,
-          "description": "Metadata about the repayment schedule",
+          "description": "Technical metadata about the message exchange between credit and customer services systems",
           "children": [
             {
               "name": "source_system",
               "data_type": "string",
               "nullable": false,
-              "description": "The system that originated the data"
+              "description": "Originating system that generated the repayment schedule",
+              "enum_values": [
+                "Credit Department"
+              ]
             },
             {
               "name": "destination_system",
               "data_type": "string",
               "nullable": false,
-              "description": "The system that received the data",
+              "description": "Target system receiving the repayment schedule",
               "enum_values": [
-                "Customer Services",
-                "Internal"
+                "Customer Services"
               ]
             },
             {
               "name": "message_id",
               "data_type": "string",
               "nullable": false,
-              "description": "Unique identifier for the message"
+              "description": "Unique identifier for this message transmission"
             },
             {
               "name": "timestamp",
-              "data_type": "datetime",
+              "data_type": "timestamp",
               "nullable": false,
-              "description": "When the message was generated",
+              "description": "Date and time when the message was transmitted",
               "fmt": "iso8601"
             }
           ]

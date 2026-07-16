@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
   "outbound_schema": {
     "source": {
@@ -19,12 +19,39 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "cc85053f05f356ed"
+    "fingerprint": "254d598c9fe307d8"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.82,
+  "relatedness_reasoning": "Pre-approved credit offers from marketing flow into the credit department, which then converts them into formal loan applications for risk and compliance review. The inbound file provides customer, offer, and eligibility data that naturally transforms into a loan application structure for downstream compliance processing.",
   "mappings": [
+    {
+      "outbound_field": "loan_applications[].application_id",
+      "sources": [
+        "offer_id"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Offer ID from marketing becomes the application ID in the credit system; both uniquely identify a credit request."
+    },
+    {
+      "outbound_field": "loan_applications[].timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Timestamp field is directly copied from inbound offer generation time."
+    },
+    {
+      "outbound_field": "loan_applications[].applicant.customer_id",
+      "sources": [
+        "customer_id"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Customer ID is directly copied from inbound schema."
+    },
     {
       "outbound_field": "loan_applications[].applicant.full_name",
       "sources": [
@@ -33,34 +60,59 @@
       ],
       "transformation": "MERGE",
       "confidence": 0.9,
-      "reasoning": "Concatenation of first and last name fields."
+      "reasoning": "Full name is constructed by combining first and last name fields from customer details."
     },
     {
-      "outbound_field": "loan_applications[].timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "outbound_field": "loan_applications[].applicant.date_of_birth",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No date of birth field exists in the inbound pre-approved offer schema."
     },
     {
       "outbound_field": "loan_applications[].applicant.email",
       "sources": [
         "customer_details.email"
       ],
-      "transformation": "RENAMED",
+      "transformation": "EXACT",
       "confidence": 0.95,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "reasoning": "Email address is directly copied from customer details."
+    },
+    {
+      "outbound_field": "loan_applications[].applicant.phone",
+      "sources": [
+        "customer_details.phone"
+      ],
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Phone number is directly copied from customer details."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.loan_type",
+      "sources": [
+        "credit_offer.product_type"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Inbound product_type 'personal_loan' maps to outbound loan_type 'Personal Loan' with formatting adjustment."
     },
     {
       "outbound_field": "loan_applications[].loan_details.requested_amount",
       "sources": [
         "credit_offer.offer_amount"
       ],
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Offer amount from marketing becomes the requested loan amount in the application."
+    },
+    {
+      "outbound_field": "loan_applications[].loan_details.currency",
+      "sources": [
+        "credit_offer.currency"
+      ],
       "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Currency code is directly copied from credit offer."
     },
     {
       "outbound_field": "loan_applications[].loan_details.term_months",
@@ -68,33 +120,202 @@
         "credit_offer.term_months"
       ],
       "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Loan term in months is directly copied from credit offer."
     },
     {
-      "outbound_field": "loan_applications[].financial_profile.total_assets",
-      "sources": [
-        "customer_details.account_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "loan_applications[].loan_details.interest_rate_type",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound provides a fixed interest_rate value but not a classification of whether it is Fixed or Variable."
     },
     {
-      "outbound_field": "loan_applications[].collateral.property_value",
-      "sources": [
-        "credit_offer.offer_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "loan_applications[].application_status",
+      "outbound_field": "loan_applications[].loan_details.purpose",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No likely source in the inbound schema; likely system-generated."
+      "reasoning": "No loan purpose field exists in the inbound pre-approved offer schema."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.employment_status",
+      "sources": [
+        "eligibility_criteria.employment_status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Eligibility requirement for employment status becomes the applicant's actual employment status in the application."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.employer_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No employer name field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.job_title",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No job title field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.annual_income",
+      "sources": [
+        "eligibility_criteria.annual_income_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound field specifies minimum required income; outbound field should contain actual applicant income, which is not directly provided."
+    },
+    {
+      "outbound_field": "loan_applications[].employment.employment_start_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No employment start date field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_assets",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No total assets field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.total_liabilities",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No total liabilities field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.credit_score",
+      "sources": [
+        "eligibility_criteria.credit_score_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound field specifies minimum required credit score; outbound field should contain actual applicant score, which is not directly provided."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.existing_loans",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No existing loans count field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.default_history",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No default history field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].financial_profile.credit_inquiries_last_6m",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No credit inquiries field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].collateral.property_value",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No collateral or property value field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].collateral.property_location",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No property location field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].collateral.loan_to_value",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No loan-to-value ratio field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].application_status",
+      "sources": [
+        "status"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound status 'pending_credit_review' transforms to outbound status 'Under Review' or 'Pending Compliance Review' as the application progresses."
+    },
+    {
+      "outbound_field": "loan_applications[].submitted_by",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No credit officer or submitter identifier field exists in the inbound schema."
+    },
+    {
+      "outbound_field": "loan_applications[].risk_category",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Risk category is assigned by the credit department during processing; not provided in the inbound pre-approved offer."
+    },
+    {
+      "outbound_field": "loan_applications[].required_compliance_checks",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Compliance checks are determined by credit department policy; not specified in the inbound pre-approved offer."
+    },
+    {
+      "outbound_field": "metadata.source_department",
+      "sources": [
+        "department_from"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound department_from 'marketing' becomes metadata source_department 'Credit' as the credit system is now the source for the outbound message."
+    },
+    {
+      "outbound_field": "metadata.destination_department",
+      "sources": [
+        "department_to"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound department_to 'credit' is replaced by outbound destination 'Risk and Compliance' as the next processing step."
+    },
+    {
+      "outbound_field": "metadata.batch_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Batch date is a system-generated field for the outbound batch; not provided in individual inbound offers."
+    },
+    {
+      "outbound_field": "metadata.batch_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Batch ID is a system-generated identifier for the outbound batch; not provided in inbound offers."
+    },
+    {
+      "outbound_field": "metadata.total_applications",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Total applications count is computed from the batch size; not provided in individual inbound offers."
+    },
+    {
+      "outbound_field": "metadata.data_classification",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Data classification is a system policy field; not provided in the inbound schema."
     }
   ]
 }

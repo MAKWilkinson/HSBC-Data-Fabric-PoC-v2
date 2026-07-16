@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
   "outbound_schema": {
     "source": {
@@ -19,54 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as loan_id, customer_id, and repayment_schedule, which suggests a connection between the two systems.",
-  "mappings": [
-    {
-      "outbound_field": "repayment_schedule.loan_id",
-      "sources": [
-        "transaction_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.customer_id",
-      "sources": [
-        "employee.employee_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.customer_name",
-      "sources": [
-        "employee.name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "repayment_schedule.principal_amount",
-      "sources": [
-        "amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.interest_rate",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains salary credit transaction data from Accounts to Credit department, while the outbound file contains loan repayment schedule data from Credit to Customer Services. These represent fundamentally different business processes: salary payments versus loan repayment schedules. There is minimal field overlap (only currency and timestamp concepts), and the outbound file's structure (loan terms, amortization schedules, interest calculations) cannot be reasonably derived from salary credit transaction data.",
+  "mappings": []
 }

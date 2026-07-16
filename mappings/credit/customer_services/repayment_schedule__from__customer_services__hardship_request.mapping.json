@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/hardship_request.schema.json",
-    "fingerprint": "adeb1bfab0ab8d0e"
+    "fingerprint": "5424ceabfa455be7"
   },
   "outbound_schema": {
     "source": {
@@ -19,65 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as customer information, account details, and repayment schedule, which suggests a plausible connection between them.",
-  "mappings": [
-    {
-      "outbound_field": "repayment_schedule.customer_id",
-      "sources": [
-        "customer_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.customer_name",
-      "sources": [
-        "customer_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.loan_id",
-      "sources": [
-        "request_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.7,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
-    },
-    {
-      "outbound_field": "repayment_schedule.principal_amount",
-      "sources": [
-        "outstanding_balance"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is derived from inbound data by computation, formatting, or structural change."
-    },
-    {
-      "outbound_field": "repayment_schedule.interest_rate",
-      "sources": [
-        "hardship_severity"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "repayment_schedule.repayment_frequency",
-      "sources": [
-        "request_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file is a hardship assistance request from customer_services to credit, while the outbound file is a fully-formed repayment schedule from credit back to customer_services. These represent fundamentally different business processes: the inbound captures a customer's hardship request with financial circumstances, while the outbound is a loan product document with amortization details. There is minimal field overlap (only customer_id, customer_name, and currency concept), and the outbound schema contains loan-specific fields (loan_id, principal_amount, interest_rate, amortization schedule) that have no source in a hardship request. A repayment schedule would be generated from loan origination or servicing data, not from a hardship request.",
+  "mappings": []
 }

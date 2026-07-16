@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,95 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as loan disbursement instructions and salary credits, with compatible providing/consuming systems.",
-  "mappings": [
-    {
-      "outbound_field": "transaction_id",
-      "sources": [
-        "instruction_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from instruction_id to transaction_id."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "created_date",
-        "approved_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as created_date and approved_date, but with a different name."
-    },
-    {
-      "outbound_field": "amount",
-      "sources": [
-        "disbursement_amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from disbursement_amount to amount."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [
-        "currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from currency to currency."
-    },
-    {
-      "outbound_field": "employee.name",
-      "sources": [
-        "borrower_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from borrower_name to employee.name."
-    },
-    {
-      "outbound_field": "department_from.name",
-      "sources": [
-        "purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as purpose, but with a different name."
-    },
-    {
-      "outbound_field": "authorizer.name",
-      "sources": [
-        "created_by",
-        "approved_by"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as created_by and approved_by, but with a different name."
-    },
-    {
-      "outbound_field": "reference",
-      "sources": [
-        "instruction_id",
-        "loan_term_months"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.9,
-      "reasoning": "Combination of instruction_id and loan_term_months to create the reference field."
-    },
-    {
-      "outbound_field": "status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from status to status."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions from credit to accounts system, while the outbound file contains salary credit transactions from accounts back to credit. These represent fundamentally different business processes (loan disbursement vs. payroll salary payments) with minimal field overlap and no logical data flow connection.",
+  "mappings": []
 }

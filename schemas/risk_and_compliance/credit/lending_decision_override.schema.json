@@ -11,58 +11,66 @@
       "name": "messageId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the message"
+      "description": "Unique identifier for this message exchange"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the message was generated",
+      "description": "ISO 8601 timestamp when the message was created",
       "fmt": "iso8601"
     },
     {
       "name": "source",
       "data_type": "string",
       "nullable": false,
-      "description": "System that originated the data"
+      "description": "Originating system identifier",
+      "enum_values": [
+        "risk_and_compliance"
+      ]
     },
     {
       "name": "destination",
       "data_type": "string",
       "nullable": false,
-      "description": "System that received the message"
+      "description": "Target system identifier",
+      "enum_values": [
+        "credit"
+      ]
     },
     {
       "name": "messageType",
       "data_type": "string",
       "nullable": false,
-      "description": "Type of message being sent"
+      "description": "Classification of the message content and intent",
+      "enum_values": [
+        "lending_decision_override"
+      ]
     },
     {
       "name": "payload",
       "data_type": "object",
       "nullable": false,
-      "description": "Main payload containing the lending decision override details",
+      "description": "Core business data for the lending decision override",
       "children": [
         {
           "name": "loanApplicationId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the loan application"
+          "description": "Unique identifier for the loan application being overridden"
         },
         {
           "name": "customerId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the customer applying for the loan"
         },
         {
           "name": "originalDecision",
           "data_type": "string",
-          "nullable": true,
-          "description": "Original lending decision made by the credit system",
+          "nullable": false,
+          "description": "The initial credit decision made before override",
           "enum_values": [
-            "APPROVED",
             "REJECTED"
           ]
         },
@@ -70,53 +78,65 @@
           "name": "overrideDecision",
           "data_type": "string",
           "nullable": false,
-          "description": "Override lending decision made by the risk and compliance system",
+          "description": "The new decision after risk and compliance override",
           "enum_values": [
-            "APPROVED",
-            "REJECTED"
+            "APPROVED"
           ]
         },
         {
           "name": "overrideReason",
           "data_type": "string",
           "nullable": false,
-          "description": "Reason for overriding the original lending decision"
+          "description": "Classification of the reason for the override decision",
+          "enum_values": [
+            "EXCEPTION_APPROVED"
+          ]
         },
         {
           "name": "riskAssessmentDetails",
           "data_type": "object",
           "nullable": false,
-          "description": "Risk assessment details used to make the override decision",
+          "description": "Quantitative and qualitative risk factors supporting the override",
           "children": [
             {
               "name": "creditScore",
               "data_type": "integer",
               "nullable": false,
-              "description": "Credit score of the customer"
+              "description": "Customer's credit score at time of override assessment"
             },
             {
               "name": "debtToIncomeRatio",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Debt-to-income ratio of the customer"
+              "description": "Ratio of total debt obligations to gross income",
+              "fmt": "percentage"
             },
             {
               "name": "loanToValueRatio",
               "data_type": "decimal",
               "nullable": false,
-              "description": "Loan-to-value ratio of the loan application"
+              "description": "Ratio of loan amount to collateral value",
+              "fmt": "percentage"
             },
             {
               "name": "yearsOfIncome",
               "data_type": "integer",
               "nullable": false,
-              "description": "Number of years of income used in the risk assessment"
+              "description": "Number of years of documented income history"
             },
             {
               "name": "mitigatingFactors",
               "data_type": "array",
               "nullable": false,
-              "description": "Mitigating factors considered during the risk assessment"
+              "description": "List of positive risk factors that support the override approval",
+              "children": [
+                {
+                  "name": "factor",
+                  "data_type": "string",
+                  "nullable": false,
+                  "description": "Description of a mitigating risk factor"
+                }
+              ]
             }
           ]
         },
@@ -124,36 +144,43 @@
           "name": "overrideApprovalDetails",
           "data_type": "object",
           "nullable": false,
-          "description": "Details of the override approval process",
+          "description": "Authorization and conditions associated with the override approval",
           "children": [
             {
               "name": "approvedBy",
               "data_type": "string",
               "nullable": false,
-              "description": "Person or entity that approved the override"
+              "description": "Unique identifier of the risk and compliance executive who approved the override"
             },
             {
               "name": "approvalLevel",
               "data_type": "string",
               "nullable": false,
-              "description": "Level of approval for the override",
+              "description": "Hierarchical level of authority required and granted for this override",
               "enum_values": [
-                "SENIOR_MANAGER",
-                "MANAGER"
+                "SENIOR_MANAGER"
               ]
             },
             {
               "name": "approvalDate",
-              "data_type": "datetime",
+              "data_type": "date",
               "nullable": false,
-              "description": "Date and time of approval for the override",
-              "fmt": "iso8601"
+              "description": "Date on which the override was formally approved",
+              "fmt": "date"
             },
             {
               "name": "conditions",
               "data_type": "array",
               "nullable": false,
-              "description": "Conditions attached to the override approval"
+              "description": "List of mandatory conditions imposed on the approved loan",
+              "children": [
+                {
+                  "name": "condition",
+                  "data_type": "string",
+                  "nullable": false,
+                  "description": "Description of a condition required for loan approval"
+                }
+              ]
             }
           ]
         },
@@ -161,40 +188,38 @@
           "name": "loanDetails",
           "data_type": "object",
           "nullable": false,
-          "description": "Loan details used to make the lending decision override",
+          "description": "Core loan product and financial terms",
           "children": [
             {
               "name": "loanAmount",
-              "data_type": "decimal",
+              "data_type": "integer",
               "nullable": false,
-              "description": "Amount of the loan being applied for",
+              "description": "Principal loan amount in the specified currency",
               "fmt": "currency"
             },
             {
               "name": "currency",
               "data_type": "string",
               "nullable": false,
-              "description": "Currency of the loan amount",
+              "description": "ISO 4217 currency code for the loan",
               "fmt": "currency_code",
               "enum_values": [
-                "GBP",
-                "USD"
+                "GBP"
               ]
             },
             {
               "name": "loanTerm",
               "data_type": "integer",
               "nullable": false,
-              "description": "Length of the loan term in months"
+              "description": "Loan term in months"
             },
             {
               "name": "productType",
               "data_type": "string",
               "nullable": false,
-              "description": "Type of product being applied for (e.g. MORTGAGE)",
+              "description": "Classification of the loan product",
               "enum_values": [
-                "MORTGAGE",
-                "PERSONAL_LOAN"
+                "MORTGAGE"
               ]
             }
           ]
@@ -203,43 +228,31 @@
           "name": "complianceFlags",
           "data_type": "object",
           "nullable": false,
-          "description": "Compliance flags indicating the status of various checks",
+          "description": "Compliance and regulatory checks performed before override approval",
           "children": [
             {
               "name": "amlCheckCompleted",
               "data_type": "boolean",
               "nullable": false,
-              "description": "Indicates whether the anti-money laundering check was completed",
-              "enum_values": [
-                "True",
-                "False"
-              ]
+              "description": "Whether anti-money laundering checks have been completed"
             },
             {
               "name": "sanctionsCheckCompleted",
               "data_type": "boolean",
               "nullable": false,
-              "description": "Indicates whether the sanctions check was completed",
-              "enum_values": [
-                "True",
-                "False"
-              ]
+              "description": "Whether sanctions screening checks have been completed"
             },
             {
               "name": "creditPolicyWaiverRequired",
               "data_type": "boolean",
               "nullable": false,
-              "description": "Indicates whether a credit policy waiver is required",
-              "enum_values": [
-                "True",
-                "False"
-              ]
+              "description": "Whether a formal credit policy waiver is required for this override"
             },
             {
               "name": "waiverDocumentReference",
               "data_type": "string",
               "nullable": true,
-              "description": "Reference number for the waiver document"
+              "description": "Reference identifier for the credit policy waiver document"
             }
           ]
         }

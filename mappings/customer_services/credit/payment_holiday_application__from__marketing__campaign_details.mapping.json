@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/customer_services/campaign_details.schema.json",
-    "fingerprint": "89dedbcc42df434e"
+    "fingerprint": "60092d15f7b3f417"
   },
   "outbound_schema": {
     "source": {
@@ -19,92 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share concepts like customer information, account details, and payment holiday requests, which form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "applicationId",
-      "sources": [
-        "campaign_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from campaign_id to applicationId."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "created_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as created_date, but with a different name and format."
-    },
-    {
-      "outbound_field": "department.source",
-      "sources": [
-        "department_from"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact field copy from department_from to department.source."
-    },
-    {
-      "outbound_field": "customer.customerId",
-      "sources": [
-        "target_segment.account_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Captures the same concept as target_segment.account_type, but with a different name and format."
-    },
-    {
-      "outbound_field": "customer.name",
-      "sources": [
-        "target_segment.age_range"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Captures the same concept as target_segment.age_range, but with a different name and format."
-    },
-    {
-      "outbound_field": "account.accountNumber",
-      "sources": [
-        "budget.allocated_channels.email"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.5,
-      "reasoning": "Captures the same concept as budget.allocated_channels.email, but with a different name and format."
-    },
-    {
-      "outbound_field": "account.accountType",
-      "sources": [
-        "target_segment.income_level"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.4,
-      "reasoning": "Captures the same concept as target_segment.income_level, but with a different name and format."
-    },
-    {
-      "outbound_field": "paymentHolidayRequest.requestedMonths",
-      "sources": [
-        "campaign_objectives"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.3,
-      "reasoning": "Captures the same concept as campaign_objectives, but with a different name and format."
-    },
-    {
-      "outbound_field": "paymentHolidayRequest.reason",
-      "sources": [
-        "key_messages"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.2,
-      "reasoning": "Captures the same concept as key_messages, but with a different name and format."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains marketing campaign metadata (budgets, channels, messaging, KPIs) while the outbound file is a payment holiday application form (customer financial hardship request). These serve fundamentally different business purposes with no overlapping field concepts or data flow logic. The fact that both systems pass through customer_services does not establish data lineage between these specific messages.",
+  "mappings": []
 }

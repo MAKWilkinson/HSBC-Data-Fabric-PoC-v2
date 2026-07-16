@@ -11,51 +11,57 @@
       "name": "request_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the hardship request"
+      "description": "Unique identifier for this hardship assistance request"
     },
     {
       "name": "timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of when the request was made",
+      "description": "Date and time when the hardship request was submitted",
       "fmt": "iso8601"
     },
     {
       "name": "source_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that originated the hardship request"
+      "description": "Originating department that submitted the request",
+      "enum_values": [
+        "customer_services"
+      ]
     },
     {
       "name": "target_department",
       "data_type": "string",
       "nullable": false,
-      "description": "The department that will process the hardship request"
+      "description": "Receiving department responsible for processing the request",
+      "enum_values": [
+        "credit"
+      ]
     },
     {
       "name": "customer_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the customer making the request"
+      "description": "Unique identifier for the customer requesting hardship assistance"
     },
     {
       "name": "customer_name",
       "data_type": "string",
-      "nullable": true,
-      "description": "The name of the customer making the hardship request"
+      "nullable": false,
+      "description": "Full name of the customer"
     },
     {
       "name": "account_number",
       "data_type": "string",
       "nullable": false,
-      "description": "Account number associated with the customer's account",
+      "description": "IBAN of the customer's account subject to the hardship request",
       "fmt": "iban"
     },
     {
       "name": "request_type",
       "data_type": "string",
       "nullable": false,
-      "description": "Type of hardship request being made (e.g. payment reduction)",
+      "description": "Classification of the request as hardship assistance",
       "enum_values": [
         "hardship_assistance"
       ]
@@ -64,16 +70,13 @@
       "name": "hardship_reason",
       "data_type": "string",
       "nullable": false,
-      "description": "Reason for the hardship request (e.g. job loss)",
-      "enum_values": [
-        "Job loss - temporary unemployment"
-      ]
+      "description": "Primary reason for the customer's financial hardship"
     },
     {
       "name": "hardship_severity",
       "data_type": "string",
       "nullable": false,
-      "description": "Severity of the hardship (e.g. high)",
+      "description": "Assessment of the severity level of the customer's hardship",
       "enum_values": [
         "high"
       ]
@@ -81,46 +84,42 @@
     {
       "name": "monthly_income",
       "data_type": "decimal",
-      "nullable": true,
-      "description": "Monthly income of the customer making the request",
+      "nullable": false,
+      "description": "Customer's declared monthly income in GBP",
       "fmt": "currency"
     },
     {
       "name": "monthly_expenses",
       "data_type": "decimal",
-      "nullable": true,
-      "description": "Monthly expenses of the customer making the request",
+      "nullable": false,
+      "description": "Customer's declared monthly expenses in GBP",
       "fmt": "currency"
     },
     {
       "name": "outstanding_balance",
       "data_type": "decimal",
       "nullable": false,
-      "description": "Outstanding balance on the account associated with the customer's request",
+      "description": "Total outstanding balance on the account in GBP",
       "fmt": "currency"
     },
     {
       "name": "monthly_payment_amount",
       "data_type": "decimal",
-      "nullable": true,
-      "description": "Monthly payment amount requested by the customer",
+      "nullable": false,
+      "description": "Current contractual monthly payment amount in GBP",
       "fmt": "currency"
     },
     {
       "name": "requested_relief_type",
       "data_type": "array",
       "nullable": false,
-      "description": "Types of relief requested by the customer (e.g. payment reduction)",
-      "enum_values": [
-        "payment_reduction",
-        "payment_deferral"
-      ],
+      "description": "Array of relief types requested by the customer; each element is a string representing a relief option",
       "children": [
         {
-          "name": "relief_type",
+          "name": "relief_option",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of relief requested (e.g. payment reduction)",
+          "description": "Individual relief type option",
           "enum_values": [
             "payment_reduction",
             "payment_deferral"
@@ -132,29 +131,19 @@
       "name": "requested_duration_months",
       "data_type": "integer",
       "nullable": false,
-      "description": "Duration of the requested relief in months"
+      "description": "Number of months for which the customer is requesting relief"
     },
     {
       "name": "supporting_documents",
       "data_type": "array",
       "nullable": false,
-      "description": "List of supporting documents provided by the customer (e.g. redundancy notice)",
-      "enum_values": [
-        "redundancy_notice.pdf",
-        "bank_statements.pdf",
-        "expense_breakdown.xlsx"
-      ],
+      "description": "Array of supporting document filenames provided by the customer; each element is a string representing a document name",
       "children": [
         {
           "name": "document_name",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the supporting document (e.g. redundancy notice)",
-          "enum_values": [
-            "redundancy_notice.pdf",
-            "bank_statements.pdf",
-            "expense_breakdown.xlsx"
-          ]
+          "description": "Filename of a supporting document"
         }
       ]
     },
@@ -162,21 +151,21 @@
       "name": "contact_number",
       "data_type": "string",
       "nullable": true,
-      "description": "Contact number of the customer making the request",
+      "description": "Customer's telephone contact number",
       "fmt": "phone"
     },
     {
       "name": "contact_email",
       "data_type": "string",
       "nullable": true,
-      "description": "Email address of the customer making the request",
+      "description": "Customer's email address for correspondence",
       "fmt": "email"
     },
     {
       "name": "priority",
       "data_type": "string",
-      "nullable": false,
-      "description": "Priority level assigned to the hardship request (e.g. normal)",
+      "nullable": true,
+      "description": "Processing priority level assigned to the request",
       "enum_values": [
         "normal"
       ]
@@ -185,7 +174,7 @@
       "name": "status",
       "data_type": "string",
       "nullable": false,
-      "description": "Current status of the hardship request (e.g. pending_credit_review)",
+      "description": "Current status of the hardship request in the workflow",
       "enum_values": [
         "pending_credit_review"
       ]

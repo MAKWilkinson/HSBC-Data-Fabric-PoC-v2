@@ -11,31 +11,32 @@
       "name": "arrears_flags",
       "data_type": "array",
       "nullable": false,
-      "description": "A list of arrears flags for customers",
+      "description": "Collection of flagged accounts in arrears status, reported from Credit to Risk and Compliance for monitoring and action",
       "children": [
         {
           "name": "account_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the account"
+          "description": "Unique identifier for the bank account in arrears",
+          "fmt": "account_number"
         },
         {
           "name": "customer_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the customer associated with the account"
         },
         {
           "name": "customer_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "The name of the customer"
+          "nullable": false,
+          "description": "Full name of the customer"
         },
         {
           "name": "product_type",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of product for which arrears are reported",
+          "description": "Classification of the credit product (e.g., Mortgage, Personal Loan, Credit Card)",
           "enum_values": [
             "Mortgage",
             "Personal Loan",
@@ -46,98 +47,98 @@
           "name": "arrears_status",
           "data_type": "string",
           "nullable": false,
-          "description": "Current arrears status for the customer",
+          "description": "Categorical representation of arrears duration in days",
           "enum_values": [
+            "15_days",
             "30_days",
-            "60_days",
-            "15_days"
+            "60_days"
           ]
         },
         {
           "name": "arrears_days",
           "data_type": "integer",
           "nullable": false,
-          "description": "Number of days the customer is in arrears"
+          "description": "Number of days the account is in arrears"
         },
         {
           "name": "outstanding_balance",
           "data_type": "decimal",
           "nullable": false,
-          "description": "The outstanding balance for the account",
+          "description": "Total amount owed on the account",
           "fmt": "currency"
         },
         {
           "name": "minimum_payment_due",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Minimum payment due for the account",
+          "description": "Minimum payment amount required to bring account current",
           "fmt": "currency"
         },
         {
           "name": "payment_due_date",
           "data_type": "date",
           "nullable": false,
-          "description": "Date by which the minimum payment is due",
-          "fmt": "iso8601"
+          "description": "The date on which the payment was originally due",
+          "fmt": "date"
         },
         {
           "name": "last_payment_date",
           "data_type": "date",
           "nullable": false,
-          "description": "Date of the last payment made by the customer",
-          "fmt": "iso8601"
+          "description": "The most recent date a payment was received on the account",
+          "fmt": "date"
         },
         {
           "name": "flag_severity",
           "data_type": "string",
           "nullable": false,
-          "description": "Severity level of the arrears flag",
+          "description": "Risk severity level assigned to the arrears flag for prioritization by Risk and Compliance",
           "enum_values": [
+            "MEDIUM",
             "HIGH",
-            "CRITICAL",
-            "MEDIUM"
+            "CRITICAL"
           ]
         },
         {
           "name": "risk_category",
           "data_type": "string",
           "nullable": false,
-          "description": "Risk category for the customer's account",
+          "description": "Classification of the risk type associated with the arrears account",
           "enum_values": [
+            "EARLY_WARNING",
             "WATCH_LIST",
-            "DEFAULT_RISK",
-            "EARLY_WARNING"
+            "DEFAULT_RISK"
           ]
         },
         {
           "name": "compliance_action_required",
           "data_type": "boolean",
           "nullable": false,
-          "description": "Indicates whether compliance action is required for the account"
+          "description": "Indicator of whether compliance action is mandated for this flagged account"
         },
         {
           "name": "action_type",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of action required for the account",
+          "description": "Type of action to be taken by Risk and Compliance department",
           "enum_values": [
+            "REMINDER",
             "NOTIFICATION",
-            "ESCALATION",
-            "REMINDER"
+            "ESCALATION"
           ]
         },
         {
           "name": "flag_date",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Date and time the arrears flag was raised",
+          "description": "Date and time when the arrears flag was created or last updated",
           "fmt": "iso8601"
         },
         {
           "name": "notes",
           "data_type": "string",
           "nullable": true,
-          "description": "Additional notes or comments about the account"
+          "description": "Free-text commentary on the arrears situation, payment history, or recommended actions"
         }
       ]
     },
@@ -145,26 +146,26 @@
       "name": "metadata",
       "data_type": "object",
       "nullable": false,
-      "description": "Contextual information about the message",
+      "description": "Contextual information about the arrears flags report",
       "children": [
         {
           "name": "report_date",
           "data_type": "date",
           "nullable": false,
-          "description": "Date of the report",
-          "fmt": "iso8601"
+          "description": "The date on which the arrears flags report was generated",
+          "fmt": "date"
         },
         {
           "name": "total_flagged_accounts",
           "data_type": "integer",
           "nullable": false,
-          "description": "Total number of accounts flagged in this report"
+          "description": "Count of accounts included in this arrears flags report"
         },
         {
           "name": "source_department",
           "data_type": "string",
           "nullable": false,
-          "description": "Department that originated the data",
+          "description": "The originating department that produced the report",
           "enum_values": [
             "Credit"
           ]
@@ -173,7 +174,7 @@
           "name": "destination_department",
           "data_type": "string",
           "nullable": false,
-          "description": "Department that received the data",
+          "description": "The receiving department responsible for risk and compliance actions",
           "enum_values": [
             "Risk_and_Compliance"
           ]
@@ -182,7 +183,7 @@
           "name": "report_version",
           "data_type": "string",
           "nullable": false,
-          "description": "Version number of the report",
+          "description": "Version identifier for the report schema and content",
           "enum_values": [
             "1.0"
           ]

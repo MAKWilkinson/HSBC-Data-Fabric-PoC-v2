@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,98 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/overdraft_usage.schema.json",
-    "fingerprint": "affa3aa27b3800ff"
+    "fingerprint": "d302878353e5eda9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts, such as account numbers and overdraft limits, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "fileId",
-      "sources": [
-        "instruction_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The instruction ID is renamed to fileId."
-    },
-    {
-      "outbound_field": "fileName",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "sentDate",
-      "sources": [
-        "created_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The created date is used to determine the sent date, capturing a similar concept."
-    },
-    {
-      "outbound_field": "fromDepartment",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "toDepartment",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "accountNumber",
-      "sources": [
-        "borrower_account_number"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The borrower account number is renamed to accountNumber."
-    },
-    {
-      "outbound_field": "overdraftLimit",
-      "sources": [
-        "disbursement_amount",
-        "currency"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "The disbursement amount and currency are used to determine the overdraft limit."
-    },
-    {
-      "outbound_field": "overdraftUsed",
-      "sources": [
-        "disbursement_amount",
-        "currency"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "The disbursement amount and currency are used to determine the overdraft used."
-    },
-    {
-      "outbound_field": "usagePercent",
-      "sources": [
-        "disbursement_amount",
-        "currency"
-      ],
-      "transformation": "MERGE",
-      "confidence": 0.8,
-      "reasoning": "The disbursement amount and currency are used to determine the usage percentage."
-    },
-    {
-      "outbound_field": "notes",
-      "sources": [
-        "remarks"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The remarks field is renamed to notes."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (outbound fund transfers from credit to accounts), while the outbound file reports overdraft usage (account facility monitoring from accounts back to credit). These represent fundamentally different business processes with no overlapping field concepts\u2014disbursement is a one-time fund transfer event, while overdraft usage is an ongoing account facility status report. No field names, formats, or semantic concepts align between the two schemas.",
+  "mappings": []
 }

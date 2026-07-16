@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
   "outbound_schema": {
     "source": {
@@ -19,99 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer-related concepts, with address updates potentially leading to customer segments.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the customer ID."
-    },
-    {
-      "outbound_field": "metadata.destination",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the customer ID."
-    },
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact timestamp copy."
-    },
-    {
-      "outbound_field": "metadata.message_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "updateId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the update ID."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "department",
-        "targetDepartment"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as department and target department."
-    },
-    {
-      "outbound_field": "segments[].description",
-      "sources": [
-        "previousAddress.addressLine1",
-        "previousAddress.addressLine2"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as previous address lines."
-    },
-    {
-      "outbound_field": "segments[].customer_count",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the customer ID count."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from the total customer count."
-    },
-    {
-      "outbound_field": "summary.total_assets_under_management",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains address update records with customer IDs and approval status, while the outbound file contains aggregated customer segment analytics with financial metrics and product holdings. There is no field overlap, no shared concepts beyond generic customer references, and the data structures serve fundamentally different purposes (transaction processing vs. business intelligence reporting). The accounts system acts as a pass-through consumer of address updates but produces segment analytics from a different data domain entirely.",
+  "mappings": []
 }

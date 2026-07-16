@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
   "outbound_schema": {
     "source": {
@@ -19,101 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/marketing/credit/pre_approved_credit_offer.schema.json",
-    "fingerprint": "c63cd952ba1aa1b2"
+    "fingerprint": "d166a0ff74f6665e"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer segment concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "segments[].segment_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Renamed from segment ID to customer ID."
-    },
-    {
-      "outbound_field": "offer_type",
-      "sources": [
-        "metadata.message_type"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as message type, but with a different name."
-    },
-    {
-      "outbound_field": "department_from",
-      "sources": [
-        "metadata.source"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of source department field."
-    },
-    {
-      "outbound_field": "timestamp",
-      "sources": [
-        "metadata.timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "Exact copy of timestamp field."
-    },
-    {
-      "outbound_field": "customer_details.first_name",
-      "sources": [
-        "segments[].segment_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Captures the same concept as segment name, but with a different name."
-    },
-    {
-      "outbound_field": "customer_details.last_name",
-      "sources": [
-        "segments[].segment_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Captures the same concept as segment name, but with a different name."
-    },
-    {
-      "outbound_field": "credit_offer.product_type",
-      "sources": [
-        "segments[].product_holding"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Captures the same concept as product holding, but with a different name."
-    },
-    {
-      "outbound_field": "credit_offer.offer_amount",
-      "sources": [
-        "summary.total_assets_under_management"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.5,
-      "reasoning": "Captures the same concept as total assets under management, but with a different name."
-    },
-    {
-      "outbound_field": "credit_offer.term_months",
-      "sources": [
-        "summary.report_period"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.4,
-      "reasoning": "Captures the same concept as report period, but with a different name."
-    },
-    {
-      "outbound_field": "eligibility_criteria.credit_score_required",
-      "sources": [
-        "segments[].avg_account_balance"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.3,
-      "reasoning": "Captures the same concept as average account balance, but with a different name."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains only aggregated segment-level metrics and summary statistics with no individual customer data, while the outbound file requires specific customer identities, personal details, and individualized credit offer terms. The inbound schema provides no customer_id, names, contact information, or individual financial data needed to populate the outbound schema; the data structures are fundamentally incompatible for direct lineage.",
+  "mappings": []
 }

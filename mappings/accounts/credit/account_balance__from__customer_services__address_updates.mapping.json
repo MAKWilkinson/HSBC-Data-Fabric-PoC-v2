@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/accounts/address_updates.schema.json",
-    "fingerprint": "be43dc882657f455"
+    "fingerprint": "6852dc0d84b3c057"
   },
   "outbound_schema": {
     "source": {
@@ -19,97 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/account_balance.schema.json",
-    "fingerprint": "ec4418c1ea952a7a"
+    "fingerprint": "1b4f133989c4dec9"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share customer-related concepts, with account_id and customer_id being unique identifiers for customers. The providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "account_id",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the unique identifier for the customer."
-    },
-    {
-      "outbound_field": "customer_id",
-      "sources": [
-        "customerId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the unique identifier for the customer."
-    },
-    {
-      "outbound_field": "account_type",
-      "sources": [
-        "updateType"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The account type is related to the update type, but not an exact copy."
-    },
-    {
-      "outbound_field": "currency",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "balance",
-      "sources": [
-        "previousAddress.postalCode"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.7,
-      "reasoning": "The balance is derived from the previous address postal code, possibly through some calculation."
-    },
-    {
-      "outbound_field": "available_balance",
-      "sources": [
-        "previousAddress.postalCode"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.7,
-      "reasoning": "The available balance is derived from the previous address postal code, possibly through some calculation."
-    },
-    {
-      "outbound_field": "pending_transactions",
-      "sources": [
-        "previousAddress.postalCode"
-      ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.7,
-      "reasoning": "The pending transactions are derived from the previous address postal code, possibly through some calculation."
-    },
-    {
-      "outbound_field": "last_updated",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact copy of the timestamp."
-    },
-    {
-      "outbound_field": "account_status",
-      "sources": [
-        "status"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The account status is related to the update status, but not an exact copy."
-    },
-    {
-      "outbound_field": "branch_code",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains address update records with customer identifiers and address change details, while the outbound file contains account balance and financial transaction data. These represent fundamentally different domains (address management vs. financial account data) with no overlapping field concepts, incompatible message purposes, and no plausible transformation pathway between them.",
+  "mappings": []
 }

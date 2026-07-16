@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/customer_services/credit/payment_holiday_application.schema.json",
-    "fingerprint": "9b67eea3fbe2bc23"
+    "fingerprint": "27fbcc0d55a0c2b8"
   },
   "outbound_schema": {
     "source": {
@@ -19,84 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "customer.name",
-      "sources": [
-        "customer.name"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "credit_score.score",
-      "sources": [
-        "account.loanAmount",
-        "paymentHolidayRequest.requestedMonths"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_score.rating",
-      "sources": [
-        "paymentHolidayRequest.reason"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.total_credit_limit",
-      "sources": [
-        "account.accountNumber",
-        "account.loanAmount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.outstanding_balance",
-      "sources": [
-        "account.currentBalance"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "credit_assessment.utilization_rate",
-      "sources": [
-        "account.currentBalance",
-        "account.loanAmount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.payment_history_score",
-      "sources": [
-        "paymentHolidayRequest.requestedMonths"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.delinquencies",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains payment holiday application data (customer hardship requests), while the outbound file contains credit score assessment results. These represent fundamentally different business processes with minimal field overlap. The inbound file has no credit score, rating, assessment date, fraud risk, or compliance flag data that would be needed to populate the outbound schema. While both files involve customers and accounts, the outbound file's content (credit scores, risk ratings, compliance assessments) cannot plausibly be derived from a payment holiday application request.",
+  "mappings": []
 }

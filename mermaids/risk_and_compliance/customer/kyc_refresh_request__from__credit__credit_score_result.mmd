@@ -1,26 +1,56 @@
 flowchart LR
   subgraph IN["credit: credit_score_result"]
-    in_customer_customer_id["customer.customer_id"]
-    in_customer_name["customer.name"]
-    in_credit_score_customer_date_of_birth["credit_score.customer.date_of_birth"]
-    in_credit_assessment_assessment_date["credit_assessment.assessment_date"]
-    in_credit_assessment_recommended_action["credit_assessment.recommended_action"]
-    in_credit_assessment_default_risk_level["credit_assessment.default_risk_level"]
-    in_risk_indicators_fraud_risk["risk_indicators.fraud_risk"]
+    in_credit_score_result_timestamp["credit_score_result.timestamp"]
+    in_credit_score_result_destination_department["credit_score_result.destination_department"]
+    in_credit_score_result_source_department["credit_score_result.source_department"]
+    in_credit_score_result_credit_assessment_default_risk_level["credit_score_result.credit_assessment.default_risk_level"]
+    in_credit_score_result_customer_customer_id["credit_score_result.customer.customer_id"]
+    in_credit_score_result_customer_name["credit_score_result.customer.name"]
+    in_credit_score_result_customer_date_of_birth["credit_score_result.customer.date_of_birth"]
+    in_credit_score_result_credit_score_assessment_date["credit_score_result.credit_score.assessment_date"]
+    in_credit_score_result_risk_indicators_fraud_risk["credit_score_result.risk_indicators.fraud_risk"]
+    in_credit_score_result_risk_indicators_compliance_flags["credit_score_result.risk_indicators.compliance_flags"]
+    in_credit_score_result_risk_indicators_regulatory_concerns["credit_score_result.risk_indicators.regulatory_concerns"]
+    in_credit_score_result_review_status["credit_score_result.review_status"]
+    in_credit_score_result_reviewed_by["credit_score_result.reviewed_by"]
   end
   subgraph OUT["risk_and_compliance: kyc_refresh_request"]
+    out_request_id["request_id"]
+    out_request_timestamp["request_timestamp"]
+    out_department_from["department_from"]
+    out_department_to["department_to"]
+    out_priority["priority"]
     out_customer_customer_id["customer.customer_id"]
     out_customer_full_name["customer.full_name"]
     out_customer_date_of_birth["customer.date_of_birth"]
+    out_customer_national_id["customer.national_id"]
+    out_customer_email["customer.email"]
+    out_customer_phone["customer.phone"]
     out_kyc_refresh_details_last_refresh_date["kyc_refresh_details.last_refresh_date"]
     out_kyc_refresh_details_refresh_reason["kyc_refresh_details.refresh_reason"]
     out_kyc_refresh_details_risk_flag["kyc_refresh_details.risk_flag"]
+    out_kyc_refresh_details_risk_level["kyc_refresh_details.risk_level"]
     out_kyc_refresh_details_trigger_factors["kyc_refresh_details.trigger_factors"]
+    out_kyc_refresh_details_compliance_issues["kyc_refresh_details.compliance_issues"]
+    out_required_documents["required_documents"]
+    out_required_actions["required_actions"]
+    out_deadline["deadline"]
+    out_status["status"]
+    out_internal_notes["internal_notes"]
   end
-  in_customer_customer_id -->|EXACT| out_customer_customer_id
-  in_customer_name -->|RENAMED| out_customer_full_name
-  in_credit_score_customer_date_of_birth -->|SEMANTIC| out_customer_date_of_birth
-  in_credit_assessment_assessment_date -->|SEMANTIC| out_kyc_refresh_details_last_refresh_date
-  in_credit_assessment_recommended_action -->|SEMANTIC| out_kyc_refresh_details_refresh_reason
-  in_credit_assessment_default_risk_level -->|SEMANTIC| out_kyc_refresh_details_risk_flag
-  in_risk_indicators_fraud_risk -->|SEMANTIC| out_kyc_refresh_details_trigger_factors
+  in_credit_score_result_timestamp -->|SEMANTIC| out_request_timestamp
+  in_credit_score_result_destination_department -->|SEMANTIC| out_department_from
+  in_credit_score_result_source_department -->|SEMANTIC| out_department_to
+  in_credit_score_result_credit_assessment_default_risk_level -->|TRANSFORMED| out_priority
+  in_credit_score_result_customer_customer_id -->|EXACT| out_customer_customer_id
+  in_credit_score_result_customer_name -->|RENAMED| out_customer_full_name
+  in_credit_score_result_customer_date_of_birth -->|EXACT| out_customer_date_of_birth
+  in_credit_score_result_credit_score_assessment_date -->|SEMANTIC| out_kyc_refresh_details_refresh_reason
+  in_credit_score_result_risk_indicators_fraud_risk -->|TRANSFORMED| out_kyc_refresh_details_risk_flag
+  in_credit_score_result_credit_assessment_default_risk_level -->|TRANSFORMED| out_kyc_refresh_details_risk_flag
+  in_credit_score_result_credit_assessment_default_risk_level -->|SEMANTIC| out_kyc_refresh_details_risk_level
+  in_credit_score_result_risk_indicators_compliance_flags -->|SEMANTIC| out_kyc_refresh_details_trigger_factors
+  in_credit_score_result_risk_indicators_compliance_flags -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
+  in_credit_score_result_risk_indicators_regulatory_concerns -->|TRANSFORMED| out_kyc_refresh_details_compliance_issues
+  in_credit_score_result_review_status -->|SEMANTIC| out_status
+  in_credit_score_result_reviewed_by -->|SEMANTIC| out_internal_notes

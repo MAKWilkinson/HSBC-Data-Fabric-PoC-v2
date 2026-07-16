@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
   "outbound_schema": {
     "source": {
@@ -19,204 +19,236 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/accounts/transaction_hold_notice.schema.json",
-    "fingerprint": "9f44391b50bd12de"
+    "fingerprint": "52b27510617a2c1c"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.78,
+  "relatedness_reasoning": "Both files share customer identity fields (customer_id, name, account_number), risk assessment concepts, and form a logical pipeline where risk_and_compliance receives credit scores and issues transaction holds to accounts department based on detected risks.",
   "mappings": [
     {
       "outbound_field": "noticeId",
-      "sources": [
-        "result_id"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent identifier exists in inbound; likely system-generated unique identifier for the hold notice."
     },
     {
       "outbound_field": "timestamp",
       "sources": [
-        "timestamp"
+        "credit_score_result.timestamp"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound timestamp represents assessment generation; outbound timestamp represents hold notice generation, likely derived or regenerated at processing time."
     },
     {
       "outbound_field": "department",
       "sources": [
-        "destination_department"
+        "credit_score_result.destination_department"
       ],
-      "transformation": "RENAMED",
+      "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Same source meaning as an inbound field, but the outbound field name differs."
+      "reasoning": "Inbound destination_department is 'risk_and_compliance'; outbound department is the originating department issuing the hold notice."
     },
     {
       "outbound_field": "recipientDepartment",
-      "sources": [
-        "destination_department"
-      ],
-      "transformation": "EXACT",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Outbound recipient is 'Accounts' department; inbound schema contains no reference to accounts department as a destination."
     },
     {
       "outbound_field": "noticeType",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "reasoning": "Enum value 'TRANSACTION_HOLD' is a business classification not present in inbound schema."
     },
     {
       "outbound_field": "severity",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.65,
+      "reasoning": "Inbound default_risk_level ('Low') could inform severity determination, though outbound severity is 'HIGH' suggesting additional risk factors drive the classification."
     },
     {
       "outbound_field": "accountNumber",
       "sources": [
-        "customer.account_number"
+        "credit_score_result.customer.account_number"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Direct mapping from inbound IBAN account number field with different naming convention."
     },
     {
       "outbound_field": "customerId",
       "sources": [
-        "customer.customer_id"
+        "credit_score_result.customer.customer_id"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Direct mapping from inbound customer_id field with camelCase naming."
     },
     {
       "outbound_field": "customerName",
       "sources": [
-        "customer.name"
+        "credit_score_result.customer.name"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Direct mapping from inbound customer name field with camelCase naming."
     },
     {
       "outbound_field": "holdReason",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "sources": [
+        "credit_score_result.risk_indicators.compliance_flags",
+        "credit_score_result.credit_assessment.default_risk_level",
+        "credit_score_result.risk_indicators.fraud_risk"
+      ],
+      "transformation": "MERGE",
+      "confidence": 0.7,
+      "reasoning": "Hold reason is synthesized from multiple risk indicators including compliance flags, default risk level, and fraud risk assessment."
     },
     {
       "outbound_field": "holdEffectiveDate",
-      "sources": [
-        "credit_assessment.assessment_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No effective date field in inbound; likely system-generated at hold issuance time."
     },
     {
       "outbound_field": "estimatedHoldDuration",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.9,
+      "reasoning": "No duration estimation field exists in inbound schema."
     },
     {
       "outbound_field": "transactionsAffected",
-      "sources": [
-        "credit_assessment.total_credit_limit"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Inbound schema contains no transaction-level data; this array is populated from external transaction systems not present in credit_score_result."
+    },
+    {
+      "outbound_field": "transactionsAffected[].transactionId",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction identifiers are not present in inbound credit score result."
+    },
+    {
+      "outbound_field": "transactionsAffected[].amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction amounts are not present in inbound credit score result."
+    },
+    {
+      "outbound_field": "transactionsAffected[].currency",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Currency codes for transactions are not present in inbound credit score result."
+    },
+    {
+      "outbound_field": "transactionsAffected[].destinationCountry",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction destination country is not present in inbound credit score result."
+    },
+    {
+      "outbound_field": "transactionsAffected[].status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Transaction status is not present in inbound credit score result."
     },
     {
       "outbound_field": "riskScore",
       "sources": [
-        "credit_score.score"
+        "credit_score_result.credit_score.score"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Inbound credit score is an integer; outbound riskScore is a decimal percentage, suggesting normalization or recalculation."
     },
     {
       "outbound_field": "riskFlags",
       "sources": [
-        "risk_indicators.fraud_risk"
+        "credit_score_result.risk_indicators.compliance_flags"
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "reasoning": "Inbound compliance_flags array maps to outbound riskFlags array containing specific risk indicators."
     },
     {
       "outbound_field": "requiredActions",
-      "sources": [
-        "credit_assessment.recommended_action"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No action list field exists in inbound; likely derived from business rules applied to risk assessment."
     },
     {
       "outbound_field": "escalationLevel",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.6,
+      "reasoning": "Inbound default_risk_level enum could inform escalation tier determination through business logic."
     },
     {
       "outbound_field": "approvalRequired",
       "sources": [
-        "review_status"
+        "credit_score_result.credit_assessment.default_risk_level"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Approval requirement likely derived from risk level assessment; inbound 'Low' risk may not require approval."
     },
     {
       "outbound_field": "approverRole",
-      "sources": [
-        "reviewed_by"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Specific approver role is not present in inbound schema; determined by business policy."
     },
     {
       "outbound_field": "notes",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "sources": [
+        "credit_score_result.risk_indicators.regulatory_concerns"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.7,
+      "reasoning": "Inbound regulatory_concerns field could populate outbound notes with contextual information."
     },
     {
       "outbound_field": "expiryDate",
-      "sources": [
-        "credit_assessment.assessment_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No expiry date field in inbound; likely calculated based on hold duration policy."
     },
     {
       "outbound_field": "issuedBy",
-      "sources": [
-        "reviewed_by"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "priority",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "reasoning": "System identifier 'automated_compliance_system_v2.1' is not derivable from inbound schema."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "credit_score_result.credit_assessment.default_risk_level",
+        "credit_score_result.risk_indicators.fraud_risk"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.7,
+      "reasoning": "Priority 'URGENT' is derived from risk assessment factors including default risk and fraud risk."
     }
   ]
 }

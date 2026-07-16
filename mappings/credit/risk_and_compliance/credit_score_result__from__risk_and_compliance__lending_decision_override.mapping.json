@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,153 +19,215 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/credit_score_result.schema.json",
-    "fingerprint": "0574b272efdab1ab"
+    "fingerprint": "df5907e22b67b515"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files involve credit assessment and customer evaluation; inbound file contains lending decision override with credit score and risk details, outbound file is a credit score result sent back to risk_and_compliance. The systems form a bidirectional pipeline where credit processes override requests and returns assessment results. Key overlaps include customer_id, credit score, debt-to-income ratio, and compliance flags.",
   "mappings": [
     {
-      "outbound_field": "customer.customer_id",
+      "outbound_field": "credit_score_result.result_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No equivalent identifier in inbound; likely system-generated unique result identifier."
+    },
+    {
+      "outbound_field": "credit_score_result.timestamp",
+      "sources": [
+        "timestamp"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Both are ISO 8601 timestamps; outbound timestamp likely derived from or correlated with inbound message timestamp."
+    },
+    {
+      "outbound_field": "credit_score_result.source_department",
+      "sources": [
+        "destination"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound destination is 'credit'; outbound source_department is 'credit', indicating the credit system is now the source of the result."
+    },
+    {
+      "outbound_field": "credit_score_result.destination_department",
+      "sources": [
+        "source"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound source is 'risk_and_compliance'; outbound destination_department is 'risk_and_compliance', indicating the result flows back to the originating system."
+    },
+    {
+      "outbound_field": "credit_score_result.customer.customer_id",
       "sources": [
         "payload.customerId"
       ],
-      "transformation": "EXACT",
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Exact semantic match; customer identifier from inbound payload mapped to outbound customer object."
+    },
+    {
+      "outbound_field": "credit_score_result.customer.name",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Inbound schema contains no customer name field; this information is not available in the override message."
     },
     {
-      "outbound_field": "credit_score.score",
-      "sources": [
-        "payload.riskAssessmentDetails.creditScore"
-      ],
-      "transformation": "EXACT",
+      "outbound_field": "credit_score_result.customer.date_of_birth",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "reasoning": "Inbound schema contains no date of birth field; this demographic information is not provided in the override message."
     },
     {
-      "outbound_field": "credit_score.score_range_min",
+      "outbound_field": "credit_score_result.customer.account_number",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema contains no account number or IBAN field; banking details are not included in the override message."
+    },
+    {
+      "outbound_field": "credit_score_result.credit_score.score",
       "sources": [
         "payload.riskAssessmentDetails.creditScore"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "Exact semantic match; credit score integer from inbound risk assessment details mapped to outbound score field."
     },
     {
-      "outbound_field": "credit_score.score_range_max",
+      "outbound_field": "credit_score_result.credit_score.score_range_min",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Inbound schema does not specify credit score range boundaries; these are likely system defaults or configuration values."
+    },
+    {
+      "outbound_field": "credit_score_result.credit_score.score_range_max",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Inbound schema does not specify credit score range boundaries; these are likely system defaults or configuration values."
+    },
+    {
+      "outbound_field": "credit_score_result.credit_score.rating",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.8,
+      "reasoning": "Inbound schema provides only numeric credit score, not categorical rating; rating is likely derived from score via lookup table not present in inbound data."
+    },
+    {
+      "outbound_field": "credit_score_result.credit_score.assessment_date",
       "sources": [
-        "payload.riskAssessmentDetails.creditScore"
+        "payload.overrideApprovalDetails.approvalDate"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.65,
+      "reasoning": "Inbound approval date is the closest temporal reference to when the credit assessment was performed; may represent assessment date."
     },
     {
-      "outbound_field": "credit_score.rating",
-      "sources": [
-        "payload.riskAssessmentDetails.creditScore"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "credit_score_result.credit_assessment.total_credit_limit",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema contains loan amount but not total credit limit; these are distinct credit concepts not present in override message."
     },
     {
-      "outbound_field": "credit_assessment.total_credit_limit",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "credit_score_result.credit_assessment.outstanding_balance",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema does not contain outstanding balance or debt information; this is not provided in the override message."
     },
     {
-      "outbound_field": "credit_assessment.outstanding_balance",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "credit_score_result.credit_assessment.utilization_rate",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema does not provide credit utilization data; this metric is not available in the override message."
     },
     {
-      "outbound_field": "credit_assessment.utilization_rate",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "credit_score_result.credit_assessment.payment_history_score",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Inbound schema does not contain payment history score; only years of income history is provided, which is a different concept."
     },
     {
-      "outbound_field": "credit_assessment.payment_history_score",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "outbound_field": "credit_score_result.credit_assessment.delinquencies",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema does not track delinquency counts; this risk metric is not included in the override message."
     },
     {
-      "outbound_field": "credit_assessment.delinquencies",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.default_risk_level",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "credit_assessment.recommended_action",
-      "sources": [
-        "payload.loanDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "risk_indicators.fraud_risk",
+      "outbound_field": "credit_score_result.credit_assessment.default_risk_level",
       "sources": [
         "payload.riskAssessmentDetails"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.6,
+      "reasoning": "Inbound risk assessment details (debt-to-income, loan-to-value, mitigating factors) inform default risk, but no explicit risk level enum is provided."
     },
     {
-      "outbound_field": "risk_indicators.compliance_flags",
+      "outbound_field": "credit_score_result.credit_assessment.recommended_action",
+      "sources": [
+        "payload.overrideDecision"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound override decision is 'APPROVED'; outbound recommended action is 'Approve', representing the same approval recommendation."
+    },
+    {
+      "outbound_field": "credit_score_result.risk_indicators.fraud_risk",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Inbound schema does not explicitly assess fraud risk; compliance flags cover AML and sanctions but not fraud."
+    },
+    {
+      "outbound_field": "credit_score_result.risk_indicators.compliance_flags",
       "sources": [
         "payload.complianceFlags"
       ],
       "transformation": "SEMANTIC",
       "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "reasoning": "Inbound compliance flags object (amlCheckCompleted, sanctionsCheckCompleted, creditPolicyWaiverRequired) maps to outbound compliance_flags array."
     },
     {
-      "outbound_field": "risk_indicators.regulatory_concerns",
-      "sources": [
-        "payload.riskAssessmentDetails"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
-    },
-    {
-      "outbound_field": "review_status",
+      "outbound_field": "credit_score_result.risk_indicators.regulatory_concerns",
       "sources": [],
       "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "confidence": 0.8,
+      "reasoning": "Inbound schema does not summarize regulatory concerns; only specific compliance checks are documented."
+    },
+    {
+      "outbound_field": "credit_score_result.review_status",
+      "sources": [
+        "payload.overrideApprovalDetails.approvalLevel"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.55,
+      "reasoning": "Inbound approval level indicates the override was reviewed and approved; outbound review_status 'Completed' reflects this, though not a direct match."
+    },
+    {
+      "outbound_field": "credit_score_result.reviewed_by",
+      "sources": [
+        "payload.overrideApprovalDetails.approvedBy"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Inbound approvedBy identifier maps to outbound reviewed_by; both represent the person/system that performed the assessment review."
+    },
+    {
+      "outbound_field": "credit_score_result.approval_signature",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Inbound schema does not provide cryptographic signatures or audit signatures; this is a security artifact not present in the override message."
     }
   ]
 }

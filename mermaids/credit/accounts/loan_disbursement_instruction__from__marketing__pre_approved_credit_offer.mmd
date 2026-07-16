@@ -1,18 +1,20 @@
 flowchart LR
   subgraph IN["marketing: pre_approved_credit_offer"]
+    in_offer_id["offer_id"]
     in_customer_details_first_name["customer_details.first_name"]
     in_customer_details_last_name["customer_details.last_name"]
     in_customer_details_account_number["customer_details.account_number"]
     in_credit_offer_offer_amount["credit_offer.offer_amount"]
     in_credit_offer_currency["credit_offer.currency"]
     in_offer_validity_start_date["offer_validity.start_date"]
-    in_marketing_campaign_channel["marketing_campaign.channel"]
-    in_marketing_campaign_segment["marketing_campaign.segment"]
     in_credit_offer_term_months["credit_offer.term_months"]
     in_credit_offer_interest_rate["credit_offer.interest_rate"]
     in_status["status"]
+    in_timestamp["timestamp"]
   end
   subgraph OUT["credit: loan_disbursement_instruction"]
+    out_loan_disbursement_instructions___instruction_id["loan_disbursement_instructions[].instruction_id"]
+    out_loan_disbursement_instructions___loan_id["loan_disbursement_instructions[].loan_id"]
     out_loan_disbursement_instructions___borrower_name["loan_disbursement_instructions[].borrower_name"]
     out_loan_disbursement_instructions___borrower_account_number["loan_disbursement_instructions[].borrower_account_number"]
     out_loan_disbursement_instructions___disbursement_amount["loan_disbursement_instructions[].disbursement_amount"]
@@ -25,17 +27,21 @@ flowchart LR
     out_loan_disbursement_instructions___loan_term_months["loan_disbursement_instructions[].loan_term_months"]
     out_loan_disbursement_instructions___interest_rate["loan_disbursement_instructions[].interest_rate"]
     out_loan_disbursement_instructions___status["loan_disbursement_instructions[].status"]
+    out_loan_disbursement_instructions___created_by["loan_disbursement_instructions[].created_by"]
+    out_loan_disbursement_instructions___created_date["loan_disbursement_instructions[].created_date"]
+    out_loan_disbursement_instructions___approved_by["loan_disbursement_instructions[].approved_by"]
+    out_loan_disbursement_instructions___approved_date["loan_disbursement_instructions[].approved_date"]
+    out_loan_disbursement_instructions___remarks["loan_disbursement_instructions[].remarks"]
   end
+  in_offer_id -->|RENAMED| out_loan_disbursement_instructions___loan_id
   in_customer_details_first_name -->|MERGE| out_loan_disbursement_instructions___borrower_name
   in_customer_details_last_name -->|MERGE| out_loan_disbursement_instructions___borrower_name
   in_customer_details_account_number -->|EXACT| out_loan_disbursement_instructions___borrower_account_number
-  in_credit_offer_offer_amount -->|EXACT| out_loan_disbursement_instructions___disbursement_amount
+  in_credit_offer_offer_amount -->|RENAMED| out_loan_disbursement_instructions___disbursement_amount
   in_credit_offer_currency -->|EXACT| out_loan_disbursement_instructions___currency
   in_offer_validity_start_date -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_date
-  in_marketing_campaign_channel -->|SEMANTIC| out_loan_disbursement_instructions___disbursement_method
-  in_customer_details_account_number -->|EXACT| out_loan_disbursement_instructions___destination_account
-  in_customer_details_account_number -->|EXACT| out_loan_disbursement_instructions___destination_bank_code
-  in_marketing_campaign_segment -->|SEMANTIC| out_loan_disbursement_instructions___purpose
+  in_customer_details_account_number -->|SEMANTIC| out_loan_disbursement_instructions___destination_account
   in_credit_offer_term_months -->|EXACT| out_loan_disbursement_instructions___loan_term_months
   in_credit_offer_interest_rate -->|EXACT| out_loan_disbursement_instructions___interest_rate
-  in_status -->|RENAMED| out_loan_disbursement_instructions___status
+  in_status -->|TRANSFORMED| out_loan_disbursement_instructions___status
+  in_timestamp -->|SEMANTIC| out_loan_disbursement_instructions___created_date

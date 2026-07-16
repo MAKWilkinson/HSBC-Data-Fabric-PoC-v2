@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/arrears_flags.schema.json",
-    "fingerprint": "abfc890937492958"
+    "fingerprint": "6fffe95bf58f6219"
   },
   "outbound_schema": {
     "source": {
@@ -19,84 +19,197 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/customer/kyc_refresh_request.schema.json",
-    "fingerprint": "d6ee458d7d9192ba"
+    "fingerprint": "c9a77344b85d7db6"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "Both files share customer name and address concepts, and the providing/consuming systems form a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files involve customer and risk assessment data flowing through risk_and_compliance; arrears flags trigger KYC refresh requests, creating a plausible compliance workflow. Customer identity and risk severity concepts overlap, and the system pipeline (credit \u2192 risk_and_compliance \u2192 customer) suggests data transformation.",
   "mappings": [
+    {
+      "outbound_field": "request_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "System-generated unique identifier for the outbound request; no source in inbound schema."
+    },
+    {
+      "outbound_field": "request_timestamp",
+      "sources": [
+        "arrears_flags[].flag_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Timestamp of request creation likely derived from or correlated with the arrears flag timestamp."
+    },
+    {
+      "outbound_field": "department_from",
+      "sources": [
+        "metadata.destination_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "Inbound destination (Risk_and_Compliance) becomes outbound origin department."
+    },
+    {
+      "outbound_field": "department_to",
+      "sources": [
+        "metadata.source_department"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Inbound source (Credit) becomes outbound destination department in the response flow."
+    },
+    {
+      "outbound_field": "priority",
+      "sources": [
+        "arrears_flags[].flag_severity"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.8,
+      "reasoning": "HIGH priority KYC refresh likely triggered by CRITICAL or HIGH severity arrears flags."
+    },
     {
       "outbound_field": "customer.customer_id",
       "sources": [
-        "arrears_flags[].account_id",
         "arrears_flags[].customer_id"
       ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "Same concept, different name."
+      "transformation": "EXACT",
+      "confidence": 0.95,
+      "reasoning": "Direct copy of customer identifier from arrears flag record."
     },
     {
       "outbound_field": "customer.full_name",
       "sources": [
         "arrears_flags[].customer_name"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "transformation": "RENAMED",
+      "confidence": 0.9,
+      "reasoning": "Customer name from arrears flag mapped to full_name field in outbound request."
+    },
+    {
+      "outbound_field": "customer.date_of_birth",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No date of birth field exists in inbound arrears flags schema."
+    },
+    {
+      "outbound_field": "customer.national_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No national ID or passport field exists in inbound arrears flags schema."
+    },
+    {
+      "outbound_field": "customer.email",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No email field exists in inbound arrears flags schema."
+    },
+    {
+      "outbound_field": "customer.phone",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "No phone field exists in inbound arrears flags schema."
     },
     {
       "outbound_field": "kyc_refresh_details.last_refresh_date",
-      "sources": [
-        "arrears_flags[].last_payment_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No prior KYC refresh date exists in inbound arrears flags; this is system state not provided."
     },
     {
       "outbound_field": "kyc_refresh_details.refresh_reason",
       "sources": [
-        "arrears_flags[].flag_severity"
+        "arrears_flags[].risk_category"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.6,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "confidence": 0.65,
+      "reasoning": "Arrears risk category (EARLY_WARNING, WATCH_LIST, DEFAULT_RISK) may trigger periodic or event-driven KYC refresh."
     },
     {
       "outbound_field": "kyc_refresh_details.risk_flag",
       "sources": [
+        "arrears_flags[].compliance_action_required"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.75,
+      "reasoning": "Boolean compliance action flag indicates elevated risk requiring KYC refresh."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.risk_level",
+      "sources": [
         "arrears_flags[].flag_severity"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.5,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "confidence": 0.8,
+      "reasoning": "Arrears flag severity (MEDIUM, HIGH, CRITICAL) maps to customer risk level assessment."
     },
     {
       "outbound_field": "kyc_refresh_details.trigger_factors",
       "sources": [
-        "arrears_flags[].trigger_factors"
+        "arrears_flags[].arrears_status",
+        "arrears_flags[].risk_category",
+        "arrears_flags[].action_type"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.4,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "transformation": "MERGE",
+      "confidence": 0.7,
+      "reasoning": "Multiple arrears attributes (status, risk category, action type) combined to form list of trigger factors."
+    },
+    {
+      "outbound_field": "kyc_refresh_details.compliance_issues",
+      "sources": [
+        "arrears_flags[].compliance_action_required",
+        "arrears_flags[].action_type"
+      ],
+      "transformation": "TRANSFORMED",
+      "confidence": 0.65,
+      "reasoning": "Compliance action requirement and action type transformed into structured compliance issues array."
     },
     {
       "outbound_field": "required_documents",
-      "sources": [
-        "arrears_flags[].notes"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.3,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "No document requirement information exists in inbound arrears flags schema."
     },
     {
       "outbound_field": "required_actions",
       "sources": [
-        "arrears_flags[].action_type"
+        "arrears_flags[].action_type",
+        "arrears_flags[].notes"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.2,
-      "reasoning": "Captures the same concept as inbound field, but with different name."
+      "confidence": 0.7,
+      "reasoning": "Action type and notes from arrears flag inform required actions for KYC refresh completion."
+    },
+    {
+      "outbound_field": "deadline",
+      "sources": [
+        "arrears_flags[].payment_due_date"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.6,
+      "reasoning": "Payment due date may inform KYC refresh deadline, though not a direct mapping."
+    },
+    {
+      "outbound_field": "status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Outbound request status (PENDING_CUSTOMER_RESPONSE) is workflow state not derivable from inbound arrears data."
+    },
+    {
+      "outbound_field": "internal_notes",
+      "sources": [
+        "arrears_flags[].notes"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.85,
+      "reasoning": "Free-text notes from arrears flag record repurposed as internal notes for credit department."
     }
   ]
 }

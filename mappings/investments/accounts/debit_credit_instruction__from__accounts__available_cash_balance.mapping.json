@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/investments/available_cash_balance.schema.json",
-    "fingerprint": "06b9a31daf92a921"
+    "fingerprint": "69117896ce7ad823"
   },
   "outbound_schema": {
     "source": {
@@ -19,68 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/investments/accounts/debit_credit_instruction.schema.json",
-    "fingerprint": "4912399b5613c4fb"
+    "fingerprint": "ab7b63e219393fc2"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The inbound file provides available cash balance information, which could be used to generate debit/credit instructions for accounts. The systems involved (accounts and investments) also form a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "debit_credit_instructions[].instructions[].transaction_id",
-      "sources": [
-        "messageId"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The transaction ID is renamed from the message ID."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].instructions[].account_number",
-      "sources": [
-        "accountNumber"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The account number is copied exactly from the inbound file."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].instructions[].instruction_type",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].instructions[].amount",
-      "sources": [
-        "availableCashBalance"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.9,
-      "reasoning": "The amount is derived from the available cash balance, capturing a similar concept."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].instructions[].currency",
-      "sources": [
-        "currency"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The currency is copied exactly from the inbound file."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].total_debit_amount",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "debit_credit_instructions[].total_credit_amount",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "While both files involve Accounts and Investments departments, the inbound file reports available cash balances (informational, read-only) and the outbound file contains debit/credit transaction instructions (actionable, transactional). The outbound file contains fund-specific transaction details, approval workflows, and IBAN formats that have no corresponding source in the inbound schema. The currency enum differs (USD inbound vs GBP outbound), and the outbound file's structure and purpose are fundamentally different from the inbound file's reporting nature.",
+  "mappings": []
 }

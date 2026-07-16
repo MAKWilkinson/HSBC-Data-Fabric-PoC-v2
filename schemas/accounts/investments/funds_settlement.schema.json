@@ -11,32 +11,38 @@
       "name": "settlement_id",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the settlement transaction"
+      "description": "Unique identifier for this funds settlement batch from Accounts to Investments"
     },
     {
       "name": "settlement_date",
       "data_type": "date",
       "nullable": false,
-      "description": "Date of the settlement transaction",
+      "description": "The business date on which the settlement was executed",
       "fmt": "iso8601"
     },
     {
       "name": "from_department",
       "data_type": "string",
-      "nullable": true,
-      "description": "Department that initiated the settlement"
+      "nullable": false,
+      "description": "Originating department sending the funds",
+      "enum_values": [
+        "Accounts"
+      ]
     },
     {
       "name": "to_department",
       "data_type": "string",
-      "nullable": true,
-      "description": "Department that received the settlement"
+      "nullable": false,
+      "description": "Receiving department accepting the funds",
+      "enum_values": [
+        "Investments"
+      ]
     },
     {
       "name": "currency",
       "data_type": "string",
       "nullable": false,
-      "description": "Currency used for the settlement transaction",
+      "description": "ISO 4217 currency code for all amounts in this settlement",
       "fmt": "currency_code",
       "enum_values": [
         "GBP"
@@ -46,13 +52,14 @@
       "name": "total_amount",
       "data_type": "decimal",
       "nullable": false,
-      "description": "Total amount of the settlement transaction"
+      "description": "Total monetary value of all fund transfers in this settlement batch",
+      "fmt": "currency"
     },
     {
       "name": "settlement_status",
       "data_type": "string",
       "nullable": false,
-      "description": "Status of the settlement transaction (e.g. completed, pending)",
+      "description": "Current processing state of the settlement",
       "enum_values": [
         "completed"
       ]
@@ -61,25 +68,25 @@
       "name": "settlements",
       "data_type": "array",
       "nullable": false,
-      "description": "Array of individual settlements within the transaction",
+      "description": "Individual fund transfer transactions comprising this settlement batch",
       "children": [
         {
           "name": "fund_id",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the fund"
+          "description": "Unique identifier for the investment fund receiving the transfer"
         },
         {
           "name": "fund_name",
           "data_type": "string",
-          "nullable": true,
-          "description": "Name of the fund"
+          "nullable": false,
+          "description": "Human-readable name of the investment fund"
         },
         {
           "name": "transaction_type",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of transaction (e.g. transfer_in, transfer_out)",
+          "description": "Classification of the fund movement direction",
           "enum_values": [
             "transfer_in"
           ]
@@ -88,60 +95,58 @@
           "name": "amount",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Amount transferred for the fund"
+          "description": "Monetary value of this individual fund transfer in the settlement currency",
+          "fmt": "currency"
         },
         {
           "name": "reference",
           "data_type": "string",
-          "nullable": true,
-          "description": "Reference number for the transaction"
+          "nullable": false,
+          "description": "Accounts system reference code linking this transfer to the originating transaction"
         },
         {
           "name": "timestamp",
-          "data_type": "datetime",
+          "data_type": "timestamp",
           "nullable": false,
-          "description": "Timestamp of the transaction",
+          "description": "Precise moment when this individual fund transfer was processed",
           "fmt": "iso8601"
         },
         {
           "name": "verified",
           "data_type": "boolean",
           "nullable": false,
-          "description": "Verification status of the transaction",
-          "enum_values": [
-            "True"
-          ]
+          "description": "Flag indicating whether this transfer has passed validation checks"
         }
       ]
     },
     {
       "name": "created_by",
       "data_type": "string",
-      "nullable": true,
-      "description": "System that created the settlement message"
+      "nullable": false,
+      "description": "System or process identifier that generated this settlement record",
+      "enum_values": [
+        "accounts_system"
+      ]
     },
     {
       "name": "approved_by",
       "data_type": "string",
-      "nullable": true,
-      "description": "Person who approved the settlement transaction",
-      "fmt": "email",
-      "enum_values": [
-        "john.smith@hsbc.com"
-      ]
+      "nullable": false,
+      "description": "Email address of the authorized person who approved this settlement",
+      "fmt": "email"
     },
     {
       "name": "approval_timestamp",
-      "data_type": "datetime",
+      "data_type": "timestamp",
       "nullable": false,
-      "description": "Timestamp of approval for the settlement transaction",
+      "description": "Precise moment when the settlement was approved by the authorized approver",
       "fmt": "iso8601"
     },
     {
       "name": "notes",
       "data_type": "string",
       "nullable": true,
-      "description": "Additional notes or comments about the settlement transaction"
+      "description": "Optional free-text commentary describing the purpose or context of this settlement"
     }
   ]
 }

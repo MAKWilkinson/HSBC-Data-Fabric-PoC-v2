@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/accounts/loan_disbursement_instruction.schema.json",
-    "fingerprint": "021dbb140abb6781"
+    "fingerprint": "c2084b7012d84581"
   },
   "outbound_schema": {
     "source": {
@@ -19,146 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/marketing/customer_segment.schema.json",
-    "fingerprint": "6e2c803e95220d65"
+    "fingerprint": "4e695003fb30b516"
   },
-  "related": true,
-  "relatedness_confidence": 0.7,
-  "relatedness_reasoning": "The files share some common concepts like customer information, but the systems and message types do not form a clear pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "metadata.source",
-      "sources": [
-        "loan_disbursement_instructions[].instruction_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The source field in the outbound file is renamed from the instruction ID in the inbound file."
-    },
-    {
-      "outbound_field": "metadata.destination",
-      "sources": [
-        "loan_disbursement_instructions[].destination_account"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The destination field in the outbound file is renamed from the destination account in the inbound file."
-    },
-    {
-      "outbound_field": "metadata.timestamp",
-      "sources": [
-        "loan_disbursement_instructions[].created_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The timestamp field in the outbound file is renamed from the created date in the inbound file."
-    },
-    {
-      "outbound_field": "metadata.message_type",
-      "sources": [
-        "loan_disbursement_instructions[].purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The message type field in the outbound file captures the same concept as the purpose field in the inbound file."
-    },
-    {
-      "outbound_field": "segments[]",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The customer segment field in the outbound file captures the same concept as the borrower name in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].segment_id",
-      "sources": [
-        "loan_disbursement_instructions[].instruction_id"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The segment ID field in the outbound file is renamed from the instruction ID in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].segment_name",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The segment name field in the outbound file is renamed from the borrower name in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].description",
-      "sources": [
-        "loan_disbursement_instructions[].remarks"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The description field in the outbound file captures the same concept as the remarks field in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].customer_count",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_account_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The customer count field in the outbound file captures the same concept as the borrower account number in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_account_balance",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The average account balance field in the outbound file captures the same concept as the disbursement amount in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].avg_monthly_transactions",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_date"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The average monthly transactions field in the outbound file captures the same concept as the disbursement date in the inbound file."
-    },
-    {
-      "outbound_field": "segments[].product_holding",
-      "sources": [
-        "loan_disbursement_instructions[].purpose"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The product holding field in the outbound file captures the same concept as the purpose field in the inbound file."
-    },
-    {
-      "outbound_field": "summary.total_customers",
-      "sources": [
-        "loan_disbursement_instructions[].borrower_name"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The total customers field in the outbound file captures the same concept as the borrower name in the inbound file."
-    },
-    {
-      "outbound_field": "summary.total_assets_under_management",
-      "sources": [
-        "loan_disbursement_instructions[].disbursement_amount"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.7,
-      "reasoning": "The total assets under management field in the outbound file captures the same concept as the disbursement amount in the inbound file."
-    },
-    {
-      "outbound_field": "summary.report_period",
-      "sources": [
-        "loan_disbursement_instructions[].created_date"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.8,
-      "reasoning": "The report period field in the outbound file is renamed from the created date in the inbound file."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains loan disbursement instructions (transactional, operational data), while the outbound file contains customer segmentation analytics (aggregated, strategic data). No field names, concepts, or data structures overlap meaningfully. The inbound data describes individual loan transactions; the outbound data describes customer cohorts and their aggregate metrics. These represent fundamentally different domains and purposes with no plausible direct lineage.",
+  "mappings": []
 }

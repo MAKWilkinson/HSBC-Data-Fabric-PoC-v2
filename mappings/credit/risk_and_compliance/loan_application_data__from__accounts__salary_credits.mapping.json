@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/accounts/credit/salary_credits.schema.json",
-    "fingerprint": "c846c04291c7ca1a"
+    "fingerprint": "e343a18ec9d213eb"
   },
   "outbound_schema": {
     "source": {
@@ -19,54 +19,10 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/risk_and_compliance/loan_application_data.schema.json",
-    "fingerprint": "cc85053f05f356ed"
+    "fingerprint": "254d598c9fe307d8"
   },
-  "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as employee information, department names, and timestamps, which suggests a plausible pipeline step.",
-  "mappings": [
-    {
-      "outbound_field": "loan_applications[].applicant.full_name",
-      "sources": [
-        "employee.name"
-      ],
-      "transformation": "RENAMED",
-      "confidence": 0.9,
-      "reasoning": "The full name of the applicant is derived from the employee's name."
-    },
-    {
-      "outbound_field": "loan_applications[].loan_details.requested_amount",
-      "sources": [
-        "amount"
-      ],
-      "transformation": "EXACT",
-      "confidence": 1.0,
-      "reasoning": "The requested amount is an exact copy of the salary credit amount."
-    },
-    {
-      "outbound_field": "loan_applications[].employment.annual_income",
-      "sources": [
-        "employee.personal_account.account_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The annual income is related to the employee's personal account information."
-    },
-    {
-      "outbound_field": "loan_applications[].financial_profile.total_assets",
-      "sources": [],
-      "transformation": "UNMAPPED",
-      "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
-    },
-    {
-      "outbound_field": "loan_applications[].collateral.property_value",
-      "sources": [
-        "employee.personal_account.account_number"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "The property value is related to the employee's personal account information."
-    }
-  ]
+  "related": false,
+  "relatedness_confidence": 0.15,
+  "relatedness_reasoning": "The inbound file contains salary credit transactions from the Accounts department to the Credit department, while the outbound file contains loan applications from Credit to Risk and Compliance. These represent fundamentally different business processes with minimal field overlap; salary credits are income deposits, not loan applications. The outbound file requires applicant personal data (DOB, email, phone, credit score, assets, liabilities) that is entirely absent from the inbound schema, and the outbound structure (loan_applications array with detailed financial profiles) cannot be reasonably derived from salary transaction data.",
+  "mappings": []
 }

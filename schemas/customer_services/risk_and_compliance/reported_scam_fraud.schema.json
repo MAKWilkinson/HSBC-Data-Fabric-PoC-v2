@@ -11,32 +11,38 @@
       "name": "reportId",
       "data_type": "string",
       "nullable": false,
-      "description": "Unique identifier for the reported scam/fraud incident"
+      "description": "Unique identifier for this scam/fraud report, assigned by the originating system"
     },
     {
       "name": "reportDate",
       "data_type": "datetime",
       "nullable": false,
-      "description": "Timestamp of when the report was submitted",
+      "description": "Timestamp when the report was created and submitted to risk and compliance",
       "fmt": "iso8601"
     },
     {
       "name": "sourceDeployment",
       "data_type": "string",
-      "nullable": true,
-      "description": "The system that originated the report (customer_services)"
+      "nullable": false,
+      "description": "The originating system that generated and sent this report",
+      "enum_values": [
+        "customer_services"
+      ]
     },
     {
       "name": "targetDeployment",
       "data_type": "string",
-      "nullable": true,
-      "description": "The system that received the report (risk_and_compliance)"
+      "nullable": false,
+      "description": "The receiving system responsible for investigation and compliance action",
+      "enum_values": [
+        "risk_and_compliance"
+      ]
     },
     {
       "name": "reportType",
       "data_type": "string",
       "nullable": false,
-      "description": "Type of report submitted (scam_fraud)",
+      "description": "Classification of the report as scam or fraud incident",
       "enum_values": [
         "scam_fraud"
       ]
@@ -45,10 +51,8 @@
       "name": "severity",
       "data_type": "string",
       "nullable": false,
-      "description": "Level of severity for the reported incident (high)",
+      "description": "Risk severity level assigned to this incident",
       "enum_values": [
-        "low",
-        "medium",
         "high"
       ]
     },
@@ -56,43 +60,41 @@
       "name": "incident",
       "data_type": "object",
       "nullable": false,
-      "description": "Details about the reported incident",
+      "description": "Core details of the detected fraud or scam incident",
       "children": [
         {
           "name": "incidentId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the incident"
+          "description": "Unique identifier for the incident within the customer services system"
         },
         {
           "name": "incidentType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of incident (wire_transfer_fraud)",
+          "description": "Specific category of fraud or scam detected",
           "enum_values": [
-            "wire_transfer_fraud",
-            "phishing",
-            "malware"
+            "wire_transfer_fraud"
           ]
         },
         {
           "name": "detectionDate",
           "data_type": "datetime",
           "nullable": false,
-          "description": "Timestamp of when the incident was detected",
+          "description": "Timestamp when the incident was first detected by the system or staff",
           "fmt": "iso8601"
         },
         {
           "name": "reportedByStaffId",
           "data_type": "string",
-          "nullable": true,
-          "description": "Unique identifier for the staff member who reported the incident"
+          "nullable": false,
+          "description": "Employee identifier of the staff member who reported the incident"
         },
         {
           "name": "reportedByName",
           "data_type": "string",
           "nullable": false,
-          "description": "Name of the staff member who reported the incident (Sarah Johnson)"
+          "description": "Full name of the staff member who reported the incident"
         }
       ]
     },
@@ -100,46 +102,43 @@
       "name": "customer",
       "data_type": "object",
       "nullable": false,
-      "description": "Details about the affected customer",
+      "description": "Information about the customer affected by the fraud incident",
       "children": [
         {
           "name": "customerId",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique identifier for the customer"
+          "description": "Unique identifier for the affected customer"
         },
         {
           "name": "customerName",
           "data_type": "string",
           "nullable": false,
-          "description": "Full name of the affected customer (John Michael Smith)"
+          "description": "Full name of the affected customer"
         },
         {
           "name": "accountNumber",
           "data_type": "string",
-          "nullable": true,
-          "description": "Account number for the affected customer's account"
+          "nullable": false,
+          "description": "Masked account number of the affected customer account; last four digits visible for identification",
+          "fmt": "account_number"
         },
         {
           "name": "accountType",
           "data_type": "string",
           "nullable": false,
-          "description": "Type of account affected (current)",
+          "description": "Classification of the customer's account",
           "enum_values": [
-            "current",
-            "savings",
-            "credit"
+            "current"
           ]
         },
         {
           "name": "customerTier",
           "data_type": "string",
-          "nullable": true,
-          "description": "Tier level of the affected customer's account (premium)",
+          "nullable": false,
+          "description": "Customer segmentation tier indicating service level or relationship status",
           "enum_values": [
-            "basic",
-            "premium",
-            "gold"
+            "premium"
           ]
         }
       ]
@@ -148,66 +147,60 @@
       "name": "fraudDetails",
       "data_type": "object",
       "nullable": false,
-      "description": "Additional details about the reported fraud incident",
+      "description": "Detailed information about the fraudulent transaction and scheme",
       "children": [
         {
           "name": "fraudDescription",
           "data_type": "string",
           "nullable": false,
-          "description": "Detailed description of the fraudulent activity"
+          "description": "Narrative description of the fraud scheme and method used"
         },
         {
           "name": "amountInvolved",
           "data_type": "decimal",
           "nullable": false,
-          "description": "Amount involved in the fraudulent transaction (45000.00)",
+          "description": "Monetary amount of the fraudulent transaction",
           "fmt": "currency"
         },
         {
           "name": "currency",
           "data_type": "string",
           "nullable": false,
-          "description": "Currency used for the fraudulent transaction (GBP)",
+          "description": "ISO 4217 currency code for the transaction amount",
           "fmt": "currency_code",
           "enum_values": [
-            "GBP",
-            "USD",
-            "EUR"
+            "GBP"
           ]
         },
         {
           "name": "transactionReference",
           "data_type": "string",
           "nullable": false,
-          "description": "Unique reference for the fraudulent transaction (TXN-2024-156489)"
+          "description": "Unique reference identifier for the fraudulent transaction"
         },
         {
           "name": "fraudulentRecipient",
           "data_type": "string",
-          "nullable": true,
-          "description": "Name of the fraudulent recipient (Unknown - International Account)"
+          "nullable": false,
+          "description": "Description or identifier of the recipient account or entity receiving the fraudulent funds"
         },
         {
           "name": "recipientCountry",
           "data_type": "string",
           "nullable": false,
-          "description": "Country where the fraudulent recipient is located (NI)",
+          "description": "ISO 3166-1 alpha-2 country code of the fraudulent recipient's location",
           "fmt": "country_code",
           "enum_values": [
-            "NI",
-            "GB",
-            "IE"
+            "NI"
           ]
         },
         {
           "name": "transactionStatus",
           "data_type": "string",
           "nullable": false,
-          "description": "Current status of the fraudulent transaction (blocked)",
+          "description": "Current status of the fraudulent transaction",
           "enum_values": [
-            "pending",
-            "blocked",
-            "completed"
+            "blocked"
           ]
         }
       ]
@@ -216,46 +209,59 @@
       "name": "riskIndicators",
       "data_type": "array",
       "nullable": false,
-      "description": "List of risk indicators detected for the reported incident",
-      "enum_values": [
-        "unusual_transaction_amount",
-        "geographic_anomaly",
-        "off_peak_activity",
-        "credential_compromise_suspected"
+      "description": "List of risk signals or anomalies that triggered or supported fraud detection",
+      "children": [
+        {
+          "name": "indicator",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Individual risk indicator or anomaly code",
+          "enum_values": [
+            "unusual_transaction_amount",
+            "geographic_anomaly",
+            "off_peak_activity",
+            "credential_compromise_suspected"
+          ]
+        }
       ]
     },
     {
       "name": "actionsTaken",
       "data_type": "array",
       "nullable": false,
-      "description": "List of actions taken in response to the reported incident",
-      "enum_values": [
-        "transaction_blocked",
-        "account_frozen",
-        "customer_contacted",
-        "password_reset_enforced"
+      "description": "List of protective or investigative actions executed in response to the fraud incident",
+      "children": [
+        {
+          "name": "action",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Individual action taken to mitigate or investigate the fraud",
+          "enum_values": [
+            "transaction_blocked",
+            "account_frozen",
+            "customer_contacted",
+            "password_reset_enforced"
+          ]
+        }
       ]
     },
     {
       "name": "additionalNotes",
       "data_type": "string",
       "nullable": true,
-      "description": "Additional notes or comments about the reported incident (Customer confirmed unauthorized transaction. Evidence of phishing email compromising credentials. Escalating to risk and compliance for further investigation.)"
+      "description": "Free-text narrative providing context, evidence, or supplementary details about the incident"
     },
     {
       "name": "escalationRequired",
       "data_type": "boolean",
       "nullable": false,
-      "description": "Indicates whether escalation is required for the reported incident (true)",
-      "enum_values": [
-        "True"
-      ]
+      "description": "Flag indicating whether the incident requires escalation to risk and compliance for further investigation"
     },
     {
       "name": "documentationRef",
       "data_type": "string",
       "nullable": true,
-      "description": "Reference to supporting documentation or evidence related to the reported incident (DOC-CSA-2024-001847)"
+      "description": "Reference identifier for supporting documentation or case file associated with this report"
     }
   ]
 }

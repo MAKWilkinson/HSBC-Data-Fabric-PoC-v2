@@ -1,22 +1,21 @@
 flowchart LR
   subgraph IN["customer_services: reported_scam_fraud"]
-    in_reportId["reportId"]
     in_reportDate["reportDate"]
-    in_sourceDeployment["sourceDeployment"]
-    in_targetDeployment["targetDeployment"]
-    in_reportType["reportType"]
     in_severity["severity"]
     in_customer_accountNumber["customer.accountNumber"]
     in_customer_customerId["customer.customerId"]
     in_customer_customerName["customer.customerName"]
     in_fraudDetails_fraudDescription["fraudDetails.fraudDescription"]
+    in_riskIndicators["riskIndicators"]
     in_incident_detectionDate["incident.detectionDate"]
     in_fraudDetails_transactionReference["fraudDetails.transactionReference"]
-    in_riskIndicators["riskIndicators"]
+    in_fraudDetails_amountInvolved["fraudDetails.amountInvolved"]
+    in_fraudDetails_currency["fraudDetails.currency"]
+    in_fraudDetails_recipientCountry["fraudDetails.recipientCountry"]
+    in_fraudDetails_transactionStatus["fraudDetails.transactionStatus"]
     in_actionsTaken["actionsTaken"]
     in_escalationRequired["escalationRequired"]
     in_additionalNotes["additionalNotes"]
-    in_holdEffectiveDate["holdEffectiveDate"]
   end
   subgraph OUT["risk_and_compliance: transaction_hold_notice"]
     out_noticeId["noticeId"]
@@ -31,7 +30,11 @@ flowchart LR
     out_holdReason["holdReason"]
     out_holdEffectiveDate["holdEffectiveDate"]
     out_estimatedHoldDuration["estimatedHoldDuration"]
-    out_transactionsAffected["transactionsAffected"]
+    out_transactionsAffected___transactionId["transactionsAffected[].transactionId"]
+    out_transactionsAffected___amount["transactionsAffected[].amount"]
+    out_transactionsAffected___currency["transactionsAffected[].currency"]
+    out_transactionsAffected___destinationCountry["transactionsAffected[].destinationCountry"]
+    out_transactionsAffected___status["transactionsAffected[].status"]
     out_riskScore["riskScore"]
     out_riskFlags["riskFlags"]
     out_requiredActions["requiredActions"]
@@ -43,21 +46,21 @@ flowchart LR
     out_issuedBy["issuedBy"]
     out_priority["priority"]
   end
-  in_reportId -->|EXACT| out_noticeId
-  in_reportDate -->|RENAMED| out_timestamp
-  in_sourceDeployment -->|SEMANTIC| out_department
-  in_targetDeployment -->|SEMANTIC| out_recipientDepartment
-  in_reportType -->|EXACT| out_noticeType
-  in_severity -->|RENAMED| out_severity
-  in_customer_accountNumber -->|EXACT| out_accountNumber
+  in_reportDate -->|SEMANTIC| out_timestamp
+  in_severity -->|TRANSFORMED| out_severity
+  in_customer_accountNumber -->|RENAMED| out_accountNumber
   in_customer_customerId -->|EXACT| out_customerId
   in_customer_customerName -->|EXACT| out_customerName
-  in_fraudDetails_fraudDescription -->|SEMANTIC| out_holdReason
-  in_incident_detectionDate -->|RENAMED| out_holdEffectiveDate
-  in_fraudDetails_transactionReference -->|SEMANTIC| out_transactionsAffected
-  in_riskIndicators -->|SEMANTIC| out_riskFlags
+  in_fraudDetails_fraudDescription -->|MERGE| out_holdReason
+  in_riskIndicators -->|MERGE| out_holdReason
+  in_incident_detectionDate -->|SEMANTIC| out_holdEffectiveDate
+  in_fraudDetails_transactionReference -->|RENAMED| out_transactionsAffected___transactionId
+  in_fraudDetails_amountInvolved -->|EXACT| out_transactionsAffected___amount
+  in_fraudDetails_currency -->|EXACT| out_transactionsAffected___currency
+  in_fraudDetails_recipientCountry -->|RENAMED| out_transactionsAffected___destinationCountry
+  in_fraudDetails_transactionStatus -->|TRANSFORMED| out_transactionsAffected___status
+  in_riskIndicators -->|RENAMED| out_riskFlags
   in_actionsTaken -->|SEMANTIC| out_requiredActions
-  in_escalationRequired -->|RENAMED| out_approvalRequired
-  in_additionalNotes -->|SEMANTIC| out_notes
-  in_holdEffectiveDate -->|RENAMED| out_expiryDate
-  in_severity -->|RENAMED| out_priority
+  in_escalationRequired -->|SEMANTIC| out_approvalRequired
+  in_additionalNotes -->|RENAMED| out_notes
+  in_severity -->|TRANSFORMED| out_priority

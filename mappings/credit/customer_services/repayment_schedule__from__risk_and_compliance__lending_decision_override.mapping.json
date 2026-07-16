@@ -8,7 +8,7 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/risk_and_compliance/credit/lending_decision_override.schema.json",
-    "fingerprint": "bf6dea1328e7228c"
+    "fingerprint": "1ceb115af441643a"
   },
   "outbound_schema": {
     "source": {
@@ -19,83 +19,84 @@
       "file_format": "json"
     },
     "schema_path": "/Users/m.wilkinson/Documents/HSBC/data_fabric/Appv2/schemas/credit/customer_services/repayment_schedule.schema.json",
-    "fingerprint": "92c002733b77b1ec"
+    "fingerprint": "2db86c06ce74430c"
   },
   "related": true,
-  "relatedness_confidence": 0.85,
-  "relatedness_reasoning": "The files share similar concepts such as loan application ID, customer ID, and risk assessment details, which suggests a plausible pipeline step.",
+  "relatedness_confidence": 0.72,
+  "relatedness_reasoning": "Both files share core loan and customer identifiers (loanApplicationId/loan_id, customerId/customer_id), loan financial terms (loanAmount/principal_amount, loanTerm/loan_term_months, currency), and the credit system is the common provider that would logically generate a repayment schedule after approving a lending decision override.",
   "mappings": [
+    {
+      "outbound_field": "repayment_schedule.loan_id",
+      "sources": [
+        "payload.loanApplicationId"
+      ],
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "loanApplicationId from the override message becomes the loan_id in the repayment schedule after approval."
+    },
     {
       "outbound_field": "repayment_schedule.customer_id",
       "sources": [
         "payload.customerId"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
-    },
-    {
-      "outbound_field": "repayment_schedule.loan_id",
-      "sources": [
-        "payload.loanApplicationId"
-      ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Direct match of customer identifier between inbound and outbound."
     },
     {
       "outbound_field": "repayment_schedule.customer_name",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Customer name is not present in the inbound lending_decision_override message; likely sourced from a customer master system."
+    },
+    {
+      "outbound_field": "repayment_schedule.loan_type",
       "sources": [
-        "payload.customerId"
+        "payload.loanDetails.productType"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.7,
+      "reasoning": "Inbound productType is 'MORTGAGE' but outbound enum shows 'Personal Loan'; semantic mismatch suggests transformation or different product classification."
     },
     {
       "outbound_field": "repayment_schedule.principal_amount",
       "sources": [
         "payload.loanDetails.loanAmount"
       ],
-      "transformation": "TRANSFORMED",
-      "confidence": 0.9,
-      "reasoning": "Outbound field is derived from inbound data by computation or formatting change."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "loanAmount from inbound becomes principal_amount in the repayment schedule."
     },
     {
       "outbound_field": "repayment_schedule.interest_rate",
-      "sources": [
-        "payload.riskAssessmentDetails.creditScore"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Interest rate is not provided in the inbound lending_decision_override message; must be sourced from loan product configuration or pricing engine."
     },
     {
       "outbound_field": "repayment_schedule.loan_term_months",
       "sources": [
         "payload.loanDetails.loanTerm"
       ],
-      "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "transformation": "RENAMED",
+      "confidence": 0.95,
+      "reasoning": "loanTerm from inbound directly maps to loan_term_months in outbound."
     },
     {
       "outbound_field": "repayment_schedule.start_date",
-      "sources": [
-        "timestamp"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Loan start date is not present in the inbound override message; likely set to current date or approval date at time of schedule generation."
     },
     {
       "outbound_field": "repayment_schedule.maturity_date",
-      "sources": [
-        "payload.overrideApprovalDetails.approvalDate"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.85,
+      "reasoning": "Maturity date is calculated from start_date and loan_term_months, neither of which are directly available in inbound."
     },
     {
       "outbound_field": "repayment_schedule.currency",
@@ -103,15 +104,15 @@
         "payload.loanDetails.currency"
       ],
       "transformation": "EXACT",
-      "confidence": 0.9,
-      "reasoning": "Exact field copy with the same name and meaning from inbound to outbound."
+      "confidence": 0.95,
+      "reasoning": "Currency code is directly copied from inbound loanDetails.currency."
     },
     {
       "outbound_field": "repayment_schedule.schedule_version",
       "sources": [],
       "transformation": "UNMAPPED",
       "confidence": 0.95,
-      "reasoning": "No equivalent field exists inbound; likely system-generated."
+      "reasoning": "Schedule version is a system-generated identifier not present in the inbound message."
     },
     {
       "outbound_field": "repayment_schedule.generated_date",
@@ -119,35 +120,148 @@
         "timestamp"
       ],
       "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "confidence": 0.75,
+      "reasoning": "Generated date likely corresponds to the inbound message timestamp or current system time when schedule is created."
     },
     {
       "outbound_field": "repayment_schedule.repayment_frequency",
-      "sources": [
-        "payload.riskAssessmentDetails.mitigatingFactors"
-      ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Repayment frequency is not specified in the inbound override message; likely a default or product-based configuration."
     },
     {
       "outbound_field": "repayment_schedule.total_repayments",
       "sources": [
-        "payload.riskAssessmentDetails.yearsOfIncome"
+        "payload.loanDetails.loanTerm"
       ],
-      "transformation": "SEMANTIC",
-      "confidence": 0.8,
-      "reasoning": "Outbound field captures the same concept or value as an inbound field without an exact name match."
+      "transformation": "TRANSFORMED",
+      "confidence": 0.85,
+      "reasoning": "Total repayments is derived from loan term in months assuming monthly repayment frequency."
     },
     {
       "outbound_field": "repayment_schedule.repayments",
       "sources": [
-        "payload.riskAssessmentDetails.mitigatingFactors"
+        "payload.loanDetails.loanAmount",
+        "payload.loanDetails.loanTerm"
       ],
-      "transformation": "MERGE",
+      "transformation": "TRANSFORMED",
+      "confidence": 0.8,
+      "reasoning": "Repayment array is algorithmically generated from principal amount and term using amortization logic not present in inbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].payment_number",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Payment number is a sequential index generated during schedule construction."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].due_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
       "confidence": 0.9,
-      "reasoning": "Outbound field is a combination of two or more inbound fields."
+      "reasoning": "Due dates are calculated from start date and payment frequency, neither directly available in inbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].principal_payment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Principal payment per installment is calculated via amortization algorithm not present in inbound data."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].interest_payment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Interest payment per installment requires interest rate which is not in the inbound message."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].total_payment",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Total payment is derived from principal and interest payments which are not available in inbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].outstanding_balance",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Outstanding balance is calculated during amortization schedule generation."
+    },
+    {
+      "outbound_field": "repayment_schedule.repayments[].status",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Repayment status is system-generated and not present in the inbound override message."
+    },
+    {
+      "outbound_field": "repayment_schedule.summary.total_amount_payable",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Total amount payable is calculated from the amortization schedule and requires interest rate."
+    },
+    {
+      "outbound_field": "repayment_schedule.summary.total_interest",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Total interest is calculated from amortization and requires interest rate not in inbound."
+    },
+    {
+      "outbound_field": "repayment_schedule.summary.amount_paid_to_date",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Amount paid to date is a runtime value tracking actual payments, not derivable from the override message."
+    },
+    {
+      "outbound_field": "repayment_schedule.summary.next_payment_due",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Next payment due is calculated from start date and payment frequency."
+    },
+    {
+      "outbound_field": "repayment_schedule.summary.next_payment_amount",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Next payment amount is derived from the amortization schedule."
+    },
+    {
+      "outbound_field": "repayment_schedule.metadata.source_system",
+      "sources": [
+        "destination"
+      ],
+      "transformation": "SEMANTIC",
+      "confidence": 0.85,
+      "reasoning": "Inbound destination 'credit' becomes the source_system for the outbound message to customer_services."
+    },
+    {
+      "outbound_field": "repayment_schedule.metadata.destination_system",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Destination system 'Customer Services' is not present in inbound; it is the target system for this outbound message."
+    },
+    {
+      "outbound_field": "repayment_schedule.metadata.message_id",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.95,
+      "reasoning": "Outbound message_id is a new identifier generated for this transmission, not derived from inbound messageId."
+    },
+    {
+      "outbound_field": "repayment_schedule.metadata.timestamp",
+      "sources": [],
+      "transformation": "UNMAPPED",
+      "confidence": 0.9,
+      "reasoning": "Outbound timestamp is generated at time of message transmission, not the inbound override timestamp."
     }
   ]
 }
