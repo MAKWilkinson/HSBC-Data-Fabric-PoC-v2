@@ -12,6 +12,9 @@ from datamodels import SampleFile, FieldSchema, FileSchema, FieldMapping, FileMa
 import logging
 logger = logging.getLogger(__name__)
 
+MAX_SAMPLE_FILE_CONTENT_LENGTH = 99_999
+TRUNCATION_MARKER = "\n... [truncated] ...\n"
+
 
 """
 
@@ -108,6 +111,38 @@ def infer_file_format(path: str) -> Literal["json", "csv", "xml", "avro",]:
     return Path(path).suffix.lstrip(".")
 
  
+def trim_large_file_content(file_path: Path, max_length: int = MAX_SAMPLE_FILE_CONTENT_LENGTH) -> str:
+    """
+    Return file content trimmed into three sampled chunks if the file is too large.
+
+    For oversized files, the returned content includes a chunk from the beginning,
+    a chunk from the middle, and a chunk from the end separated by truncation markers.
+    """
+    file_size = file_path.stat().st_size
+    if file_size <= max_length:
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+            return f.read()
+
+    chunk_length = max_length // 3
+    with open(file_path, "rb") as f:
+        beginning = f.read(chunk_length)
+
+        mid_start = max(0, (file_size // 2) - (chunk_length // 2))
+        f.seek(mid_start)
+        middle = f.read(chunk_length)
+
+        f.seek(-chunk_length, os.SEEK_END)
+        ending = f.read(chunk_length)
+
+    return (
+        beginning.decode("utf-8", errors="replace")
+        + TRUNCATION_MARKER
+        + middle.decode("utf-8", errors="replace")
+        + TRUNCATION_MARKER
+        + ending.decode("utf-8", errors="replace")
+    )
+
+
 def load_sample_file(parsed_file) -> SampleFile:
     """
     Read one file and wrap its content + context in a ``SampleFile``.
@@ -116,16 +151,13 @@ def load_sample_file(parsed_file) -> SampleFile:
     """
 
     file_path = Path(parsed_file[2])
-    
 
     # Read file name
     name = file_path.name
 
-    # Read file content
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+    # Read file content, sampling large files into beginning/middle/end chunks.
+    content = trim_large_file_content(file_path)
 
-    
     # Infer format from file extension
     inferred_file_format = infer_file_format(parsed_file[2])
     
